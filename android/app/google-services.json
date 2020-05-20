@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "657015480514",
+    "firebase_url": "https://instasmart-7f9bb.firebaseio.com",
+    "project_id": "instasmart-7f9bb",
+    "storage_bucket": "instasmart-7f9bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657015480514:android:1f9c3000e998e97deedb5b",
+        "android_client_info": {
+          "package_name": "com.example.instasmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657015480514-8tcalkl49p60vgbjl36kdllcr79valsd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqmbOKhvMosAMW31cAYS5tf8WjK9yvW3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657015480514-8tcalkl49p60vgbjl36kdllcr79valsd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
