@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:instasmart/frames_screen.dart';
 import 'package:instasmart/home_screen.dart';
-import 'home_screen.dart';
-import 'login_screen.dart';
-import 'home_screen.dart';
+import 'package:instasmart/preview_screen.dart';
+import 'package:instasmart/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,11 +48,12 @@ class MyApp extends StatelessWidget {
           overline: TextStyle(fontFamily: 'NotoSans'),
         ),
       ),
-      home: FramesScreen(),
+      home: LoginScreen(),
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         FramesScreen.routeName: (context) => FramesScreen(),
+        PreviewScreen.routeName: (context) => PreviewScreen(),
       },
     );
   }
