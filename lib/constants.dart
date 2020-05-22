@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 class Constants {
   static const brightPurple = Color(0xff8276D8);

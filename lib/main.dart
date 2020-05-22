@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:instasmart/frames_screen.dart';
 import 'package:instasmart/home_screen.dart';
+import 'home_screen.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
 
@@ -13,12 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'InstaSmart',
       theme: ThemeData(
-//      brightness: Brightness.dark,
-        //       primarySwatch: Colors.deepPurple,
+        //      brightness: Brightness.light,
+//        primarySwatch: Colors.indigo,
         primaryColor: Colors.white,
-        backgroundColor: Colors.orange,
-        accentColor: Colors.teal[300],
-        cursorColor: Colors.deepPurple,
+        backgroundColor: Colors.white,
         // fontFamily: 'SourceSansPro',
         textTheme: TextTheme(
           headline3: TextStyle(
@@ -49,10 +49,11 @@ class MyApp extends StatelessWidget {
           overline: TextStyle(fontFamily: 'NotoSans'),
         ),
       ),
-      home: LoginScreen(),
+      home: FramesScreen(),
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
+        FramesScreen.routeName: (context) => FramesScreen(),
       },
     );
   }

@@ -13,7 +13,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^0.1.3
   flutter_login: ^1.0.14
   firebase_core: ^0.4.0+9
@@ -22,10 +21,8 @@ dependencies:
   cloud_firestore: ^0.12.9+5
   bottom_navy_bar: ^5.4.0
   image_cropper: ^1.2.2
-  flutter_staggered_grid_view: "^0.2.7"
-  image_picker: ^0.6.3+1
-  firebase_storage: ^3.1.1
-  firebase: ^5.0.4
+  image_picker: ^0.6.6+4
+  firebase_storage: ^3.1.5
 
 
 dev_dependencies:
@@ -114,12 +111,5 @@ flutter:
           weight: 600
         - asset: assets/fonts/Quicksand-Bold.ttf
           weight: 700
-    - family: Jost
-      fonts:
-        - asset: assets/fonts/Jost-Light.ttf
-          weight: 300
-
-
-
 
 
