@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:instasmart/frames_screen.dart';
 import 'package:instasmart/login_screen.dart';
+import 'package:instasmart/preview_screen.dart';
 
 import 'constants.dart';
 
@@ -41,14 +42,22 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               color: Colors.black,
             ),
-            Expanded(
-              child: FramesScreen(),
-            ),
             Container(
               color: Colors.green,
             ),
-            Container(
-              color: Colors.blue,
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: FramesScreen(),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: PreviewScreen(),
+                ),
+              ],
             ),
           ],
         ),
