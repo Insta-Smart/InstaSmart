@@ -71,7 +71,7 @@ class _FramesScreenState extends State<FramesScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Text("hi"),
+          Text("test changed branch"),
           FlatButton(
             child: Text('Camera'),
             onPressed: () {
