@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'InstaSmart',
       theme: ThemeData(
 //      brightness: Brightness.dark,
-        primarySwatch: Colors.indigo,
+        //       primarySwatch: Colors.deepPurple,
+        primaryColor: Colors.white,
         backgroundColor: Colors.orange,
         accentColor: Colors.teal[300],
         cursorColor: Colors.deepPurple,
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'OpenSans',
             fontSize: 45.0,
             // fontWeight: FontWeight.w400,
-            color: Colors.white,
+            color: Colors.black,
           ),
           button: TextStyle(
             // OpenSans is similar to NotoSans but the uppercases look a bit better IMO
@@ -52,7 +53,6 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
-
       },
     );
   }

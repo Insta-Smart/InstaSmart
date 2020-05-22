@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "575653619962",
-    "firebase_url": "https://instasmart-6df7d.firebaseio.com",
-    "project_id": "instasmart-6df7d",
-    "storage_bucket": "instasmart-6df7d.appspot.com"
+    "project_number": "886265872485",
+    "firebase_url": "https://instasmart-b713a.firebaseio.com",
+    "project_id": "instasmart-b713a",
+    "storage_bucket": "instasmart-b713a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:575653619962:android:f0f247cc36d18c81b5c143",
+        "mobilesdk_app_id": "1:886265872485:android:f185cb7b4a5f26d9e1468c",
         "android_client_info": {
           "package_name": "com.example.instasmart"
         }
       },
       "oauth_client": [
         {
-          "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
+          "client_id": "886265872485-gav1sqqkr1ebsbphc54q7aj54vds1qqe.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDRt1EoSo77KHc6TTs6ZBkcl5fX4xM_8-U"
+          "current_key": "AIzaSyCtfZL9LEzSSD7IQjTQJtYi0SSdoafOkFE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
+              "client_id": "886265872485-gav1sqqkr1ebsbphc54q7aj54vds1qqe.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:instasmart/login_screen.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'constants.dart';
+//import 'dart:io';
+//import 'package:firebase_storage/firebase_storage.dart'; // For File Upload To Firestore
+//import 'package:image_picker/image_picker.dart'; // For Image Picker
+//import 'package:path/path.dart' as Path;
+////https://www.c-sharpcorner.com/article/upload-image-file-to-firebase-storage-using-flutter/ ---> for file upload
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -11,7 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   PageController _pageController;
-
+//  File _image;
+//  String _uploadedFileURL;
   @override
   void initState() {
     super.initState();
@@ -27,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("InstaSmart")),
+      appBar: AppBar(title: Text("Frames")),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -36,17 +43,22 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           children: <Widget>[
             Container(
-              color: Colors.black,
-            ),
-            Container(
-              color: Colors.red,
-            ),
-            Container(
-              color: Colors.green,
-            ),
-            Container(
-              color: Colors.blue,
-            ),
+                child: new StaggeredGridView.countBuilder(
+              crossAxisCount: 4,
+              itemCount: 8,
+              itemBuilder: (BuildContext context, int index) => new Container(
+                  color: Colors.green,
+                  child: new Center(
+                    child: new CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: new Text('$index'),
+                    ),
+                  )),
+              staggeredTileBuilder: (int index) =>
+                  new StaggeredTile.count(2, index.isEven ? 2 : 1),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            )),
           ],
         ),
       ),
@@ -56,26 +68,27 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _currentIndex = index);
           _pageController.jumpToPage(index);
         },
+        backgroundColor: Constants.lightPurple,
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            title: Text('Home'),
-            icon: Icon(Icons.home),
-            activeColor: Colors.teal,
+            title: Text('Home', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.home, color: Colors.white),
+            activeColor: Colors.deepPurple,
           ),
           BottomNavyBarItem(
-            title: Text('Reminders'),
-            icon: Icon(Icons.calendar_today),
-            activeColor: Colors.teal,
+            title: Text('Reminders', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.calendar_today, color: Colors.white),
+            activeColor: Colors.deepPurple,
           ),
           BottomNavyBarItem(
-            title: Text('Frames'),
-            icon: Icon(Icons.filter_frames),
-            activeColor: Colors.teal,
+            title: Text('Frames', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.filter_frames, color: Colors.white),
+            activeColor: Colors.deepPurple,
           ),
           BottomNavyBarItem(
-            title: Text('Preview'),
-            icon: Icon(Icons.apps),
-            activeColor: Colors.teal,
+            title: Text('Preview', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.apps, color: Colors.white),
+            activeColor: Colors.deepPurple,
           ),
         ],
       ),
