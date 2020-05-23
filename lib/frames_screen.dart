@@ -1,10 +1,10 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-
-import 'home_screen.dart';
-//import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'constants.dart';
+import 'main.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
@@ -16,116 +16,118 @@ class FramesScreen extends StatefulWidget {
 
 class _FramesScreenState extends State<FramesScreen> {
   File _imageFile; //image state variable
-  bool _uploaded;
 
   // StorageReference _reference = FirebaseStorage.instance.ref("AllFrames").child("AllFrames").child("testImage.jpg");
   StorageReference _reference =
       FirebaseStorage.instance.ref().child("AllFrames");
+  final _firestore = Firestore.instance;
   String _downloadurl;
-  //method to pick images from camera or gallery
-  Future getImage(bool isCamera) async {
-    //determine whether image from camera or gallery
-    File image;
-    if (isCamera) {
-      image = await ImagePicker.pickImage(source: ImageSource.camera);
-      //returns an image file
-    } else {
-      image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    }
-    setState(() {
-      _imageFile = image;
-    });
-  }
+  List listofurls =
+      new List(); //will contain list of imageurls once getUrlFromFirestore is called
 
-  Future uploadImage() async {
-    StorageUploadTask uploadTask =
-        _reference.child("new_image.jpg").putFile(_imageFile);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-    setState(() {
-      _uploaded = true;
-    });
-  }
-
-  Future downloadImage() async {
-    String downloadAddress =
-        await _reference.child("myImage.jpg").getDownloadURL();
-    setState(() {
-      _downloadurl = downloadAddress;
-    });
-  }
-
-  Future downloadAllImages(int index) async {
+  Future setDownloadUrl(int index) async {
+    //downloads image from storage, based on index [files named as sample_index
+    // to directly display this image, use Image.network(_downloadurl)
     try {
       String downloadAddress =
           await _reference.child("sample_${index}.jpeg").getDownloadURL();
+      //     print(downloadAddress);
       setState(() {
         _downloadurl = downloadAddress;
+        // print(_downloadurl);
       });
     } catch (e) {
       print(e);
     }
   }
 
+  void uploadImagetoFirestore() {
+    for (int i = 1; i < 9; i++) {
+      setDownloadUrl(i).then((value) {
+        _firestore
+            .collection('allframesurl')
+            .add({'imageurl': _downloadurl, 'popularity': 0});
+        print("sent");
+      });
+      //print("new_downloadurl is ${_downloadurl}");
+    }
+  }
+
+  void getUrlFromFirestore() async {
+    //updates listofurls with imageurls
+    listofurls = [];
+    final allframesurl =
+        await _firestore.collection('allframesurl').getDocuments();
+    // allframesurl.documents --> returns a list of all items in firestore
+    for (var el in allframesurl.documents) {
+      setState(() {
+        el.data['imageurl'] == null
+            ? print('null')
+            : listofurls.add(el.data['imageurl']);
+      });
+    }
+    print(listofurls);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUrlFromFirestore();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Text("test changed branch"),
-          FlatButton(
-            child: Text('Camera'),
-            onPressed: () {
-              getImage(true);
-            },
-          ),
-          SizedBox(height: 10),
-          FlatButton(
-            child: Text('Gallery'),
-            onPressed: () {
-              getImage(false);
-            },
-          ),
-          _imageFile == null
-              ? Container(color: Colors.blue)
-              : Expanded(child: Image.file(_imageFile)),
-          FlatButton(
-            child: Text('Go to Home'),
-            onPressed: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
-            },
-          ),
-          _imageFile == null
-              ? Container()
-              : RaisedButton(
-                  child: Text('Upload to Storage'),
-                  onPressed: () {
-                    uploadImage();
-                  },
-                ), //display image else nothing
-          _uploaded == true
-              ? RaisedButton(
-                  child: Text("Download Image"),
-                  onPressed: () {
-                    downloadImage();
-                  })
-              : Container(),
-          _downloadurl == null
-              ? Container()
-              : Expanded(child: Image.network(_downloadurl)),
-          FlatButton(
-            child: Text("show all frames"),
-            onPressed: () {
-              for (int i = 0; i < 3; i++) {
-                downloadAllImages(i);
-                // TODO: first, just try showing one image using the indexing method.
-                //TODO: implement a grid function that creates a grid
-                //TODO: put each image into the grid and display
-                //TODO: each user should have an image url attribute --> image that he picked to implement
-              }
-            },
-          )
-        ],
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Text(
+                "Frames",
+                style: (TextStyle(fontSize: 45.0)),
+              ),
+            ),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  SizedBox(width: 10),
+                  Icon(Icons.search, color: Colors.white),
+                  Text(
+                    "Search Aesthetic",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              width: 200,
+              height: 45,
+              margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Constants.paleBlue,
+              ),
+            ),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                children:
+                    List.generate(4, (index) => buildFrameToDisplay(index)),
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget buildFrameToDisplay(int index) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: Image.network(listofurls[index])),
     );
   }
 }
