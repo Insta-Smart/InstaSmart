@@ -110,7 +110,7 @@ class _FramesScreenState extends State<FramesScreen> {
                   height: 45,
                   margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(Constants.buttonRadius),
                     color: Constants.paleBlue,
                   ),
                 ),
