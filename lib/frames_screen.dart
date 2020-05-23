@@ -24,6 +24,8 @@ class _FramesScreenState extends State<FramesScreen> {
   String _downloadurl;
   List listofurls =
       new List(); //will contain list of imageurls once getUrlFromFirestore is called
+  bool imagePressed = false;
+  int imageNoPressed;
 
   Future setDownloadUrl(int index) async {
     //downloads image from storage, based on index [files named as sample_index
@@ -73,49 +75,55 @@ class _FramesScreenState extends State<FramesScreen> {
   void initState() {
     super.initState();
     getUrlFromFirestore();
+    imagePressed = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child: Text(
-                "Frames",
-                style: (TextStyle(fontSize: 45.0)),
-              ),
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 10),
-                  Icon(Icons.search, color: Colors.white),
-                  Text(
-                    "Search Aesthetic",
-                    style: TextStyle(color: Colors.white),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text(
+                    "Frames",
+                    style: (TextStyle(fontSize: 45.0)),
                   ),
-                ],
-              ),
-              width: 200,
-              height: 45,
-              margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Constants.paleBlue,
-              ),
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: 10),
+                      Icon(Icons.search, color: Colors.white),
+                      Text(
+                        "Search Aesthetic",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  width: 200,
+                  height: 45,
+                  margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Constants.paleBlue,
+                  ),
+                ),
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    children:
+                        List.generate(8, (index) => buildFrameToDisplay(index)),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                children:
-                    List.generate(4, (index) => buildFrameToDisplay(index)),
-              ),
-            ),
+            imagePressed ? buildPopUpImage(imageNoPressed) : Container(),
           ],
         ),
       ),
@@ -123,11 +131,39 @@ class _FramesScreenState extends State<FramesScreen> {
   }
 
   Widget buildFrameToDisplay(int index) {
+    return GestureDetector(
+      onLongPress: () {
+        //show pop up image
+        setState(() {
+          imagePressed = true;
+          imageNoPressed = index;
+        });
+        print(index);
+      },
+      onLongPressUp: () {
+        //set state of longPressed to false
+        setState(() {
+          imagePressed = false;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Image.network(listofurls[index])),
+      ),
+    );
+  }
+
+  Widget buildPopUpImage(int index) {
     return Container(
-      margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+      alignment: Alignment.center,
       child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Image.network(listofurls[index])),
+        borderRadius: BorderRadius.circular(25),
+        child: Image.network(
+          listofurls[index],
+        ),
+      ),
     );
   }
 }
