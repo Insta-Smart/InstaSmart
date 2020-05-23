@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PreviewScreen(),
             ),
             Container(
-              child: Text("Calender Goes here"),
+              child: Text("Calender Goes here!"),
             ),
             Expanded(
               child: Text('Add Sign Out Option here'),
