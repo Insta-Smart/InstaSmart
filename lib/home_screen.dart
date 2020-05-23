@@ -40,24 +40,16 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           children: <Widget>[
             Container(
-              color: Colors.black,
+              child: FramesScreen(),
             ),
             Container(
-              color: Colors.green,
+              child: PreviewScreen(),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: FramesScreen(),
-                ),
-              ],
+            Container(
+              child: Text("Calender Goes here"),
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: PreviewScreen(),
-                ),
-              ],
+            Expanded(
+              child: Text('Add Sign Out Option here'),
             ),
           ],
         ),
@@ -71,24 +63,24 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Constants.lightPurple,
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            title: Text('Home', style: TextStyle(color: Colors.white)),
+            title: Text('Search', style: TextStyle(color: Colors.white)),
             icon: Icon(Icons.home, color: Colors.white),
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
-            title: Text('Reminders', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.calendar_today, color: Colors.white),
-            activeColor: Constants.darkPurple,
-          ),
-          BottomNavyBarItem(
-            title: Text('Frames', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.filter_frames, color: Colors.white),
-            activeColor: Constants.darkPurple,
-          ),
-          BottomNavyBarItem(
             title: Text('Preview', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.apps, color: Colors.white),
+            activeColor: Constants.darkPurple,
+          ),
+          BottomNavyBarItem(
+            title: Text('Reminders', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.access_time, color: Colors.white),
+            activeColor: Constants.darkPurple,
+          ),
+          BottomNavyBarItem(
+            title: Text('User', style: TextStyle(color: Colors.white)),
             icon: Icon(
-              Icons.apps,
+              Icons.person,
               color: Colors.white,
             ),
             activeColor: Constants.darkPurple,
