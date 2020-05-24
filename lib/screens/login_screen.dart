@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/home_screen.dart';
+import 'package:instasmart/screens/home_screen.dart';
 import '../constants.dart';
 import '../widgets/login_functions.dart';
 
