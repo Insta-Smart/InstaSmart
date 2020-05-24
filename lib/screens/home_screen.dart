@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
+import 'package:instasmart/screens/create_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CalendarScreen(),
             ),
             Expanded(
-              child: OverlayImagesFunctions(),
+              child: CreateScreen(),
             ),
           ],
         ),

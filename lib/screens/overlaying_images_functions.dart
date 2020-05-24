@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/constants.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import '../widgets/reorderableGrid.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:instasmart/widgets/reorderableGrid.dart';
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'dart:io';
 
 import 'package:flutter/rendering.dart';
 
@@ -21,13 +24,11 @@ class OverlayImagesFunctions extends StatefulWidget {
 }
 
 class _OverlayImagesFunctionsState extends State<OverlayImagesFunctions> {
-  GlobalKey _globalKey = new GlobalKey();
-  bool inside = false;
-  Uint8List imageInMemory;
   StorageReference _reference =
       FirebaseStorage.instance.ref().child("testing_overlay");
   String _downloadurl;
   bool askedToCreate = false;
+  static Uint8List imageInMemory;
 
   @override
   void initState() {
@@ -50,25 +51,23 @@ class _OverlayImagesFunctionsState extends State<OverlayImagesFunctions> {
     }
   }
 
-  Future<Uint8List> _capturePng() async {
-    try {
-      print('inside');
-      RenderRepaintBoundary boundary =
-          _globalKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      Uint8List pngBytes = byteData.buffer.asUint8List(); //image information
-      //var bs64 = base64Encode(pngBytes); //image information
-      //print(pngBytes);
-      //   print("SEE HERE FINAL RESULT ${bs64}");
-      print("png est fini");
-      setState(() {});
-      imageInMemory = pngBytes;
-      inside = false;
-    } catch (e) {
-      print("error is ${e}");
-    }
+  //DOWNLOADING IMAGE CREATED
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    // For your reference print the AppDoc directory
+    print(directory.path);
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/counter.txt');
+  }
+
+  Future<File> writeContent(Uint8List imageToBeSaved) async {
+    final file = await _localFile;
+    // Write the file
+    return file.writeAsBytes(imageToBeSaved);
   }
 
   @override
@@ -93,18 +92,25 @@ class _OverlayImagesFunctionsState extends State<OverlayImagesFunctions> {
                 onPressed: () {
                   setState(() {
                     askedToCreate = true;
+                    Navigator.of(context).push(PageRouteBuilder(
+                        opaque: false,
+                        pageBuilder: (BuildContext context, _, __) =>
+                            PopupOverlayedScreen()));
                   });
                 },
               ),
-              Expanded(
-                flex: 1,
-                child: askedToCreate ? convertToImage() : Container(),
-              ),
               imageInMemory == null
                   ? Container()
-                  : Container(
-                      child: Image.memory(imageInMemory),
-                      margin: EdgeInsets.all(10)),
+                  : Expanded(child: Image.memory(imageInMemory)),
+              imageInMemory == null
+                  ? Container()
+                  : RaisedButton(
+                      child: Text("Save to phone"),
+                      onPressed: () {
+                        writeContent(imageInMemory);
+                        print(imageInMemory);
+                      },
+                    ),
               RaisedButton(
                 child: Text("Click to get url of user photo"),
                 onPressed: () {
@@ -123,36 +129,89 @@ class _OverlayImagesFunctionsState extends State<OverlayImagesFunctions> {
       ),
     );
   }
+}
 
-  Widget convertToImage() {
+class PopupOverlayedScreen extends StatelessWidget {
+  GlobalKey _globalKey = new GlobalKey();
+  bool inside = false;
+  Uint8List imageInMemory;
+  final frameChosen;
+  final userPhotoChosen;
+
+  PopupOverlayedScreen(
+      {Key key, @required this.frameChosen, @required this.userPhotoChosen})
+      : super(key: key);
+
+  Future<Uint8List> _capturePng() async {
+    try {
+      print('inside');
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List(); //image information
+      //var bs64 = base64Encode(pngBytes); //image information
+      //print(pngBytes);
+      //   print("SEE HERE FINAL RESULT ${bs64}");
+      print("png est fini");
+      imageInMemory = pngBytes;
+      print(imageInMemory);
+      _OverlayImagesFunctionsState.imageInMemory = imageInMemory;
+      inside = false;
+    } catch (e) {
+      print("error is ${e}");
+    }
+  }
+
+  Widget convertToImage(Image frameChosen, Image userPhotoChosen) {
     //this function will convert the widget inside RepaintBoundary to an image
+    // when the button inside this widget is pressed
     return Column(
       children: <Widget>[
         RepaintBoundary(
-          key: _globalKey,
+          key: _globalKey, //from outside
           //child converted to img
           child: Container(
             child: Stack(
               children: <Widget>[
                 Center(
-                  child: Container(
-                      width: 200,
-                      child: Image.network(
-                          "https://firebasestorage.googleapis.com/v0/b/instasmart-6df7d.appspot.com/o/testing_overlay%2Fsample_1.png?alt=media&token=09b3e728-6d01-4c07-a3c5-dbea4b0f9781")),
-                ),
+                    child: Container(
+                  width: 200,
+                  child: userPhotoChosen,
+                )),
                 Container(
-                    alignment: Alignment.center,
-                    child: Image.network(
-                        "https://firebasestorage.googleapis.com/v0/b/instasmart-6df7d.appspot.com/o/testing_overlay%2Fsample_2.png?alt=media&token=7966740e-f042-4e7a-9ea2-1fcb561b5a8a")),
+                  alignment: Alignment.center,
+                  child: frameChosen,
+                ),
               ],
             ),
           ),
         ),
         RaisedButton(
           child: Text('capture Image'),
-          onPressed: _capturePng,
+          onPressed: _capturePng, //from outside
         ),
       ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.5),
+      body: Column(
+        children: <Widget>[
+          convertToImage(frameChosen, userPhotoChosen),
+          RaisedButton(
+            child: Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      ),
     );
   }
 }
