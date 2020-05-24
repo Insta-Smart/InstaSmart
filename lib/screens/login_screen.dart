@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instasmart/home_screen.dart';
-import 'constants.dart';
-import 'login_functions.dart';
-import 'home_screen.dart';
+import 'package:instasmart/screens/home_screen.dart';
+import '../constants.dart';
+import '../widgets/login_functions.dart';
+
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';

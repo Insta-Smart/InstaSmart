@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/constants.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'reorderableGrid.dart';
+import '../widgets/reorderableGrid.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
