@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:instasmart/create_screen.dart';
 import 'package:instasmart/frames_screen.dart';
 import 'package:instasmart/home_screen.dart';
+import 'package:instasmart/overlaying_images_functions.dart';
 import 'package:instasmart/preview_screen.dart';
 import 'package:instasmart/login_screen.dart';
 
@@ -54,6 +56,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => HomeScreen(),
         FramesScreen.routeName: (context) => FramesScreen(),
         PreviewScreen.routeName: (context) => PreviewScreen(),
+        CreateScreen.routeName: (context) => CreateScreen(),
+        OverlayImagesFunctions.routeName: (context) => OverlayImagesFunctions(),
       },
     );
   }

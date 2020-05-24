@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:instasmart/create_screen.dart';
 import 'package:instasmart/frames_screen.dart';
 import 'package:instasmart/login_screen.dart';
+import 'package:instasmart/overlaying_images_functions.dart';
 import 'package:instasmart/preview_screen.dart';
 
 import 'constants.dart';
@@ -49,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("Calender Goes here!"),
             ),
             Expanded(
-              child: Text('Add Sign Out Option here'),
+              child: OverlayImagesFunctions(),
             ),
           ],
         ),
@@ -64,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
             title: Text('Search', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.home, color: Colors.white),
+            icon: Icon(Icons.search, color: Colors.white),
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
@@ -78,9 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
-            title: Text('User', style: TextStyle(color: Colors.white)),
+            title: Text('Create', style: TextStyle(color: Colors.white)),
             icon: Icon(
-              Icons.person,
+              Icons.create,
               color: Colors.white,
             ),
             activeColor: Constants.darkPurple,
