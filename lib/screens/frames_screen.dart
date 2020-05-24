@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'constants.dart';
-import 'main.dart';
+import '../constants.dart';
+import '../main.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
@@ -101,7 +101,7 @@ class _FramesScreenState extends State<FramesScreen> {
                       SizedBox(width: 10),
                       Icon(Icons.search, color: Colors.white),
                       Text(
-                        "Search Aesthetic",
+                        "Search Aesthetics",
                         style: TextStyle(color: Colors.white),
                       ),
                     ],

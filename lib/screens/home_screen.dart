@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:instasmart/create_screen.dart';
-import 'package:instasmart/frames_screen.dart';
-import 'package:instasmart/login_screen.dart';
-import 'package:instasmart/overlaying_images_functions.dart';
-import 'package:instasmart/preview_screen.dart';
-
-import 'constants.dart';
+import 'package:instasmart/screens/calendar_screen.dart';
+import 'package:instasmart/screens/frames_screen.dart';
+import 'package:instasmart/screens/preview_screen.dart';
+import 'package:instasmart/screens/overlaying_images_functions.dart';
+import '../constants.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -48,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PreviewScreen(),
             ),
             Container(
-              child: Text("Calender Goes here!"),
+              child: CalendarScreen(),
             ),
             Expanded(
               child: OverlayImagesFunctions(),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:instasmart/create_screen.dart';
-import 'package:instasmart/frames_screen.dart';
-import 'package:instasmart/home_screen.dart';
-import 'package:instasmart/overlaying_images_functions.dart';
-import 'package:instasmart/preview_screen.dart';
-import 'package:instasmart/login_screen.dart';
+import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/create_screen.dart';
+import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/frames_screen.dart';
+import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/home_screen.dart';
+import 'package:instasmart/screens/overlaying_images_functions.dart';
+import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/preview_screen.dart';
+import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/login_screen.dart';
+import 'package:instasmart/screens/calendar_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         PreviewScreen.routeName: (context) => PreviewScreen(),
         CreateScreen.routeName: (context) => CreateScreen(),
         OverlayImagesFunctions.routeName: (context) => OverlayImagesFunctions(),
+        CalendarScreen.routeName: (context) => CalendarScreen(),
       },
     );
   }

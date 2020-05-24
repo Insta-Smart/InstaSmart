@@ -60,6 +60,6 @@ class _ReorderableGridState extends State<ReorderableGrid> {
       ],
     );
 
-    return column;
+    return wrap;
   }
 }
