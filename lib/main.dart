@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/create_screen.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/frames_screen.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/home_screen.dart';
+import 'package:instasmart/screens/create_screen.dart';
+import 'package:instasmart/screens/frames_screen.dart';
+import 'package:instasmart/screens/home_screen.dart';
+import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/preview_screen.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/screens/login_screen.dart';
+import 'package:instasmart/screens/preview_screen.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
 
 void main() {
