@@ -23,10 +23,12 @@ class _ReorderableGridState extends State<ReorderableGrid> {
   @override
   Widget build(BuildContext context) {
     void _onReorder(int oldIndex, int newIndex) {
-      setState(() {
+      Future.delayed(Duration(milliseconds: 20), (){
+        setState(() {
         Asset row = _tiles.removeAt(oldIndex);
         _tiles.insert(newIndex, row);
       });
+    });
     }
 
     var wrap = ReorderableWrap(

@@ -1,18 +1,22 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instasmart/screens/home_screen.dart';
 import '../constants.dart';
-import '../widgets/login_functions.dart';
+import '../models/login_functions.dart';
+import 'package:provider/provider.dart';
+import 'package:instasmart/models/user.dart';
 
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';
-  final _auth = FirebaseAuth.instance;
-  FirebaseUser user;
+
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseFunctions firebase = FirebaseFunctions();
+    Future<User> user = firebase.currentUser();
+
     return SafeArea(
       child: FlutterLogin(
         title: 'InstaSmart',
@@ -24,47 +28,26 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
         emailValidator: (value) {
-          if (!validateEmail(value)) {
+          if (!firebase.validateEmail(value)) {
             return "Please enter a valid email";
           }
           return null;
         },
         passwordValidator: (value) {
-          if (!validatePassword(value)) {
+          if (!firebase.validatePassword(value)) {
             return "The password must be 8 characters or longer and should contain"
                 "atleast 1 uppercase letter and 1 number";
           }
           return null;
         },
-        onLogin: (loginData) async {
-          print('Login info');
-          print('Name: ${loginData.name}');
-          print('Password: ${loginData.password}');
-          print(user);
-          try {
-            user = (await _auth.signInWithEmailAndPassword(
-              email: loginData.name,
-              password: loginData.password,
-            ))
-                .user;
-          } catch (e) {
-            print(e);
-          }
-          return null;
+        onLogin: (LoginData){
+          firebase.signInWithEmailAndPassword(LoginData.name, LoginData.password);
         },
-        onSignup: (loginData) async {
-          try {
-            user = (await _auth.createUserWithEmailAndPassword(
-              email: loginData.name,
-              password: loginData.password,
-            ))
-                .user;
-          } catch (e) {
-            print(e);
-          }
 
-          return null;
+        onSignup: (LoginData){
+          firebase.createUserWithEmailAndPassword(LoginData.name, LoginData.password);
         },
+
         onSubmitAnimationCompleted: () {
           if (user != null) {
             Navigator.pushNamed(context, HomeScreen.routeName);
@@ -72,9 +55,10 @@ class LoginScreen extends StatelessWidget {
             Navigator.pushNamed(context, LoginScreen.routeName);
           }
         },
+
+
         onRecoverPassword: (name) {
-          print('Recover password info');
-          print('Name: $name');
+          firebase.sendPasswordResetEmail(name);
           return null;
           // Show new password dialog
         },

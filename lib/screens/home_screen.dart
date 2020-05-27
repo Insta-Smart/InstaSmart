@@ -3,9 +3,11 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
 import 'package:instasmart/screens/create_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
+import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
-import 'package:instasmart/screens/overlaying_images_functions.dart';
 import '../constants.dart';
+import 'package:provider/provider.dart';
+import 'package:instasmart/models/login_functions.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -32,7 +34,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("InstaSmart")),
+      appBar: AppBar(
+        title: Text("InstaSmart"),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.exit_to_app), onPressed: ()
+          {FirebaseFunctions().signOut().then((value) => Navigator.pushNamed(context, LoginScreen.routeName));
+
+          }
+          )
+        ],
+      ),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
