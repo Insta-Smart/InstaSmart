@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'reminder.dart';
-import 'file:///C:/Users/noelm/Documents/InstaSmart/lib/models/login_functions.dart';
+import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
 class ReminderData extends ChangeNotifier {
