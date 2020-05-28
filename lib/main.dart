@@ -6,6 +6,7 @@ import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
+import 'package:instasmart/screens/reminder_form.dart';
 import 'package:provider/provider.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'models/user.dart';
@@ -60,8 +61,9 @@ class MyApp extends StatelessWidget {
         home: FutureBuilder<User>(
             future: FirebaseFunctions().currentUser(),
           builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-              Provider.of<FirebaseFunctions>(context).currUser = snapshot.data;
+
               if(snapshot.hasData){
+                Provider.of<FirebaseFunctions>(context).currUser = snapshot.data;
                 return HomeScreen();
               }
               else{
