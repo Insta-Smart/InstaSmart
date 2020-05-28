@@ -29,6 +29,7 @@ dependencies:
   table_calendar: ^2.2.3
   path_provider: ^1.6.9
   provider: ^4.1.2
+  flutter_form_builder: ^3.10.1
 
 
 
