@@ -3,6 +3,7 @@ import 'package:instasmart/constants.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import '../widgets/reorderableGrid.dart';
+import 'package:instasmart/models/utility.dart';
 
 class PreviewScreen extends StatefulWidget {
   static const routeName = '/preview';
@@ -25,7 +26,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 10,
+        maxImages: 20,
         enableCamera: true,
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
@@ -54,23 +55,23 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return new MaterialApp(
+      home: new Scaffold(
+
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Center(
-              child: RaisedButton(
-                child: Text("Add Images"),
-                color: Constants.paleBlue,
-                onPressed: loadAssets,
-              ),
-            ),
+
             Expanded(
               child: ReorderableGrid(images),
             ),
+            FloatingActionButton(child: Icon(Icons.add_a_photo),onPressed: loadAssets,),
+
           ],
         ),
       ),
     );
   }
 }
+
+

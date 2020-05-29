@@ -8,7 +8,7 @@ class FirebaseFunctions extends ChangeNotifier{
   final auth = FirebaseAuth.instance;
   User currUser;
 
-  User _userFromFirebase(FirebaseUser user) {
+    User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
     }
