@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'checkbox.dart';
 import 'package:instasmart/models/reminder_data.dart';
-import 'package:instasmart/screens/reminder_form.dart';
+import 'package:instasmart/screens/reminder_modify_form.dart';
 
 class ReminderList extends StatelessWidget {
   const ReminderList({
@@ -35,10 +36,11 @@ class ReminderList extends StatelessWidget {
                     ),
                     onTap: () => {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ReminderForm(reminder),
-                              ))
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => ReminderForm(reminder),
+                            ),
+                          )
                         },
                     leading: Hero(tag: reminder.id, child: reminder.picture)),
               ))

@@ -6,7 +6,7 @@ import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
-import 'package:instasmart/screens/reminder_form.dart';
+import 'package:instasmart/screens/reminder_modify_form.dart';
 import 'package:provider/provider.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'models/user.dart';
