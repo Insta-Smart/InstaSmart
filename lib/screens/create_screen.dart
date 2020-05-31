@@ -146,7 +146,7 @@ class _CreateScreenState extends State<CreateScreen> {
             ),
             Expanded(
               flex: 1,
-              child: ReorderableGrid(images),
+              child: Container()//ReorderableGrid(images),
             ),
             FlatButton(
               shape: RoundedRectangleBorder(

@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:instasmart/models/reminder_data.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instasmart/models/reminder.dart';
 
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_create';
-  ReminderForm(this.reminder);
-  var reminder;
+  ReminderForm(this.imageUrl);
+  var imageUrl;
   @override
   ReminderFormState createState() {
     return ReminderFormState();
@@ -48,8 +49,17 @@ class ReminderFormState extends State<ReminderForm> {
                         width: MediaQuery.of(context).size.width / 2.round(),
                         height: MediaQuery.of(context).size.width / 2.round(),
                         child: Hero(
-                            tag: widget.reminder.id,
-                            child: Image.network(widget.reminder.picture_url)),
+                            tag: widget.imageUrl,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.imageUrl,
+                              progressIndicatorBuilder: (context,
+                                  url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress
+                                          .progress),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),),
                       )),
                   SizedBox(height: 15),
                   FormBuilderTextField(
@@ -57,7 +67,6 @@ class ReminderFormState extends State<ReminderForm> {
                     decoration: InputDecoration(
                       labelText: "Caption",
                     ),
-                    initialValue: widget.reminder.caption,
                     onChanged: _onChanged,
                     keyboardType: TextInputType.text,
                   ),
@@ -72,7 +81,7 @@ class ReminderFormState extends State<ReminderForm> {
                     ),
                     validator: (val) => null,
                     initialTime: TimeOfDay.now(),
-                    initialValue: widget.reminder.postTime,
+                    initialValue: DateTime.now(),
                     // readonly: true,
                   ),
                 ],
@@ -84,15 +93,15 @@ class ReminderFormState extends State<ReminderForm> {
                   child: RaisedButton(
                     color: Colors.blue,
                     child: Text(
-                      "Update Reminder",
+                      "Create Reminder",
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
                       if (_fbKey.currentState.saveAndValidate()) {
                         var formValues = _fbKey.currentState.value;
-                        widget.reminder.caption = formValues['caption'];
-                        widget.reminder.postTime = formValues['postTime'];
-                        ReminderData().updateReminder(widget.reminder);
+                        var caption = formValues['caption'];
+                        var postTime = formValues['postTime'];
+                        ReminderData().createReminder(caption: caption, pictureUrl: widget.imageUrl, postTime: postTime);
                         Navigator.pop(context);
                       } else {
                         print(_fbKey.currentState.value);
@@ -100,25 +109,8 @@ class ReminderFormState extends State<ReminderForm> {
                       }
                     },
                   ),
-                ),
-                Expanded(
-                  child: RaisedButton(
-                    color: Colors.red,
-                    child: Text(
-                      "Delete Reminder",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      if (_fbKey.currentState.saveAndValidate()) {
-                        print(_fbKey.currentState.value);
-                        ReminderData().deleteReminder(widget.reminder);
-                        Navigator.pop(context);
-                      } else {
-                        print(_fbKey.currentState.value);
-                        print("validation failed");
-                      }
-                    },
-                  ),
+
+
                 )
               ],
             ),
