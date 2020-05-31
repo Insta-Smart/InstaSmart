@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../constants.dart';
-import '../main.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
@@ -27,33 +27,7 @@ class _FramesScreenState extends State<FramesScreen> {
   bool imagePressed = false;
   int imageNoPressed;
 
-  Future setDownloadUrl(int index) async {
-    //downloads image from storage, based on index [files named as sample_index
-    // to directly display this image, use Image.network(_downloadurl)
-    try {
-      String downloadAddress =
-          await _reference.child("sample_${index}.jpeg").getDownloadURL();
-      //     print(downloadAddress);
-      setState(() {
-        _downloadurl = downloadAddress;
-        // print(_downloadurl);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
-  void uploadImagetoFirestore() {
-    for (int i = 1; i < 9; i++) {
-      setDownloadUrl(i).then((value) {
-        _firestore
-            .collection('allframesurl')
-            .add({'imageurl': _downloadurl, 'popularity': 0});
-        print("sent");
-      });
-      //print("new_downloadurl is ${_downloadurl}");
-    }
-  }
 
   void getUrlFromFirestore() async {
     //updates listofurls with imageurls
@@ -149,8 +123,14 @@ class _FramesScreenState extends State<FramesScreen> {
       child: Container(
         margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(25),
-            child: Image.network(listofurls[index])),
+          borderRadius: BorderRadius.circular(25),
+          child: CachedNetworkImage(
+            imageUrl: listofurls[index],
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                CircularProgressIndicator(value: downloadProgress.progress),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ),
       ),
     );
   }

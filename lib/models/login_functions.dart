@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseFunctions extends ChangeNotifier{
-
+class FirebaseFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
+  final db = Firestore.instance;
   User currUser;
 
-    User _userFromFirebase(FirebaseUser user) {
+  User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
     }
@@ -22,7 +23,7 @@ class FirebaseFunctions extends ChangeNotifier{
 
   Future<User> currentUser() async {
     final FirebaseUser user = await auth.currentUser();
-    currUser = await _userFromFirebase(user);
+    currUser = _userFromFirebase(user);
     return _userFromFirebase(user);
   }
 
@@ -31,22 +32,27 @@ class FirebaseFunctions extends ChangeNotifier{
     return _userFromFirebase(authResult.user);
   }
 
-
   Future<User> signInWithEmailAndPassword(String email, String password) async {
-    final AuthResult authResult = await auth
-        .signInWithCredential(EmailAuthProvider.getCredential(
+    final AuthResult authResult =
+        await auth.signInWithCredential(EmailAuthProvider.getCredential(
       email: email,
       password: password,
     ));
-    currUser = await _userFromFirebase(authResult.user);
+    currUser = _userFromFirebase(authResult.user);
     return _userFromFirebase(authResult.user);
   }
 
   Future<User> createUserWithEmailAndPassword(
       String email, String password) async {
-    final AuthResult authResult = await auth
-        .createUserWithEmailAndPassword(email: email, password: password);
-    currUser = await _userFromFirebase(authResult.user);
+    final AuthResult authResult = await auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    currUser = _userFromFirebase(authResult.user);
+    try {
+      await db
+          .collection("Users").document(currUser.uid).setData({'user_images':''});
+    } catch (e) {
+      print(e.toString());
+    }
     return _userFromFirebase(authResult.user);
   }
 
@@ -56,7 +62,7 @@ class FirebaseFunctions extends ChangeNotifier{
 
   Future<User> signInWithEmailAndLink({String email, String link}) async {
     final AuthResult authResult =
-    await auth.signInWithEmailAndLink(email: email, link: link);
+        await auth.signInWithEmailAndLink(email: email, link: link);
     return _userFromFirebase(authResult.user);
   }
 
@@ -64,14 +70,13 @@ class FirebaseFunctions extends ChangeNotifier{
     return await auth.isSignInWithEmailLink(link);
   }
 
-  Future<void> signOut() async{
-     await auth.signOut();
-}
+  Future<void> signOut() async {
+    await auth.signOut();
+  }
 
   Stream<User> get onAuthStateChanged {
     return auth.onAuthStateChanged.map(_userFromFirebase);
   }
-
 
   bool validateEmail(String value) {
     Pattern pattern =

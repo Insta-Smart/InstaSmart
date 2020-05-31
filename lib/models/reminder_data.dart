@@ -4,11 +4,11 @@ import 'reminder.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
-class ReminderData extends ChangeNotifier {
+class ReminderData {
   final db = Firestore.instance;
   final FirebaseFunctions firebase = FirebaseFunctions();
 
-  void createReminder({String caption, String picture_url}) async {
+  void createReminder({String caption, String pictureUrl, DateTime postTime}) async {
     try {
       User user = await firebase.currentUser();
       await db
@@ -18,10 +18,10 @@ class ReminderData extends ChangeNotifier {
           .add({
         'caption': caption,
         'isPosted': false,
-        'scheduled_image': picture_url,
+        'scheduled_image': pictureUrl,
         'date':
-            "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-        'postTime': DateTime.now().add(Duration(days: 1)),
+            "${postTime.day}/${postTime.month}/${postTime.year}",
+        'postTime': postTime,
       });
       print('done creating');
     } catch (e) {
