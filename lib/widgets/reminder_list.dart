@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'checkbox.dart';
 import 'package:instasmart/models/reminder_data.dart';
+import 'package:instasmart/screens/reminder_modify_form.dart';
 
 class ReminderList extends StatelessWidget {
   const ReminderList({
@@ -24,17 +26,23 @@ class ReminderList extends StatelessWidget {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
-                  title: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(reminder.caption),
-                      ),
-                      Expanded(child: ReminderCheckbox(reminder)),
-                    ],
-                  ),
-                  onTap: () => {ReminderData().createReminder(caption: 'hello',picture_url: 'https://firebasestorage.googleapis.com/v0/b/instasmart-6df7d.appspot.com/o/AllFrames%2Fsample_7.jpeg?alt=media&token=2252c619-635d-489c-857b-b2ebd0398eb5')},
-                  leading: reminder.picture,
-                ),
+                    title: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(reminder.caption),
+                        ),
+                        Expanded(child: ReminderCheckbox(reminder)),
+                      ],
+                    ),
+                    onTap: () => {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => ReminderForm(reminder),
+                            ),
+                          )
+                        },
+                    leading: Hero(tag: reminder.id, child: reminder.picture)),
               ))
           .toList(),
     );

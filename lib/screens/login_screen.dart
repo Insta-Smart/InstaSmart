@@ -8,13 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:instasmart/models/user.dart';
 
 
+
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';
 
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseFunctions firebase = FirebaseFunctions();
+    final FirebaseFunctions firebase = Provider.of<FirebaseFunctions>(context);
     Future<User> user = firebase.currentUser();
 
     return SafeArea(
