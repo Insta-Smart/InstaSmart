@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:provider/provider.dart';
 import 'reminder_create_form.dart';
+import 'package:instasmart/widgets/reorderableGrid.dart';
 
 
 class PreviewScreen extends StatefulWidget {
@@ -71,83 +72,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: StreamBuilder<DocumentSnapshot>(
-                  stream: Firestore.instance
-                      .collection('Users')
-                      .document(firebase.currUser.uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container();
-                    } else {
-                     return  FutureBuilder<List>(
-                          future: firebaseStorage.getImageUrls(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List> snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            } else {
-                              return ReorderableWrap(
-                                minMainAxisCount: 3,
-                                  spacing: 1.0,
-                                  runSpacing: 1.0,
-                                  padding: const EdgeInsets.all(0),
-                                  children: List.generate(snapshot.data.length,
-                                      (index) {
-                                    return Container(
-                                      height:
-                                          (MediaQuery.of(context).size.width /
-                                              3),
-                                      width:
-                                          (MediaQuery.of(context).size.width /
-                                              3),
-                                      child: FittedBox(
-                                        child: GestureDetector(
-                                          onTap: (){
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => ReminderForm(snapshot.data[index]),
-                                              )
-                                            );
-
-
-                                          },
-                                          child: Hero(
-                                            tag: snapshot.data[index],
-                                            child: CachedNetworkImage(
-                                              imageUrl: snapshot.data[index],
-                                              progressIndicatorBuilder: (context,
-                                                      url, downloadProgress) =>
-                                                  CircularProgressIndicator(
-                                                      value: downloadProgress
-                                                          .progress),
-                                              errorWidget: (context, url, error) =>
-                                                  Icon(Icons.error),
-                                            ),
-                                          ),
-                                        ),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    );
-                                  }),
-                                  onReorder: (int oldIndex, int newIndex) {
-                                    firebaseStorage.reorderImageArray(oldIndex, newIndex);
-                                  },
-                                  onNoReorder: (int index) {
-                                    //this callback is optional
-                                    debugPrint(
-                                        '${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
-                                  },
-                                  onReorderStarted: (int index) {
-                                    //this callback is optional
-                                    debugPrint(
-                                        '${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
-                                  });
-                            }
-                          });
-                    }
-                  }),
+              child: ReorderableGrid(firebase: firebase, firebaseStorage: firebaseStorage),
             )
           ],
         ),
@@ -159,3 +84,5 @@ class _PreviewScreenState extends State<PreviewScreen> {
     );
   }
 }
+
+
