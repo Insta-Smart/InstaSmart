@@ -8,6 +8,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+
+import 'package:instasmart/widgets/frame_widget.dart';
+import '../constants.dart';
+import '../main.dart';
+
+//https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
+//TODO: use Snapshot to get data length
+
+
 class FramesScreen extends StatefulWidget {
   static const routeName = '/frames';
   @override
@@ -18,29 +29,59 @@ class _FramesScreenState extends State<FramesScreen> {
   File _imageFile; //image state variable
 
   // StorageReference _reference = FirebaseStorage.instance.ref("AllFrames").child("AllFrames").child("testImage.jpg");
-  StorageReference _reference =
-      FirebaseStorage.instance.ref().child("AllFrames");
+  StorageReference _reference = FirebaseStorage.instance.ref().child("FramesPNG");
   final _firestore = Firestore.instance;
   String _downloadurl;
-  List listofurls =
-      new List(); //will contain list of imageurls once getUrlFromFirestore is called
+  List listofurls =  new List(); //will contain list of imageurls once getUrlFromFirestore is called
   bool imagePressed = false;
   int imageNoPressed;
 
+  Future setDownloadUrl(int index) async {
+    //downloads image from storage, based on index [files named as sample_index
+    // to directly display this image, use Image.network(_downloadurl)
+    try {
+      String downloadAddress =
+      await _reference.child("Untitled_Artwork ${index} copy.png").getDownloadURL();   //image name
+      //     print(downloadAddress);
+      setState(() {
+        _downloadurl = downloadAddress;
+        print(_downloadurl);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
+  void uploadImagetoFirestore() {
+    for (int i = 0; i < 23; i++) {
+      setDownloadUrl(i).then((value) {
+        _firestore
+            .collection('allframespngurl')
+            .add({'imageurl': _downloadurl, 'popularity': 0});
+        print("sent");
+      });
+      //print("new_downloadurl is ${_downloadurl}");
+    }
+  }
 
   void getUrlFromFirestore() async {
     //updates listofurls with imageurls
-    listofurls = [];
-    final allframesurl =
-        await _firestore.collection('allframesurl').getDocuments();
+    listofurls = new List();
+    final allframesurl = await _firestore
+        .collection('allframespngurl')
+        .orderBy("popularity", descending: true)
+        .getDocuments();
+    // print(allframesurl.documents);
     // allframesurl.documents --> returns a list of all items in firestore
     for (var el in allframesurl.documents) {
       setState(() {
-        el.data['imageurl'] == null
-            ? print('null')
+        el.data['imageurl'] == null || el.data['imageurl'] == ""
+            ? null
             : listofurls.add(el.data['imageurl']);
       });
+    }
+    for (var el in listofurls) {
+      el == null ? listofurls.remove(el) : null;
     }
     print(listofurls);
   }
@@ -48,9 +89,13 @@ class _FramesScreenState extends State<FramesScreen> {
   @override
   void initState() {
     super.initState();
+    //uploadImagetoFirestore();// done initially to refresh store of images.
+    //TODO: automatically refresh store of images.
     getUrlFromFirestore();
     imagePressed = false;
   }
+
+  bool IsLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +137,12 @@ class _FramesScreenState extends State<FramesScreen> {
                   child: GridView.count(
                     crossAxisCount: 2,
                     children:
-                        List.generate(8, (index) => buildFrameToDisplay(index)),
+                    List.generate(10, (index) => buildFrameToDisplay(index)), //change to document.snapshot length
                   ),
                 ),
               ],
             ),
-            imagePressed ? buildPopUpImage(imageNoPressed) : Container(),
+            imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
           ],
         ),
       ),
@@ -105,8 +150,11 @@ class _FramesScreenState extends State<FramesScreen> {
   }
 
   Widget buildFrameToDisplay(int index) {
+    Frame_Widget frame =
+    new Frame_Widget(imgurl: listofurls[index], liked: false);
     return GestureDetector(
       onLongPress: () {
+        print("longpress");
         //show pop up image
         setState(() {
           imagePressed = true;
@@ -120,29 +168,35 @@ class _FramesScreenState extends State<FramesScreen> {
           imagePressed = false;
         });
       },
-      child: Container(
-        margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: CachedNetworkImage(
-            imageUrl: listofurls[index],
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
-        ),
-      ),
+      child: frame,
+      // frame.getLiked() ? Text("isLiked") : Text("notLiked")
+//          new RaisedButton(
+//            child: new Text('Attention'),
+//            textColor: Colors.white,
+//            shape: new RoundedRectangleBorder(
+//              borderRadius: new BorderRadius.circular(30.0),
+//            ),
+//            color: IsLiked ? Colors.grey : Colors.blue,
+//            onPressed: () => setState(() => IsLiked = !IsLiked),
+//          ),
+      //    ),
     );
   }
 
   Widget buildPopUpImage(int index) {
     return Container(
       alignment: Alignment.center,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: Image.network(
-          listofurls[index],
-        ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.network(listofurls[index])),
+          ),
+        ],
       ),
     );
   }
