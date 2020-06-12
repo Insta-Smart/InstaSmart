@@ -1,48 +1,70 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:instasmart/models/frame.dart';
+import 'package:instasmart/models/liking_functions.dart';
 import '../constants.dart';
+import 'package:instasmart/models/login_functions.dart';
+import 'package:instasmart/models/user.dart';
 
 class Frame_Widget extends StatefulWidget {
-  final String imgurl;
-  bool liked; //no need
+  final Frame frame;
 
-  Frame_Widget({Key key, @required this.imgurl, @required this.liked})
-      : super(key: key);
+  Frame_Widget({Key key, @required this.frame}) : super(key: key);
 
   @override
   _Frame_WidgetState createState() => _Frame_WidgetState();
-
-  bool getLiked() {
-    return liked;
-  }
 }
 
 class _Frame_WidgetState extends State<Frame_Widget> {
-  int _numLikes = 0;
-  final _firestore = Firestore.instance.collection("allframesurl");
-  //Query query = _firestore.whereEqualTo("imageurl", "widget.imgurl");
+  int _numLikes;
+  bool liked =
+      false; //TODO: change to checking whether imgurl exists in user's collection
+  final collectionRef = Firestore.instance.collection('allframespngurl');
+  final userRef = Firestore.instance.collection('Users');
+  final db = Firestore.instance;
+  final FirebaseFunctions firebase = FirebaseFunctions();
+  User user;
 
-  void addLike() {
-    _numLikes++;
+  //RETURNS NUMBER OF LIKES THE IMAGE HAS AS A DOUBLE
+  Future<double> getNumLikes() async {
+    var num; //int if 0, double otherwise
+    //getDocuments.then(value ....) {el.data.field or smth --> need to do this everytime its clickec --> change state of numLikes}
+    try {
+      await collectionRef
+          .document(widget.frame.imgID)
+          .get()
+          .then((DocumentSnapshot document) {
+        num = document.data['popularity'];
+        print(widget.frame.imgID);
+        print(widget.frame.imgurl);
+      });
+      print(num);
+      return num is int ? num.toDouble() : num;
+    } catch (e) {
+      print('error in get num likes is');
+      print(e);
+    }
   }
 
-  void removeLike() {
-    _numLikes = _numLikes - 1;
+  //DOES getNumLikes() --> SETS VAR NUM TO RESULT AS INTEGER, TAKES IN IMGID
+  void setNumLikes() {
+    getNumLikes().then((double num) {
+      setState(() {
+        _numLikes = num.round();
+        print('${widget.frame.imgID} has ${num} likes');
+      });
+    });
   }
 
-  int getLikes() {
-    return _numLikes;
-  }
+  //GET USER ID
+  //ACCESS USERS COLLECTION AND ADD GIVEN URL AS A FIELD IN THE LikedFrames collection
 
-  Image getImage() {
-    return Image.network(widget.imgurl);
-  }
-
-  bool liked = false;
-
-  bool getLiked() {
-    return liked;
+  //SETS _ID AS IMGID IN ALLFRAMESPNGURL COLLECTION
+  //SETS NUM AS NUMBER OF LIKES
+  @override
+  void initState() {
+    super.initState();
+    setNumLikes();
   }
 
   @override
@@ -53,19 +75,54 @@ class _Frame_WidgetState extends State<Frame_Widget> {
           margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: Image.network(widget.imgurl)),
+              child: Image.network(widget.frame.imgurl)),
         ),
-        GestureDetector(
-          onTap: () {
+        IconButton(
+          //Like Button
+          alignment: Alignment(-9, -13),
+          icon: Icon(
+            Icons.favorite,
+            size: 30,
+            color: liked ? Constants.palePink : Colors.grey,
+          ),
+          tooltip: 'Like frame to save it.',
+          onPressed: () {
             setState(() {
               liked = !liked;
               print("liked status is: ${liked}");
               //increment popularity of this image, identified by imgurl
               // .where(imageurl","=="
+              liked ? _numLikes++ : _numLikes--; //update _numLikes
             });
+
+            LikingFunctions().updateLikes(widget.frame.imgID, liked);
+
+            //if liked is true --> add image to user collection.
+            // if liked is false --> REMOVE image from collection
+            liked
+                ? LikingFunctions()
+                    .addImgToLiked(widget.frame.imgID, widget.frame.imgurl)
+                : LikingFunctions().delImgFromLiked(widget.frame.imgID);
           },
-          child: Icon(Icons.favorite,
-              color: liked ? Constants.palePink : Colors.white),
+        ),
+        Container(
+          child: Container(
+            color: Colors.white60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.favorite,
+                  color: Constants.palePink,
+                  size: 15,
+                ),
+                Text('${_numLikes}',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              ],
+            ),
+          ),
+          alignment: Alignment(0, 0.8),
         ),
       ],
     );
