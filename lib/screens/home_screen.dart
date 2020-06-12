@@ -3,6 +3,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
 import 'package:instasmart/screens/create_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
+import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import '../constants.dart';
@@ -42,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 FirebaseFunctions().signOut().then((value) =>
                     Navigator.pushNamed(context, LoginScreen.routeName));
-              }
-          )],
+              })
+        ],
       ),
       body: SizedBox.expand(
         child: PageView(
@@ -54,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Container(
               child: FramesScreen(),
+            ),
+            Container(
+              child: LikedScreen(),
             ),
             Container(
               child: PreviewScreen(),
@@ -78,6 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavyBarItem(
             title: Text('Search', style: TextStyle(color: Colors.white)),
             icon: Icon(Icons.search, color: Colors.white),
+            activeColor: Constants.darkPurple,
+          ),
+          BottomNavyBarItem(
+            title: Text('Liked', style: TextStyle(color: Colors.white)),
+            icon: Icon(Icons.favorite, color: Colors.white),
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
