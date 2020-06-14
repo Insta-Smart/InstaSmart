@@ -105,10 +105,11 @@ class FirebaseImageStorage {
 
   Future<void> reorderImageArray(int oldIndex, int newIndex) async {
     var imageUrls = await getImageUrls();
-    var temp = imageUrls[oldIndex];
-    imageUrls[oldIndex] = imageUrls[newIndex];
-    imageUrls[newIndex] = temp;
-    await setImageUrls(imageUrls);
+    List tempList = List();
+    imageUrls.forEach((element) {tempList.add(element);});
+    var removed = tempList.removeAt(oldIndex);
+    tempList.insert(newIndex, removed);
+    await setImageUrls(tempList);
 
   }
 

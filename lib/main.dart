@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/screens/create_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/home_screen.dart';
+import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
 import 'package:instasmart/screens/preview_screen.dart';
@@ -16,11 +17,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<FirebaseFunctions>(
-      create: (context)=> FirebaseFunctions(),
+      create: (context) => FirebaseFunctions(),
       child: MaterialApp(
         title: 'InstaSmart',
         theme: ThemeData(
@@ -60,25 +60,25 @@ class MyApp extends StatelessWidget {
         ),
         home: FutureBuilder<User>(
             future: FirebaseFunctions().currentUser(),
-          builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-
-              if(snapshot.hasData){
-                Provider.of<FirebaseFunctions>(context).currUser = snapshot.data;
+            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+              if (snapshot.hasData) {
+                Provider.of<FirebaseFunctions>(context).currUser =
+                    snapshot.data;
                 return HomeScreen();
-              }
-              else{
+              } else {
                 return LoginScreen();
               }
-          }
-        ),
+            }),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),
           FramesScreen.routeName: (context) => FramesScreen(),
           PreviewScreen.routeName: (context) => PreviewScreen(),
           CreateScreen.routeName: (context) => CreateScreen(),
-          OverlayImagesFunctions.routeName: (context) => OverlayImagesFunctions(),
+          OverlayImagesFunctions.routeName: (context) =>
+              OverlayImagesFunctions(),
           CalendarScreen.routeName: (context) => CalendarScreen(),
+          LikedScreen.routeName: (context) => LikedScreen(),
         },
       ),
     );
