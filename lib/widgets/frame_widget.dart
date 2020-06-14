@@ -5,11 +5,14 @@ import 'package:instasmart/models/liking_functions.dart';
 import '../constants.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Frame_Widget extends StatefulWidget {
   final Frame frame;
+  final bool isLiked;
 
-  Frame_Widget({Key key, @required this.frame}) : super(key: key);
+  Frame_Widget({Key key, @required this.frame, @required this.isLiked})
+      : super(key: key);
 
   @override
   _Frame_WidgetState createState() => _Frame_WidgetState();
@@ -17,8 +20,8 @@ class Frame_Widget extends StatefulWidget {
 
 class _Frame_WidgetState extends State<Frame_Widget> {
   int _numLikes;
-  bool liked =
-      false; //TODO: change to checking whether imgurl exists in user's collection
+  bool
+      liked; //TODO: change to checking whether imgurl exists in user's collection
   final collectionRef = Firestore.instance.collection('allframespngurl');
   final userRef = Firestore.instance.collection('Users');
   final db = Firestore.instance;
@@ -56,15 +59,46 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     });
   }
 
-  //GET USER ID
-  //ACCESS USERS COLLECTION AND ADD GIVEN URL AS A FIELD IN THE LikedFrames collection
+//  bool setInitLikedStat() {
+//    bool liked;
+//    if (widget.isLiked == null) {
+//      LikingFunctions().getInitLikedStat(widget.frame.imgID).then((value) {
+//        print('value is ');
+//        print(value);
+//        liked = value;
+//      });
+//    } else {
+//      liked = widget.isLiked;
+//    }
+//    return liked;
+//  }
 
-  //SETS _ID AS IMGID IN ALLFRAMESPNGURL COLLECTION
-  //SETS NUM AS NUMBER OF LIKES
   @override
   void initState() {
+    //TODO: put future here
+    liked = false;
+
     super.initState();
+    if (!widget.isLiked) {
+      //TODO: this is returning null???
+      // liked = LikingFunctions().getInitLikedStat(widget.frame.imgID);
+      LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
+        print('value of initlikedstate is: ${value}');
+        setState(() {
+          liked = value;
+        });
+      });
+      print('final liked is ${liked}');
+    } else {
+      setState(() {
+        liked = true;
+      });
+    }
     setNumLikes();
+    print('outcome of setinitlikedstate:');
+
+//    print('outcome of setinitlikedstate:');
+//    print(LikingFunctions().getInitLikedStat(widget.frame.imgID));
   }
 
   @override
@@ -74,8 +108,17 @@ class _Frame_WidgetState extends State<Frame_Widget> {
         Container(
           margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
           child: ClipRRect(
-              borderRadius: BorderRadius.circular(25),
-              child: Image.network(widget.frame.imgurl)),
+            borderRadius: BorderRadius.circular(25),
+            child: CachedNetworkImage(
+              imageUrl: widget.frame.imgurl,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+//          ClipRRect(
+//              borderRadius: BorderRadius.circular(25),
+//              child: Image.network(widget.frame.imgurl)),
         ),
         IconButton(
           //Like Button
@@ -91,7 +134,6 @@ class _Frame_WidgetState extends State<Frame_Widget> {
               liked = !liked;
               print("liked status is: ${liked}");
               //increment popularity of this image, identified by imgurl
-              // .where(imageurl","=="
               liked ? _numLikes++ : _numLikes--; //update _numLikes
             });
 
