@@ -57,9 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: FramesScreen(),
             ),
             Container(
-              child: LikedScreen(),
-            ),
-            Container(
               child: PreviewScreen(),
             ),
             Container(
@@ -85,16 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
-            title: Text('Liked', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.favorite, color: Colors.white),
-            activeColor: Constants.darkPurple,
-          ),
-          BottomNavyBarItem(
             title: Text('Preview', style: TextStyle(color: Colors.white)),
             icon: Icon(Icons.apps, color: Colors.white),
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
+
             title: Text('Reminders', style: TextStyle(color: Colors.white)),
             icon: Icon(Icons.access_time, color: Colors.white),
             activeColor: Constants.darkPurple,
