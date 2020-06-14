@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/frame.dart';
+import 'package:instasmart/screens/calendar_screen.dart';
+import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import '../constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -64,10 +66,12 @@ class _FramesScreenState extends State<FramesScreen> {
     }
   }
 
-  Map ImgsMap = LinkedHashMap<String, String>();
-  void getUrlAndIdFromFirestore() async {
+  List frameList = new List();
+  Future<List<Frame>> futList;
+
+  Future<List<Frame>> getUrlAndIdFromFirestore() async {
     //updates LinkdHashMap with imageurls
-    ImgsMap = LinkedHashMap<String, String>();
+    frameList = new List<Frame>();
     await collectionRef
         .orderBy("popularity", descending: true)
         .getDocuments()
@@ -78,16 +82,18 @@ class _FramesScreenState extends State<FramesScreen> {
           if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
             print("null url");
           } else {
-            print(el.data['imageurl']);
-//            listofurls.add(el.data['imageurl']);
-            ImgsMap.putIfAbsent(el.data['imageurl'], () => el.documentID);
+            //    print(el.data['imageurl']);
+            frameList
+                .add(Frame(imgurl: el.data['imageurl'], imgID: el.documentID));
           }
           //create a map
         });
       });
     });
 
-    ImgsMap.removeWhere((key, value) => key == null);
+    print('frame data:');
+    print(frameList);
+    return frameList;
   }
 
   //RETURNS IMGID IN ALLFRAMESPNGURL BY USING IMGURL
@@ -110,7 +116,7 @@ class _FramesScreenState extends State<FramesScreen> {
     super.initState();
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
-    getUrlAndIdFromFirestore();
+    futList = getUrlAndIdFromFirestore();
     imagePressed = false;
   }
 
@@ -161,23 +167,39 @@ class _FramesScreenState extends State<FramesScreen> {
                         iconSize: 1,
                         icon: Icon(Icons.favorite_border,
                             size: 30, color: Constants.paleBlue),
-                        tooltip: 'Like frame to save it.',
+                        tooltip: 'Click to see liked frames.',
                         onPressed: () {
-                          // Navigator.pushNamed(context, PreviewScreen.routeName);
+                          Navigator.pushNamed(context, LikedScreen.routeName);
                         },
                       ),
                     ),
                   ],
                 ),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    children: List.generate(
-                        10,
-                        (index) => Container(
-                            child: buildFrameToDisplay(
-                                index))), //change to document.snapshot length
-                  ),
+                FutureBuilder(
+                  future: futList,
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.hasData == null ||
+                        snapshot.data == null) {
+                      //print('project snapshot data is: ${projectSnap.data}');
+                      return Center(
+                        child:
+                            Text('Loading...', style: TextStyle(fontSize: 50)),
+                      );
+                    } else {
+                      print('building frames');
+                      return Expanded(
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          children: List.generate(
+                              snapshot.data.length,
+                              (index) => Container(
+                                  child: buildFrameToDisplay(
+                                      index))), //change to document.snapshot length
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -189,28 +211,34 @@ class _FramesScreenState extends State<FramesScreen> {
   }
 
   Widget buildFrameToDisplay(int index) {
-    String Imgurl = ImgsMap.keys.toList()[index];
-    String ImgId = ImgsMap.values.toList()[index];
-    Frame_Widget frameWidget =
-        new Frame_Widget(frame: Frame(imgurl: Imgurl, imgID: ImgId));
-    return GestureDetector(
-      onLongPress: () {
-        print("longpress");
-        //show pop up image
-        setState(() {
-          imagePressed = true;
-          imageNoPressed = index;
-        });
-        print(index);
-      },
-      onLongPressUp: () {
-        //set state of longPressed to false
-        setState(() {
-          imagePressed = false;
-        });
-      },
-      child: frameWidget,
-    );
+    try {
+      print(frameList);
+      Frame_Widget frameWidget =
+          new Frame_Widget(frame: frameList[index], isLiked: false);
+      //isLiked should be true if image exists in user's likedframes collection.
+      return GestureDetector(
+        onLongPress: () {
+          print("longpress");
+          //show pop up image
+          setState(() {
+            imagePressed = true;
+            imageNoPressed = index;
+          });
+          print(index);
+        },
+        onLongPressUp: () {
+          //set state of longPressed to false
+          setState(() {
+            imagePressed = false;
+          });
+        },
+        child: frameWidget,
+      );
+    } catch (e) {
+      print('error in building screen is');
+      //  tryFrame();
+      print(e);
+    }
   }
 
   Widget buildPopUpImage(int index) {
@@ -224,7 +252,7 @@ class _FramesScreenState extends State<FramesScreen> {
             ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.network(ImgsMap.keys.toList()[index])),
+                child: Image.network(frameList[index].imgurl)),
           ),
         ],
       ),

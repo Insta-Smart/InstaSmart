@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,25 +29,22 @@ class LikedScreen extends StatefulWidget {
 }
 
 class _LikedScreenState extends State<LikedScreen> {
-  // StorageReference _reference = FirebaseStorage.instance.ref("AllFrames").child("AllFrames").child("testImage.jpg");
-  StorageReference _reference =
-      FirebaseStorage.instance.ref().child("FramesPNG");
-
   bool imagePressed = false;
   int imageNoPressed;
   final userRef = Firestore.instance.collection('Users');
   final FirebaseFunctions firebase = FirebaseFunctions();
   User user;
 
-  Map ImgsMap = LinkedHashMap<String, String>();
+  List frameList = new List();
+  Future<List<Frame>> futList;
 
-  void getUrlAndIdFromFirestore() async {
+  Future<List<Frame>> getUrlAndIdFromFirestore() async {
     //updates LinkdHashMap with imageurls
+    frameList = new List<Frame>();
     try {
       user = await firebase.currentUser();
       print('user id is');
       print(user.uid);
-      ImgsMap = LinkedHashMap<String, String>();
       await userRef
           .document(user.uid)
           .collection('LikedFrames')
@@ -54,16 +52,13 @@ class _LikedScreenState extends State<LikedScreen> {
           .then((value) {
         value.documents.forEach((el) {
           print(el.documentID);
-          ImgsMap.putIfAbsent(el.data['imgurl'], () => el.documentID);
+          frameList.add(Frame(imgurl: el.data['imgurl'], imgID: el.documentID));
         });
       });
-
-      ImgsMap.removeWhere((key, value) => key == null);
-      print('hashmap is');
-      print(ImgsMap.keys.toList());
     } catch (e) {
       print('error in likedscreen is ${e}');
     }
+    return frameList;
   }
 
   @override
@@ -71,7 +66,7 @@ class _LikedScreenState extends State<LikedScreen> {
     super.initState();
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
-    getUrlAndIdFromFirestore();
+    futList = getUrlAndIdFromFirestore();
     imagePressed = false;
   }
 
@@ -85,29 +80,58 @@ class _LikedScreenState extends State<LikedScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text(
-                    "Liked Frames",
-                    style: (TextStyle(fontSize: 45.0)),
-                  ),
-                ),
                 Row(
-                  children: <Widget>[],
+                  children: <Widget>[
+                    IconButton(
+                      iconSize: 35,
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Constants.paleBlue,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.pop(context);
+                        });
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        "Liked",
+                        style: (TextStyle(fontSize: 45.0)),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    children: List.generate(
-                        1,
-                        (index) => Container(
-                            child: buildFrameToDisplay(
-                                0))), //change to document.snapshot length
-                  ),
+                FutureBuilder(
+                  future: futList,
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.hasData == null ||
+                        snapshot.data == null) {
+                      //print('project snapshot data is: ${projectSnap.data}');
+                      return Center(
+                        child:
+                            Text('Loading...', style: TextStyle(fontSize: 50)),
+                      );
+                    } else {
+                      print('building frames');
+                      return Expanded(
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          children: List.generate(
+                              10,
+                              (index) => Container(
+                                  child: buildFrameToDisplay(
+                                      index))), //change to document.snapshot length
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
-            imagePressed ? Container() : Container(), //
+            imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
           ],
         ),
       ),
@@ -115,45 +139,52 @@ class _LikedScreenState extends State<LikedScreen> {
   }
 
   Widget buildFrameToDisplay(int index) {
-    String Imgurl = ImgsMap.keys.toList()[index];
-    String ImgId = ImgsMap.values.toList()[index];
-    Frame_Widget frameWidget =
-        new Frame_Widget(frame: Frame(imgurl: Imgurl, imgID: ImgId));
-    return GestureDetector(
-      onLongPress: () {
-        print("longpress");
-        //show pop up image
-        setState(() {
-          imagePressed = true;
-          imageNoPressed = index;
-        });
-        print(index);
-      },
-      onLongPressUp: () {
-        //set state of longPressed to false
-        setState(() {
-          imagePressed = false;
-        });
-      },
-      child: frameWidget,
-    );
+    try {
+      print(frameList);
+      Frame_Widget frameWidget = new Frame_Widget(
+        frame: frameList[index],
+        isLiked: true,
+      );
+      return GestureDetector(
+        onLongPress: () {
+          print("longpress");
+          //show pop up image
+          setState(() {
+            imagePressed = true;
+            imageNoPressed = index;
+          });
+          print(index);
+        },
+        onLongPressUp: () {
+          //set state of longPressed to false
+          setState(() {
+            imagePressed = false;
+          });
+        },
+        child: frameWidget,
+      );
+    } catch (e) {
+      print('error in building screen is');
+      //  tryFrame();
+      print(e);
+    }
   }
 
-//  Widget buildPopUpImage(int index) {
-//    return Container(
-//      alignment: Alignment.center,
-//      child: Stack(
-//        children: <Widget>[
-//          Container(
-//            decoration: BoxDecoration(
-//              color: Colors.white,
-//            ),
-//            child: ClipRRect(
-//                borderRadius: BorderRadius.circular(25),
-//                child: Image.network(ImgsMap.keys.toList()[index])),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
+  Widget buildPopUpImage(int index) {
+    return Container(
+      alignment: Alignment.center,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.network(frameList[index].imgurl)),
+          ),
+        ],
+      ),
+    );
+  }
 }
