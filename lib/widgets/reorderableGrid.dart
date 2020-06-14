@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'dart:typed_data';
@@ -59,14 +60,18 @@ class _ReorderableGridState extends State<ReorderableGrid> {
                           height: (MediaQuery.of(context).size.width / 3.05),
                           width: (MediaQuery.of(context).size.width / 3.05),
                           child: FittedBox(
-                            child: CachedNetworkImage(
-                              imageUrl: snapshot.data[index],
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                            child: PhotoView(
+//                              imageProvider: CachedNetworkImage(
+//                                imageUrl: snapshot.data[index],
+//                                progressIndicatorBuilder:
+//                                    (context, url, downloadProgress) =>
+//                                    CircularProgressIndicator(
+//                                        value: downloadProgress.progress),
+//                                errorWidget: (context, url, error) =>
+//                                    Icon(Icons.error),
+//                              ),
+                            imageProvider: NetworkImage(snapshot.data[index]),
+
                             ),
                             fit: BoxFit.fill,
                           ),
