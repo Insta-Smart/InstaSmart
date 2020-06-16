@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:instasmart/screens/create_grid_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import '../constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -26,6 +27,7 @@ class LikedScreen extends StatefulWidget {
   static const routeName = '/liked';
   @override
   _LikedScreenState createState() => _LikedScreenState();
+
 }
 
 class _LikedScreenState extends State<LikedScreen> {
@@ -37,6 +39,7 @@ class _LikedScreenState extends State<LikedScreen> {
 
   List frameList = new List();
   Future<List<Frame>> futList;
+  List frameUrls =new List();
 
   Future<List<Frame>> getUrlAndIdFromFirestore() async {
     //updates LinkdHashMap with imageurls
@@ -53,6 +56,7 @@ class _LikedScreenState extends State<LikedScreen> {
         value.documents.forEach((el) {
           print(el.documentID);
           frameList.add(Frame(imgurl: el.data['imgurl'], imgID: el.documentID));
+          frameUrls.add(el.data['imgurl']);
         });
       });
     } catch (e) {
@@ -120,10 +124,13 @@ class _LikedScreenState extends State<LikedScreen> {
                         child: GridView.count(
                           crossAxisCount: 2,
                           children: List.generate(
-                              10,
-                              (index) => Container(
-                                  child: buildFrameToDisplay(
-                                      index))), //change to document.snapshot length
+                              frameUrls.length,
+                              (index) => Hero(
+                                tag: index,
+                                child: Container(
+                                    child: buildFrameToDisplay(
+                                        index)),
+                              )), //change to document.snapshot length
                         ),
                       );
                     }
@@ -146,6 +153,14 @@ class _LikedScreenState extends State<LikedScreen> {
         isLiked: true,
       );
       return GestureDetector(
+          onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreateScreen(frameUrls[index], index),
+                )
+            );
+          },
         onLongPress: () {
           print("longpress");
           //show pop up image
@@ -181,7 +196,7 @@ class _LikedScreenState extends State<LikedScreen> {
             ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.network(frameList[index].imgurl)),
+                child: CachedNetworkImage(imageUrl:frameList[index].imgurl)),
           ),
         ],
       ),
