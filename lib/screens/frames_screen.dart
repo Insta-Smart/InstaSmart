@@ -11,6 +11,7 @@ import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import '../constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:instasmart/screens/create_grid_screen.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
@@ -67,6 +68,7 @@ class _FramesScreenState extends State<FramesScreen> {
   }
 
   List frameList = new List();
+  List frameUrls = new List();
   Future<List<Frame>> futList;
 
   Future<List<Frame>> getUrlAndIdFromFirestore() async {
@@ -85,6 +87,7 @@ class _FramesScreenState extends State<FramesScreen> {
             //    print(el.data['imageurl']);
             frameList
                 .add(Frame(imgurl: el.data['imageurl'], imgID: el.documentID));
+            frameUrls.add(el.data['imageurl']);
           }
           //create a map
         });
@@ -194,8 +197,11 @@ class _FramesScreenState extends State<FramesScreen> {
                           children: List.generate(
                               snapshot.data.length,
                               (index) => Container(
-                                  child: buildFrameToDisplay(
-                                      index))), //change to document.snapshot length
+                                  child: Hero(
+                                    tag: index,
+                                    child: buildFrameToDisplay(
+                                        index),
+                                  ))), //change to document.snapshot length
                         ),
                       );
                     }
@@ -217,6 +223,14 @@ class _FramesScreenState extends State<FramesScreen> {
           new Frame_Widget(frame: frameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.
       return GestureDetector(
+        onTap: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateScreen(frameUrls[index], index),
+              )
+          );
+        },
         onLongPress: () {
           print("longpress");
           //show pop up image
@@ -232,6 +246,7 @@ class _FramesScreenState extends State<FramesScreen> {
             imagePressed = false;
           });
         },
+
         child: frameWidget,
       );
     } catch (e) {
@@ -252,7 +267,7 @@ class _FramesScreenState extends State<FramesScreen> {
             ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.network(frameList[index].imgurl)),
+                child: CachedNetworkImage(imageUrl:frameList[index].imgurl)),
           ),
         ],
       ),

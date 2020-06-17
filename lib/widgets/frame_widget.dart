@@ -108,7 +108,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
         Container(
           margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(35),
             child: CachedNetworkImage(
               imageUrl: widget.frame.imgurl,
               progressIndicatorBuilder: (context, url, downloadProgress) =>

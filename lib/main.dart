@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instasmart/screens/create_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/home_screen.dart';
 import 'package:instasmart/screens/liked_screen.dart';
@@ -8,6 +7,7 @@ import 'package:instasmart/screens/overlaying_images_functions.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
 import 'package:instasmart/screens/reminder_modify_form.dart';
+import 'package:instasmart/screens/create_grid_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'models/user.dart';
@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => HomeScreen(),
           FramesScreen.routeName: (context) => FramesScreen(),
           PreviewScreen.routeName: (context) => PreviewScreen(),
-          CreateScreen.routeName: (context) => CreateScreen(),
           OverlayImagesFunctions.routeName: (context) =>
               OverlayImagesFunctions(),
           CalendarScreen.routeName: (context) => CalendarScreen(),
