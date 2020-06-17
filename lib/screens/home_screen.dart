@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
-import 'package:instasmart/screens/create_screen.dart';
+import 'package:instasmart/screens/create_grid_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/screens/login_screen.dart';
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CalendarScreen(),
             ),
             Expanded(
-              child: CreateScreen(),
+              child: Container(),
             ),
           ],
         ),
