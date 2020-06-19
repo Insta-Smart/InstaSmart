@@ -1,21 +1,21 @@
 import 'dart:typed_data';
-import 'package:image/image.dart' as imgpkg;
+import 'package:image/image.dart' as imglib;
 
 List<Uint8List> splitImage(
     {List<int> imgBytes, int verticalPieceCount, int horizontalPieceCount}) {
   // convert the input image into a image from the image package
-  imgpkg.Image image = imgpkg.decodeImage(imgBytes);
+  imglib.Image image = imglib.decodeImage(imgBytes);
   final int width = (image.width / horizontalPieceCount).floor();
   final int height = (image.height / verticalPieceCount).floor();
   int x = 0;
   int y = 0;
-  List<imgpkg.Image> imgPieces = List<imgpkg.Image>();
+  List<imglib.Image> imgPieces = List<imglib.Image>();
 
   //Split the image into the required pieces
   for (int i = 0; i < verticalPieceCount; i++) {
     for (int j = 0; j < horizontalPieceCount; j++) {
       imgPieces.add(
-        imgpkg.copyCrop(image, x, y, width, height),
+        imglib.copyCrop(image, x, y, width, height),
       );
       x += width;
     }
@@ -26,7 +26,7 @@ List<Uint8List> splitImage(
   //Convert image from image package to a flutter image (byteData)
   List<Uint8List> outputImages = List<Uint8List>();
   for (var img in imgPieces) {
-    outputImages.add(imgpkg.encodePng(img));
+    outputImages.add(imglib.encodePng(img));
   }
   return outputImages;
 }

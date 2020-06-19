@@ -12,6 +12,7 @@ import 'reminder_create_form.dart';
 import 'package:instasmart/widgets/reorderableGrid.dart';
 
 
+
 class PreviewScreen extends StatefulWidget {
   static const routeName = '/preview';
   @override
@@ -46,7 +47,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
         ),
       );
       await firebaseStorage
-          .uploadImage(assets: resultList)
+          .uploadAssetImage(assets: resultList)
           .then((imageUrls) => firebaseStorage.mergeImageUrls(imageUrls));
     } on Exception catch (e) {
       print(e.toString());

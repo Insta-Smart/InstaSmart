@@ -56,21 +56,21 @@ class FirebaseImageStorage {
   Future<List> getImageUrls() async {
     //updates listofurls with imageurls
     try {
-      var imageUrls;
+      List imageUrls;
       User user = await firebase.currentUser();
       await db.collection("Users").document(user.uid).get().then((doc) =>
       {
         imageUrls = doc['user_images']
       });
-      return imageUrls;
+      return imageUrls.reversed.toList();
     }
     catch(e){
       print(e.toString());
     }
   }
 
-  Future<List> uploadImage({@required List<Asset> assets}) async {
-    List uploadUrls = [];
+  Future<List> uploadAssetImage({@required List<Asset> assets}) async {
+    List uploadUrls = List(assets.length);
     User user = await firebase.currentUser();
 
     await Future.wait(
@@ -88,9 +88,41 @@ class FirebaseImageStorage {
             storageTaskSnapshot = snapshot;
             final String downloadUrl =
                 await storageTaskSnapshot.ref.getDownloadURL();
-            uploadUrls.add(downloadUrl);
+            uploadUrls[assets.indexOf(asset)]=downloadUrl;
 
             print('Upload success');
+          } else {
+            print('Error from image repo ${snapshot.error.toString()}');
+            throw ('This file is not an image');
+          }
+        }),
+        eagerError: true,
+        cleanUp: (_) {
+          print('eager cleaned up');
+        });
+    return uploadUrls;
+  }
+
+  Future<List> uploadByteImage({@required List<Uint8List> images}) async {
+    List uploadUrls = List(images.length);
+    User user = await firebase.currentUser();
+
+    await Future.wait(
+        images.map((Uint8List imageData) async {
+
+          StorageReference reference =
+          _reference.child("Preview_Images/${user.uid}/${DateTime.now()}");
+          StorageUploadTask uploadTask = reference.putData(imageData);
+          StorageTaskSnapshot storageTaskSnapshot;
+
+          StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+          if (snapshot.error == null) {
+            storageTaskSnapshot = snapshot;
+            final String downloadUrl =
+            await storageTaskSnapshot.ref.getDownloadURL();
+            uploadUrls[images.indexOf(imageData)]=downloadUrl;
+
+            print('Upload success${images.indexOf(imageData)}');
           } else {
             print('Error from image repo ${snapshot.error.toString()}');
             throw ('This file is not an image');
@@ -109,7 +141,27 @@ class FirebaseImageStorage {
     imageUrls.forEach((element) {tempList.add(element);});
     var removed = tempList.removeAt(oldIndex);
     tempList.insert(newIndex, removed);
-    await setImageUrls(tempList);
+    await setImageUrls(tempList.reversed.toList());
+
+  }
+
+  Future<void> deleteImages(List imageUrls) async{
+    try {
+      User user = await firebase.currentUser();
+      await db.collection("Users").document(user.uid).updateData({
+        'user_images': FieldValue.arrayRemove(imageUrls)
+      });
+      var instance =FirebaseStorage.instance;
+      imageUrls.forEach((url) async{
+        instance.getReferenceFromUrl(url).then((value) async{
+          await value.delete();
+        });
+      });
+
+
+    } catch (e) {
+      print(e.toString());
+    }
 
   }
 

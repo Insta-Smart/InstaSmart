@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/liking_functions.dart';
@@ -104,69 +105,69 @@ class _Frame_WidgetState extends State<Frame_Widget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(35),
-            child: CachedNetworkImage(
-              imageUrl: widget.frame.imgurl,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(35),
+              child: CachedNetworkImage(
+                imageUrl: widget.frame.imgurl,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
-          ),
 //          ClipRRect(
 //              borderRadius: BorderRadius.circular(25),
 //              child: Image.network(widget.frame.imgurl)),
-        ),
-        IconButton(
-          //Like Button
-          alignment: Alignment(-9, -13),
-          icon: Icon(
-            Icons.favorite,
-            size: 30,
-            color: liked ? Constants.palePink : Colors.grey,
           ),
-          tooltip: 'Like frame to save it.',
-          onPressed: () {
-            setState(() {
-              liked = !liked;
-              print("liked status is: ${liked}");
-              //increment popularity of this image, identified by imgurl
-              liked ? _numLikes++ : _numLikes--; //update _numLikes
-            });
-
-            LikingFunctions().updateLikes(widget.frame.imgID, liked);
-
-            //if liked is true --> add image to user collection.
-            // if liked is false --> REMOVE image from collection
-            liked
-                ? LikingFunctions()
-                    .addImgToLiked(widget.frame.imgID, widget.frame.imgurl)
-                : LikingFunctions().delImgFromLiked(widget.frame.imgID);
-          },
-        ),
-        Container(
-          child: Container(
-            color: Colors.white60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.favorite,
-                  color: Constants.palePink,
-                  size: 15,
-                ),
-                Text('${_numLikes}',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              ],
+          IconButton(
+            //Like Button
+            alignment: Alignment(-9, -13),
+            icon: Icon(
+              Icons.favorite,
+              size: 30,
+              color: liked ? Constants.palePink : Colors.grey,
             ),
+            tooltip: 'Like frame to save it.',
+            onPressed: () {
+              setState(() {
+                liked = !liked;
+                print("liked status is: ${liked}");
+                //increment popularity of this image, identified by imgurl
+                liked ? _numLikes++ : _numLikes--; //update _numLikes
+              });
+
+              LikingFunctions().updateLikes(widget.frame.imgID, liked);
+
+              //if liked is true --> add image to user collection.
+              // if liked is false --> REMOVE image from collection
+              liked
+                  ? LikingFunctions()
+                      .addImgToLiked(widget.frame.imgID, widget.frame.imgurl)
+                  : LikingFunctions().delImgFromLiked(widget.frame.imgID);
+            },
           ),
-          alignment: Alignment(0, 0.8),
-        ),
-      ],
-    );
+          Container(
+            child: Container(
+              color: Colors.white60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.favorite,
+                    color: Constants.palePink,
+                    size: 15,
+                  ),
+                  Text('${_numLikes}',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                ],
+              ),
+            ),
+            alignment: Alignment(0, 0.8),
+          ),
+        ],
+      );
   }
 }
