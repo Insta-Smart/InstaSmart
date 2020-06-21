@@ -7,6 +7,7 @@ import 'package:zoom_widget/zoom_widget.dart';
 import 'package:instasmart/models/widget_to_image.dart';
 import 'package:instasmart/models/splitImage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
@@ -37,12 +38,12 @@ class _CreateScreenState extends State<CreateScreen> {
           child: Zoom(
             colorScrollBars: Colors.transparent,
             initZoom: 0.0,
-            width: 300,
-            height: 300,
+            width: 200,
+            height: 200,
             child: AssetThumb(
               asset: asset,
-              width: 300,
-              height: 300,
+              width: 200,
+              height: 200,
             ),
           ),
         );

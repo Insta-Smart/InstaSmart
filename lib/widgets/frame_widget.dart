@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/liking_functions.dart';
@@ -96,7 +97,6 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                   CircularProgressIndicator(value: downloadProgress.progress),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-          ),
 //          ClipRRect(
 //              borderRadius: BorderRadius.circular(25),
 //              child: Image.network(widget.frame.imgurl)),
@@ -152,12 +152,12 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20)),
               ],
+
             ),
+            alignment: Alignment(0, 0.8),
           ),
-          alignment: Alignment(0, 0.8),
-        ),
-      ],
-    );
+        ],
+      );
   }
 }
 

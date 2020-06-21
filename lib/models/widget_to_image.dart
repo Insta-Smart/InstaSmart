@@ -7,10 +7,10 @@ Future<Uint8List> captureWidgetImage(GlobalKey key) async {
   try {
     print('inside');
     RenderRepaintBoundary boundary = key.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+    ui.Image image = await boundary.toImage(pixelRatio: 4.0);
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     List pngBytes = byteData.buffer.asUint8List();
-    print("png est fini");
+    print("converted image to widget");
     return pngBytes;
   } catch (e) {
     print(e.toString());
