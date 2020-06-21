@@ -59,34 +59,18 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     });
   }
 
-//  bool setInitLikedStat() {
-//    bool liked;
-//    if (widget.isLiked == null) {
-//      LikingFunctions().getInitLikedStat(widget.frame.imgID).then((value) {
-//        print('value is ');
-//        print(value);
-//        liked = value;
-//      });
-//    } else {
-//      liked = widget.isLiked;
-//    }
-//    return liked;
-//  }
-
   @override
   void initState() {
-    //TODO: put future here
     liked = false;
-
     super.initState();
     if (!widget.isLiked) {
-      //TODO: this is returning null???
-      // liked = LikingFunctions().getInitLikedStat(widget.frame.imgID);
       LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
         print('value of initlikedstate is: ${value}');
-        setState(() {
-          liked = value;
-        });
+        if (mounted) {
+          setState(() {
+            liked = value;
+          });
+        }
       });
       print('final liked is ${liked}');
     } else {
@@ -96,9 +80,6 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     }
     setNumLikes();
     print('outcome of setinitlikedstate:');
-
-//    print('outcome of setinitlikedstate:');
-//    print(LikingFunctions().getInitLikedStat(widget.frame.imgID));
   }
 
   @override
@@ -106,9 +87,9 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     return Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.fromLTRB(4, 0, 4, 0),
+          margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(35),
+            borderRadius: BorderRadius.circular(15),
             child: CachedNetworkImage(
               imageUrl: widget.frame.imgurl,
               progressIndicatorBuilder: (context, url, downloadProgress) =>
@@ -120,32 +101,39 @@ class _Frame_WidgetState extends State<Frame_Widget> {
 //              borderRadius: BorderRadius.circular(25),
 //              child: Image.network(widget.frame.imgurl)),
         ),
-        IconButton(
-          //Like Button
-          alignment: Alignment(-9, -13),
-          icon: Icon(
-            Icons.favorite,
-            size: 30,
-            color: liked ? Constants.palePink : Colors.grey,
+        Material(
+          type: MaterialType.transparency,
+          color: Colors.white,
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              //Like Button
+              alignment: Alignment(-6, -13),
+              icon: Icon(
+                Icons.favorite,
+                size: 30,
+                color: liked ? Constants.palePink : Colors.grey,
+              ),
+              tooltip: 'Like frame to save it.',
+              onPressed: () {
+                setState(() {
+                  liked = !liked;
+                  print("liked status is: ${liked}");
+                  //increment popularity of this image, identified by imgurl
+                  liked ? _numLikes++ : _numLikes--; //update _numLikes
+                });
+
+                LikingFunctions().updateLikes(widget.frame.imgID, liked);
+
+                //if liked is true --> add image to user collection.
+                // if liked is false --> REMOVE image from collection
+                liked
+                    ? LikingFunctions()
+                        .addImgToLiked(widget.frame.imgID, widget.frame.imgurl)
+                    : LikingFunctions().delImgFromLiked(widget.frame.imgID);
+              },
+            ),
           ),
-          tooltip: 'Like frame to save it.',
-          onPressed: () {
-            setState(() {
-              liked = !liked;
-              print("liked status is: ${liked}");
-              //increment popularity of this image, identified by imgurl
-              liked ? _numLikes++ : _numLikes--; //update _numLikes
-            });
-
-            LikingFunctions().updateLikes(widget.frame.imgID, liked);
-
-            //if liked is true --> add image to user collection.
-            // if liked is false --> REMOVE image from collection
-            liked
-                ? LikingFunctions()
-                    .addImgToLiked(widget.frame.imgID, widget.frame.imgurl)
-                : LikingFunctions().delImgFromLiked(widget.frame.imgID);
-          },
         ),
         Container(
           child: Container(
@@ -158,9 +146,11 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                   color: Constants.palePink,
                   size: 15,
                 ),
-                Text('${_numLikes}',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                _numLikes == null
+                    ? Container()
+                    : Text('${_numLikes}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20)),
               ],
             ),
           ),
@@ -170,3 +160,5 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     );
   }
 }
+
+//TODO: add categories - minimalist, floral, food, landscape, youthful

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:instasmart/models/frame.dart';
 import '../screens/home_screen.dart';
 
 //This file has sample functions to
@@ -25,12 +26,13 @@ class _FramesScreenFunctionsState extends State<FramesScreenFunctions> {
   File _imageFile; //image state variable
   bool _uploaded;
   // StorageReference _reference = FirebaseStorage.instance.ref("AllFrames").child("AllFrames").child("testImage.jpg");
-  StorageReference _reference =
-      FirebaseStorage.instance.ref().child("AllFrames");
   final _firestore = Firestore.instance;
   String _downloadurl;
-  //method to pick images from camera or gallery
+  StorageReference _reference =
+      FirebaseStorage.instance.ref().child("FramesPNG");
+  final collectionRef = Firestore.instance.collection('allframespngurl');
 
+  //method to pick images from camera or gallery
   Future getImage(bool isCamera) async {
     //determine whether image from camera or gallery
     File image;
@@ -85,89 +87,48 @@ class _FramesScreenFunctionsState extends State<FramesScreenFunctions> {
         .add({'imageurl': _downloadurl, 'popularity': 0});
   }
 
-  void getUrlFromFirestore() async {
-    final allframesurl =
-        await _firestore.collection('allframesurl').getDocuments();
-    // allframesurl.documents --> returns a list of all items in firestore
-    for (var el in allframesurl.documents) {
-      print(el.data);
-    }
+  Future<List<Frame>> getUrlAndIdFromFirestore(String val) async {
+    //updates LinkdHashMap with imageurls
+    List<Frame> frameList = new List<Frame>();
+    await collectionRef
+        .orderBy("popularity", descending: true)
+        .where('category', isEqualTo: val)
+        .getDocuments()
+        .then((value) {
+      value.documents.forEach((el) {
+        print(el.data);
+        setState(() {
+          if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
+            print("null url");
+          } else {
+            //    print(el.data['imageurl']);
+            frameList
+                .add(Frame(imgurl: el.data['imageurl'], imgID: el.documentID));
+          }
+          //create a map
+        });
+      });
+    });
+    return frameList;
+  }
+
+  //RETURNS IMGID IN ALLFRAMESPNGURL BY USING IMGURL
+  //CREATES A FRAME MODEL ALSO
+  //TODO:DONT DELETE THIS
+  Future<String> getFrameID(String imgurl) async {
+    String imgID;
+    var result =
+        await collectionRef.where("imageurl", isEqualTo: imgurl).getDocuments();
+    result.documents.forEach((res) {
+      imgID = res.documentID;
+    });
+    print('imgID is ${imgID}');
+    // frame = Frame(imgurl: widget.imgurl, imgID: imgID);
+    return imgID;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Text("test changed branch"),
-            FlatButton(
-              child: Text('Camera'),
-              onPressed: () {
-                getImage(true);
-              },
-            ),
-            SizedBox(height: 10),
-            FlatButton(
-              child: Text('Gallery'),
-              onPressed: () {
-                getImage(false);
-              },
-            ),
-            _imageFile == null
-                ? Container(color: Colors.blue)
-                : Expanded(child: Image.file(_imageFile)),
-            FlatButton(
-              child: Text('Go to Home'),
-              onPressed: () {
-                Navigator.pushNamed(context, HomeScreen.routeName);
-              },
-            ),
-            _imageFile == null
-                ? Container()
-                : RaisedButton(
-                    child: Text('Upload to Storage'),
-                    onPressed: () {
-                      uploadImage("test_uploadName");
-                    },
-                  ), //display image else nothing
-            _uploaded == true
-                ? RaisedButton(
-                    child: Text("Download Image"),
-                    onPressed: () {
-                      setDownloadUrl(1);
-                    })
-                : Container(),
-//            _downloadurl == null
-//                ? Container()
-//                : Expanded(child: Image.network(_downloadurl)),
-            FlatButton(
-              child: Text('Send Image URL to firestore'),
-              onPressed: () {
-                uploadImagetoFirestore(1);
-              },
-            ),
-            FlatButton(
-              child: Text("show all frames"),
-              onPressed: () {
-                for (int i = 0; i < 3; i++) {
-                  setDownloadUrl(i);
-                  // TODO: first, just try showing one image using the indexing method. WORKS
-                  //TODO: implement a grid function that creates a grid
-                  //TODO: put each image into the grid and display
-                  //TODO: each user should have an image url attribute --> image that he picked to implement
-                }
-              },
-            ),
-            RaisedButton(
-              child: Text("get image from firestore"),
-              onPressed: () {
-                getUrlFromFirestore();
-              },
-            )
-          ],
-        ),
-      ),
-    );
+    return Container();
   }
 }

@@ -100,7 +100,8 @@ class _CreateScreenState extends State<CreateScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                height: SizeConfig.blockSizeVertical * 60,
+                height: SizeConfig.screenWidth,
+                //height: SizeConfig.blockSizeVertical * 60,
                 child: RepaintBoundary(
                   key: _globalKey,
                   child: Stack(
