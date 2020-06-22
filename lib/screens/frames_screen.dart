@@ -169,7 +169,7 @@ class _FramesScreenState extends State<FramesScreen> {
                   ],
                 ),
               ),
-              Expanded(
+              Container(
 //                  padding: EdgeInsets.fromLTRB(
 //                      0, SizeConfig.blockSizeVertical * 3, 0, 0),
 //                  height: SizeConfig.blockSizeVertical * 75,
@@ -186,7 +186,8 @@ class _FramesScreenState extends State<FramesScreen> {
                       );
                     } else {
                       print('building frames');
-                      return Expanded(
+                      return Container(
+                        height: 500,
                         child: GridView.count(
                             crossAxisCount: 3,
                             children: List.generate(
