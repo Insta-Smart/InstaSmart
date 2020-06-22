@@ -1,30 +1,23 @@
-import 'dart:collection';
-
+import 'package:flutter/cupertino.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/frame.dart';
-import 'package:instasmart/screens/calendar_screen.dart';
+import 'package:instasmart/models/frames_firebase_functions.dart';
+import 'package:instasmart/models/size_config.dart';
 import 'package:instasmart/screens/liked_screen.dart';
-import 'package:instasmart/screens/preview_screen.dart';
+import 'package:instasmart/widgets/frame_widget.dart';
+import '../categories.dart';
 import '../constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instasmart/screens/create_grid_screen.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
-
-import 'package:instasmart/widgets/frame_widget.dart';
-import '../constants.dart';
-import '../main.dart';
-
-//https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
-//TODO: use Snapshot to get data length
-
+//TODO: add category as param in frame.dart
+//filter list base on that
+// https://github.com/Ephenodrom/Flutter-Advanced-Examples/tree/master/lib/examples/filterList
 class FramesScreen extends StatefulWidget {
   static const routeName = '/frames';
   @override
@@ -32,13 +25,13 @@ class FramesScreen extends StatefulWidget {
 }
 
 class _FramesScreenState extends State<FramesScreen> {
-  // StorageReference _reference = FirebaseStorage.instance.ref("AllFrames").child("AllFrames").child("testImage.jpg");
   StorageReference _reference =
       FirebaseStorage.instance.ref().child("FramesPNG");
   String _downloadurl;
   bool imagePressed = false;
   int imageNoPressed;
   final collectionRef = Firestore.instance.collection('allframespngurl');
+  String selectedCat = Categories.all;
 
   Future setDownloadUrl(int index) async {
     //downloads image from storage, based on index [files named as sample_index
@@ -67,107 +60,104 @@ class _FramesScreenState extends State<FramesScreen> {
     }
   }
 
-  List frameList = new List();
-  List frameUrls = new List();
+  List frameList = new List(); //initial list, not to be changed
+  List<Frame> filteredFrameList = new List<Frame>(); //filtered list
+
   Future<List<Frame>> futList;
-
-  Future<List<Frame>> getUrlAndIdFromFirestore() async {
-    //updates LinkdHashMap with imageurls
-    frameList = new List<Frame>();
-    await collectionRef
-        .orderBy("popularity", descending: true)
-        .getDocuments()
-        .then((value) {
-      value.documents.forEach((el) {
-        print(el.data);
-        setState(() {
-          if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
-            print("null url");
-          } else {
-            //    print(el.data['imageurl']);
-            frameList
-                .add(Frame(imgurl: el.data['imageurl'], imgID: el.documentID));
-            frameUrls.add(el.data['imageurl']);
-          }
-          //create a map
-        });
-      });
-    });
-
-    print('frame data:');
-    print(frameList);
-    return frameList;
-  }
-
-  //RETURNS IMGID IN ALLFRAMESPNGURL BY USING IMGURL
-  //CREATES A FRAME MODEL ALSO
-  //TODO:DONT DELETE THIS
-  Future<String> getFrameID(String imgurl) async {
-    String imgID;
-    var result =
-        await collectionRef.where("imageurl", isEqualTo: imgurl).getDocuments();
-    result.documents.forEach((res) {
-      imgID = res.documentID;
-    });
-    print('imgID is ${imgID}');
-    // frame = Frame(imgurl: widget.imgurl, imgID: imgID);
-    return imgID;
-  }
 
   @override
   void initState() {
     super.initState();
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
-    futList = getUrlAndIdFromFirestore();
+    futList = FramesFirebaseFunctions().GetUrlAndIdFromFirestore(selectedCat);
+    FramesFirebaseFunctions()
+        .GetUrlAndIdFromFirestore(selectedCat)
+        .then((value) {
+      setState(() {
+        frameList = value;
+        filteredFrameList = frameList;
+      });
+    });
     imagePressed = false;
   }
 
   @override
   Widget build(BuildContext context) {
+    //  SizeConfig().init(context);
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text(
-                    "Frames",
-                    style: (TextStyle(fontSize: 45.0)),
-                  ),
-                ),
-                Row(
+      appBar: PageTopBar(
+        title: 'Frames',
+        appBar: AppBar(),
+      ),
+      body: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    0,
+                    3,
+                    // SizeConfig.blockSizeVertical * 3,
+                    0,
+                    3),
+                // SizeConfig.blockSizeVertical * 2),
+                height: 100,
+                //SizeConfig.blockSizeVertical * 20,
+                child: Row(
                   children: <Widget>[
                     Container(
-                      //Search Button
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(width: 10),
-                          Icon(Icons.search, color: Colors.white),
-                          Text(
-                            "Search Aesthetics",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      width: 200,
-                      height: 45,
-                      margin: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Constants.buttonRadius),
-                        color: Constants.paleBlue,
-                      ),
-                    ),
-                    Expanded(
+                        width: 350,
+                        //SizeConfig.blockSizeHorizontal * 90,
+                        padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                        //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
+                        child: Wrap(
+                          spacing: 2,
+                          runSpacing: 3,
+                          children: List.generate(
+                              Categories.catNamesList.length, (index) {
+                            return new CategoryButton(
+                              catName: Categories.catNamesList[index],
+                              selectedCat: selectedCat,
+                              ontap: () => setState(() {
+                                selectedCat = Categories.catNamesList[index];
+                                filteredFrameList = FramesFirebaseFunctions()
+                                    .filterFrames(selectedCat, frameList);
+                                // updateFramesList();
+//                              print("selectedcat is: ${selectedCat}");
+//                              print('new framelist is: ${filteredFrameList}');
+                              }),
+                            );
+                          }),
+                        )
+                        //DONT DELETE
+//                        ListVinheritFromWidgetOfExactTypeiew.builder(
+//                          scrollDirection: Axis.horizontal,
+//                          itemCount: Categories.catNamesList.length,
+//                          itemBuilder: (BuildContext context, int index) =>
+//                              new CategoryButton(
+//                            catName: Categories.catNamesList[index],
+//                            selectedCat: selectedCat,
+//                            ontap: () => setState(() {
+//                              selectedCat = Categories.catNamesList[index];
+//                              filteredFrameList = FramesFirebaseFunctions()
+//                                  .filterFrames(selectedCat, frameList);
+//                              // updateFramesList();
+////                              print("selectedcat is: ${selectedCat}");
+////                              print('new framelist is: ${filteredFrameList}');
+//                            }),
+//                          ),
+//                        ),
+                        ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      width: 30,
                       child: IconButton(
                         //Like Button
                         alignment: Alignment.centerRight,
-                        iconSize: 1,
+                        iconSize: 2,
                         icon: Icon(Icons.favorite_border,
                             size: 30, color: Constants.paleBlue),
                         tooltip: 'Click to see liked frames.',
@@ -178,7 +168,12 @@ class _FramesScreenState extends State<FramesScreen> {
                     ),
                   ],
                 ),
-                FutureBuilder(
+              ),
+              Container(
+//                  padding: EdgeInsets.fromLTRB(
+//                      0, SizeConfig.blockSizeVertical * 3, 0, 0),
+//                  height: SizeConfig.blockSizeVertical * 75,
+                child: FutureBuilder(
                   future: futList,
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.none ||
@@ -191,45 +186,46 @@ class _FramesScreenState extends State<FramesScreen> {
                       );
                     } else {
                       print('building frames');
-                      return Expanded(
+                      return Container(
+                        height: 500,
                         child: GridView.count(
-                          crossAxisCount: 2,
-                          children: List.generate(
-                              snapshot.data.length,
-                              (index) => Container(
-                                  child: Hero(
-                                    tag: index,
-                                    child: buildFrameToDisplay(
-                                        index),
-                                  ))), //change to document.snapshot length
-                        ),
+                            crossAxisCount: 3,
+                            children: List.generate(
+                                snapshot.data.length,
+                                (index) => Container(
+                                      //child: Hero(
+                                      //tag: index,
+                                      child: buildFrameToDisplay(index),
+                                    ))
+                            //), //change to document.snapshot length
+                            ),
                       );
                     }
                   },
                 ),
-              ],
-            ),
-            imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
-          ],
-        ),
+              ),
+            ],
+          ),
+          imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
+        ],
       ),
     );
   }
 
   Widget buildFrameToDisplay(int index) {
     try {
-      print(frameList);
+      print("filteredframelist is");
       Frame_Widget frameWidget =
-          new Frame_Widget(frame: frameList[index], isLiked: false);
+          new Frame_Widget(frame: filteredFrameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.
       return GestureDetector(
-        onTap: (){
+        onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateScreen(frameUrls[index], index),
-              )
-          );
+                builder: (context) =>
+                    CreateScreen(filteredFrameList[index].imgurl, index),
+              ));
         },
         onLongPress: () {
           print("longpress");
@@ -246,7 +242,6 @@ class _FramesScreenState extends State<FramesScreen> {
             imagePressed = false;
           });
         },
-
         child: frameWidget,
       );
     } catch (e) {
@@ -267,10 +262,68 @@ class _FramesScreenState extends State<FramesScreen> {
             ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: CachedNetworkImage(imageUrl:frameList[index].imgurl)),
+                child: CachedNetworkImage(
+                    imageUrl: filteredFrameList[index].imgurl)),
           ),
         ],
       ),
     );
   }
+}
+
+class CategoryButton extends StatefulWidget {
+  final String catName;
+  final Function ontap;
+  final String selectedCat;
+
+  const CategoryButton(
+      {Key key,
+      @required this.catName,
+      @required this.ontap,
+      @required this.selectedCat})
+      : super(key: key);
+
+  @override
+  _CategoryButtonState createState() => _CategoryButtonState();
+}
+
+class _CategoryButtonState extends State<CategoryButton> {
+  bool isPressed = false;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: FlatButton(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        child: Text("#" + widget.catName,
+            style: TextStyle(color: Colors.white, fontSize: 20)),
+        color: Constants.paleBlue,
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15)),
+        onPressed: widget.ontap,
+        //function to change selectedVar goes here
+      ),
+    );
+  }
+}
+
+class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final AppBar appBar;
+  final List<Widget> widgets;
+
+  /// you can add more fields that meet your needs
+
+  const PageTopBar({Key key, this.title, this.appBar, this.widgets})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(title),
+      actions: widgets,
+    );
+  }
+
+  @override
+  Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
 }

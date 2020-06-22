@@ -35,17 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("InstaSmart"),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                FirebaseFunctions().signOut().then((value) =>
-                    Navigator.pushNamed(context, LoginScreen.routeName));
-              })
-        ],
-      ),
+//      appBar: AppBar(
+//        title: Text("InstaSmart"),
+//        actions: <Widget>[
+////          IconButton(
+////              icon: Icon(Icons.exit_to_app),
+////              onPressed: () {
+////                FirebaseFunctions().signOut().then((value) =>
+////                    Navigator.pushNamed(context, LoginScreen.routeName));
+////              })
+//        ],
+//      ),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CalendarScreen(),
             ),
             Expanded(
-              child: Container(),
+              child: LoginScreen(),
             ),
           ],
         ),
@@ -87,7 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
-
             title: Text('Reminders', style: TextStyle(color: Colors.white)),
             icon: Icon(Icons.access_time, color: Colors.white),
             activeColor: Constants.darkPurple,
@@ -95,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavyBarItem(
             title: Text('Create', style: TextStyle(color: Colors.white)),
             icon: Icon(
-              Icons.create,
+              Icons.account_circle,
               color: Colors.white,
             ),
             activeColor: Constants.darkPurple,

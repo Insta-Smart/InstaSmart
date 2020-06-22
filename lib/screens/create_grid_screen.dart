@@ -102,6 +102,7 @@ class _CreateScreenState extends State<CreateScreen> {
             children: <Widget>[
               Container(
                 height: SizeConfig.screenWidth,
+                //height: SizeConfig.blockSizeVertical * 60,
                 child: RepaintBoundary(
                   key: _globalKey,
                   child: Stack(

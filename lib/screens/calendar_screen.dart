@@ -16,7 +16,7 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen>
     with TickerProviderStateMixin {
-  Map<DateTime, List> _events={};
+  Map<DateTime, List> _events = {};
   List _selectedEvents = [];
   DateTime currTime = DateTime.now();
   AnimationController _animationController;
@@ -63,58 +63,61 @@ class _CalendarScreenState extends State<CalendarScreen>
   @override
   Widget build(BuildContext context) {
     final firebase = Provider.of<FirebaseFunctions>(context);
-    return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
-            .collection('Users/${firebase.currUser.uid}/reminders')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return _buildTableCalendar();
-          } else {
-            return Scaffold(
-              body: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  FutureBuilder<List<Reminder>>(
-                      future: ReminderData().getAllReminders(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<Reminder>> snapshot) {
-                        if (!snapshot.hasData) {
-                          return _buildTableCalendar();
-                        } else {
-                          _events = {};
-                          for (var reminder in snapshot.data) {
-                            int day = reminder.postTime.day;
-                            int month = reminder.postTime.month;
-                            int year = reminder.postTime.year;
-                            try {
-                              _events[DateTime(year, month, day)].add(reminder);
-                            } catch (e) {
-                              _events[DateTime(year, month, day)] = [];
-                              _events[DateTime(year, month, day)].add(reminder);
+    return SafeArea(
+      child: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance
+              .collection('Users/${firebase.currUser.uid}/reminders')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return _buildTableCalendar();
+            } else {
+              return Scaffold(
+                body: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    FutureBuilder<List<Reminder>>(
+                        future: ReminderData().getAllReminders(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Reminder>> snapshot) {
+                          if (!snapshot.hasData) {
+                            return _buildTableCalendar();
+                          } else {
+                            _events = {};
+                            for (var reminder in snapshot.data) {
+                              int day = reminder.postTime.day;
+                              int month = reminder.postTime.month;
+                              int year = reminder.postTime.year;
+                              try {
+                                _events[DateTime(year, month, day)]
+                                    .add(reminder);
+                              } catch (e) {
+                                _events[DateTime(year, month, day)] = [];
+                                _events[DateTime(year, month, day)]
+                                    .add(reminder);
+                              }
                             }
+                            return Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                _buildTableCalendar(),
+                              ],
+                            );
                           }
-                          return Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              _buildTableCalendar(),
-                            ],
-                          );
-                        }
-                      }),
-                  const SizedBox(height: 16.0),
-
-                  FutureBuilder(
-                      future: ReminderData().getAllReminders(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<Reminder>> snapshot) {
-                        return Expanded(child: _buildEventList());
-                      })
-                ],
-              ),
-            );
-          }
-        });
+                        }),
+                    const SizedBox(height: 16.0),
+                    FutureBuilder(
+                        future: ReminderData().getAllReminders(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Reminder>> snapshot) {
+                          return Expanded(child: _buildEventList());
+                        })
+                  ],
+                ),
+              );
+            }
+          }),
+    );
   }
 
   // Simple TableCalendar configuration (using Styles)
