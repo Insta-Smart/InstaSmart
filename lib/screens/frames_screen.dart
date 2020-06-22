@@ -71,64 +71,68 @@ class _FramesScreenState extends State<FramesScreen> {
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
     futList = FramesFirebaseFunctions().GetUrlAndIdFromFirestore(selectedCat);
-    futList.then((value) {
+    FramesFirebaseFunctions()
+        .GetUrlAndIdFromFirestore(selectedCat)
+        .then((value) {
       setState(() {
         frameList = value;
         filteredFrameList = frameList;
       });
     });
     imagePressed = false;
-    InheritedFramesList(list: filteredFrameList);
   }
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    //  SizeConfig().init(context);
     return Scaffold(
       appBar: PageTopBar(
         title: 'Frames',
         appBar: AppBar(),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(
-                      0,
-                      SizeConfig.blockSizeVertical * 3,
-                      0,
-                      SizeConfig.blockSizeVertical * 2),
-                  height: SizeConfig.blockSizeVertical * 20,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                          width: SizeConfig.blockSizeHorizontal * 90,
-                          padding: EdgeInsets.fromLTRB(
-                              SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
-                          child: Wrap(
-                            spacing: 2,
-                            runSpacing: 3,
-                            children: List.generate(
-                                Categories.catNamesList.length, (index) {
-                              return new CategoryButton(
-                                catName: Categories.catNamesList[index],
-                                selectedCat: selectedCat,
-                                ontap: () => setState(() {
-                                  selectedCat = Categories.catNamesList[index];
-                                  filteredFrameList = FramesFirebaseFunctions()
-                                      .filterFrames(selectedCat, frameList);
-                                  // updateFramesList();
+      body: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                    0,
+                    3,
+                    // SizeConfig.blockSizeVertical * 3,
+                    0,
+                    3),
+                // SizeConfig.blockSizeVertical * 2),
+                height: 100,
+                //SizeConfig.blockSizeVertical * 20,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        width: 350,
+                        //SizeConfig.blockSizeHorizontal * 90,
+                        padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                        //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
+                        child: Wrap(
+                          spacing: 2,
+                          runSpacing: 3,
+                          children: List.generate(
+                              Categories.catNamesList.length, (index) {
+                            return new CategoryButton(
+                              catName: Categories.catNamesList[index],
+                              selectedCat: selectedCat,
+                              ontap: () => setState(() {
+                                selectedCat = Categories.catNamesList[index];
+                                filteredFrameList = FramesFirebaseFunctions()
+                                    .filterFrames(selectedCat, frameList);
+                                // updateFramesList();
 //                              print("selectedcat is: ${selectedCat}");
 //                              print('new framelist is: ${filteredFrameList}');
-                                }),
-                              );
-                            }),
-                          )
-                          //DONT DELETE
+                              }),
+                            );
+                          }),
+                        )
+                        //DONT DELETE
 //                        ListVinheritFromWidgetOfExactTypeiew.builder(
 //                          scrollDirection: Axis.horizontal,
 //                          itemCount: Categories.catNamesList.length,
@@ -146,64 +150,63 @@ class _FramesScreenState extends State<FramesScreen> {
 //                            }),
 //                          ),
 //                        ),
-                          ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        width: 30,
-                        child: IconButton(
-                          //Like Button
-                          alignment: Alignment.centerRight,
-                          iconSize: 2,
-                          icon: Icon(Icons.favorite_border,
-                              size: 30, color: Constants.paleBlue),
-                          tooltip: 'Click to see liked frames.',
-                          onPressed: () {
-                            Navigator.pushNamed(context, LikedScreen.routeName);
-                          },
                         ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      width: 30,
+                      child: IconButton(
+                        //Like Button
+                        alignment: Alignment.centerRight,
+                        iconSize: 2,
+                        icon: Icon(Icons.favorite_border,
+                            size: 30, color: Constants.paleBlue),
+                        tooltip: 'Click to see liked frames.',
+                        onPressed: () {
+                          Navigator.pushNamed(context, LikedScreen.routeName);
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Expanded(
+              ),
+              Expanded(
 //                  padding: EdgeInsets.fromLTRB(
 //                      0, SizeConfig.blockSizeVertical * 3, 0, 0),
 //                  height: SizeConfig.blockSizeVertical * 75,
-                  child: FutureBuilder(
-                    future: futList,
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.none ||
-                          snapshot.hasData == null ||
-                          snapshot.data == null) {
-                        //print('project snapshot data is: ${projectSnap.data}');
-                        return Center(
-                          child: Text('Loading...',
-                              style: TextStyle(fontSize: 50)),
-                        );
-                      } else {
-                        print('building frames');
-                        return Expanded(
-                          child: GridView.count(
+                child: FutureBuilder(
+                  future: futList,
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.none ||
+                        snapshot.hasData == null ||
+                        snapshot.data == null) {
+                      //print('project snapshot data is: ${projectSnap.data}');
+                      return Center(
+                        child:
+                            Text('Loading...', style: TextStyle(fontSize: 50)),
+                      );
+                    } else {
+                      print('building frames');
+                      return Expanded(
+                        child: GridView.count(
                             crossAxisCount: 3,
                             children: List.generate(
                                 snapshot.data.length,
                                 (index) => Container(
                                       //child: Hero(
-                                      //  tag: index,
+                                      //tag: index,
                                       child: buildFrameToDisplay(index),
-                                      //  )
-                                    )), //change to document.snapshot length
-                          ),
-                        );
-                      }
-                    },
-                  ),
+                                    ))
+                            //), //change to document.snapshot length
+                            ),
+                      );
+                    }
+                  },
                 ),
-              ],
-            ),
-            imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
-          ],
-        ),
+              ),
+            ],
+          ),
+          imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
+        ],
       ),
     );
   }
@@ -211,7 +214,6 @@ class _FramesScreenState extends State<FramesScreen> {
   Widget buildFrameToDisplay(int index) {
     try {
       print("filteredframelist is");
-      print(InheritedFramesList.of(context));
       Frame_Widget frameWidget =
           new Frame_Widget(frame: filteredFrameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.

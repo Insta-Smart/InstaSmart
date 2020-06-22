@@ -89,17 +89,3 @@ class FramesFirebaseFunctions {
     return filteredFrameList;
   }
 }
-
-class InheritedFramesList extends InheritedWidget {
-  final List<Frame> list;
-
-  InheritedFramesList({this.list, Widget child}) : super(child: child);
-
-  @override
-  bool updateShouldNotify(InheritedFramesList old) {
-    return list != old.list;
-  }
-
-  static InheritedFramesList of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InheritedFramesList>();
-}
