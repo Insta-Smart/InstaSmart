@@ -23,6 +23,7 @@ import 'package:flutter/foundation.dart';
 import 'package:instasmart/widgets/frame_widget.dart';
 import '../constants.dart';
 import '../main.dart';
+import 'frames_screen.dart';
 
 class LikedScreen extends StatefulWidget {
   static const routeName = '/liked';
@@ -76,7 +77,12 @@ class _LikedScreenState extends State<LikedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      appBar: PageTopBar(
+        title: 'Liked',
+        appBar: AppBar(),
+      ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Stack(
           children: <Widget>[
             Column(
@@ -85,25 +91,25 @@ class _LikedScreenState extends State<LikedScreen> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    IconButton(
-                      iconSize: 35,
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Constants.paleBlue,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pop(context);
-                        });
-                      },
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(
-                        "Liked",
-                        style: (TextStyle(fontSize: 45.0)),
-                      ),
-                    ),
+//                    IconButton(
+//                      iconSize: 35,
+//                      icon: Icon(
+//                        Icons.arrow_back,
+//                        color: Constants.paleBlue,
+//                      ),
+//                      onPressed: () {
+//                        setState(() {
+//                          Navigator.pop(context);
+//                        });
+//                      },
+//                    ),
+//                    Container(
+//                      margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+//                      child: Text(
+//                        "Liked",
+//                        style: (TextStyle(fontSize: 45.0)),
+//                      ),
+//                    ),
                   ],
                 ),
                 FutureBuilder(

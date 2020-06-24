@@ -62,8 +62,10 @@ class ReorderableGrid extends StatelessWidget {
                                               children: <Widget>[
                                                 ListTile(
                                                     leading: Icon(
-                                                        Icons.calendar_today, ),
-                                                    title: Text('Schedule Post'),
+                                                      Icons.calendar_today,
+                                                    ),
+                                                    title:
+                                                        Text('Schedule Post'),
                                                     onTap: () {
                                                       Navigator.push(
                                                           context,
@@ -74,30 +76,39 @@ class ReorderableGrid extends StatelessWidget {
                                                                         index]),
                                                           ));
                                                     }),
-                                                ListTile(leading: Icon(Icons.delete),
-                                                title: Text('Delete'),
-                                                onTap: () async{
-                                                  Navigator.pop(context);
-                                                  await firebaseStorage.deleteImages([snapshot.data[index]]);
-
-
-                                                },),
-                                                ListTile(leading: Icon(Icons.save_alt),
+                                                ListTile(
+                                                  leading: Icon(Icons.delete),
+                                                  title: Text('Delete'),
+                                                  onTap: () async {
+                                                    Navigator.pop(context);
+                                                    await firebaseStorage
+                                                        .deleteImages([
+                                                      snapshot.data[index]
+                                                    ]);
+                                                  },
+                                                ),
+                                                ListTile(
+                                                  leading: Icon(Icons.save_alt),
                                                   title: Text('Save'),
                                                   onTap: () async {
-                                                  var imgBytes = await networkImageToByte(snapshot.data[index]);
-                                                  saveImages([imgBytes]);
-                                                  Navigator.pop(context);
-
-
+                                                    var imgBytes =
+                                                        await networkImageToByte(
+                                                            snapshot
+                                                                .data[index]);
+                                                    saveImages([imgBytes]);
+                                                    Navigator.pop(context);
                                                   },
-
-                                                  ),
-                                                ListTile(leading: Icon(Icons.share),
-                                                  title: Text('Share'),),
-                                                ListTile(leading: Icon(Icons.close),
+                                                ),
+                                                ListTile(
+                                                  leading: Icon(Icons.share),
+                                                  title: Text('Share'),
+                                                ),
+                                                ListTile(
+                                                  leading: Icon(Icons.close),
                                                   title: Text('Close'),
-                                                onTap: ()=>Navigator.pop(context),)
+                                                  onTap: () =>
+                                                      Navigator.pop(context),
+                                                )
                                               ],
                                             ),
                                           ));
@@ -142,20 +153,18 @@ class PreviewPhoto extends StatefulWidget {
 }
 
 class _PreviewPhotoState extends State<PreviewPhoto> {
-  void initState(){
+  void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       key: Key(widget.imgUrl),
       imageUrl: widget.imgUrl,
-      progressIndicatorBuilder: (context, url,
-              downloadProgress) =>
-          CircularProgressIndicator(
-              value: downloadProgress.progress),
-      errorWidget: (context, url, error) =>
-          Icon(Icons.error),
+      progressIndicatorBuilder: (context, url, downloadProgress) =>
+          CircularProgressIndicator(value: downloadProgress.progress),
+      errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }
 }

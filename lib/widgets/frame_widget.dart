@@ -88,15 +88,19 @@ class _Frame_WidgetState extends State<Frame_Widget> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: CachedNetworkImage(
-              imageUrl: widget.frame.imgurl,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+            child: Container(
+              child: CachedNetworkImage(
+                imageUrl: widget.frame.imgurl,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
           ),
+
 //          ClipRRect(
 //              borderRadius: BorderRadius.circular(25),
 //              child: Image.network(widget.frame.imgurl)),
@@ -109,11 +113,9 @@ class _Frame_WidgetState extends State<Frame_Widget> {
             child: IconButton(
               //Like Button
               alignment: Alignment(-6, -13),
-              icon: Icon(
-                Icons.favorite,
-                size: 30,
-                color: liked ? Constants.palePink : Colors.grey,
-              ),
+              icon: Icon(Icons.favorite,
+                  size: 30,
+                  color: liked ? Constants.palePink : Color(0xffdde0dd)),
               tooltip: 'Like frame to save it.',
               onPressed: () {
                 setState(() {

@@ -49,7 +49,9 @@ class FirebaseFunctions extends ChangeNotifier {
     currUser = _userFromFirebase(authResult.user);
     try {
       await db
-          .collection("Users").document(currUser.uid).setData({'user_images':''});
+          .collection("Users")
+          .document(currUser.uid)
+          .setData({'user_images': ''});
     } catch (e) {
       print(e.toString());
     }

@@ -15,7 +15,7 @@ import 'package:instasmart/screens/create_grid_screen.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
-//TODO: add category as param in frame.dart
+//TODO: add 'Explore' and 'Liked' to topbar
 //filter list base on that
 // https://github.com/Ephenodrom/Flutter-Advanced-Examples/tree/master/lib/examples/filterList
 class FramesScreen extends StatefulWidget {
@@ -84,11 +84,24 @@ class _FramesScreenState extends State<FramesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //  SizeConfig().init(context);
+    SizeConfig().init(context);
     return Scaffold(
       appBar: PageTopBar(
         title: 'Frames',
         appBar: AppBar(),
+        widgets: <Widget>[
+          IconButton(
+            //Like Button
+            alignment: Alignment.centerRight,
+            iconSize: 2,
+            icon: Icon(Icons.favorite_border,
+                size: 30, color: Constants.paleBlue),
+            tooltip: 'Click to see liked frames.',
+            onPressed: () {
+              Navigator.pushNamed(context, LikedScreen.routeName);
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: <Widget>[
@@ -109,70 +122,58 @@ class _FramesScreenState extends State<FramesScreen> {
                 child: Row(
                   children: <Widget>[
                     Container(
-                        width: 350,
-                        //SizeConfig.blockSizeHorizontal * 90,
-                        padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                        //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
-                        child: Wrap(
-                          spacing: 2,
-                          runSpacing: 3,
-                          children: List.generate(
-                              Categories.catNamesList.length, (index) {
-                            return new CategoryButton(
-                              catName: Categories.catNamesList[index],
-                              selectedCat: selectedCat,
-                              ontap: () => setState(() {
-                                selectedCat = Categories.catNamesList[index];
-                                filteredFrameList = FramesFirebaseFunctions()
-                                    .filterFrames(selectedCat, frameList);
-                                // updateFramesList();
-//                              print("selectedcat is: ${selectedCat}");
-//                              print('new framelist is: ${filteredFrameList}');
-                              }),
-                            );
-                          }),
-                        )
-                        //DONT DELETE
-//                        ListVinheritFromWidgetOfExactTypeiew.builder(
-//                          scrollDirection: Axis.horizontal,
-//                          itemCount: Categories.catNamesList.length,
-//                          itemBuilder: (BuildContext context, int index) =>
-//                              new CategoryButton(
-//                            catName: Categories.catNamesList[index],
-//                            selectedCat: selectedCat,
-//                            ontap: () => setState(() {
-//                              selectedCat = Categories.catNamesList[index];
-//                              filteredFrameList = FramesFirebaseFunctions()
-//                                  .filterFrames(selectedCat, frameList);
-//                              // updateFramesList();
+                      //SizeConfig.blockSizeHorizontal * 90,
+                      padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                      //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
+                      width: SizeConfig.screenWidth,
+                      height: SizeConfig.blockSizeVertical * 6,
+                      child:
+//                        Wrap(
+//                          spacing: 2,
+//                          runSpacing: 3,
+//                          children: List.generate(
+//                              Categories.catNamesList.length, (index) {
+//                            return new CategoryButton(
+//                              catName: Categories.catNamesList[index],
+//                              selectedCat: selectedCat,
+//                              ontap: () => setState(() {
+//                                selectedCat = Categories.catNamesList[index];
+//                                filteredFrameList = FramesFirebaseFunctions()
+//                                    .filterFrames(selectedCat, frameList);
+//                                // updateFramesList();
 ////                              print("selectedcat is: ${selectedCat}");
 ////                              print('new framelist is: ${filteredFrameList}');
-//                            }),
-//                          ),
-//                        ),
+//                              }),
+//                            );
+//                          }),
+//                        )
+                          //DONT DELETE
+                          ListView.builder(
+                        padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: Categories.catNamesList.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            new CategoryButton(
+                          catName: Categories.catNamesList[index],
+                          selectedCat: selectedCat,
+                          ontap: () => setState(() {
+                            selectedCat = Categories.catNamesList[index];
+                            filteredFrameList = FramesFirebaseFunctions()
+                                .filterFrames(selectedCat, frameList);
+                            // updateFramesList();
+//                              print("selectedcat is: ${selectedCat}");
+//                              print('new framelist is: ${filteredFrameList}');
+                          }),
                         ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      width: 30,
-                      child: IconButton(
-                        //Like Button
-                        alignment: Alignment.centerRight,
-                        iconSize: 2,
-                        icon: Icon(Icons.favorite_border,
-                            size: 30, color: Constants.paleBlue),
-                        tooltip: 'Click to see liked frames.',
-                        onPressed: () {
-                          Navigator.pushNamed(context, LikedScreen.routeName);
-                        },
                       ),
                     ),
                   ],
                 ),
               ),
               Container(
-//                  padding: EdgeInsets.fromLTRB(
-//                      0, SizeConfig.blockSizeVertical * 3, 0, 0),
-//                  height: SizeConfig.blockSizeVertical * 75,
+                //  padding: EdgeInsets.fromLTRB(
+                //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
+                height: SizeConfig.blockSizeVertical * 68,
                 child: FutureBuilder(
                   future: futList,
                   builder: (context, AsyncSnapshot snapshot) {
@@ -254,18 +255,14 @@ class _FramesScreenState extends State<FramesScreen> {
   Widget buildPopUpImage(int index) {
     return Container(
       alignment: Alignment.center,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
+      color: Color(0x88000000),
+      child: Container(
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(25),
+            child: Container(
+                color: Colors.white,
                 child: CachedNetworkImage(
-                    imageUrl: filteredFrameList[index].imgurl)),
-          ),
-        ],
+                    imageUrl: filteredFrameList[index].imgurl))),
       ),
     );
   }
@@ -292,14 +289,22 @@ class _CategoryButtonState extends State<CategoryButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FlatButton(
+      padding: EdgeInsets.fromLTRB(3, 0, 3, 5),
+      child: RaisedButton(
+        elevation: 1,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Text("#" + widget.catName,
-            style: TextStyle(color: Colors.white, fontSize: 20)),
-        color: Constants.paleBlue,
+            style: TextStyle(color: Colors.black, fontSize: 17)),
+        color: widget.selectedCat == widget.catName
+            ? Constants.paleBlue
+            : Colors.white,
         shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(15)),
         onPressed: widget.ontap,
+        focusColor: Constants.brightPurple,
+        hoverColor: Colors.black,
+        splashColor: Colors.red,
+
         //function to change selectedVar goes here
       ),
     );
@@ -319,8 +324,16 @@ class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      backgroundColor: Colors.white,
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black),
+      ),
       actions: widgets,
+      iconTheme:
+          IconThemeData(color: Constants.paleBlue //change your color here
+              ),
     );
   }
 

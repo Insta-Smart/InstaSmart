@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart';
 import 'final_grid_screen.dart';
 import 'package:instasmart/models/size_config.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -8,6 +9,8 @@ import 'package:instasmart/models/widget_to_image.dart';
 import 'package:instasmart/models/splitImage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'frames_screen.dart';
+import 'loading_screen.dart';
 
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
@@ -21,6 +24,7 @@ class CreateScreen extends StatefulWidget {
 class _CreateScreenState extends State<CreateScreen> {
   List<Asset> images = List<Asset>();
   List imageBytes;
+  bool addedImgs = false;
 
   @override
   void initState() {
@@ -80,6 +84,7 @@ class _CreateScreenState extends State<CreateScreen> {
 
     setState(() {
       images = resultList;
+      images.length == 0 ? null : addedImgs = true;
     });
   }
 
@@ -88,13 +93,18 @@ class _CreateScreenState extends State<CreateScreen> {
     SizeConfig().init(context);
     GlobalKey _globalKey = new GlobalKey();
     return new Scaffold(
-      appBar: AppBar(
-        title: Text('Create Grid'),
-        leading: IconButton(
-          icon: Icon(Icons.keyboard_backspace),
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: PageTopBar(
+        title: 'Create Grid',
+        appBar: AppBar(),
+        widgets: <Widget>[],
       ),
+//      AppBar(
+//        title: Text('Create Grid'),
+//        leading: IconButton(
+//          icon: Icon(Icons.keyboard_backspace),
+//          onPressed: () => Navigator.pop(context),
+//        ),
+//      ),
       body: Padding(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
         child: Container(
@@ -126,36 +136,94 @@ class _CreateScreenState extends State<CreateScreen> {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text('Create Grid'),
-                    color: Colors.teal,
-                    onPressed: () {
-                      captureWidgetImage(_globalKey).then((value) async {
-                        imageBytes = splitImage(
-                            imgBytes: value,
-                            horizontalPieceCount: 3,
-                            verticalPieceCount: 3);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ImageDisplay(imageBytes)));
-                      });
-                    },
-                  ),
-                  RaisedButton(
-                    child: Text('Select Images'),
-                    color: Colors.deepPurple,
-                    onPressed: () => loadAssets(),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TemplateButton(
+                        title: '1. Add Your Photos',
+                        iconType: Icons.camera,
+                        ontap: () {
+                          loadAssets();
+                        }),
+                    addedImgs
+                        ? TemplateButton(
+                            title: '2. Finish',
+                            iconType: Icons.check_circle_outline,
+                            color: Colors.lightGreen,
+                            ontap: () {
+                              captureWidgetImage(_globalKey)
+                                  .then((value) async {
+                                imageBytes = splitImage(
+                                    imgBytes: value,
+                                    horizontalPieceCount: 3,
+                                    verticalPieceCount: 3);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ImageDisplay(imageBytes)));
+                              });
+                            },
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TemplateButton extends StatefulWidget {
+  final String title;
+  final Function ontap;
+  final IconData iconType;
+  final Color color;
+
+  const TemplateButton(
+      {Key key, this.title, @required this.ontap, this.iconType, this.color})
+      : super(key: key);
+
+  @override
+  _TemplateButtonState createState() => _TemplateButtonState();
+}
+
+class _TemplateButtonState extends State<TemplateButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+      child: FlatButton(
+        child: Column(
+          children: <Widget>[
+            widget.iconType == null
+                ? Container()
+                : Icon(
+                    widget.iconType,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+            widget.title == null
+                ? Container()
+                : Text(widget.title,
+                    style: TextStyle(color: Colors.white, fontSize: 19)),
+          ],
+        ),
+        color: widget.color == null ? Constants.paleBlue : widget.color,
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(18)),
+        onPressed: widget.ontap,
+        focusColor: Constants.brightPurple,
+        hoverColor: Colors.black,
+        splashColor: Colors.red,
+        padding: EdgeInsets.all(10),
+
+        //function to change selectedVar goes here
       ),
     );
   }

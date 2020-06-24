@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
@@ -12,18 +13,23 @@ import 'package:instasmart/models/login_functions.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
+  final int index;
+
+  HomeScreen({Key key, this.index}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  int _currentIndex;
   PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _currentIndex = widget.index == null ? 0 : widget.index;
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
@@ -78,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
             title: Text('Search', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.search, color: Colors.white),
+            icon: Icon(CupertinoIcons.search, color: Colors.white),
             activeColor: Constants.darkPurple,
           ),
           BottomNavyBarItem(
