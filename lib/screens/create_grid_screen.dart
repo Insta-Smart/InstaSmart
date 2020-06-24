@@ -9,8 +9,14 @@ import 'package:instasmart/models/widget_to_image.dart';
 import 'package:instasmart/models/splitImage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import 'final_grid_screen.dart';
 import 'frames_screen.dart';
 import 'loading_screen.dart';
+import 'package:network_image_to_byte/network_image_to_byte.dart';
+import 'dart:ui' as ui;
+import 'dart:async';
+
 
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
@@ -30,6 +36,7 @@ class _CreateScreenState extends State<CreateScreen> {
   void initState() {
     super.initState();
   }
+
 
   Widget buildGridView() {
     return GridView.count(
@@ -117,6 +124,8 @@ class _CreateScreenState extends State<CreateScreen> {
                   key: _globalKey,
                   child: Stack(
                     children: <Widget>[
+
+
                       buildGridView(),
                       Container(
                         child: Hero(
@@ -153,29 +162,22 @@ class _CreateScreenState extends State<CreateScreen> {
                             iconType: Icons.check_circle_outline,
                             color: Colors.lightGreen,
                             ontap: () {
-                              captureWidgetImage(_globalKey)
-                                  .then((value) async {
-                                imageBytes = splitImage(
-                                    imgBytes: value,
-                                    horizontalPieceCount: 3,
-                                    verticalPieceCount: 3);
+                              captureWidgetImage(_globalKey).then((generatedGrid) async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ImageDisplay(imageBytes)));
+                                            FinalGrid(generatedGrid)));
                               });
                             },
                           )
                         : Container(),
-                  ],
-                ),
-              ),
+
             ],
           ),
         ),
-      ),
-    );
+      ]),
+    ),),);
   }
 }
 
