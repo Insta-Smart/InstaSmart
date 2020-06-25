@@ -69,63 +69,65 @@ class _PreviewScreenState extends State<PreviewScreen> {
   Widget build(BuildContext context) {
     var firebase = Provider.of<FirebaseFunctions>(context);
     SizeConfig().init(context);
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: PageTopBar(
-          title: 'Plan Your Feed',
-          appBar: AppBar(),
-        ),
+    return new Scaffold(
+//        appBar: PageTopBar(
+//          title: 'Plan Your Feed',
+//          appBar: AppBar(),
+//        ),
         body: SafeArea(
           child: Container(
-            height: SizeConfig.blockSizeVertical * 80,
+            height: SizeConfig.blockSizeVertical * 78,
+            padding:
+                EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 5, 0, 0),
             child: Card(
+              elevation: 10,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Icon(
-                        Icons.grid_on,
-                        size: 40,
-                      ),
-                      Icon(
-                        Icons.account_box,
-                        color: Colors.grey,
-                        size: 40,
-                      ),
-                    ],
-                  ),
+//                  Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                    children: <Widget>[
+//                      Icon(
+//                        Icons.grid_on,
+//                        size: 40,
+//                      ),
+//                      Icon(
+//                        Icons.account_box,
+//                        color: Colors.grey,
+//                        size: 40,
+//                      ),
+//                    ],
+//                  ),
                   Expanded(
                     child: ReorderableGrid(
                         firebase: firebase, firebaseStorage: firebaseStorage),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.home,
-                        size: 40,
-                      ),
-                      Icon(
-                        CupertinoIcons.search,
-                        size: 40,
-                      ),
-                      Icon(
-                        CupertinoIcons.add,
-                        size: 40,
-                      ),
-                      Icon(
-                        CupertinoIcons.heart,
-                        size: 40,
-                      ),
-                      Icon(
-                        CupertinoIcons.circle,
-                        size: 40,
-                      ),
-                    ],
-                  ),
+//                  Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                    children: <Widget>[
+//                      Icon(
+//                        CupertinoIcons.home,
+//                        size: 40,
+//                      ),
+//                      Icon(
+//                        CupertinoIcons.search,
+//                        size: 40,
+//                      ),
+//                      Icon(
+//                        CupertinoIcons.add,
+//                        size: 40,
+//                      ),
+//                      Icon(
+//                        CupertinoIcons.heart,
+//                        size: 40,
+//                      ),
+//                      Icon(
+//                        CupertinoIcons.circle,
+//                        size: 40,
+//                      ),
+//                    ],
+//                  ),
                 ],
               ),
             ),
@@ -135,8 +137,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
           child: Icon(Icons.add_a_photo),
           backgroundColor: Constants.paleBlue,
           onPressed: loadAssets,
-        ),
-      ),
-    );
+        ));
   }
 }
