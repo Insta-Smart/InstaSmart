@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:instasmart/custom_packages/bottom_navy_bar_custom/bottom_navy_bar_custom.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
+import 'package:instasmart/screens/collection_preview_screen.dart';
 import 'package:instasmart/screens/create_grid_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/liked_screen.dart';
@@ -63,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: FramesScreen(),
             ),
             Container(
-              child: PreviewScreen(),
+              child: PreviewCollectionScreen(),
             ),
             Container(
               child: CalendarScreen(),
@@ -74,36 +76,38 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavyBar(
+      bottomNavigationBar: BottomNavyBarCustom(
         selectedIndex: _currentIndex,
         onItemSelected: (index) {
           setState(() => _currentIndex = index);
           _pageController.jumpToPage(index);
         },
-        backgroundColor: Constants.lightPurple,
-        items: <BottomNavyBarItem>[
-          BottomNavyBarItem(
-            title: Text('Search', style: TextStyle(color: Colors.white)),
-            icon: Icon(CupertinoIcons.search, color: Colors.white),
-            activeColor: Constants.darkPurple,
+        backgroundColor: Colors.white,
+        items: <BottomNavyBarCustomItem>[
+          BottomNavyBarCustomItem(
+            title: Text('Search'),
+            icon: Icon(Icons.search),
+            activeColor: Constants.lightPurple,
           ),
-          BottomNavyBarItem(
-            title: Text('Preview', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.apps, color: Colors.white),
-            activeColor: Constants.darkPurple,
+          BottomNavyBarCustomItem(
+            title: Text('Preview'),
+            icon: Icon(Icons.apps),
+            activeColor: Constants.lightPurple,
           ),
-          BottomNavyBarItem(
-            title: Text('Reminders', style: TextStyle(color: Colors.white)),
-            icon: Icon(Icons.access_time, color: Colors.white),
-            activeColor: Constants.darkPurple,
+          BottomNavyBarCustomItem(
+            title: Text(
+              'Reminders',
+              style: TextStyle(fontSize: 14, letterSpacing: 0.5),
+            ),
+            icon: Icon(Icons.access_time),
+            activeColor: Constants.lightPurple,
           ),
-          BottomNavyBarItem(
-            title: Text('Create', style: TextStyle(color: Colors.white)),
+          BottomNavyBarCustomItem(
+            title: Text('Create'),
             icon: Icon(
               Icons.account_circle,
-              color: Colors.white,
             ),
-            activeColor: Constants.darkPurple,
+            activeColor: Constants.lightPurple,
           ),
         ],
       ),

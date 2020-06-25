@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart';
+//import 'package:flutter_login/flutter_login.dart';
+import 'package:instasmart/custom_packages/flutter_login_custom/flutter_login.dart';
 import 'package:instasmart/models/size_config.dart';
 import 'package:instasmart/screens/home_screen.dart';
 import '../constants.dart';
@@ -43,7 +44,7 @@ class LoginScreen extends StatelessWidget {
               elevation: 0,
             ),
             cardTheme: CardTheme(
-              color: Constants.paleBlue,
+              color: Colors.white,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18)),
@@ -56,7 +57,7 @@ class LoginScreen extends StatelessWidget {
         },
         passwordValidator: (value) {
           if (!firebase.validatePassword(value)) {
-            return "8 characters or longer, 1 uppercase letter and 1 number";
+            return "Password must have at least:\n • 8 characters\n • 1 uppercase letter\n • 1 number";
           }
           return null;
         },

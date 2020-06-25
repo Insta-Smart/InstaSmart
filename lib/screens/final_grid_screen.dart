@@ -60,16 +60,38 @@ class _FinalGridState extends State<FinalGrid> {
             Center(
               child: ToggleButtons(
                 children: <Widget>[
-                  Icon(Icons.grid_on),
-                  Icon(Icons.grid_on),
-                  Icon(Icons.grid_on),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ThreeRowWidget(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ThreeRowWidget(),
+                        ThreeRowWidget(),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        ThreeRowWidget(),
+                        ThreeRowWidget(),
+                        ThreeRowWidget()
+                      ],
+                    ),
+                  ),
                 ],
                 isSelected: _selected,
                 onPressed: (int index) {
                   setState(() {
                     for (int buttonIndex = 0;
-                    buttonIndex < _selected.length;
-                    buttonIndex++) {
+                        buttonIndex < _selected.length;
+                        buttonIndex++) {
                       if (buttonIndex == index) {
                         _selected[buttonIndex] = true;
                       } else {
@@ -145,12 +167,37 @@ class _FinalGridState extends State<FinalGrid> {
                                         index: 1,
                                       )));
                         }),
-
                   ]),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class ThreeRowWidget extends StatelessWidget {
+  const ThreeRowWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Icon(
+          Icons.crop_square,
+          size: 13,
+        ),
+        Icon(
+          Icons.crop_square,
+          size: 13,
+        ),
+        Icon(
+          Icons.crop_square,
+          size: 13,
+        ),
+      ],
     );
   }
 }

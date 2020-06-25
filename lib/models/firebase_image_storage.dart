@@ -8,8 +8,7 @@ import 'dart:typed_data';
 import 'package:instasmart/models/user.dart';
 
 class FirebaseImageStorage {
-  StorageReference _reference =
-      FirebaseStorage.instance.ref();
+  StorageReference _reference = FirebaseStorage.instance.ref();
   final db = Firestore.instance;
   final FirebaseFunctions firebase = FirebaseFunctions();
 
@@ -29,47 +28,46 @@ class FirebaseImageStorage {
     //Merges the new image urls with currently existing image urls array on firestore
     try {
       User user = await firebase.currentUser();
-          await db.collection("Users").document(user.uid).updateData({
-            'user_images': FieldValue.arrayUnion(imageUrls)
-      });
-
-
+      await db
+          .collection("Users")
+          .document(user.uid)
+          .updateData({'user_images': FieldValue.arrayUnion(imageUrls)});
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future<void> setImageUrls(List imageUrls) async{
+  Future<void> setImageUrls(List imageUrls) async {
     //Replaces the currently existing image urls on firestore with the input image urls
     try {
       User user = await firebase.currentUser();
-      await db.collection("Users").document(user.uid).updateData({
-        'user_images': imageUrls
-      });
-
+      await db
+          .collection("Users")
+          .document(user.uid)
+          .updateData({'user_images': imageUrls});
     } catch (e) {
       print(e.toString());
     }
-
-   }
+  }
 
   Future<List> getImageUrls() async {
     //updates listofurls with imageurls
     try {
       List imageUrls;
       User user = await firebase.currentUser();
-      await db.collection("Users").document(user.uid).get().then((doc) =>
-      {
-        imageUrls = doc['user_images']
-      });
+      await db
+          .collection("Users")
+          .document(user.uid)
+          .get()
+          .then((doc) => {imageUrls = doc['user_images']});
       return imageUrls.reversed.toList();
-    }
-    catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
 
-  Future<List> uploadAssetImage({@required List<Asset> assets}) async {
+  Future<List> uploadAssetImage(
+      {@required List<Asset> assets, @required String albumName}) async {
     List uploadUrls = List(assets.length);
     User user = await firebase.currentUser();
 
@@ -88,7 +86,7 @@ class FirebaseImageStorage {
             storageTaskSnapshot = snapshot;
             final String downloadUrl =
                 await storageTaskSnapshot.ref.getDownloadURL();
-            uploadUrls[assets.indexOf(asset)]=downloadUrl;
+            uploadUrls[assets.indexOf(asset)] = downloadUrl;
 
             print('Upload success');
           } else {
@@ -109,9 +107,8 @@ class FirebaseImageStorage {
 
     await Future.wait(
         images.map((Uint8List imageData) async {
-
           StorageReference reference =
-          _reference.child("Preview_Images/${user.uid}/${DateTime.now()}");
+              _reference.child("Preview_Images/${user.uid}/${DateTime.now()}");
           StorageUploadTask uploadTask = reference.putData(imageData);
           StorageTaskSnapshot storageTaskSnapshot;
 
@@ -119,8 +116,8 @@ class FirebaseImageStorage {
           if (snapshot.error == null) {
             storageTaskSnapshot = snapshot;
             final String downloadUrl =
-            await storageTaskSnapshot.ref.getDownloadURL();
-            uploadUrls[images.indexOf(imageData)]=downloadUrl;
+                await storageTaskSnapshot.ref.getDownloadURL();
+            uploadUrls[images.indexOf(imageData)] = downloadUrl;
 
             print('Upload success${images.indexOf(imageData)}');
           } else {
@@ -138,31 +135,29 @@ class FirebaseImageStorage {
   Future<void> reorderImageArray(int oldIndex, int newIndex) async {
     var imageUrls = await getImageUrls();
     List tempList = List();
-    imageUrls.forEach((element) {tempList.add(element);});
+    imageUrls.forEach((element) {
+      tempList.add(element);
+    });
     var removed = tempList.removeAt(oldIndex);
     tempList.insert(newIndex, removed);
     await setImageUrls(tempList.reversed.toList());
-
   }
 
-  Future<void> deleteImages(List imageUrls) async{
+  Future<void> deleteImages(List imageUrls) async {
     try {
       User user = await firebase.currentUser();
-      await db.collection("Users").document(user.uid).updateData({
-        'user_images': FieldValue.arrayRemove(imageUrls)
-      });
-      var instance =FirebaseStorage.instance;
-      imageUrls.forEach((url) async{
-        instance.getReferenceFromUrl(url).then((value) async{
+      await db
+          .collection("Users")
+          .document(user.uid)
+          .updateData({'user_images': FieldValue.arrayRemove(imageUrls)});
+      var instance = FirebaseStorage.instance;
+      imageUrls.forEach((url) async {
+        instance.getReferenceFromUrl(url).then((value) async {
           await value.delete();
         });
       });
-
-
     } catch (e) {
       print(e.toString());
     }
-
   }
-
 }

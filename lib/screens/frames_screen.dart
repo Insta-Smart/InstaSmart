@@ -298,8 +298,7 @@ class _CategoryButtonState extends State<CategoryButton> {
         color: widget.selectedCat == widget.catName
             ? Constants.paleBlue
             : Colors.white,
-        shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(15)),
+        shape: Constants.buttonShape,
         onPressed: widget.ontap,
         focusColor: Constants.brightPurple,
         hoverColor: Colors.black,
