@@ -17,7 +17,6 @@ import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'dart:ui' as ui;
 import 'dart:async';
 
-
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
   CreateScreen(this.frameUrl, this.index);
@@ -31,12 +30,14 @@ class _CreateScreenState extends State<CreateScreen> {
   List<Asset> images = List<Asset>();
   List imageBytes;
   bool addedImgs = false;
+  double userImgOpacity = 0.5;
+  bool makeFinalStack = false;
+  bool madeFinal = false;
 
   @override
   void initState() {
     super.initState();
   }
-
 
   Widget buildGridView() {
     return GridView.count(
@@ -59,6 +60,44 @@ class _CreateScreenState extends State<CreateScreen> {
           ),
         );
       }),
+    );
+  }
+
+  Widget rearrangingStack(Widget currGridView) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          child: Hero(
+            tag: widget.index,
+            child: CachedNetworkImage(
+              imageUrl: widget.frameUrl,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ),
+        Opacity(opacity: 0.6, child: currGridView),
+      ],
+    );
+  }
+
+  Widget finalStack(Widget currGridView) {
+    return Stack(
+      children: <Widget>[
+        Opacity(opacity: 1, child: currGridView),
+        Container(
+          child: Hero(
+            tag: widget.index,
+            child: CachedNetworkImage(
+              imageUrl: widget.frameUrl,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -98,6 +137,7 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final Widget currGridView = buildGridView();
     GlobalKey _globalKey = new GlobalKey();
     return new Scaffold(
       appBar: PageTopBar(
@@ -112,57 +152,75 @@ class _CreateScreenState extends State<CreateScreen> {
 //          onPressed: () => Navigator.pop(context),
 //        ),
 //      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
-        child: Container(
-          child: Column(
+      body: Container(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: SizeConfig.screenWidth,
-                //height: SizeConfig.blockSizeVertical * 60,
-                child: RepaintBoundary(
-                  key: _globalKey,
-                  child: Stack(
-                    children: <Widget>[
-
-
-                      buildGridView(),
-                      Container(
-                        child: Hero(
-                          tag: widget.index,
-                          child: CachedNetworkImage(
-                            imageUrl: widget.frameUrl,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  height: SizeConfig.blockSizeVertical * 15,
+                  child: !madeFinal
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            TemplateButton(
+                                title: '1. Add Your Photos',
+                                color: Constants.paleBlue,
+                                iconType: Icons.camera,
+                                ontap: () {
+                                  loadAssets();
+                                }),
+                            addedImgs
+                                ? TemplateButton(
+                                    title: '2. Initialise',
+                                    color: Colors.lightGreen,
+                                    iconType: Icons.compare_arrows,
+                                    ontap: () {
+                                      setState(() {
+                                        makeFinalStack = true;
+                                        madeFinal = true;
+                                      });
+                                    })
+                                : Container(),
+                          ],
+                        )
+                      : Container()),
+              Center(
+                child: Container(
+                  height: SizeConfig.screenWidth,
+                  //height: SizeConfig.blockSizeVertical * 60,
+                  child: RepaintBoundary(
+                      key: _globalKey,
+                      child: makeFinalStack
+                          ? finalStack(currGridView)
+                          : rearrangingStack(currGridView)),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+              Container(
+                height: SizeConfig.blockSizeVertical * 15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    TemplateButton(
-                        title: '1. Add Your Photos',
-                        iconType: Icons.camera,
-                        ontap: () {
-                          loadAssets();
-                        }),
-                    addedImgs
+                    madeFinal
                         ? TemplateButton(
-                            title: '2. Finish',
+                            title: 'Re-Edit',
+                            iconType: Icons.edit,
+                            color: Constants.palePink,
+                            ontap: () {
+                              setState(() {
+                                makeFinalStack = false;
+                                madeFinal = false;
+                              });
+                            },
+                          )
+                        : Container(),
+                    madeFinal
+                        ? TemplateButton(
+                            title: 'Finish',
                             iconType: Icons.check_circle_outline,
                             color: Colors.lightGreen,
                             ontap: () {
-                              captureWidgetImage(_globalKey).then((generatedGrid) async {
+                              captureWidgetImage(_globalKey)
+                                  .then((generatedGrid) async {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -172,12 +230,12 @@ class _CreateScreenState extends State<CreateScreen> {
                             },
                           )
                         : Container(),
-
-            ],
-          ),
-        ),
-      ]),
-    ),),);
+                  ],
+                ),
+              ),
+            ]),
+      ),
+    );
   }
 }
 
@@ -200,23 +258,35 @@ class _TemplateButtonState extends State<TemplateButton> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+      width: SizeConfig.blockSizeHorizontal * 50,
+      height: SizeConfig.blockSizeVertical * 11,
       child: FlatButton(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             widget.iconType == null
                 ? Container()
                 : Icon(
                     widget.iconType,
-                    color: Colors.white,
-                    size: 50,
+                    color: widget.color,
+//                    widget.color == Colors.white
+//                        ? Constants.paleBlue
+//                        : Colors.white,
+                    size: 30,
                   ),
             widget.title == null
                 ? Container()
                 : Text(widget.title,
-                    style: TextStyle(color: Colors.white, fontSize: 19)),
+                    style: TextStyle(
+                        color: widget.color,
+//                        widget.color == Colors.white
+//                            ? Constants.paleBlue
+//                            : Colors.white,
+                        fontSize: 19)),
           ],
         ),
-        color: widget.color == null ? Constants.paleBlue : widget.color,
+        color: Colors.white,
+        // widget.color == null ? Colors.white : widget.color,
         shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(18)),
         onPressed: widget.ontap,

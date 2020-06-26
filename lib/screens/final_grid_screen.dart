@@ -7,6 +7,7 @@ import 'package:instasmart/screens/loading_screen.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import '../constants.dart';
 import 'create_grid_screen.dart';
+import 'frames_screen.dart';
 import 'home_screen.dart';
 import 'package:instasmart/models/splitImage.dart';
 import 'package:instasmart/screens/preview_screen.dart';
@@ -42,6 +43,11 @@ class _FinalGridState extends State<FinalGrid> {
     GlobalKey gridKey = new GlobalKey();
 
     return Scaffold(
+      appBar: PageTopBar(
+        title: 'Finish Grid',
+        appBar: AppBar(),
+        widgets: <Widget>[],
+      ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
