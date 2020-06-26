@@ -46,12 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
 //      appBar: AppBar(
 //        title: Text("InstaSmart"),
 //        actions: <Widget>[
-////          IconButton(
-////              icon: Icon(Icons.exit_to_app),
-////              onPressed: () {
-////                FirebaseFunctions().signOut().then((value) =>
-////                    Navigator.pushNamed(context, LoginScreen.routeName));
-////              })
+//          IconButton(
+//              icon: Icon(Icons.exit_to_app),
+//              onPressed: () {
+//                FirebaseFunctions().signOut().then((value) =>
+//                    Navigator.pushNamed(context, LoginScreen.routeName));
+//              })
 //        ],
 //      ),
       body: SizedBox.expand(
@@ -63,6 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Container(
               child: FramesScreen(),
+            ),
+            Expanded(
+              child: LikedScreen(),
             ),
             Container(
               child: PreviewCollectionScreen(),
@@ -85,25 +88,32 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         items: <BottomNavyBarCustomItem>[
           BottomNavyBarCustomItem(
-            title: Text('Search'),
+            title: Text('Explore'),
             icon: Icon(Icons.search),
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(
-            title: Text('Preview'),
+            title: Text('Liked'),
+            icon: Icon(
+              Icons.favorite_border,
+            ),
+            activeColor: Constants.lightPurple,
+          ),
+          BottomNavyBarCustomItem(
+            title: Text('My Grids'),
             icon: Icon(Icons.apps),
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(
             title: Text(
-              'Reminders',
+              'Calender',
               style: TextStyle(fontSize: 14, letterSpacing: 0.5),
             ),
             icon: Icon(Icons.access_time),
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(
-            title: Text('Create'),
+            title: Text('Profile'),
             icon: Icon(
               Icons.account_circle,
             ),

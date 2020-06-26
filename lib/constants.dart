@@ -18,5 +18,5 @@ class Constants {
   static Image sampleFrame = Image.network(
       "https://firebasestorage.googleapis.com/v0/b/instasmart-6df7d.appspot.com/o/testing_overlay%2Fsample_2.png?alt=media&token=7966740e-f042-4e7a-9ea2-1fcb561b5a8a");
   static ShapeBorder buttonShape =
-      new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15));
+      new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30));
 }

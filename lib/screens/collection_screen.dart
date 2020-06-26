@@ -80,17 +80,11 @@ class _CollectionScreenState extends State<CollectionScreen> {
   Widget build(BuildContext context) {
     var firebase = Provider.of<FirebaseFunctions>(context);
     SizeConfig().init(context);
-    return SafeArea(
+    return Card(
+      elevation: 10,
       child: Container(
-        height: SizeConfig.blockSizeVertical * 78,
-        padding: EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 5, 0, 0),
-        child: Card(
-          elevation: 10,
-          child: Container(
-            child: ReorderableCollection(
-                firebase: firebase, firebaseStorage: firebaseStorage),
-          ),
-        ),
+        child: ReorderableCollection(
+            firebase: firebase, firebaseStorage: firebaseStorage),
       ),
     );
   }
