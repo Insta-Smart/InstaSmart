@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:instasmart/models/reminder_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:instasmart/models/notifications.dart';
 import 'package:instasmart/models/reminder.dart';
 
 class ReminderForm extends StatefulWidget {
@@ -81,7 +82,7 @@ class ReminderFormState extends State<ReminderForm> {
                     ),
                     validator: (val) => null,
                     initialTime: TimeOfDay.now(),
-                    initialValue: DateTime.now(),
+                    initialValue: DateTime.now().add(Duration(minutes: 1)).toLocal(),
                     // readonly: true,
                   ),
                 ],
@@ -96,12 +97,16 @@ class ReminderFormState extends State<ReminderForm> {
                       "Create Reminder",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
                       if (_fbKey.currentState.saveAndValidate()) {
                         var formValues = _fbKey.currentState.value;
                         var caption = formValues['caption'];
                         var postTime = formValues['postTime'];
                         ReminderData().createReminder(caption: caption, pictureUrl: widget.imageUrl, postTime: postTime);
+                        var notifications = LocalNotifications();
+                        await notifications.initializing();
+                        print(DateTime.now().toLocal());
+                        notifications.scheduleNotification(postTime);
                         Navigator.pop(context);
                       } else {
                         print(_fbKey.currentState.value);
