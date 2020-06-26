@@ -31,12 +31,21 @@ class _CreateScreenState extends State<CreateScreen> {
   List imageBytes;
   bool addedImgs = false;
   double userImgOpacity = 0.5;
-  bool makeFinalStack = false;
+  // bool makeFinalStack = false;
   bool madeFinal = false;
+  Widget globalGridView;
+  Widget currGridView;
+  final makeFinalStack = ValueNotifier<bool>(false);
+
+  void _onPressed() {
+    makeFinalStack.value = false;
+    print('initialise pressed');
+  }
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    makeFinalStack.dispose();
+    super.dispose();
   }
 
   Widget buildGridView() {
@@ -63,7 +72,7 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 
-  Widget rearrangingStack(Widget currGridView) {
+  Widget rearrangingStack(Widget currGridView, bool makeFinal) {
     return Stack(
       children: <Widget>[
         Container(
@@ -77,15 +86,16 @@ class _CreateScreenState extends State<CreateScreen> {
             ),
           ),
         ),
-        Opacity(opacity: 0.6, child: currGridView),
+        Opacity(opacity: 0.6, child: globalGridView),
       ],
     );
   }
 
-  Widget finalStack(Widget currGridView) {
+  Widget finalStack() {
+    print('widget being rebuilt');
     return Stack(
       children: <Widget>[
-        Opacity(opacity: 1, child: currGridView),
+        Opacity(opacity: 1, child: buildGridView()),
         Container(
           child: Hero(
             tag: widget.index,
@@ -137,7 +147,6 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final Widget currGridView = buildGridView();
     GlobalKey _globalKey = new GlobalKey();
     return new Scaffold(
       appBar: PageTopBar(
@@ -153,87 +162,114 @@ class _CreateScreenState extends State<CreateScreen> {
 //        ),
 //      ),
       body: Container(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                  height: SizeConfig.blockSizeVertical * 15,
-                  child: !madeFinal
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TemplateButton(
-                                title: '1. Add Your Photos',
-                                color: Constants.paleBlue,
-                                iconType: Icons.camera,
-                                ontap: () {
-                                  loadAssets();
-                                }),
-                            addedImgs
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+            Widget>[
+          Container(
+            height: SizeConfig.blockSizeVertical * 15,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TemplateButton(
+                    title: '1. Add Your Photos',
+                    color: Constants.paleBlue,
+                    iconType: Icons.camera,
+                    ontap: () {
+                      loadAssets();
+                    }),
+                ValueListenableBuilder(
+                    valueListenable: makeFinalStack,
+                    builder: (BuildContext context, bool value, Widget child) =>
+                        !value
+                            ? addedImgs
                                 ? TemplateButton(
                                     title: '2. Initialise',
                                     color: Colors.lightGreen,
                                     iconType: Icons.compare_arrows,
-                                    ontap: () {
-                                      setState(() {
-                                        makeFinalStack = true;
-                                        madeFinal = true;
-                                      });
-                                    })
-                                : Container(),
-                          ],
-                        )
-                      : Container()),
-              Center(
-                child: Container(
-                  height: SizeConfig.screenWidth,
-                  //height: SizeConfig.blockSizeVertical * 60,
-                  child: RepaintBoundary(
-                      key: _globalKey,
-                      child: makeFinalStack
-                          ? finalStack(currGridView)
-                          : rearrangingStack(currGridView)),
-                ),
+                                    ontap: () => makeFinalStack.value = true)
+                                : Container()
+                            : Container())
+              ],
+            ),
+          ),
+          //   FlatButton(onPressed: () {}, child: Text('text')),
+          Container(
+            height: SizeConfig.screenWidth,
+            //height: SizeConfig.blockSizeVertical * 60,
+            child: RepaintBoundary(
+              key: _globalKey,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    child: Hero(
+                      tag: widget.index,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.frameUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
+                  ),
+                  buildGridView(),
+                  ValueListenableBuilder(
+                    valueListenable: makeFinalStack,
+                    builder: (BuildContext context, bool value, Widget child) =>
+                        value
+                            ? Container(
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.frameUrl,
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                              )
+                            : Container(),
+
+                    //TODO: overlay frame here and change opacity
+                  )
+                ],
               ),
-              Container(
-                height: SizeConfig.blockSizeVertical * 15,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    madeFinal
-                        ? TemplateButton(
+            ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: makeFinalStack,
+            builder: (context, value, Widget child) => value
+                ? Container(
+                    height: SizeConfig.blockSizeVertical * 15,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TemplateButton(
                             title: 'Re-Edit',
                             iconType: Icons.edit,
                             color: Constants.palePink,
-                            ontap: () {
-                              setState(() {
-                                makeFinalStack = false;
-                                madeFinal = false;
-                              });
-                            },
-                          )
-                        : Container(),
-                    madeFinal
-                        ? TemplateButton(
-                            title: 'Finish',
-                            iconType: Icons.check_circle_outline,
-                            color: Colors.lightGreen,
-                            ontap: () {
-                              captureWidgetImage(_globalKey)
-                                  .then((generatedGrid) async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            FinalGrid(generatedGrid)));
-                              });
-                            },
-                          )
-                        : Container(),
-                  ],
-                ),
-              ),
-            ]),
+                            ontap: () => makeFinalStack.value = false),
+                        TemplateButton(
+                          title: 'Finish',
+                          iconType: Icons.check_circle_outline,
+                          color: Colors.lightGreen,
+                          ontap: () {
+                            captureWidgetImage(_globalKey)
+                                .then((generatedGrid) async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FinalGrid(generatedGrid)));
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
+          )
+        ]),
       ),
     );
   }
