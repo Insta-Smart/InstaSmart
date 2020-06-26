@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:instasmart/models/size_config.dart';
 import 'package:intl/intl.dart';
 import 'package:instasmart/models/reminder_data.dart';
 import 'package:instasmart/models/reminder.dart';
+
+import '../constants.dart';
 
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_form';
@@ -29,8 +32,9 @@ class ReminderFormState extends State<ReminderForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Schedule Post"),
+        title: Text("Edit"),
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -79,13 +83,19 @@ class ReminderFormState extends State<ReminderForm> {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Expanded(
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  height: SizeConfig.blockSizeVertical * 10,
                   child: RaisedButton(
-                    color: Colors.blue,
+                    elevation: 0,
+                    shape: Constants.buttonShape,
+                    color: Constants.paleBlue,
                     child: Text(
                       "Update Reminder",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                      textAlign: TextAlign.center,
                     ),
                     onPressed: () {
                       if (_fbKey.currentState.saveAndValidate()) {
@@ -101,12 +111,17 @@ class ReminderFormState extends State<ReminderForm> {
                     },
                   ),
                 ),
-                Expanded(
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                  height: SizeConfig.blockSizeVertical * 10,
                   child: RaisedButton(
-                    color: Colors.red,
+                    elevation: 0,
+                    shape: Constants.buttonShape,
+                    color: Constants.palePink,
                     child: Text(
                       "Delete Reminder",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      textAlign: TextAlign.center,
                     ),
                     onPressed: () {
                       if (_fbKey.currentState.saveAndValidate()) {

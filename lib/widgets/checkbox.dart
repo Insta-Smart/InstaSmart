@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/reminder_data.dart';
 
+import '../constants.dart';
+
 class ReminderCheckbox extends StatefulWidget {
   ReminderCheckbox(this.reminder);
   var reminder;
@@ -13,13 +15,13 @@ class _ReminderCheckboxState extends State<ReminderCheckbox> {
   Widget build(BuildContext context) {
     return Container(
       child: CheckboxListTile(
+        activeColor: Constants.palePink,
         value: widget.reminder.isPosted,
         onChanged: (bool value) {
-            widget.reminder.togglePosted();
-            ReminderData().updateReminder(widget.reminder);
+          widget.reminder.togglePosted();
+          ReminderData().updateReminder(widget.reminder);
         },
       ),
     );
   }
 }
-

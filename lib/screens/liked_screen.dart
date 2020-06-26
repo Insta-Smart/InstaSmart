@@ -72,21 +72,22 @@ class _LikedScreenState extends State<LikedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PageTopBar(
-        title: 'Liked',
-        appBar: AppBar(),
-      ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-        child: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
+    return SafeArea(
+      child: Scaffold(
+//      appBar: PageTopBar(
+//        title: 'Liked',
+//        appBar: AppBar(),
+//      ),
+        body: Padding(
+          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
 //                    IconButton(
 //                      iconSize: 35,
 //                      icon: Icon(
@@ -106,40 +107,41 @@ class _LikedScreenState extends State<LikedScreen> {
 //                        style: (TextStyle(fontSize: 45.0)),
 //                      ),
 //                    ),
-                  ],
-                ),
-                FutureBuilder(
-                  future: futList,
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none ||
-                        snapshot.hasData == null ||
-                        snapshot.data == null) {
-                      //print('project snapshot data is: ${projectSnap.data}');
-                      return Center(
-                        child:
-                            Text('Loading...', style: TextStyle(fontSize: 50)),
-                      );
-                    } else {
-                      print('building frames');
-                      return Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 3,
-                          children: List.generate(
-                              frameList.length,
-                              (index) => Hero(
-                                    tag: index,
-                                    child: Container(
-                                        child: buildFrameToDisplay(index)),
-                                  )), //change to document.snapshot length
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-            imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
-          ],
+                    ],
+                  ),
+                  FutureBuilder(
+                    future: futList,
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.none ||
+                          snapshot.hasData == null ||
+                          snapshot.data == null) {
+                        //print('project snapshot data is: ${projectSnap.data}');
+                        return Center(
+                          child: Text('Loading...',
+                              style: TextStyle(fontSize: 50)),
+                        );
+                      } else {
+                        print('building frames');
+                        return Expanded(
+                          child: GridView.count(
+                            crossAxisCount: 3,
+                            children: List.generate(
+                                frameList.length,
+                                (index) => Hero(
+                                      tag: index,
+                                      child: Container(
+                                          child: buildFrameToDisplay(index)),
+                                    )), //change to document.snapshot length
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+              imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
+            ],
+          ),
         ),
       ),
     );

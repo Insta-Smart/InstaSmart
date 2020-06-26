@@ -20,8 +20,16 @@ class ReminderList extends StatelessWidget {
       children: _selectedEvents
           .map((reminder) => Container(
                 decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
-                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+//          if (showElevation)
+                    const BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0.0, 0.75),
+                      blurRadius: 1,
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

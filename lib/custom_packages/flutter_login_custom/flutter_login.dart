@@ -532,6 +532,7 @@ class _FlutterLoginState extends State<FlutterLogin>
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final loginTheme = widget.theme ?? LoginTheme();
     final theme = _mergeTheme(theme: Theme.of(context), loginTheme: loginTheme);
     final deviceSize = MediaQuery.of(context).size;

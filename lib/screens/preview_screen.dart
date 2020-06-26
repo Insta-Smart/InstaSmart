@@ -74,17 +74,15 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //          title: 'Plan Your Feed',
 //          appBar: AppBar(),
 //        ),
-        body: SafeArea(
-          child: Container(
-            height: SizeConfig.blockSizeVertical * 78,
-            padding:
-                EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 5, 0, 0),
-            child: Card(
-              elevation: 10,
-              child: Column(
+        body: Container(
+          height: SizeConfig.blockSizeVertical * 80,
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Card(
+            elevation: 10,
+            child: Column(
 //                crossAxisAlignment: CrossAxisAlignment.center,
 //                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+              children: <Widget>[
 //                  Row(
 //                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //                    children: <Widget>[
@@ -99,10 +97,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //                      ),
 //                    ],
 //                  ),
-                  Expanded(
-                    child: ReorderableGrid(
-                        firebase: firebase, firebaseStorage: firebaseStorage),
-                  ),
+                Expanded(
+                  child: ReorderableGrid(
+                      firebase: firebase, firebaseStorage: firebaseStorage),
+                ),
 //                  Row(
 //                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 //                    children: <Widget>[
@@ -128,8 +126,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //                      ),
 //                    ],
 //                  ),
-                ],
-              ),
+              ],
             ),
           ),
         ),

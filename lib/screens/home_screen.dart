@@ -46,12 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
 //      appBar: AppBar(
 //        title: Text("InstaSmart"),
 //        actions: <Widget>[
-////          IconButton(
-////              icon: Icon(Icons.exit_to_app),
-////              onPressed: () {
-////                FirebaseFunctions().signOut().then((value) =>
-////                    Navigator.pushNamed(context, LoginScreen.routeName));
-////              })
+//          IconButton(
+//              icon: Icon(Icons.exit_to_app),
+//              onPressed: () {
+//                FirebaseFunctions().signOut().then((value) =>
+//                    Navigator.pushNamed(context, LoginScreen.routeName));
+//              })
 //        ],
 //      ),
       body: SizedBox.expand(
@@ -63,6 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Container(
               child: FramesScreen(),
+            ),
+            Expanded(
+              child: LikedScreen(),
             ),
             Container(
               child: PreviewCollectionScreen(),
@@ -87,6 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavyBarCustomItem(
             title: Text('Search'),
             icon: Icon(Icons.search),
+            activeColor: Constants.lightPurple,
+          ),
+          BottomNavyBarCustomItem(
+            title: Text('Liked'),
+            icon: Icon(
+              Icons.favorite_border,
+            ),
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(

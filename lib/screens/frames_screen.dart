@@ -85,49 +85,41 @@ class _FramesScreenState extends State<FramesScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      appBar: PageTopBar(
-        title: 'Frames',
-        appBar: AppBar(),
-        widgets: <Widget>[
-          IconButton(
-            //Like Button
-            alignment: Alignment.centerRight,
-            iconSize: 2,
-            icon: Icon(Icons.favorite_border,
-                size: 30, color: Constants.paleBlue),
-            tooltip: 'Click to see liked frames.',
-            onPressed: () {
-              Navigator.pushNamed(context, LikedScreen.routeName);
-            },
-          ),
-        ],
-      ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.fromLTRB(
-                    0,
-                    3,
-                    // SizeConfig.blockSizeVertical * 3,
-                    0,
-                    3),
-                // SizeConfig.blockSizeVertical * 2),
-                height: 100,
-                //SizeConfig.blockSizeVertical * 20,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      //SizeConfig.blockSizeHorizontal * 90,
-                      padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                      //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
-                      width: SizeConfig.screenWidth,
-                      height: SizeConfig.blockSizeVertical * 6,
-                      child:
+    return SafeArea(
+      child: Scaffold(
+//      appBar: PageTopBar(
+//        title: 'Frames',
+//        appBar: AppBar(),
+//        widgets: <Widget>[
+////          IconButton(s
+////            //Like Button
+////            alignment: Alignment.centerRight,
+////            iconSize: 2,
+////            icon: Icon(Icons.favorite_border,
+////                size: 30, color: Constants.paleBlue),
+////            tooltip: 'Click to see liked frames.',
+////            onPressed: () {
+////              Navigator.pushNamed(context, LikedScreen.routeName);
+////            },
+////          ),
+//        ],
+        //),
+        body: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  //SizeConfig.blockSizeHorizontal * 90,
+                  color: Colors.transparent,
+                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(
+                      0, SizeConfig.blockSizeVertical * 2, 0, 10),
+                  //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
+                  width: SizeConfig.screenWidth,
+                  height: SizeConfig.blockSizeVertical * 5.5,
+                  child:
 //                        Wrap(
 //                          spacing: 2,
 //                          runSpacing: 3,
@@ -147,68 +139,65 @@ class _FramesScreenState extends State<FramesScreen> {
 //                            );
 //                          }),
 //                        )
-                          //DONT DELETE
-                          ListView.builder(
-                        padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: Categories.catNamesList.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            new CategoryButton(
-                          catName: Categories.catNamesList[index],
-                          selectedCat: selectedCat,
-                          ontap: () => setState(() {
-                            selectedCat = Categories.catNamesList[index];
-                            filteredFrameList = FramesFirebaseFunctions()
-                                .filterFrames(selectedCat, frameList);
-                            // updateFramesList();
+                      //DONT DELETE
+                      ListView.builder(
+                    padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: Categories.catNamesList.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        new CategoryButton(
+                      catName: Categories.catNamesList[index],
+                      selectedCat: selectedCat,
+                      ontap: () => setState(() {
+                        selectedCat = Categories.catNamesList[index];
+                        filteredFrameList = FramesFirebaseFunctions()
+                            .filterFrames(selectedCat, frameList);
+                        // updateFramesList();
 //                              print("selectedcat is: ${selectedCat}");
 //                              print('new framelist is: ${filteredFrameList}');
-                          }),
-                        ),
-                      ),
+                      }),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                //  padding: EdgeInsets.fromLTRB(
-                //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
-                height: SizeConfig.blockSizeVertical * 68,
-                child: FutureBuilder(
-                  future: futList,
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.none ||
-                        snapshot.hasData == null ||
-                        snapshot.data == null) {
-                      //print('project snapshot data is: ${projectSnap.data}');
-                      return Center(
-                        child:
-                            Text('Loading...', style: TextStyle(fontSize: 50)),
-                      );
-                    } else {
-                      print('building frames');
-                      return Container(
-                        height: 500,
-                        child: GridView.count(
-                            crossAxisCount: 3,
-                            children: List.generate(
-                                snapshot.data.length,
-                                (index) => Container(
-                                      //child: Hero(
-                                      //tag: index,
-                                      child: buildFrameToDisplay(index),
-                                    ))
-                            //), //change to document.snapshot length
-                            ),
-                      );
-                    }
-                  },
+                Expanded(
+                  //  padding: EdgeInsets.fromLTRB(
+                  //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
+                  // height: SizeConfig.blockSizeVertical * 70,
+                  child: FutureBuilder(
+                    future: futList,
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.none ||
+                          snapshot.hasData == null ||
+                          snapshot.data == null) {
+                        //print('project snapshot data is: ${projectSnap.data}');
+                        return Center(
+                          child: Text('Loading...',
+                              style: TextStyle(fontSize: 50)),
+                        );
+                      } else {
+                        print('building frames');
+                        return Container(
+                          height: SizeConfig.blockSizeVertical * 50,
+                          child: GridView.count(
+                              crossAxisCount: 3,
+                              children: List.generate(
+                                  snapshot.data.length,
+                                  (index) => Container(
+                                        // child: Hero(
+                                        // tag: index,
+                                        child: buildFrameToDisplay(index),
+                                      ))), //change to document.snapshot length
+                          //  ),
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-          imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
-        ],
+              ],
+            ),
+            imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
+          ],
+        ),
       ),
     );
   }
@@ -289,20 +278,29 @@ class _CategoryButtonState extends State<CategoryButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(3, 0, 3, 5),
+      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
       child: RaisedButton(
-        elevation: 1,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        elevation: 0,
+        //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Text("#" + widget.catName,
-            style: TextStyle(color: Colors.black, fontSize: 17)),
+            style: widget.selectedCat == widget.catName
+                ? TextStyle(
+                    color: Constants.paleBlue,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700)
+                : TextStyle(
+                    color: Constants.lightPurple,
+                    fontSize: 17,
+                  )),
         color: widget.selectedCat == widget.catName
-            ? Constants.paleBlue
-            : Colors.white,
+            ? Colors.transparent
+            : Colors.transparent,
         shape: Constants.buttonShape,
         onPressed: widget.ontap,
         focusColor: Constants.brightPurple,
         hoverColor: Colors.black,
-        splashColor: Colors.red,
+        splashColor: Constants.lightPurple,
 
         //function to change selectedVar goes here
       ),
