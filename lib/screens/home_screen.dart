@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         items: <BottomNavyBarCustomItem>[
           BottomNavyBarCustomItem(
-            title: Text('Search'),
+            title: Text('Explore'),
             icon: Icon(Icons.search),
             activeColor: Constants.lightPurple,
           ),
@@ -100,20 +100,20 @@ class _HomeScreenState extends State<HomeScreen> {
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(
-            title: Text('Preview'),
+            title: Text('My Grids'),
             icon: Icon(Icons.apps),
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(
             title: Text(
-              'Reminders',
+              'Calender',
               style: TextStyle(fontSize: 14, letterSpacing: 0.5),
             ),
             icon: Icon(Icons.access_time),
             activeColor: Constants.lightPurple,
           ),
           BottomNavyBarCustomItem(
-            title: Text('Create'),
+            title: Text('Profile'),
             icon: Icon(
               Icons.account_circle,
             ),
