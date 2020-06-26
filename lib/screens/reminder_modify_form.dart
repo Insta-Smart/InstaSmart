@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:instasmart/models/reminder_data.dart';
-import 'package:instasmart/models/reminder.dart';
+import 'package:instasmart/models/notifications.dart';
 
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_form';
@@ -87,12 +86,16 @@ class ReminderFormState extends State<ReminderForm> {
                       "Update Reminder",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
                       if (_fbKey.currentState.saveAndValidate()) {
                         var formValues = _fbKey.currentState.value;
+                        var notifications = LocalNotifications();
+                        await notifications.initializing();
+                        notifications.cancelNotification(widget.reminder.postTime);
                         widget.reminder.caption = formValues['caption'];
                         widget.reminder.postTime = formValues['postTime'];
                         ReminderData().updateReminder(widget.reminder);
+                        notifications.scheduleNotification(widget.reminder.postTime);
                         Navigator.pop(context);
                       } else {
                         print(_fbKey.currentState.value);
@@ -108,9 +111,12 @@ class ReminderFormState extends State<ReminderForm> {
                       "Delete Reminder",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
                       if (_fbKey.currentState.saveAndValidate()) {
                         print(_fbKey.currentState.value);
+                        var notifications = LocalNotifications();
+                        await notifications.initializing();
+                        notifications.cancelNotification(widget.reminder.postTime);
                         ReminderData().deleteReminder(widget.reminder);
                         Navigator.pop(context);
                       } else {
