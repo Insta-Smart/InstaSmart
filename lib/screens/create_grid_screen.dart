@@ -17,7 +17,6 @@ import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'dart:ui' as ui;
 import 'dart:async';
 
-
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
   CreateScreen(this.frameUrl, this.index);
@@ -31,12 +30,23 @@ class _CreateScreenState extends State<CreateScreen> {
   List<Asset> images = List<Asset>();
   List imageBytes;
   bool addedImgs = false;
+  double userImgOpacity = 0.5;
+  // bool makeFinalStack = false;
+  bool madeFinal = false;
+  Widget globalGridView;
+  Widget currGridView;
+  final makeFinalStack = ValueNotifier<bool>(false);
 
-  @override
-  void initState() {
-    super.initState();
+  void _onPressed() {
+    makeFinalStack.value = false;
+    print('initialise pressed');
   }
 
+  @override
+  void dispose() {
+    makeFinalStack.dispose();
+    super.dispose();
+  }
 
   Widget buildGridView() {
     return GridView.count(
@@ -59,6 +69,45 @@ class _CreateScreenState extends State<CreateScreen> {
           ),
         );
       }),
+    );
+  }
+
+  Widget rearrangingStack(Widget currGridView, bool makeFinal) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          child: Hero(
+            tag: widget.index,
+            child: CachedNetworkImage(
+              imageUrl: widget.frameUrl,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ),
+        Opacity(opacity: 0.6, child: globalGridView),
+      ],
+    );
+  }
+
+  Widget finalStack() {
+    print('widget being rebuilt');
+    return Stack(
+      children: <Widget>[
+        Opacity(opacity: 1, child: buildGridView()),
+        Container(
+          child: Hero(
+            tag: widget.index,
+            child: CachedNetworkImage(
+              imageUrl: widget.frameUrl,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -112,72 +161,117 @@ class _CreateScreenState extends State<CreateScreen> {
 //          onPressed: () => Navigator.pop(context),
 //        ),
 //      ),
-      body: Padding(
-        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: SizeConfig.screenWidth,
-                //height: SizeConfig.blockSizeVertical * 60,
-                child: RepaintBoundary(
-                  key: _globalKey,
-                  child: Stack(
-                    children: <Widget>[
-
-
-                      buildGridView(),
-                      Container(
-                        child: Hero(
-                          tag: widget.index,
-                          child: CachedNetworkImage(
-                            imageUrl: widget.frameUrl,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TemplateButton(
-                        title: '1. Add Your Photos',
-                        iconType: Icons.camera,
-                        ontap: () {
-                          loadAssets();
-                        }),
-                    addedImgs
-                        ? TemplateButton(
-                            title: '2. Finish',
-                            iconType: Icons.check_circle_outline,
-                            color: Colors.lightGreen,
-                            ontap: () {
-                              captureWidgetImage(_globalKey).then((generatedGrid) async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            FinalGrid(generatedGrid)));
-                              });
-                            },
-                          )
-                        : Container(),
-
-            ],
+      body: Container(
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+            Widget>[
+          Container(
+            height: SizeConfig.blockSizeVertical * 15,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TemplateButton(
+                    title: '1. Add Your Photos',
+                    color: Constants.paleBlue,
+                    iconType: Icons.camera,
+                    ontap: () {
+                      loadAssets();
+                    }),
+                ValueListenableBuilder(
+                    valueListenable: makeFinalStack,
+                    builder: (BuildContext context, bool value, Widget child) =>
+                        !value
+                            ? addedImgs
+                                ? TemplateButton(
+                                    title: '2. Initialise',
+                                    color: Colors.lightGreen,
+                                    iconType: Icons.compare_arrows,
+                                    ontap: () => makeFinalStack.value = true)
+                                : Container()
+                            : Container())
+              ],
+            ),
           ),
-        ),
-      ]),
-    ),),);
+          //   FlatButton(onPressed: () {}, child: Text('text')),
+          Container(
+            height: SizeConfig.screenWidth,
+            //height: SizeConfig.blockSizeVertical * 60,
+            child: RepaintBoundary(
+              key: _globalKey,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    child: Hero(
+                      tag: widget.index,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.frameUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
+                  ),
+                  buildGridView(),
+                  ValueListenableBuilder(
+                    valueListenable: makeFinalStack,
+                    builder: (BuildContext context, bool value, Widget child) =>
+                        value
+                            ? Container(
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.frameUrl,
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                              )
+                            : Container(),
+
+                    //TODO: overlay frame here and change opacity
+                  )
+                ],
+              ),
+            ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: makeFinalStack,
+            builder: (context, value, Widget child) => value
+                ? Container(
+                    height: SizeConfig.blockSizeVertical * 15,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TemplateButton(
+                            title: 'Re-Edit',
+                            iconType: Icons.edit,
+                            color: Constants.palePink,
+                            ontap: () => makeFinalStack.value = false),
+                        TemplateButton(
+                          title: 'Finish',
+                          iconType: Icons.check_circle_outline,
+                          color: Colors.lightGreen,
+                          ontap: () {
+                            captureWidgetImage(_globalKey)
+                                .then((generatedGrid) async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FinalGrid(generatedGrid)));
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
+          )
+        ]),
+      ),
+    );
   }
 }
 
@@ -200,23 +294,35 @@ class _TemplateButtonState extends State<TemplateButton> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+      width: SizeConfig.blockSizeHorizontal * 50,
+      height: SizeConfig.blockSizeVertical * 11,
       child: FlatButton(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             widget.iconType == null
                 ? Container()
                 : Icon(
                     widget.iconType,
-                    color: Colors.white,
-                    size: 50,
+                    color: widget.color,
+//                    widget.color == Colors.white
+//                        ? Constants.paleBlue
+//                        : Colors.white,
+                    size: 30,
                   ),
             widget.title == null
                 ? Container()
                 : Text(widget.title,
-                    style: TextStyle(color: Colors.white, fontSize: 19)),
+                    style: TextStyle(
+                        color: widget.color,
+//                        widget.color == Colors.white
+//                            ? Constants.paleBlue
+//                            : Colors.white,
+                        fontSize: 19)),
           ],
         ),
-        color: widget.color == null ? Constants.paleBlue : widget.color,
+        color: Colors.white,
+        // widget.color == null ? Colors.white : widget.color,
         shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(18)),
         onPressed: widget.ontap,
