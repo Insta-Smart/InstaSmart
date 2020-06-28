@@ -4,18 +4,26 @@ import '../constants.dart';
 import 'final_grid_screen.dart';
 import 'package:instasmart/models/size_config.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:zoom_widget/zoom_widget.dart';
-import 'package:instasmart/models/widget_to_image.dart';
 import 'package:instasmart/models/splitImage.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'final_grid_screen.dart';
 import 'frames_screen.dart';
 import 'loading_screen.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
-import 'dart:ui' as ui;
 import 'dart:async';
+import 'dart:typed_data';
+import 'package:image/image.dart' as imglib;
+import 'package:instasmart/models/save_images.dart';
+import 'package:instasmart/models/firebase_image_storage.dart';
+import 'home_screen.dart';
+import 'preview_screen.dart';
+import 'package:reorderables/reorderables.dart';
+import 'package:instasmart/widgets/grid_frame.dart';
+import 'package:instasmart/widgets/template_button.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+
 
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
@@ -27,40 +35,37 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
+  var firebaseStorage = FirebaseImageStorage();
   List<Asset> images = List<Asset>();
   List imageBytes;
   bool addedImgs = false;
-  double userImgOpacity = 0.5;
-  // bool makeFinalStack = false;
-  bool madeFinal = false;
-  Widget globalGridView;
-  Widget currGridView;
-  final makeFinalStack = ValueNotifier<bool>(false);
-
-  void _onPressed() {
-    makeFinalStack.value = false;
-    print('initialise pressed');
-  }
+  bool finished = false;
+  bool loader = false;
 
   @override
-  void dispose() {
-    makeFinalStack.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
   }
 
+  void _onReorder(int oldIndex, int newIndex) {
+    setState(() {
+      images.insert(newIndex, images.removeAt(oldIndex));
+    });
+  }
+
+
   Widget buildGridView() {
-    return GridView.count(
-      crossAxisCount: 3,
+    return ReorderableWrap(
+      minMainAxisCount: 3,
+      onReorder: _onReorder,
       padding: EdgeInsets.all(0),
       children: List.generate(images.length, (index) {
         Asset asset = images[index];
-        return Padding(
-          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 3),
-          child: Zoom(
-            colorScrollBars: Colors.transparent,
-            initZoom: 0.0,
-            width: 200,
-            height: 200,
+        return Container(
+          height: SizeConfig.screenWidth/3,
+          width:  SizeConfig.screenWidth/3,
+          child: Padding(
+            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal*3),
             child: AssetThumb(
               asset: asset,
               width: 200,
@@ -69,45 +74,6 @@ class _CreateScreenState extends State<CreateScreen> {
           ),
         );
       }),
-    );
-  }
-
-  Widget rearrangingStack(Widget currGridView, bool makeFinal) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          child: Hero(
-            tag: widget.index,
-            child: CachedNetworkImage(
-              imageUrl: widget.frameUrl,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
-        ),
-        Opacity(opacity: 0.6, child: globalGridView),
-      ],
-    );
-  }
-
-  Widget finalStack() {
-    print('widget being rebuilt');
-    return Stack(
-      children: <Widget>[
-        Opacity(opacity: 1, child: buildGridView()),
-        Container(
-          child: Hero(
-            tag: widget.index,
-            child: CachedNetworkImage(
-              imageUrl: widget.frameUrl,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -122,7 +88,7 @@ class _CreateScreenState extends State<CreateScreen> {
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
-          actionBarColor: "#ffddee",
+          actionBarColor: "#9370DB",
           actionBarTitle: "Select Images",
           allViewTitle: "All Photos",
           useDetailsView: false,
@@ -144,8 +110,28 @@ class _CreateScreenState extends State<CreateScreen> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
+    Uint8List overlayImages(Uint8List imgTop, Uint8List imgBottom){
+      int dstWidth = 1080;
+      imglib.Image image = imglib.Image(dstWidth, dstWidth);
+      imglib.Image dst = imglib.decodeImage(imgBottom);
+      imglib.Image src = imglib.decodeImage(imgTop);
+
+      dst = imglib.copyResizeCropSquare(dst, dstWidth);
+      src = imglib.copyResizeCropSquare(src, dstWidth-100);
+      int srcWidth = src.width.floor().toInt();
+      dstWidth = dst.width.floor().toInt();
+      int dstPostion= ((dst.width-src.width)/2).toInt();
+      var overlayedImage = imglib.copyInto(image, src, dstX:dstPostion,dstY:dstPostion,srcH:srcWidth,srcW:srcWidth,srcX:0,srcY:0,blend: true);
+      var finalImage = imglib.copyInto(overlayedImage, dst, dstX:0,dstY:0,srcH:dstWidth,srcW:dstWidth,srcX:0,srcY:0,blend:true);
+      return imglib.encodePng(overlayedImage);
+    }
+    final ProgressDialog pr = ProgressDialog(context);
+
     SizeConfig().init(context);
     GlobalKey _globalKey = new GlobalKey();
     return new Scaffold(
@@ -161,178 +147,172 @@ class _CreateScreenState extends State<CreateScreen> {
 //          onPressed: () => Navigator.pop(context),
 //        ),
 //      ),
-      body: Container(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
-            Widget>[
-          Container(
-            height: SizeConfig.blockSizeVertical * 15,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TemplateButton(
-                    title: '1. Add Your Photos',
-                    color: Constants.paleBlue,
-                    iconType: Icons.camera,
-                    ontap: () {
-                      loadAssets();
-                    }),
-                ValueListenableBuilder(
-                    valueListenable: makeFinalStack,
-                    builder: (BuildContext context, bool value, Widget child) =>
-                        !value
-                            ? addedImgs
-                                ? TemplateButton(
-                                    title: '2. Initialise',
-                                    color: Colors.lightGreen,
-                                    iconType: Icons.compare_arrows,
-                                    ontap: () => makeFinalStack.value = true)
-                                : Container()
-                            : Container())
-              ],
-            ),
-          ),
-          //   FlatButton(onPressed: () {}, child: Text('text')),
-          Container(
-            height: SizeConfig.screenWidth,
-            //height: SizeConfig.blockSizeVertical * 60,
-            child: RepaintBoundary(
-              key: _globalKey,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    child: Hero(
-                      tag: widget.index,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.frameUrl,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    ),
-                  ),
-                  buildGridView(),
-                  ValueListenableBuilder(
-                    valueListenable: makeFinalStack,
-                    builder: (BuildContext context, bool value, Widget child) =>
-                        value
-                            ? Container(
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.frameUrl,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                              )
-                            : Container(),
+      body: Padding(
+        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: SizeConfig.screenWidth,
+                //height: SizeConfig.blockSizeVertical * 60,
+                child: RepaintBoundary(
+                  key: _globalKey,
+                  child: Stack(
+                    children: <Widget>[
+                      GridFrame(widget: widget),
+                      buildGridView(),
+                      finished?GridFrame(widget: widget,):Container(),
 
-                    //TODO: overlay frame here and change opacity
-                  )
-                ],
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          ValueListenableBuilder(
-            valueListenable: makeFinalStack,
-            builder: (context, value, Widget child) => value
-                ? Container(
-                    height: SizeConfig.blockSizeVertical * 15,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        TemplateButton(
-                            title: 'Re-Edit',
-                            iconType: Icons.edit,
-                            color: Constants.palePink,
-                            ontap: () => makeFinalStack.value = false),
-                        TemplateButton(
-                          title: 'Finish',
-                          iconType: Icons.check_circle_outline,
-                          color: Colors.lightGreen,
-                          ontap: () {
-                            captureWidgetImage(_globalKey)
-                                .then((generatedGrid) async {
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical*3, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                   !finished? TemplateButton(
+                        title: '1. Add Your Photos',
+                        iconType: Icons.camera,
+                        ontap: () {
+                          loadAssets();
+                        }):Container(),
+
+                    addedImgs && !finished
+                        ? TemplateButton(
+                            title: '2. Finish',
+                            iconType: Icons.check_circle_outline,
+                            color: Colors.lightGreen,
+                            ontap: () async {
+                              setState(() {
+                                finished = true;
+                              });
+                              var srcBytesList = List();
+                              await images.forEach((img) async{
+                                var bytes = await img.getByteData();
+                                var srcBytes= bytes.buffer.asUint8List();
+                                srcBytesList.add(srcBytes);
+
+                              });
+//                              Navigator.push(
+//                                    context,
+//                                    MaterialPageRoute(
+//                                        builder: (context) =>
+//                                            FinalGrid(srcBytesList[0]),
+//                                    ),
+//                                );
+
+                            },
+                          )
+                        : Container(),
+
+                    finished? TemplateButton(
+                      iconType: Icons.file_download,
+                      title: 'Save to Gallery',
+
+                      ontap: () async {
+                        pr.style(
+                          message: 'Saving...',
+                          borderRadius: 10.0,
+                          backgroundColor: Colors.white,
+                          progressWidget: SpinKitFadingGrid(size: 30,color: Colors.deepPurple,),
+                          elevation: 10.0,
+                        );
+                        pr.show();
+                        List <Uint8List> srcBytesList = List();
+                        List <Uint8List> genImages = List();
+
+                        var srcBytes = await images.forEach((img) {
+                          img.getByteData().then((value) =>
+                          srcBytesList.add(value.buffer.asUint8List()));
+
+                        });
+                        var dstBytes =  await networkImageToByte(widget.frameUrl);
+                        var split  = splitImage(imgBytes: dstBytes, verticalPieceCount: 3, horizontalPieceCount: 3);
+                        for (int i = 0;i<srcBytesList.length;i++){
+                          genImages.add(overlayImages(srcBytesList[i], split[i]));
+                        }
+                        await saveImages(genImages);
+                        pr.hide();
+
+                        AwesomeDialog(
+                          context: context,
+                          headerAnimationLoop: false,
+                          dialogType: DialogType.SUCCES,
+                          animType: AnimType.BOTTOMSLIDE,
+                          title: 'Saved',
+                          desc: 'Images have been saved to gallery',
+                          btnOkOnPress: () {},
+                        )..show();
+
+                      },
+                    ):Container(),
+
+                    finished? TemplateButton(
+                      title: 'Add Grid to Preview',
+                      iconType: Icons.grid_on,
+
+                      ontap: () async {
+                        pr.style(
+                          message: 'Adding to Preview...',
+                          borderRadius: 10.0,
+                          backgroundColor: Colors.white,
+                          progressWidget: SpinKitFadingGrid(size: 30,color: Colors.deepPurple,),
+                          elevation: 10.0,
+                        );
+                        pr.show();
+
+                          List <Uint8List> srcBytesList = List();
+                          List <Uint8List> genImages = List();
+                          var srcBytes = await images.forEach((img) {
+                            img.getByteData().then((value) =>
+                                srcBytesList.add(value.buffer.asUint8List()));
+
+                          });
+                          var dstBytes =  await networkImageToByte(widget.frameUrl);
+                          var split  = splitImage(imgBytes: dstBytes, verticalPieceCount: 3, horizontalPieceCount: 3);
+                          for (int i = 0;i<srcBytesList.length;i++){
+                            genImages.add(overlayImages(srcBytesList[i], split[i]));
+                          }
+
+                          await firebaseStorage
+                              .uploadByteImage(images: genImages)
+                              .then((imageUrls) => firebaseStorage
+                              .mergeImageUrls(imageUrls.reversed.toList()));
+                        pr.hide();
+                          AwesomeDialog(
+                            context: context,
+                            headerAnimationLoop: false,
+                            dialogType: DialogType.SUCCES,
+                            animType: AnimType.BOTTOMSLIDE,
+                            title: 'Success',
+                            desc: 'Images have been added to Preview',
+                            btnOkOnPress: () {},
+                            btnCancelText: 'Go to Preview',
+                            btnCancelColor: Colors.blueAccent,
+                            btnCancelOnPress: (){
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          FinalGrid(generatedGrid)));
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                : Container(),
-          )
-        ]),
-      ),
-    );
-  }
-}
+                                      builder: (context) => HomeScreen(
+                                        index: 2,
+                                      )));
+                            }
+                          )..show();
 
-class TemplateButton extends StatefulWidget {
-  final String title;
-  final Function ontap;
-  final IconData iconType;
-  final Color color;
 
-  const TemplateButton(
-      {Key key, this.title, @required this.ontap, this.iconType, this.color})
-      : super(key: key);
 
-  @override
-  _TemplateButtonState createState() => _TemplateButtonState();
-}
 
-class _TemplateButtonState extends State<TemplateButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-      width: SizeConfig.blockSizeHorizontal * 50,
-      height: SizeConfig.blockSizeVertical * 11,
-      child: FlatButton(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            widget.iconType == null
-                ? Container()
-                : Icon(
-                    widget.iconType,
-                    color: widget.color,
-//                    widget.color == Colors.white
-//                        ? Constants.paleBlue
-//                        : Colors.white,
-                    size: 30,
-                  ),
-            widget.title == null
-                ? Container()
-                : Text(widget.title,
-                    style: TextStyle(
-                        color: widget.color,
-//                        widget.color == Colors.white
-//                            ? Constants.paleBlue
-//                            : Colors.white,
-                        fontSize: 19)),
-          ],
+
+                      },
+                    ):Container(),
+
+
+            ],
+          ),
         ),
-        color: Colors.white,
-        // widget.color == null ? Colors.white : widget.color,
-        shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(18)),
-        onPressed: widget.ontap,
-        focusColor: Constants.brightPurple,
-        hoverColor: Colors.black,
-        splashColor: Colors.red,
-        padding: EdgeInsets.all(10),
-
-        //function to change selectedVar goes here
-      ),
-    );
+      ]),
+    ),),);
   }
 }

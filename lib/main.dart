@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:instasmart/screens/collection_preview_screen.dart';
-import 'package:instasmart/screens/collection_screen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/home_screen.dart';
 import 'package:instasmart/screens/liked_screen.dart';
@@ -80,9 +78,6 @@ class MyApp extends StatelessWidget {
               OverlayImagesFunctions(),
           CalendarScreen.routeName: (context) => CalendarScreen(),
           LikedScreen.routeName: (context) => LikedScreen(),
-          PreviewCollectionScreen.routeName: (context) =>
-              PreviewCollectionScreen(),
-          CollectionScreen.routeName: (context) => CollectionScreen(),
         },
       ),
     );

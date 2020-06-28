@@ -74,59 +74,21 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //          title: 'Plan Your Feed',
 //          appBar: AppBar(),
 //        ),
-        body: Container(
-          height: SizeConfig.blockSizeVertical * 80,
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child: Card(
-            elevation: 10,
-            child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.center,
-//                mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      Icon(
-//                        Icons.grid_on,
-//                        size: 40,
-//                      ),
-//                      Icon(
-//                        Icons.account_box,
-//                        color: Colors.grey,
-//                        size: 40,
-//                      ),
-//                    ],
-//                  ),
-                Expanded(
-                  child: ReorderableGrid(
-                      firebase: firebase, firebaseStorage: firebaseStorage),
-                ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      Icon(
-//                        CupertinoIcons.home,
-//                        size: 40,
-//                      ),
-//                      Icon(
-//                        CupertinoIcons.search,
-//                        size: 40,
-//                      ),
-//                      Icon(
-//                        CupertinoIcons.add,
-//                        size: 40,
-//                      ),
-//                      Icon(
-//                        CupertinoIcons.heart,
-//                        size: 40,
-//                      ),
-//                      Icon(
-//                        CupertinoIcons.circle,
-//                        size: 40,
-//                      ),
-//                    ],
-//                  ),
-              ],
+        body: SafeArea(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Card(
+              elevation: 10,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: ReorderableGrid(
+                        firebase: firebase, firebaseStorage: firebaseStorage),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

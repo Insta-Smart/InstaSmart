@@ -57,9 +57,17 @@ class ReorderableGrid extends StatelessWidget {
                                       context: context,
                                       builder: (context) => Container(
                                             color: Colors.transparent,
-                                            height: 280,
+                                            height: MediaQuery.of(context).size.height,
                                             child: Column(
                                               children: <Widget>[
+                                                Container(
+                                                  height: 150,
+                                                  child:Hero(
+                                              tag: snapshot.data[index],
+                                              child: PreviewPhoto(snapshot.data[index]),
+                                            ),
+                                      ),
+
                                                 ListTile(
                                                     leading: Icon(
                                                       Icons.calendar_today,
@@ -100,10 +108,6 @@ class ReorderableGrid extends StatelessWidget {
                                                   },
                                                 ),
                                                 ListTile(
-                                                  leading: Icon(Icons.share),
-                                                  title: Text('Share'),
-                                                ),
-                                                ListTile(
                                                   leading: Icon(Icons.close),
                                                   title: Text('Close'),
                                                   onTap: () =>
@@ -112,9 +116,6 @@ class ReorderableGrid extends StatelessWidget {
                                               ],
                                             ),
                                           ));
-                                },
-                                onDoubleTap: () {
-                                  CupertinoContextMenu();
                                 },
                                 child: Hero(
                                   tag: snapshot.data[index],

@@ -9,12 +9,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Container(
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
+              color: Colors.transparent,
               child: Image.asset('assets/images/instasmartLogo.png'),
               height: 100,
               width: 100,
