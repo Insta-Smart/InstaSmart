@@ -30,7 +30,7 @@ class _FramesScreenFunctionsState extends State<FramesScreenFunctions> {
   String _downloadurl;
   StorageReference _reference =
       FirebaseStorage.instance.ref().child("FramesPNG");
-  final collectionRef = Firestore.instance.collection('allframespngurl');
+  final collectionRef = Firestore.instance.collection('allframessmall');
 
   //method to pick images from camera or gallery
   Future getImage(bool isCamera) async {

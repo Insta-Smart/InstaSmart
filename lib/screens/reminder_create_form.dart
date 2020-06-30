@@ -8,6 +8,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instasmart/models/notifications.dart';
 import 'package:instasmart/models/reminder.dart';
 
+import '../constants.dart';
+
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_create';
   ReminderForm(this.imageUrl);
@@ -24,7 +26,7 @@ class ReminderFormState extends State<ReminderForm> {
   bool showSegmentedControl = true;
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final GlobalKey<FormFieldState> _specifyTextFieldKey =
-  GlobalKey<FormFieldState>();
+      GlobalKey<FormFieldState>();
 
   ValueChanged _onChanged = (val) => {};
 
@@ -47,21 +49,20 @@ class ReminderFormState extends State<ReminderForm> {
                 children: <Widget>[
                   Center(
                       child: Container(
-                        width: MediaQuery.of(context).size.width / 2.round(),
-                        height: MediaQuery.of(context).size.width / 2.round(),
-                        child: Hero(
-                            tag: widget.imageUrl,
-                            child: CachedNetworkImage(
-                              imageUrl: widget.imageUrl,
-                              progressIndicatorBuilder: (context,
-                                  url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress
-                                          .progress),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),),
-                      )),
+                    width: MediaQuery.of(context).size.width / 2.round(),
+                    height: MediaQuery.of(context).size.width / 2.round(),
+                    child: Hero(
+                      tag: widget.imageUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.imageUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                    ),
+                  )),
                   SizedBox(height: 15),
                   FormBuilderTextField(
                     attribute: "caption",
@@ -82,7 +83,8 @@ class ReminderFormState extends State<ReminderForm> {
                     ),
                     validator: (val) => null,
                     initialTime: TimeOfDay.now(),
-                    initialValue: DateTime.now().add(Duration(minutes: 1)).toLocal(),
+                    initialValue:
+                        DateTime.now().add(Duration(minutes: 1)).toLocal(),
                     // readonly: true,
                   ),
                 ],
@@ -92,21 +94,28 @@ class ReminderFormState extends State<ReminderForm> {
               children: <Widget>[
                 Expanded(
                   child: RaisedButton(
-                    color: Colors.blue,
+                    elevation: 0,
+                    shape: Constants.buttonShape,
+                    color: Constants.paleBlue,
                     child: Text(
                       "Create Reminder",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                      textAlign: TextAlign.center,
                     ),
-                    onPressed: () async{
+                    onPressed: () async {
                       if (_fbKey.currentState.saveAndValidate()) {
                         var formValues = _fbKey.currentState.value;
                         var caption = formValues['caption'];
                         var postTime = formValues['postTime'];
-                        ReminderData().createReminder(caption: caption, pictureUrl: widget.imageUrl, postTime: postTime);
+                        ReminderData().createReminder(
+                            caption: caption,
+                            pictureUrl: widget.imageUrl,
+                            postTime: postTime);
                         var notifications = LocalNotifications();
                         await notifications.initializing();
                         print(DateTime.now().toLocal());
                         notifications.scheduleNotification(postTime);
+
                         Navigator.pop(context);
                       } else {
                         print(_fbKey.currentState.value);
@@ -114,8 +123,6 @@ class ReminderFormState extends State<ReminderForm> {
                       }
                     },
                   ),
-
-
                 )
               ],
             ),

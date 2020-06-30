@@ -24,7 +24,7 @@ class FramesFirebaseFunctions {
 //class _FramesFirebaseFunctionsState extends State<FramesFirebaseFunctions> {
   StorageReference _reference =
       FirebaseStorage.instance.ref().child("FramesPNG");
-  final collectionRef = Firestore.instance.collection('allframespngurl');
+  final collectionRef = Firestore.instance.collection('allframessmall');
 
   Future<List<Frame>> GetUrlAndIdFromFirestore(String val) async {
     //updates LinkdHashMap with imageurls

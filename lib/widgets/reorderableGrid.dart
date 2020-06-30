@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/screens/final_grid_screen.dart';
@@ -57,17 +58,19 @@ class ReorderableGrid extends StatelessWidget {
                                       context: context,
                                       builder: (context) => Container(
                                             color: Colors.transparent,
-                                            height: MediaQuery.of(context).size.height,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
                                             child: Column(
                                               children: <Widget>[
                                                 Container(
                                                   height: 150,
-                                                  child:Hero(
-                                              tag: snapshot.data[index],
-                                              child: PreviewPhoto(snapshot.data[index]),
-                                            ),
-                                      ),
-
+                                                  child: Hero(
+                                                    tag: snapshot.data[index],
+                                                    child: PreviewPhoto(
+                                                        snapshot.data[index]),
+                                                  ),
+                                                ),
                                                 ListTile(
                                                     leading: Icon(
                                                       Icons.calendar_today,
@@ -97,14 +100,28 @@ class ReorderableGrid extends StatelessWidget {
                                                 ),
                                                 ListTile(
                                                   leading: Icon(Icons.save_alt),
-                                                  title: Text('Save'),
+                                                  title: Text('Save To Phone'),
                                                   onTap: () async {
                                                     var imgBytes =
                                                         await networkImageToByte(
                                                             snapshot
                                                                 .data[index]);
                                                     saveImages([imgBytes]);
-                                                    Navigator.pop(context);
+                                                    AwesomeDialog(
+                                                      context: context,
+                                                      headerAnimationLoop:
+                                                          false,
+                                                      dialogType:
+                                                          DialogType.SUCCES,
+                                                      animType:
+                                                          AnimType.BOTTOMSLIDE,
+                                                      title: 'Saved',
+                                                      desc:
+                                                          'Image have been saved to gallery',
+                                                      btnOkOnPress: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    )..show();
                                                   },
                                                 ),
                                                 ListTile(

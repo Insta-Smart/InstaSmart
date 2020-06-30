@@ -76,12 +76,13 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //        ),
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding:
+                EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 5, 0, 0),
             child: Card(
               elevation: 10,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     child: ReorderableGrid(
