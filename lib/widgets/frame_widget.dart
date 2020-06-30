@@ -6,6 +6,7 @@ import '../constants.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:progressive_image/progressive_image.dart';
 
 class Frame_Widget extends StatefulWidget {
   final Frame frame;
@@ -20,9 +21,9 @@ class Frame_Widget extends StatefulWidget {
 
 class _Frame_WidgetState extends State<Frame_Widget> {
   int _numLikes;
-  bool
-      liked; //TODO: change to checking whether imgurl exists in user's collection
-  final collectionRef = Firestore.instance.collection('allframespngurl');
+  bool liked =
+      true; //TODO: change to checking whether imgurl exists in user's collection
+  final collectionRef = Firestore.instance.collection('allframessmall');
   final userRef = Firestore.instance.collection('Users');
   final db = Firestore.instance;
   final FirebaseFunctions firebase = FirebaseFunctions();
@@ -66,11 +67,11 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     if (!widget.isLiked) {
       LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
         print('value of initlikedstate is: ${value}');
-        if (mounted) {
-          setState(() {
-            liked = value;
-          });
-        }
+        // if (mounted) {
+        setState(() {
+          liked = value;
+        });
+        //}
       });
       print('final liked is ${liked}');
     } else {
@@ -87,15 +88,29 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     return Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-
+          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+// L-R margin should be same as GridView container margin in frames_screen.dart
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
             child: Container(
-              child: CachedNetworkImage(
+              child:
+//              ProgressiveImage.memoryNetwork(
+//                placeholder: ['assets/images/loading_image.jpg'],
+//                thumbnail:
+//                    'https://cdn5.vectorstock.com/i/1000x1000/88/54/circular-icon-loading-vector-26578854.jpg', // 64x43
+//                image: widget.frame.imgurl, // 3240x2160
+//                height: 250,
+//                width: 500,
+//              ),
+
+                  CachedNetworkImage(
                 imageUrl: widget.frame.imgurl,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+//                progressIndicatorBuilder: (context, url, downloadProgress) =>
+//                    Center(
+//                        child: CircularProgressIndicator(
+//                            value: downloadProgress.progress)),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
@@ -139,7 +154,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
         ),
         Container(
           child: Container(
-            color: Colors.white60,
+            color: Colors.white.withOpacity(0.8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -152,7 +167,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                     ? Container()
                     : Text('${_numLikes}',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20)),
+                            fontWeight: FontWeight.bold, fontSize: 14)),
               ],
             ),
           ),

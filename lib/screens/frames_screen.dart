@@ -26,11 +26,11 @@ class FramesScreen extends StatefulWidget {
 
 class _FramesScreenState extends State<FramesScreen> {
   StorageReference _reference =
-      FirebaseStorage.instance.ref().child("FramesPNG");
+      FirebaseStorage.instance.ref().child("FramesSmall");
   String _downloadurl;
   bool imagePressed = false;
   int imageNoPressed;
-  final collectionRef = Firestore.instance.collection('allframespngurl');
+  final collectionRef = Firestore.instance.collection('allframessmall');
   String selectedCat = Categories.all;
 
   Future setDownloadUrl(int index) async {
@@ -38,7 +38,7 @@ class _FramesScreenState extends State<FramesScreen> {
     // to directly display this image, use Image.network(_downloadurl)
     try {
       String downloadAddress = await _reference
-          .child("Untitled_Artwork ${index} copy.png")
+          .child("Untitled_Artwork ${index} copy-min.png")
           .getDownloadURL(); //image name
       //     print(downloadAddress);
       setState(() {
@@ -67,9 +67,9 @@ class _FramesScreenState extends State<FramesScreen> {
 
   @override
   void initState() {
-    super.initState();
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
+    // uploadImagetoFirestore();
     futList = FramesFirebaseFunctions().GetUrlAndIdFromFirestore(selectedCat);
     FramesFirebaseFunctions()
         .GetUrlAndIdFromFirestore(selectedCat)
@@ -80,6 +80,7 @@ class _FramesScreenState extends State<FramesScreen> {
       });
     });
     imagePressed = false;
+    super.initState();
   }
 
   @override
@@ -175,13 +176,19 @@ class _FramesScreenState extends State<FramesScreen> {
                               style: TextStyle(fontSize: 50)),
                         );
                       } else {
-                        print('building frames');
+                        print('snapshot data length is:');
+                        //when frame_screen first loads, snapshot HAS DATA
+                        //it does not build until save for some reason
+                        print(snapshot.data.length);
                         return Container(
                           height: SizeConfig.blockSizeVertical * 50,
+                          margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
                           child: GridView.count(
                               crossAxisCount: 3,
                               children: List.generate(
-                                  snapshot.data.length,
+                                  snapshot.data.length > 0
+                                      ? snapshot.data.length
+                                      : 10,
                                   (index) => Container(
                                         // child: Hero(
                                         // tag: index,
@@ -299,7 +306,7 @@ class _CategoryButtonState extends State<CategoryButton> {
         shape: Constants.buttonShape,
         onPressed: widget.ontap,
         focusColor: Constants.brightPurple,
-        hoverColor: Colors.black,
+        hoverColor: Colors.white,
         splashColor: Constants.lightPurple,
 
         //function to change selectedVar goes here

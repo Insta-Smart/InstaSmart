@@ -4,7 +4,7 @@ import 'package:instasmart/models/user.dart';
 import 'package:flutter/material.dart';
 
 class LikingFunctions {
-  final collectionRef = Firestore.instance.collection('allframespngurl');
+  final collectionRef = Firestore.instance.collection('allframessmall');
   final userRef = Firestore.instance.collection('Users');
   final FirebaseFunctions firebase = FirebaseFunctions();
   User user;

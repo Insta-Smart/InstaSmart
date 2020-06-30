@@ -42,17 +42,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text("InstaSmart"),
-//        actions: <Widget>[
-//          IconButton(
-//              icon: Icon(Icons.exit_to_app),
-//              onPressed: () {
-//                FirebaseFunctions().signOut().then((value) =>
-//                    Navigator.pushNamed(context, LoginScreen.routeName));
-//              })
-//        ],
-//      ),
+      appBar: AppBar(
+        title: Text("InstaSmart"),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
+                FirebaseFunctions().signOut().then((value) =>
+                    Navigator.pushNamed(context, LoginScreen.routeName));
+              })
+        ],
+      ),
       body: SizedBox.expand(
         child: PageView(
           controller: _pageController,
