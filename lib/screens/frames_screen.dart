@@ -70,14 +70,12 @@ class _FramesScreenState extends State<FramesScreen> {
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
     // uploadImagetoFirestore();
-    futList = FramesFirebaseFunctions().GetUrlAndIdFromFirestore(selectedCat);
-    FramesFirebaseFunctions()
-        .GetUrlAndIdFromFirestore(selectedCat)
+    futList = FramesFirebaseFunctions()
+        .GetUrlAndIdFromFirestore(Categories.all)
         .then((value) {
-      setState(() {
-        frameList = value;
-        filteredFrameList = frameList;
-      });
+      print('futList obj = ${value}');
+      frameList = value;
+      filteredFrameList = frameList;
     });
     imagePressed = false;
     super.initState();
@@ -108,19 +106,19 @@ class _FramesScreenState extends State<FramesScreen> {
         body: Stack(
           children: <Widget>[
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  //SizeConfig.blockSizeHorizontal * 90,
-                  color: Colors.transparent,
-                  padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
-                  margin: EdgeInsets.fromLTRB(
-                      0, SizeConfig.blockSizeVertical * 2, 0, 10),
-                  //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
-                  width: SizeConfig.screenWidth,
-                  height: SizeConfig.blockSizeVertical * 5.5,
-                  child:
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    //SizeConfig.blockSizeHorizontal * 90,
+                    color: Colors.transparent,
+                    padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
+                    margin: EdgeInsets.fromLTRB(
+                        0, SizeConfig.blockSizeVertical * 2, 0, 10),
+                    //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
+                    width: SizeConfig.screenWidth,
+                    height: SizeConfig.blockSizeVertical * 5.5,
+                    child:
 //                        Wrap(
 //                          spacing: 2,
 //                          runSpacing: 3,
@@ -140,68 +138,49 @@ class _FramesScreenState extends State<FramesScreen> {
 //                            );
 //                          }),
 //                        )
-                      //DONT DELETE
-                      ListView.builder(
-                    padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: Categories.catNamesList.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        new CategoryButton(
-                      catName: Categories.catNamesList[index],
-                      selectedCat: selectedCat,
-                      ontap: () => setState(() {
-                        selectedCat = Categories.catNamesList[index];
-                        filteredFrameList = FramesFirebaseFunctions()
-                            .filterFrames(selectedCat, frameList);
-                        // updateFramesList();
+                        //DONT DELETE
+                        ListView.builder(
+                      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Categories.catNamesList.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          new CategoryButton(
+                        catName: Categories.catNamesList[index],
+                        selectedCat: selectedCat,
+                        ontap: () => setState(() {
+                          selectedCat = Categories.catNamesList[index];
+                          filteredFrameList = FramesFirebaseFunctions()
+                              .filterFrames(selectedCat, frameList);
+                          // updateFramesList();
 //                              print("selectedcat is: ${selectedCat}");
 //                              print('new framelist is: ${filteredFrameList}');
-                      }),
+                        }),
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  //  padding: EdgeInsets.fromLTRB(
-                  //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
-                  // height: SizeConfig.blockSizeVertical * 70,
-                  child: FutureBuilder(
-                    future: futList,
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.none ||
-                          snapshot.hasData == null ||
-                          snapshot.data == null) {
-                        //print('project snapshot data is: ${projectSnap.data}');
-                        return Center(
-                          child: Text('Loading...',
-                              style: TextStyle(fontSize: 50)),
-                        );
-                      } else {
-                        print('snapshot data length is:');
-                        //when frame_screen first loads, snapshot HAS DATA
-                        //it does not build until save for some reason
-                        print(snapshot.data.length);
-                        return Container(
-                          height: SizeConfig.blockSizeVertical * 50,
-                          margin: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: GridView.count(
-                              crossAxisCount: 3,
-                              children: List.generate(
-                                  snapshot.data.length > 0
-                                      ? snapshot.data.length
-                                      : 10,
-                                  (index) => Container(
-                                        // child: Hero(
-                                        // tag: index,
-                                        child: buildFrameToDisplay(index),
-                                      ))), //change to document.snapshot length
-                          //  ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+                  Expanded(
+                    //  padding: EdgeInsets.fromLTRB(
+                    //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
+                    // height: SizeConfig.blockSizeVertical * 70,
+
+                    child: frameList.length == 0
+                        ? Center(
+                            child: Text('Loading...',
+                                style: TextStyle(fontSize: 50)),
+                          )
+                        : GridView.builder(
+                            itemCount: filteredFrameList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3),
+                            itemBuilder: (BuildContext context, int index) =>
+                                Container(
+                                  // child: Hero(
+                                  // tag: index,
+                                  child: buildFrameToDisplay(index),
+                                )),
+                  )
+                ]),
             imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
           ],
         ),
@@ -212,6 +191,7 @@ class _FramesScreenState extends State<FramesScreen> {
   Widget buildFrameToDisplay(int index) {
     try {
       print("filteredframelist is");
+      print(filteredFrameList);
       Frame_Widget frameWidget =
           new Frame_Widget(frame: filteredFrameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.

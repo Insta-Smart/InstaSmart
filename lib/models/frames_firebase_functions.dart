@@ -28,6 +28,7 @@ class FramesFirebaseFunctions {
 
   Future<List<Frame>> GetUrlAndIdFromFirestore(String val) async {
     //updates LinkdHashMap with imageurls
+
     List<Frame> frameList = new List<Frame>();
     var doc;
     if (val == Categories.all) {
@@ -39,12 +40,13 @@ class FramesFirebaseFunctions {
     }
     doc.getDocuments().then((value) {
       value.documents.forEach((el) {
-        print(el.data);
+        //print(el.data);
         //  setState(() {
         if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
           print("null url");
         } else {
-          //    print(el.data['imageurl']);
+          print('value of GetURLFromFirestore');
+          print(el.data['imageurl']);
           frameList.add(Frame(
               imgurl: el.data['imageurl'],
               imgID: el.documentID,

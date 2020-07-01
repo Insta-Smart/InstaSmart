@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/size_config.dart';
+import 'package:instasmart/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
@@ -638,14 +640,14 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               ),
             ],
           ),
-          onPressed: buttonEnabled ? () {} : null,
+          //onPressed: buttonEnabled ? () {} : null,
         ),
       ),
     );
   }
   //[END] Facebook UP BUTTON
 
-  //[START] Facebook UP BUTTON
+  //[START] Google UP BUTTON
   Widget _buildGoogleButton(ThemeData theme, LoginMessages messages) {
     return FadeIn(
       controller: _loadingController,
@@ -677,12 +679,24 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
               ),
             ],
           ),
-          onPressed: buttonEnabled ? () {} : null,
+          onPressed: buttonEnabled
+              ? () {
+                  FirebaseFunctions().signInWithGoogle().whenComplete(() {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return HomeScreen();
+                        },
+                      ),
+                    );
+                  });
+                }
+              : null,
         ),
       ),
     );
   }
-  //[END] Facebook UP BUTTON
+  //[END] Google UP BUTTON
 
   //[START] SIGN UP BUTTON
   Widget _buildSwitchAuthButton(
