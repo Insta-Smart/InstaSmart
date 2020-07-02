@@ -109,24 +109,38 @@ class _LikedScreenState extends State<LikedScreen> {
 //                    ),
                       ],
                     ),
-                    Expanded(
-                      child: frameList.length == 0
-                          ? Center(
-                              child: Text('Loading...',
+                    FutureBuilder(
+                        future: futList,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Frame>> snapshot) {
+                          Widget outerChild = Center(
+                            child: Text('Loading...',
+                                style: TextStyle(fontSize: 50)),
+                          );
+                          if (snapshot.hasData) {
+                            outerChild = GridView.builder(
+                                itemCount: frameList.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        Container(
+                                            child: Hero(
+                                          tag: index,
+                                          child: buildFrameToDisplay(index),
+                                        )));
+                          }
+                          if (snapshot.hasError) {
+                            outerChild = Center(
+                              child: Text('Error. Please Refresh The Page',
                                   style: TextStyle(fontSize: 50)),
-                            )
-                          : GridView.builder(
-                              itemCount: frameList.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
-                              itemBuilder: (BuildContext context, int index) =>
-                                  Container(
-                                    // child: Hero(
-                                    // tag: index,
-                                    child: buildFrameToDisplay(index),
-                                  )),
-                    )
+                            );
+                          }
+                          return Expanded(
+                            child: outerChild,
+                          );
+                        })
                   ]),
               imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
             ],

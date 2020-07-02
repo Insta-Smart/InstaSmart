@@ -31,33 +31,39 @@ class FramesFirebaseFunctions {
 
     List<Frame> frameList = new List<Frame>();
     var doc;
-    if (val == Categories.all) {
-      doc = await collectionRef.orderBy("popularity", descending: true);
-    } else {
-      doc = await collectionRef
-          .orderBy("popularity", descending: true)
-          .where('category', isEqualTo: val);
-    }
-    doc.getDocuments().then((value) {
-      value.documents.forEach((el) {
-        //print(el.data);
-        //  setState(() {
-        if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
-          print("null url");
-        } else {
-          print('value of GetURLFromFirestore');
-          print(el.data['imageurl']);
-          frameList.add(Frame(
-              imgurl: el.data['imageurl'],
-              imgID: el.documentID,
-              category: el.data['category']));
-        }
-        //create a map
-        //  });
+    try {
+      if (val == Categories.all) {
+        doc = await collectionRef.orderBy("popularity", descending: true);
+      } else {
+        doc = await collectionRef
+            .orderBy("popularity", descending: true)
+            .where('category', isEqualTo: val);
+      }
+      doc.getDocuments().then((value) {
+        value.documents.forEach((el) {
+          //print(el.data);
+          //  setState(() {
+          if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
+            print("null url");
+          } else {
+            //  print('value of GetURLFromFirestore');
+            //print(el.data['imageurl']);
+            frameList.add(Frame(
+                imgurl: el.data['imageurl'],
+                imgID: el.documentID,
+                category: el.data[
+                    'category'])); //some frames dont have a category field
+          }
+          //create a map
+          //  });
+        });
+        // print("fter then, framelist is ${frameList}");
       });
-    });
-    print("framelist is ${frameList}");
-    return frameList;
+      print("framelist is ${frameList}");
+      return frameList;
+    } catch (e) {
+      print('error in gettingurl:${e}');
+    }
   }
 
   //RETURNS IMGID IN ALLFRAMESPNGURL BY USING IMGURL

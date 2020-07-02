@@ -59,15 +59,15 @@ class LikingFunctions {
           .document(id)
           .get();
       if (snapshot.exists) {
-        print('user liked frame');
+        // print('user liked frame');
         liked = true;
-        print(liked);
+        // print(liked);
       } else {
-        print('user did not like frame');
+        // print('user did not like frame');
         liked = false;
-        print(liked);
+        // print(liked);
       }
-      print(liked);
+      //  print(liked);
       return liked;
     } catch (e) {
       print('error in getInitLikedStat is ${e}');
@@ -78,7 +78,7 @@ class LikingFunctions {
     bool liked;
     futInitLikedStat(id).then((value) {
       liked = value;
-      print('result of getInitLIkedstat: ${liked}');
+      //  print('result of getInitLIkedstat: ${liked}');
       return liked;
     });
   }
