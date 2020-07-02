@@ -70,9 +70,9 @@ class _FramesScreenState extends State<FramesScreen> {
     //uploadImagetoFirestore();// done initially to refresh store of images.
     //TODO: automatically refresh store of images.
     // uploadImagetoFirestore();
-    futList = FramesFirebaseFunctions()
-        .GetUrlAndIdFromFirestore(Categories.all)
-        .then((value) {
+    futList =
+        FramesFirebaseFunctions().GetUrlAndIdFromFirestore(Categories.all);
+    futList.then((value) {
       print('futList obj = ${value}');
       frameList = value;
       filteredFrameList = frameList;
@@ -118,28 +118,7 @@ class _FramesScreenState extends State<FramesScreen> {
                     //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
                     width: SizeConfig.screenWidth,
                     height: SizeConfig.blockSizeVertical * 5.5,
-                    child:
-//                        Wrap(
-//                          spacing: 2,
-//                          runSpacing: 3,
-//                          children: List.generate(
-//                              Categories.catNamesList.length, (index) {
-//                            return new CategoryButton(
-//                              catName: Categories.catNamesList[index],
-//                              selectedCat: selectedCat,
-//                              ontap: () => setState(() {
-//                                selectedCat = Categories.catNamesList[index];
-//                                filteredFrameList = FramesFirebaseFunctions()
-//                                    .filterFrames(selectedCat, frameList);
-//                                // updateFramesList();
-////                              print("selectedcat is: ${selectedCat}");
-////                              print('new framelist is: ${filteredFrameList}');
-//                              }),
-//                            );
-//                          }),
-//                        )
-                        //DONT DELETE
-                        ListView.builder(
+                    child: ListView.builder(
                       padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
                       scrollDirection: Axis.horizontal,
                       itemCount: Categories.catNamesList.length,
@@ -158,28 +137,65 @@ class _FramesScreenState extends State<FramesScreen> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    //  padding: EdgeInsets.fromLTRB(
-                    //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
-                    // height: SizeConfig.blockSizeVertical * 70,
-
-                    child: frameList.length == 0
-                        ? Center(
-                            child: Text('Loading...',
-                                style: TextStyle(fontSize: 50)),
-                          )
-                        : GridView.builder(
+                  FutureBuilder(
+                    future: futList,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Frame>> snapshot) {
+                      Widget outerChild = Center(
+                        child:
+                            Text('Loading...', style: TextStyle(fontSize: 50)),
+                      );
+                      if (snapshot.hasData &&
+                          snapshot.connectionState == ConnectionState.done) {
+                        outerChild = GridView.builder(
                             itemCount: filteredFrameList.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3),
                             itemBuilder: (BuildContext context, int index) =>
                                 Container(
-                                  // child: Hero(
-                                  // tag: index,
+                                    child: Hero(
+                                  tag: index,
                                   child: buildFrameToDisplay(index),
-                                )),
-                  )
+                                )));
+                        print(
+                            'snapshot is ${snapshot.data}'); //snapshot is null here
+
+                      }
+                      if (snapshot.hasError) {
+                        outerChild = Center(
+                          child: Text('Error. Please Refresh The Page',
+                              style: TextStyle(fontSize: 50)),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.none) {}
+                      return Expanded(
+                        child: outerChild,
+                      );
+                    },
+                  ),
+//                  Expanded(
+//                    //  padding: EdgeInsets.fromLTRB(
+//                    //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
+//                    // height: SizeConfig.blockSizeVertical * 70,
+//
+//                    child: frameList.length == 0
+//                        ? Center(
+//                            child: Text('Loading...',
+//                                style: TextStyle(fontSize: 50)),
+//                          )
+//                        : GridView.builder(
+//                            itemCount: filteredFrameList.length,
+//                            gridDelegate:
+//                                SliverGridDelegateWithFixedCrossAxisCount(
+//                                    crossAxisCount: 3),
+//                            itemBuilder: (BuildContext context, int index) =>
+//                                Container(
+//                                  // child: Hero(
+//                                  // tag: index,
+//                                  child: buildFrameToDisplay(index),
+//                                )),
+//                  )
                 ]),
             imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
           ],
@@ -301,7 +317,6 @@ class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> widgets;
 
   /// you can add more fields that meet your needs
-
   const PageTopBar({Key key, this.title, this.appBar, this.widgets})
       : super(key: key);
 

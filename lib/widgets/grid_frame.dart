@@ -14,7 +14,7 @@ class GridFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:  PhotoView.customChild(
+      child: PhotoView.customChild(
         backgroundDecoration: BoxDecoration(
           color: Colors.transparent,
         ),
@@ -25,12 +25,9 @@ class GridFrame extends StatelessWidget {
           tag: widget.index,
           child: CachedNetworkImage(
             imageUrl: widget.frameUrl,
-            progressIndicatorBuilder:
-                (context, url, downloadProgress) =>
-                CircularProgressIndicator(
-                    value: downloadProgress.progress),
-            errorWidget: (context, url, error) =>
-                Icon(Icons.error),
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                CircularProgressIndicator(value: downloadProgress.progress),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
       ),
