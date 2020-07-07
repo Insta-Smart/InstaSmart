@@ -12,6 +12,8 @@ import 'package:instasmart/models/save_images.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../constants.dart';
+
 //import 'package:popup_menu/popup_menu.dart';
 //
 class ReorderableCollection extends StatelessWidget {
@@ -28,7 +30,7 @@ class ReorderableCollection extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
-            .collection('Users')
+            .collection('${Constants.USERS}')
             .document(firebase.currUser.uid)
             .snapshots(),
         builder: (context, snapshot) {
