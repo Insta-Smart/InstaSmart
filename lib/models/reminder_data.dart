@@ -6,7 +6,7 @@ import 'package:instasmart/models/user.dart';
 
 class ReminderData {
   final db = Firestore.instance;
-  final FirebaseFunctions firebase = FirebaseFunctions();
+  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
 
   void createReminder({String caption, String pictureUrl, DateTime postTime}) async {
     try {

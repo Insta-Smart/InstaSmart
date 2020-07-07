@@ -1,43 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/categories.dart';
 import 'package:instasmart/models/frame.dart';
 
 class FramesFirebaseFunctions {
-//    extends StatefulWidget {
-//  var framesFirebaseFns = new _FramesFirebaseFunctionsState();
-//
-//  @override
-//  _FramesFirebaseFunctionsState createState() =>
-//      _FramesFirebaseFunctionsState();
-////  Future<List<Frame>> getUrlAndIdFromFirestore(String val) async {
-////    framesFirebaseFns.getUrlAndIdFromFirestore(val);
-////  }
-////
-////  Future<String> getFrameID(String imgurl) async {
-////    framesFirebaseFns.getFrameID(imgurl);
-////  }
-//}
-//
-//class _FramesFirebaseFunctionsState extends State<FramesFirebaseFunctions> {
-  StorageReference _reference =
-      FirebaseStorage.instance.ref().child("FramesPNG");
-  final collectionRef = Firestore.instance.collection('allframessmall');
 
-  Future<List<Frame>> GetUrlAndIdFromFirestore(String val) async {
+  final collectionRef = Firestore.instance.collection('Resized_Frames');
+
+  Future<List<Frame>> GetUrlAndIdFromFirestore(String category) async {
     //updates LinkdHashMap with imageurls
 
     List<Frame> frameList = new List<Frame>();
     var doc;
     try {
-      if (val == Categories.all) {
+      if (category == Categories.all) {
         doc = await collectionRef.orderBy("popularity", descending: true);
       } else {
         doc = await collectionRef
             .orderBy("popularity", descending: true)
-            .where('category', isEqualTo: val);
+            .where('category', isEqualTo: category);
       }
       doc.getDocuments().then((value) {
         value.documents.forEach((el) {
@@ -80,13 +60,13 @@ class FramesFirebaseFunctions {
     return imgID;
   }
 
-  List<Frame> filterFrames(String cat, List<Frame> origList) {
+  List<Frame> filterFrames(String category, List<Frame> origList) {
     List<Frame> filteredFrameList = new List<Frame>();
-    if (cat == Categories.all) {
+    if (category == Categories.all) {
       filteredFrameList = origList;
     } else {
       for (Frame el in origList) {
-        if (el.category == cat) {
+        if (el.category == category) {
           filteredFrameList.add(el);
 //          print('filterframe printing');
 //          print(el.category);

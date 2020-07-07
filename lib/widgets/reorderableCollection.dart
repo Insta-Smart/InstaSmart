@@ -21,7 +21,7 @@ class ReorderableCollection extends StatelessWidget {
     @required this.firebaseStorage,
   }) : super(key: key);
 
-  final FirebaseFunctions firebase;
+  final FirebaseLoginFunctions firebase;
   final FirebaseImageStorage firebaseStorage;
 
   @override

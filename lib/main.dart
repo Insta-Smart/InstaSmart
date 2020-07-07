@@ -19,8 +19,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FirebaseFunctions>(
-      create: (context) => FirebaseFunctions(),
+    return ChangeNotifierProvider<FirebaseLoginFunctions>(
+      create: (context) => FirebaseLoginFunctions(),
       child: MaterialApp(
         title: 'InstaSmart',
         theme: ThemeData(
@@ -59,10 +59,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: FutureBuilder<User>(
-            future: FirebaseFunctions().currentUser(),
+            future: FirebaseLoginFunctions().currentUser(),
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               if (snapshot.hasData) {
-                Provider.of<FirebaseFunctions>(context).currUser =
+                Provider.of<FirebaseLoginFunctions>(context).currUser =
                     snapshot.data;
                 return HomeScreen();
               } else {

@@ -5,7 +5,7 @@ import 'package:instasmart/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class FirebaseFunctions extends ChangeNotifier {
+class FirebaseLoginFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
   final db = Firestore.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();

@@ -31,7 +31,7 @@ class _LikedScreenState extends State<LikedScreen> {
   bool imagePressed = false;
   int imageNoPressed;
   final userRef = Firestore.instance.collection('Users');
-  final FirebaseFunctions firebase = FirebaseFunctions();
+  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 
   List frameList = new List();
@@ -86,29 +86,7 @@ class _LikedScreenState extends State<LikedScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-//                    IconButton(
-//                      iconSize: 35,
-//                      icon: Icon(
-//                        Icons.arrow_back,
-//                        color: Constants.paleBlue,
-//                      ),
-//                      onPressed: () {
-//                        setState(() {
-//                          Navigator.pop(context);
-//                        });
-//                      },
-//                    ),
-//                    Container(
-//                      margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-//                      child: Text(
-//                        "Liked",
-//                        style: (TextStyle(fontSize: 45.0)),
-//                      ),
-//                    ),
-                      ],
-                    ),
+
                     FutureBuilder(
                         future: futList,
                         builder: (BuildContext context,

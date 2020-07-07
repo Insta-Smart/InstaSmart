@@ -681,7 +681,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           ),
           onPressed: buttonEnabled
               ? () {
-                  FirebaseFunctions().signInWithGoogle().whenComplete(() {
+                  FirebaseLoginFunctions().signInWithGoogle().whenComplete(() {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {

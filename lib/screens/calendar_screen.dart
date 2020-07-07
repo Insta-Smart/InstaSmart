@@ -62,7 +62,7 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   @override
   Widget build(BuildContext context) {
-    final firebase = Provider.of<FirebaseFunctions>(context);
+    final firebase = Provider.of<FirebaseLoginFunctions>(context);
     return SafeArea(
       child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance

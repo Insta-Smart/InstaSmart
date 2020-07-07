@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/liking_functions.dart';
 import '../constants.dart';
-import 'package:instasmart/models/login_functions.dart';
-import 'package:instasmart/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:progressive_image/progressive_image.dart';
 
@@ -23,11 +21,9 @@ class _Frame_WidgetState extends State<Frame_Widget> {
   int _numLikes;
   bool liked =
       true; //TODO: change to checking whether imgurl exists in user's collection
-  final collectionRef = Firestore.instance.collection('allframessmall');
-  final userRef = Firestore.instance.collection('Users');
+
   final db = Firestore.instance;
-  final FirebaseFunctions firebase = FirebaseFunctions();
-  User user;
+  final collectionRef = Firestore.instance.collection('Resized_Frames');
 
   //RETURNS NUMBER OF LIKES THE IMAGE HAS AS A DOUBLE
   Future<double> getNumLikes() async {
