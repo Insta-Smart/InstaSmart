@@ -3,9 +3,11 @@ import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class LikingFunctions {
   final collectionRef = Firestore.instance.collection('allframessmall');
-  final userRef = Firestore.instance.collection('Users');
+  final userRef = Firestore.instance.collection('${Constants.USERS}');
   final FirebaseFunctions firebase = FirebaseFunctions();
   User user;
 

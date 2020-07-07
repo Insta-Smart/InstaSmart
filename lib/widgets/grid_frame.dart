@@ -23,12 +23,27 @@ class GridFrame extends StatelessWidget {
         maxScale: 5.0,
         child: Hero(
           tag: widget.index,
-          child: CachedNetworkImage(
-            imageUrl: widget.frameUrl,
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                CircularProgressIndicator(value: downloadProgress.progress),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+          child: Image.network(
+            widget.frameUrl,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
+              );
+            },
           ),
+//          CachedNetworkImage (
+//            imageUrl: widget.frameUrl,
+//            progressIndicatorBuilder: (context, url, downloadProgress) =>
+//                CircularProgressIndicator(value: downloadProgress.progress),
+//            errorWidget: (context, url, error) => Icon(Icons.error),
+//          ),
         ),
       ),
     );

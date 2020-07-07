@@ -162,6 +162,7 @@ class _FramesScreenState extends State<FramesScreen> {
                             'snapshot is ${snapshot.data}'); //snapshot is null here
 
                       }
+                      //TODO: I need to do this
                       if (snapshot.hasError) {
                         outerChild = Center(
                           child: Text('Error. Please Refresh The Page',

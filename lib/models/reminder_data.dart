@@ -8,19 +8,19 @@ class ReminderData {
   final db = Firestore.instance;
   final FirebaseFunctions firebase = FirebaseFunctions();
 
-  void createReminder({String caption, String pictureUrl, DateTime postTime}) async {
+  void createReminder(
+      {String caption, String pictureUrl, DateTime postTime}) async {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .collection('reminders')
           .add({
         'caption': caption,
         'isPosted': false,
         'scheduled_image': pictureUrl,
-        'date':
-            "${postTime.day}/${postTime.month}/${postTime.year}",
+        'date': "${postTime.day}/${postTime.month}/${postTime.year}",
         'postTime': postTime,
       });
       print('done creating');
@@ -34,7 +34,7 @@ class ReminderData {
       List<Reminder> reminders = List<Reminder>();
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .collection('reminders')
           .where('date', isEqualTo: "${date.day}/${date.month}/${date.year}")
@@ -62,7 +62,7 @@ class ReminderData {
       List<Reminder> reminders = List<Reminder>();
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .collection('reminders')
           .getDocuments()
@@ -89,7 +89,7 @@ class ReminderData {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .collection('reminders')
           .document(reminder.id)
@@ -110,7 +110,7 @@ class ReminderData {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .collection('reminders')
           .document(reminder.id)
@@ -120,5 +120,4 @@ class ReminderData {
       print(e);
     }
   }
-
 }

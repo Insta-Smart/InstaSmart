@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
-        android:name="io.flutter.app.FlutterApplication"
         android:label="InstaSmart"
         android:icon="@mipmap/launcher_icon">
         <activity
