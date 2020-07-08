@@ -30,6 +30,7 @@ class _FramesScreenState extends State<FramesScreen> {
   int imageNoPressed;
   final collectionRef = Firestore.instance.collection('Resized_Frames');
   String selectedCat = Categories.all;
+  FramesFirebaseFunctions firebaseFrames = FramesFirebaseFunctions();
 
   List <Frame>frameList = new List<Frame>(); //initial list, not to be changed
   List<Frame> filteredFrameList = new List<Frame>(); //filtered list
@@ -39,38 +40,27 @@ class _FramesScreenState extends State<FramesScreen> {
   @override
   void initState() {
     super.initState();
-    futList =
-        FramesFirebaseFunctions().GetUrlAndIdFromFirestore(Categories.all);
+    print('init');
+    futList = firebaseFrames.GetUrlAndIdFromFirestore(Categories.all);
     futList.then((value) {
-      frameList = value;
-      filteredFrameList = frameList;
+      setState(() {
+        frameList = value;
+        filteredFrameList = frameList;
+      });
     });
+
+
+
     imagePressed = false;
 
   }
 
   @override
   Widget build(BuildContext context) {
+
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-//      appBar: PageTopBar(
-//        title: 'Frames',
-//        appBar: AppBar(),
-//        widgets: <Widget>[
-////          IconButton(s
-////            //Like Button
-////            alignment: Alignment.centerRight,
-////            iconSize: 2,
-////            icon: Icon(Icons.favorite_border,
-////                size: 30, color: Constants.paleBlue),
-////            tooltip: 'Click to see liked frames.',
-////            onPressed: () {
-////              Navigator.pushNamed(context, LikedScreen.routeName);
-////            },
-////          ),
-//        ],
-        //),
         body: Stack(
           children: <Widget>[
             Column(
@@ -98,9 +88,7 @@ class _FramesScreenState extends State<FramesScreen> {
                           selectedCat = Categories.catNamesList[index];
                           filteredFrameList = FramesFirebaseFunctions()
                               .filterFrames(selectedCat, frameList);
-                          // updateFramesList();
-//                              print("selectedcat is: ${selectedCat}");
-//                              print('new framelist is: ${filteredFrameList}');
+
                         }),
                       ),
                     ),
@@ -109,59 +97,29 @@ class _FramesScreenState extends State<FramesScreen> {
                     future: futList,
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Frame>> snapshot) {
-                      Widget outerChild = Center(
-                        child:
-                            Text('Loading...', style: TextStyle(fontSize: 50)),
-                      );
-                      if (snapshot.hasData &&
-                          snapshot.connectionState == ConnectionState.done) {
-                        outerChild = GridView.builder(
-                            itemCount: filteredFrameList.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                                    child: Hero(
-                                  tag: index,
-                                  child: buildFrameToDisplay(index),
-                                )));
 
+                      if (!snapshot.hasData) {
+                        return Container();
                       }
-                      if (snapshot.hasError) {
-                        outerChild = Center(
-                          child: Text('Error. Please Refresh The Page',
-                              style: TextStyle(fontSize: 50)),
+                      else {
+                        print('build future');
+                        return Expanded(
+                          child: GridView.builder(
+                              itemCount: filteredFrameList.length,
+                              gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Container(
+                                      child: Hero(
+                                        tag: index,
+                                        child: buildFrameToDisplay(index),
+                                      ))),
                         );
                       }
-                      if (snapshot.connectionState == ConnectionState.none) {}
-                      return Expanded(
-                        child: outerChild,
-                      );
-                    },
-                  ),
-//                  Expanded(
-//                    //  padding: EdgeInsets.fromLTRB(
-//                    //     0, SizeConfig.blockSizeVertical * 3, 0, 0),
-//                    // height: SizeConfig.blockSizeVertical * 70,
-//
-//                    child: frameList.length == 0
-//                        ? Center(
-//                            child: Text('Loading...',
-//                                style: TextStyle(fontSize: 50)),
-//                          )
-//                        : GridView.builder(
-//                            itemCount: filteredFrameList.length,
-//                            gridDelegate:
-//                                SliverGridDelegateWithFixedCrossAxisCount(
-//                                    crossAxisCount: 3),
-//                            itemBuilder: (BuildContext context, int index) =>
-//                                Container(
-//                                  // child: Hero(
-//                                  // tag: index,
-//                                  child: buildFrameToDisplay(index),
-//                                )),
-//                  )
+                      //TODO: I need to do this
+
+                    }),
                 ]),
             imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
           ],

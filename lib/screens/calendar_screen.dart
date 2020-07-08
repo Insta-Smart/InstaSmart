@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/reminder_data.dart';
+import 'package:instasmart/models/user.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../constants.dart';
 import '../widgets/reminder_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/login_functions.dart';
@@ -10,8 +12,13 @@ import 'package:instasmart/models/reminder.dart';
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/calendar';
 
+  CalendarScreen({Key key, @required this.user}) : super(key: key);
+
+  final User user;
   @override
-  _CalendarScreenState createState() => _CalendarScreenState();
+  State createState() {
+    return _CalendarScreenState();
+  }
 }
 
 class _CalendarScreenState extends State<CalendarScreen>
@@ -66,7 +73,7 @@ class _CalendarScreenState extends State<CalendarScreen>
     return SafeArea(
       child: StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance
-              .collection('Users/${firebase.currUser.uid}/reminders')
+              .collection('${Constants.USERS}/${widget.user.uid}/reminders')
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {

@@ -7,7 +7,7 @@ class FramesFirebaseFunctions {
   final collectionRef = Firestore.instance.collection('Resized_Frames');
 
   Future<List<Frame>> GetUrlAndIdFromFirestore(String category) async {
-    //updates LinkdHashMap with imageurls
+    print('calling get url');
 
     List<Frame> frameList = new List<Frame>();
     var doc;
@@ -19,10 +19,8 @@ class FramesFirebaseFunctions {
             .orderBy("popularity", descending: true)
             .where('category', isEqualTo: category);
       }
-      doc.getDocuments().then((value) {
+      await doc.getDocuments().then((value) {
         value.documents.forEach((el) {
-          //print(el.data);
-          //  setState(() {
           if (el.data['imageurl'] == null || el.data['imageurl'] == "") {
             print("null url");
           } else {
@@ -37,9 +35,8 @@ class FramesFirebaseFunctions {
           //create a map
           //  });
         });
-        // print("fter then, framelist is ${frameList}");
+
       });
-      print("framelist is ${frameList}");
       return frameList;
     } catch (e) {
       print('error in gettingurl:${e}');

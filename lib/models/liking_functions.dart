@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
+import '../constants.dart';
+
 class LikingFunctions {
+
   final collectionRef = Firestore.instance.collection('Resized_Frames');
-  final userRef = Firestore.instance.collection('Users');
+  final userRef = Firestore.instance.collection('${Constants.USERS}');
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 

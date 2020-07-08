@@ -34,11 +34,10 @@ class _LikedScreenState extends State<LikedScreen> {
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 
-  List frameList = new List();
+  List frameList = new List<Frame>();
   Future<List<Frame>> futList;
 
   Future<List<Frame>> getUrlAndIdFromFirestore() async {
-    //updates LinkdHashMap with imageurls
     frameList = new List<Frame>();
     try {
       user = await firebase.currentUser();
@@ -91,34 +90,28 @@ class _LikedScreenState extends State<LikedScreen> {
                         future: futList,
                         builder: (BuildContext context,
                             AsyncSnapshot<List<Frame>> snapshot) {
-                          Widget outerChild = Center(
-                            child: Text('Loading...',
-                                style: TextStyle(fontSize: 50)),
-                          );
-                          if (snapshot.hasData) {
-                            outerChild = GridView.builder(
-                                itemCount: frameList.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3),
-                                itemBuilder:
-                                    (BuildContext context, int index) =>
-                                        Container(
-                                            child: Hero(
-                                          tag: index,
-                                          child: buildFrameToDisplay(index),
-                                        )));
+
+                          if (!snapshot.hasData) {
+                            return Container();
                           }
-                          if (snapshot.hasError) {
-                            outerChild = Center(
-                              child: Text('Error. Please Refresh The Page',
-                                  style: TextStyle(fontSize: 50)),
+                          else {
+                            return Expanded(
+                              child: GridView.builder(
+                                  itemCount: frameList.length,
+                                  gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                                  itemBuilder: (BuildContext context, int index) =>
+                                      Container(
+                                          child: Hero(
+                                            tag: index,
+                                            child: buildFrameToDisplay(index),
+                                          ))),
                             );
                           }
-                          return Expanded(
-                            child: outerChild,
-                          );
-                        })
+                          //TODO: I need to do this
+
+                        }),
                   ]),
               imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
             ],
