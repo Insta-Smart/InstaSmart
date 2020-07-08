@@ -21,7 +21,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
   int _numLikes;
   bool liked =
       true; //TODO: change to checking whether imgurl exists in user's collection
-
+  final userRef = Firestore.instance.collection(Constants.USERS);
   final db = Firestore.instance;
   final collectionRef = Firestore.instance.collection('Resized_Frames');
 
@@ -63,11 +63,11 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     if (!widget.isLiked) {
       LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
         print('value of initlikedstate is: ${value}');
-        // if (mounted) {
-        setState(() {
-          liked = value;
-        });
-        //}
+        if (mounted) {
+          setState(() {
+            liked = value;
+          });
+        }
       });
       print('final liked is ${liked}');
     } else {
@@ -87,11 +87,11 @@ class _Frame_WidgetState extends State<Frame_Widget> {
           margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
 // L-R margin should be same as GridView container margin in frames_screen.dart
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              child:
-//              ProgressiveImage.memoryNetwork(
-//                placeholder: ['assets/images/loading_image.jpg'],
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                child:
+//              ProgressiveImage.assetNetwork(
+//                placeholder: 'assets/images/loading_image.jpg',
 //                thumbnail:
 //                    'https://cdn5.vectorstock.com/i/1000x1000/88/54/circular-icon-loading-vector-26578854.jpg', // 64x43
 //                image: widget.frame.imgurl, // 3240x2160
@@ -99,23 +99,39 @@ class _Frame_WidgetState extends State<Frame_Widget> {
 //                width: 500,
 //              ),
 
-                  CachedNetworkImage(
-                imageUrl: widget.frame.imgurl,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
-//                progressIndicatorBuilder: (context, url, downloadProgress) =>
-//                    Center(
-//                        child: CircularProgressIndicator(
-//                            value: downloadProgress.progress)),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ),
-          ),
+//                  CachedNetworkImage(
+//                imageUrl: widget.frame.imgurl,
+//                placeholder: (context, url) =>
+//                    Center(child: CircularProgressIndicator()),
+////                progressIndicatorBuilder: (context, url, downloadProgress) =>
+////                    Center(
+////                        child: CircularProgressIndicator(
+////                            value: downloadProgress.progress)),
+//                //errorWidget: (context, url, error) => Icon(Icons.error),
+//              ),
+
+                    Image.network(
+                  widget.frame.imgurl,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes
+                            : null,
+                      ),
+                    );
+                  },
+                ),
+              )),
+        ),
 
 //          ClipRRect(
 //              borderRadius: BorderRadius.circular(25),
 //              child: Image.network(widget.frame.imgurl)),
-        ),
+
         Material(
           type: MaterialType.transparency,
           color: Colors.white,

@@ -4,6 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:instasmart/services/Authenticate.dart';
+import 'package:instasmart/utils/helper.dart';
+
+import '../constants.dart';
+import '../main.dart';
 
 class FirebaseLoginFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
@@ -18,8 +23,8 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     return User(
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoUrl: user.photoUrl,
+//      displayName: user.displayName,
+//      photoUrl: user.photoUrl,
     );
   }
 
@@ -44,14 +49,40 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     return _userFromFirebase(authResult.user);
   }
 
-  Future<User> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<User> createUserWithEmailAndPassword(String email, String password,
+      String firstName, String mobile, String lastName) async {
     final AuthResult authResult = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     currUser = _userFromFirebase(authResult.user);
+    var profilePicUrl = '';
+//        AuthResult result = await FirebaseAuth.instance
+//            .createUserWithEmailAndPassword(email: email, password: password);
+
+//        if (_image != null) {
+//          updateProgress('Uploading image, Please wait...');
+//          profilePicUrl = await FireStoreUtils()
+//              .uploadUserImageToFireStorage(_image, result.user.uid);
+//        }
+
     try {
+      User user = User(
+          email: email,
+          firstName: firstName,
+          phoneNumber: mobile,
+          uid: authResult.user.uid,
+          active: true,
+          lastName: lastName,
+          settings: Settings(allowPushNotifications: true),
+          profilePictureURL: profilePicUrl);
+      await FireStoreUtils.firestore
+          .collection(Constants.USERS)
+          .document(authResult.user.uid)
+          .setData(user.toJson());
+      hideProgress();
+      MyAppState.currentUser = user;
+
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(currUser.uid)
           .setData({'user_images': ''});
     } catch (e) {

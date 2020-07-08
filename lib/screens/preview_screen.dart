@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/size_config.dart';
+import 'package:instasmart/models/user.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:instasmart/models/firebase_image_storage.dart';
@@ -16,7 +17,11 @@ import 'package:instasmart/widgets/reorderableGrid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PreviewScreen extends StatefulWidget {
+  final User user;
   static const routeName = '/preview';
+
+  PreviewScreen({Key key, @required this.user}) : super(key: key);
+
   @override
   _PreviewScreenState createState() => new _PreviewScreenState();
 }
@@ -86,7 +91,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 children: <Widget>[
                   Expanded(
                     child: ReorderableGrid(
-                        firebase: firebase, firebaseStorage: firebaseStorage),
+                        firebase: firebase,
+                        firebaseStorage: firebaseStorage,
+                        user: widget.user),
                   ),
                 ],
               ),
