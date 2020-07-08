@@ -19,4 +19,10 @@ class Constants {
       "https://firebasestorage.googleapis.com/v0/b/instasmart-6df7d.appspot.com/o/testing_overlay%2Fsample_2.png?alt=media&token=7966740e-f042-4e7a-9ea2-1fcb561b5a8a");
   static ShapeBorder buttonShape =
       new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30));
+  static const FINISHED_ON_BOARDING = 'finishedOnBoarding';
+  static const COLOR_ACCENT = 0xFFd756ff;
+  static const COLOR_PRIMARY_DARK = 0xFF6900be;
+  static const COLOR_PRIMARY = 0xFFa011f2;
+  static const FACEBOOK_BUTTON_COLOR = 0xFF415893;
+  static const USERS = 'Users';
 }

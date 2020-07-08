@@ -7,6 +7,8 @@ import 'package:instasmart/models/login_functions.dart';
 import 'dart:typed_data';
 import 'package:instasmart/models/user.dart';
 
+import '../constants.dart';
+
 class FirebaseImageStorage {
   StorageReference _reference = FirebaseStorage.instance.ref();
   final db = Firestore.instance;
@@ -29,7 +31,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection(Constants.USERS)
           .document(user.uid)
           .updateData({'user_images': FieldValue.arrayUnion(imageUrls)});
     } catch (e) {
@@ -42,7 +44,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .updateData({'user_images': imageUrls});
     } catch (e) {
@@ -55,13 +57,15 @@ class FirebaseImageStorage {
     try {
       List imageUrls;
       User user = await firebase.currentUser();
+      print('current user in firebase_image_storage is: ${user.uid}');
       await db
-          .collection("Users")
+          .collection(Constants.USERS)
           .document(user.uid)
           .get()
           .then((doc) => {imageUrls = doc['user_images']});
       return imageUrls.reversed.toList();
     } catch (e) {
+      print('error in getImageUrls is:');
       print(e.toString());
     }
   }
@@ -147,7 +151,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Users")
+          .collection("Constants.USERS")
           .document(user.uid)
           .updateData({'user_images': FieldValue.arrayRemove(imageUrls)});
       var instance = FirebaseStorage.instance;

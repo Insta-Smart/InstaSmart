@@ -65,10 +65,10 @@ class LoginScreen extends StatelessWidget {
           firebase.signInWithEmailAndPassword(
               LoginData.name, LoginData.password);
         },
-        onSignup: (LoginData) {
-          firebase.createUserWithEmailAndPassword(
-              LoginData.name, LoginData.password);
-        },
+//        onSignup: (LoginData) {
+//          firebase.createUserWithEmailAndPassword(
+//              LoginData.name, LoginData.password);
+//        },
         onSubmitAnimationCompleted: () {
           if (user != null) {
             Navigator.pushNamed(context, HomeScreen.routeName);

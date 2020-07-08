@@ -128,6 +128,7 @@ class _FramesScreenState extends State<FramesScreen> {
                                 )));
 
                       }
+                      //TODO: I need to do this
                       if (snapshot.hasError) {
                         outerChild = Center(
                           child: Text('Error. Please Refresh The Page',
