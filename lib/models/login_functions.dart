@@ -66,14 +66,13 @@ class FirebaseFunctions extends ChangeNotifier {
 
     try {
       User user = User(
-          email: email,
-          firstName: firstName,
-          phoneNumber: mobile,
-          uid: authResult.user.uid,
-          active: true,
-          lastName: lastName,
-          settings: Settings(allowPushNotifications: true),
-          profilePictureURL: profilePicUrl);
+        email: email,
+        firstName: firstName,
+        uid: authResult.user.uid,
+        active: true,
+        lastName: lastName,
+        settings: Settings(allowPushNotifications: true),
+      );
       await FireStoreUtils.firestore
           .collection(Constants.USERS)
           .document(authResult.user.uid)

@@ -315,14 +315,13 @@ class _SignUpState extends State<SignUpScreen> {
 //              .uploadUserImageToFireStorage(_image, result.user.uid);
 //        }
         User user = User(
-            email: email,
-            firstName: firstName,
-            phoneNumber: mobile,
-            uid: result.user.uid,
-            active: true,
-            lastName: lastName,
-            settings: Settings(allowPushNotifications: true),
-            profilePictureURL: profilePicUrl);
+          email: email,
+          firstName: firstName,
+          uid: result.user.uid,
+          active: true,
+          lastName: lastName,
+          settings: Settings(allowPushNotifications: true),
+        );
         await FireStoreUtils.firestore
             .collection(Constants.USERS)
             .document(result.user.uid)

@@ -12,6 +12,7 @@ import 'package:instasmart/screens/AuthScreen.dart';
 import 'package:instasmart/utils/helper.dart';
 
 import 'package:instasmart/main.dart';
+import 'package:instasmart/widgets/template_button.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({
@@ -72,23 +73,24 @@ class AccountScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            displayCircleImage(user.profilePictureURL, 125, false),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(user.firstName),
+              child: Text("Name: " "${user.firstName}" ?? 'Enter name'),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(user.email),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(user.phoneNumber),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(user.uid),
-            ),
+            Container(
+                padding: const EdgeInsets.all(8),
+                child: FlatButton(
+                  child: Text("Edit"),
+                  onPressed: () {},
+                )),
+//            Padding(
+//              padding: const EdgeInsets.all(8.0),
+//              child: Text(user.uid), //For our reference only
+//            ),
           ],
         ),
       ),
