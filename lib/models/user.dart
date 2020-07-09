@@ -18,28 +18,30 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
-  String email = '';
-  String firstName = '';
-  String lastName = '';
+  String email = ' ';
+  String firstName = 'Enter Name';
+  String lastName = ' ';
   Settings settings = Settings(allowPushNotifications: true);
-  String phoneNumber = '';
   bool active = false;
   Timestamp lastOnlineTimestamp = Timestamp.now();
   String uid;
-  String profilePictureURL = '';
+  // String profilePictureURL = '';
   bool selected = false;
   String appIdentifier = 'Flutter ${Platform.operatingSystem}';
+  String logInMethod; //password, google.com
 
-  User(
-      {this.email,
-      this.firstName,
-      this.phoneNumber,
-      this.lastName,
-      this.active,
-      this.lastOnlineTimestamp,
-      this.settings,
-      this.uid,
-      this.profilePictureURL});
+  User({
+    this.email,
+    this.firstName,
+    //  this.phoneNumber,
+    this.lastName,
+    this.active,
+    this.lastOnlineTimestamp,
+    this.settings,
+    this.uid,
+    this.logInMethod,
+    //   this.profilePictureURL
+  });
 
   String fullName() {
     return '$firstName $lastName';
@@ -47,16 +49,15 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> parsedJson) {
     return new User(
-        email: parsedJson['email'] ?? "",
-        firstName: parsedJson['firstName'] ?? '',
-        lastName: parsedJson['lastName'] ?? '',
-        active: parsedJson['active'] ?? false,
-        lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
-        settings: Settings.fromJson(
-            parsedJson['settings'] ?? {'allowPushNotifications': true}),
-        phoneNumber: parsedJson['phoneNumber'] ?? "",
-        uid: parsedJson['id'] ?? parsedJson['userID'] ?? '',
-        profilePictureURL: parsedJson['profilePictureURL'] ?? "");
+      email: parsedJson['email'] ?? "",
+      firstName: parsedJson['firstName'] ?? '',
+      lastName: parsedJson['lastName'] ?? '',
+      active: parsedJson['active'] ?? false,
+      lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
+      settings: Settings.fromJson(
+          parsedJson['settings'] ?? {'allowPushNotifications': true}),
+      uid: parsedJson['id'] ?? parsedJson['userID'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -65,13 +66,19 @@ class User {
       "firstName": this.firstName,
       "lastName": this.lastName,
       "settings": this.settings.toJson(),
-      "phoneNumber": this.phoneNumber,
       "id": this.uid,
       'active': this.active,
       'lastOnlineTimestamp': this.lastOnlineTimestamp,
-      "profilePictureURL": this.profilePictureURL,
       'appIdentifier': this.appIdentifier
     };
+  }
+
+  void changeFirstName(String newFirstName) {
+    firstName = newFirstName;
+  }
+
+  void changeLastName(String newLastName) {
+    lastName = newLastName;
   }
 }
 

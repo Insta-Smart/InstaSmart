@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/AuthScreen.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/OnBoardingScreen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 import 'package:instasmart/screens/home_screen.dart';

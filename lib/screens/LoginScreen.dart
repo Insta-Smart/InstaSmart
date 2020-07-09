@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:instasmart/models/login_functions.dart';
 //import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/Authenticate.dart';
@@ -44,17 +45,15 @@ class _LoginScreen extends State<LoginScreen> {
         autovalidate: _validate,
         child: ListView(
           children: <Widget>[
-            Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
-                child: Text(
-                  'Sign In',
-                  style: TextStyle(
-                      color: Color(Constants.COLOR_PRIMARY),
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold),
-                ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
+              child: Text(
+                'Sign In',
+                style: TextStyle(
+                    color: Constants.lightPurple,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             ConstrainedBox(
@@ -75,11 +74,10 @@ class _LoginScreen extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: Color(Constants.COLOR_PRIMARY),
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email, color: Colors.deepPurple,),
                         contentPadding:
                             new EdgeInsets.only(left: 16, right: 16),
                         fillColor: Colors.white,
-                        hintText: 'Enter your Email',
+                        hintText: 'E-mail Address',
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             borderSide: BorderSide(
@@ -110,11 +108,10 @@ class _LoginScreen extends State<LoginScreen> {
                     style: TextStyle(fontSize: 18.0),
                     cursorColor: Color(Constants.COLOR_PRIMARY),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock, color: Colors.deepPurple,),
                         contentPadding:
                             new EdgeInsets.only(left: 16, right: 16),
                         fillColor: Colors.white,
-                        hintText: 'Enter your Password',
+                        hintText: 'Password',
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),
                             borderSide: BorderSide(
@@ -130,7 +127,7 @@ class _LoginScreen extends State<LoginScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: RaisedButton(
-                  color: Color(Constants.COLOR_PRIMARY),
+                  color: Constants.lightPurple,
                   child: Text(
                     'Log In',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -144,7 +141,7 @@ class _LoginScreen extends State<LoginScreen> {
                   padding: EdgeInsets.only(top: 12, bottom: 12),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                      side: BorderSide(color: Constants.lightPurple)),
                 ),
               ),
             ),
@@ -153,7 +150,7 @@ class _LoginScreen extends State<LoginScreen> {
               child: Center(
                 child: Text(
                   'OR',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Constants.lightPurple),
                 ),
               ),
             ),
@@ -164,22 +161,34 @@ class _LoginScreen extends State<LoginScreen> {
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: RaisedButton.icon(
                   label: Text(
-                    'Facebook Login',
+                    'Sign In With Google',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Image.asset(
-                      'assets/images/facebook_logo.png',
-                      color: Colors.white,
+                      'assets/images/google-logo.png',
+                      //color: Colors.white,
                       height: 30,
                       width: 30,
                     ),
                   ),
-                  color: Color(Constants.FACEBOOK_BUTTON_COLOR),
-                  textColor: Colors.white,
-                  splashColor: Color(Constants.FACEBOOK_BUTTON_COLOR),
-//                  onPressed: () async {
+                  color: Colors.white,
+                  textColor: Constants.lightPurple,
+                  splashColor: Constants.paleBlue,
+                  onPressed: () async {
+                    FirebaseLoginFunctions()
+                        .signInWithGoogle()
+                        .whenComplete(() async {
+                      User user = await FirebaseLoginFunctions().currentUser();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return HomeScreen(user: user);
+                          },
+                        ),
+                      );
+                    });
 //                    final facebookLogin = FacebookLogin();
 //                    final result = await facebookLogin.logIn(['email']);
 //                    switch (result.status) {
@@ -208,11 +217,10 @@ class _LoginScreen extends State<LoginScreen> {
 //                            context, 'Error', 'Couldn\'t login via facebook.');
 //                        break;
 //                    }
-                  //  },
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(
-                          color: Color(Constants.FACEBOOK_BUTTON_COLOR))),
+                      side: BorderSide(color: Colors.white)),
                 ),
               ),
             ),
@@ -294,6 +302,8 @@ class _LoginScreen extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+
+//[END] Google UP BUTTON
 
 //  void _createUserFromFacebookLogin(
 //      FacebookLoginResult result, String userID) async {

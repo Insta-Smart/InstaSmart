@@ -85,32 +85,29 @@ class _LikedScreenState extends State<LikedScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-
                     FutureBuilder(
                         future: futList,
                         builder: (BuildContext context,
                             AsyncSnapshot<List<Frame>> snapshot) {
-
                           if (!snapshot.hasData) {
                             return Container();
-                          }
-                          else {
+                          } else {
                             return Expanded(
                               child: GridView.builder(
                                   itemCount: frameList.length,
                                   gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
-                                  itemBuilder: (BuildContext context, int index) =>
-                                      Container(
-                                          child: Hero(
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3),
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          Container(
+                                              child: Hero(
                                             tag: index,
                                             child: buildFrameToDisplay(index),
                                           ))),
                             );
                           }
                           //TODO: I need to do this
-
                         }),
                   ]),
               imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
@@ -134,7 +131,7 @@ class _LikedScreenState extends State<LikedScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    CreateScreen(frameList[index].imgurl, index),
+                    CreateScreen(frameList[index].imgurl, index, user),
               ));
         },
         onLongPress: () {
