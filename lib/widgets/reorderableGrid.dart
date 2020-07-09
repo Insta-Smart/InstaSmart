@@ -27,7 +27,7 @@ class ReorderableGrid extends StatelessWidget {
       @required this.user})
       : super(key: key);
 
-  final FirebaseFunctions firebase;
+  final FirebaseLoginFunctions firebase;
   final FirebaseImageStorage firebaseStorage;
   final User user;
 

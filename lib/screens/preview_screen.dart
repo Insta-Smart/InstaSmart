@@ -72,7 +72,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var firebase = Provider.of<FirebaseFunctions>(context);
+    var firebase = Provider.of<FirebaseLoginFunctions>(context);
     SizeConfig().init(context);
     return new Scaffold(
 //        appBar: PageTopBar(

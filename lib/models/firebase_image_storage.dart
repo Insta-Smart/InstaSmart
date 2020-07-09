@@ -12,7 +12,7 @@ import '../constants.dart';
 class FirebaseImageStorage {
   StorageReference _reference = FirebaseStorage.instance.ref();
   final db = Firestore.instance;
-  final FirebaseFunctions firebase = FirebaseFunctions();
+  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
 
   Future<String> getDownloadUrl(int index) async {
     //downloads image from storage, based on index [files named as sample_index
