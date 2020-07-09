@@ -86,7 +86,6 @@ class _LikedScreenState extends State<LikedScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-
                     FutureBuilder(
                         future: futList,
                         builder: (BuildContext context,
@@ -141,7 +140,7 @@ class _LikedScreenState extends State<LikedScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    CreateScreen(frameList[index].imgurl, index),
+                    CreateScreen(frameList[index].imgurl, index, user),
               ));
         },
         onLongPress: () {

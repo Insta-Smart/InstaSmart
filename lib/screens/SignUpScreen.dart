@@ -28,7 +28,7 @@ class _SignUpState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
-      //  retrieveLostData();
+      //retrieveLostData();
     }
 
     return Scaffold(
@@ -59,7 +59,7 @@ class _SignUpState extends State<SignUpScreen> {
             child: Text(
               'Create new account',
               style: TextStyle(
-                  color: Color(Constants.COLOR_PRIMARY),
+                  color: Constants.lightPurple,
                   fontWeight: FontWeight.bold,
                   fontSize: 25.0),
             )),
@@ -127,7 +127,7 @@ class _SignUpState extends State<SignUpScreen> {
               padding: EdgeInsets.only(top: 12, bottom: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
-                  side: BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                  side: BorderSide(color: Constants.lightPurple)),
             ),
           ),
         ),
@@ -191,7 +191,8 @@ class SignUpTextWidget extends StatelessWidget {
       this.onfieldsubmitted,
       this.Validator,
       this.Controller,
-      this.textObscure})
+      this.textObscure,
+      this.MaxLength})
       : super(key: key);
 
   final BuildContext context;
@@ -201,6 +202,7 @@ class SignUpTextWidget extends StatelessWidget {
   final Function Validator;
   final bool textObscure;
   final TextEditingController Controller;
+  final int MaxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -209,6 +211,8 @@ class SignUpTextWidget extends StatelessWidget {
         child: Padding(
             padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
             child: TextFormField(
+                maxLength:
+                    title == "First Name" || title == "Last Name" ? 15 : null,
                 validator: Validator,
                 onSaved: (String val) {
                   onSave(val);
@@ -230,7 +234,7 @@ class SignUpTextWidget extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide(
-                            color: Color(Constants.COLOR_PRIMARY), width: 2.0)),
+                            color: Constants.lightPurple, width: 2.0)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     )))));

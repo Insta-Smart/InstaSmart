@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/models/user.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
 import '../constants.dart';
 import 'final_grid_screen.dart';
 import 'package:instasmart/models/size_config.dart';
@@ -28,9 +30,10 @@ import 'package:progress_dialog/progress_dialog.dart';
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
-  CreateScreen(this.frameUrl, this.index);
+  CreateScreen(this.frameUrl, this.index, this.user);
   var frameUrl;
   int index;
+  final User user;
   @override
   _CreateScreenState createState() => new _CreateScreenState();
 }
@@ -323,8 +326,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HomeScreen(
-                                                index: 2,
-                                              )));
+                                              index: 2, user: widget.user)));
                                 })
                               ..show();
                           },

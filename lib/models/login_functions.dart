@@ -15,23 +15,35 @@ class FirebaseLoginFunctions extends ChangeNotifier {
   final db = Firestore.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   User currUser;
+  final userRef = Firestore.instance.collection(Constants.USERS);
 
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
       return null;
     }
+
     return User(
       uid: user.uid,
       email: user.email,
-//      displayName: user.displayName,
-//      photoUrl: user.photoUrl,
     );
   }
 
   Future<User> currentUser() async {
     final FirebaseUser user = await auth.currentUser();
     currUser = _userFromFirebase(user);
-    return _userFromFirebase(user);
+    String firstName, lastName, signInMethod;
+    await userRef.document(user.uid).get().then((value) {
+      firstName = value["firstName"] ?? " ";
+      lastName = value["lastName"] ?? " ";
+      signInMethod = user.providerData[1].providerId;
+    });
+
+    return User(
+        uid: user.uid,
+        email: user.email,
+        firstName: firstName,
+        lastName: lastName,
+        logInMethod: signInMethod);
   }
 
   Future<User> signInAnonymously() async {

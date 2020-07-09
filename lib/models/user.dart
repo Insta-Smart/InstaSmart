@@ -28,6 +28,7 @@ class User {
   // String profilePictureURL = '';
   bool selected = false;
   String appIdentifier = 'Flutter ${Platform.operatingSystem}';
+  String logInMethod; //password, google.com
 
   User({
     this.email,
@@ -38,6 +39,7 @@ class User {
     this.lastOnlineTimestamp,
     this.settings,
     this.uid,
+    this.logInMethod,
     //   this.profilePictureURL
   });
 
@@ -69,6 +71,14 @@ class User {
       'lastOnlineTimestamp': this.lastOnlineTimestamp,
       'appIdentifier': this.appIdentifier
     };
+  }
+
+  void changeFirstName(String newFirstName) {
+    firstName = newFirstName;
+  }
+
+  void changeLastName(String newLastName) {
+    lastName = newLastName;
   }
 }
 

@@ -66,7 +66,7 @@ class _HomeState extends State<HomeScreen> {
           },
           children: <Widget>[
             Container(
-              child: FramesScreen(),
+              child: FramesScreen(user: user),
             ),
             Expanded(
               child: LikedScreen(),

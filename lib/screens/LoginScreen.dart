@@ -177,10 +177,10 @@ class _LoginScreen extends State<LoginScreen> {
                   textColor: Constants.lightPurple,
                   splashColor: Constants.paleBlue,
                   onPressed: () async {
-                    FirebaseFunctions()
+                    FirebaseLoginFunctions()
                         .signInWithGoogle()
                         .whenComplete(() async {
-                      User user = await FirebaseFunctions().currentUser();
+                      User user = await FirebaseLoginFunctions().currentUser();
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
