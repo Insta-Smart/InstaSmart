@@ -38,7 +38,7 @@ class AccountScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         padding:
-            EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 15, 0, 0),
+            EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 18, 0, 0),
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -47,14 +47,14 @@ class AccountScreen extends StatelessWidget {
           children: <Widget>[
             Text(
               'Hi ${user.firstName ?? 'there'}!',
-              style: TextStyle(fontSize: 45),
+              style: TextStyle(fontSize: 45, color: Constants.palePink),
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 80,
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 9),
+                    padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 7),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -223,14 +223,14 @@ class _EditSettingsState extends State<EditSettings> {
                       constraints:
                           const BoxConstraints(minWidth: double.infinity),
                       child: RaisedButton(
-                        color: Color(Constants.COLOR_PRIMARY),
+                        color: Constants.lightPurple,
                         child: Text(
                           'Save',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         textColor: Colors.white,
-                        splashColor: Color(Constants.COLOR_PRIMARY),
+                        splashColor: Constants.lightPurple,
                         onPressed: () async {
                           await updateServer().then(
                               _showMyDialog()); //TODO: Error here: Unhandled Exception: type 'Future<void>' is not a subtype of type '(dynamic) => dynamic' of 'f'

@@ -258,16 +258,22 @@ class _CreateScreenState extends State<CreateScreen> {
                             }
                             await saveImages(genImages);
                             pr.hide();
-
-                            AwesomeDialog(
-                              context: context,
-                              headerAnimationLoop: false,
-                              dialogType: DialogType.SUCCES,
-                              animType: AnimType.BOTTOMSLIDE,
-                              title: 'Saved',
-                              desc: 'Images have been saved to gallery',
-                              btnOkOnPress: () {},
-                            )..show();
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    CustomDialogWidget(
+                                      title: 'Saved!',
+                                      body: 'Images have been saved to gallery',
+                                    ));
+//                            AwesomeDialog(
+//                              context: context,
+//                              headerAnimationLoop: false,
+//                              dialogType: DialogType.SUCCES,
+//                              animType: AnimType.BOTTOMSLIDE,
+//                              title: 'Saved',
+//                              desc: 'Images have been saved to gallery',
+//                              btnOkOnPress: () {},
+//                            )..show();
                           },
                         )
                       : Container(),
@@ -311,24 +317,41 @@ class _CreateScreenState extends State<CreateScreen> {
                                     firebaseStorage.mergeImageUrls(
                                         imageUrls.reversed.toList()));
                             pr.hide();
-                            AwesomeDialog(
+                            showDialog(
                                 context: context,
-                                headerAnimationLoop: false,
-                                dialogType: DialogType.SUCCES,
-                                animType: AnimType.BOTTOMSLIDE,
-                                title: 'Success',
-                                desc: 'Images have been added to Preview',
-                                btnOkOnPress: () {},
-                                btnCancelText: 'Go to Preview',
-                                btnCancelColor: Colors.blueAccent,
-                                btnCancelOnPress: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeScreen(
-                                              index: 2, user: widget.user)));
-                                })
-                              ..show();
+                                builder: (BuildContext context) =>
+                                    CustomDialogWidget(
+                                      title: 'Success!',
+                                      body: 'Images have been added to Preview',
+                                      action1: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeScreen(
+                                                        index: 2,
+                                                        user: widget.user)));
+                                      },
+                                      action1text: "Go To Preview",
+                                    ));
+//                            AwesomeDialog(
+//                                context: context,
+//                                headerAnimationLoop: false,
+//                                dialogType: DialogType.SUCCES,
+//                                animType: AnimType.BOTTOMSLIDE,
+//                                title: 'Success',
+//                                desc: 'Images have been added to Preview',
+//                                btnOkOnPress: () {},
+//                                btnCancelText: 'Go to Preview',
+//                                btnCancelColor: Colors.blueAccent,
+//                                btnCancelOnPress: () {
+//                                  Navigator.push(
+//                                      context,
+//                                      MaterialPageRoute(
+//                                          builder: (context) => HomeScreen(
+//                                              index: 2, user: widget.user)));
+//                                })
+                            //   ..show();
                           },
                         )
                       : Container(),
@@ -339,5 +362,74 @@ class _CreateScreenState extends State<CreateScreen> {
         ),
       ),
     );
+  }
+}
+
+class CustomDialogWidget extends StatelessWidget {
+  final String body, title;
+  final Function action1, action2;
+  final String action1text, action2text;
+
+  const CustomDialogWidget({
+    Key key,
+    this.body,
+    this.title,
+    this.action1,
+    this.action1text,
+    this.action2text,
+    this.action2,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
+        backgroundColor: Colors.white.withOpacity(0.88),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: 30),
+          textAlign: TextAlign.center,
+        ),
+        content: Text(
+          body,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 18),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'Close',
+              style: TextStyle(fontSize: 18),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          action1 == null
+              ? null
+              : FlatButton(
+                  child: Text(
+                    action1text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onPressed: () {
+                    action1;
+                  },
+                ),
+          action2 == null
+              ? null
+              : FlatButton(
+                  child: Text(
+                    action2text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onPressed: () {
+                    action2;
+                  },
+                ),
+        ]);
   }
 }

@@ -44,7 +44,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .updateData({'user_images': imageUrls});
     } catch (e) {
@@ -151,7 +151,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .updateData({'user_images': FieldValue.arrayRemove(imageUrls)});
       var instance = FirebaseStorage.instance;

@@ -24,7 +24,6 @@ class FramesScreen extends StatefulWidget {
   final User user;
 
   FramesScreen({Key key, @required this.user}) : super(key: key);
-
   @override
   _FramesScreenState createState() => _FramesScreenState();
 }

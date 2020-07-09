@@ -7,8 +7,8 @@ import '../constants.dart';
 class LikingFunctions {
   final collectionRef = Firestore.instance.collection('Resized_Frames');
   final userRef = Firestore.instance.collection(Constants.USERS);
-  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
 
+  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 
   void addImgToLiked(String id, String url) async {

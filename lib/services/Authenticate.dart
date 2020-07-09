@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/main.dart';
-
 import '../constants.dart';
 
 class FireStoreUtils {

@@ -41,12 +41,12 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FirebaseLoginFunctions>(
-      create: (context) => FirebaseLoginFunctions(),
-
 //    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
 ////        statusBarColor: Color(Constants.COLOR_PRIMARY_DARK)
 //    ));
+    return ChangeNotifierProvider<FirebaseLoginFunctions>(
+      create: (context) => FirebaseLoginFunctions(),
+
 
       child: MaterialApp(
         title: 'InstaSmart',

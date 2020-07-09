@@ -89,41 +89,12 @@ class _Frame_WidgetState extends State<Frame_Widget> {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                child:
-//              ProgressiveImage.assetNetwork(
-//                placeholder: 'assets/images/loading_image.jpg',
-//                thumbnail:
-//                    'https://cdn5.vectorstock.com/i/1000x1000/88/54/circular-icon-loading-vector-26578854.jpg', // 64x43
-//                image: widget.frame.imgurl, // 3240x2160
-//                height: 250,
-//                width: 500,
-//              ),
-
-//                  CachedNetworkImage(
-//                imageUrl: widget.frame.imgurl,
-//                placeholder: (context, url) =>
-//                    Center(child: CircularProgressIndicator()),
-////                progressIndicatorBuilder: (context, url, downloadProgress) =>
-////                    Center(
-////                        child: CircularProgressIndicator(
-////                            value: downloadProgress.progress)),
-//                //errorWidget: (context, url, error) => Icon(Icons.error),
-//              ),
-
-                    Image.network(
-                  widget.frame.imgurl,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    );
-                  },
+                child: CachedNetworkImage(
+                  imageUrl: widget.frame.imgurl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               )),
         ),
