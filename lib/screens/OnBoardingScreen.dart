@@ -30,7 +30,10 @@ final List<Widget> _pages = [];
 List<Widget> populatePages(BuildContext context) {
   _pages.clear();
   _titlesList.asMap().forEach((index, value) => _pages.add(getPage(
-      _imageList.elementAt(index), value, _subtitlesList.elementAt(index))));
+      _imageList.elementAt(index),
+      value,
+      _subtitlesList.elementAt(index),
+      Constants.lightPurple)));
   _pages.add(getLastPage(context));
   return _pages;
 }
@@ -46,10 +49,10 @@ Widget _buildCircleIndicator() {
   );
 }
 
-Widget getPage(IconData icon, String title, String subTitle) {
+Widget getPage(IconData icon, String title, String subTitle, Color color) {
   return Center(
     child: Container(
-      color: Color(Constants.COLOR_PRIMARY),
+      color: color ?? Color(Constants.COLOR_PRIMARY),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 100.0),
@@ -60,7 +63,7 @@ Widget getPage(IconData icon, String title, String subTitle) {
                 padding: const EdgeInsets.all(40.0),
                 child: new Icon(
                   icon,
-                  color: Colors.white,
+                  color: color == null ? Colors.white : Constants.lightPurple,
                   size: 120,
                 ),
               ),

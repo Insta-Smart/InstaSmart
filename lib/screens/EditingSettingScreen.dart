@@ -141,13 +141,7 @@ class _EditSettingsState extends State<EditSettings> {
                     builder: (context) =>
                         HomeScreen(index: 4, user: widget.user),
                   ));
-            }
-//                  var nav = Navigator.of(context);
-//                  nav.pop(context);
-//                  nav.pop(context);
-//
-            //}
-            );
+            });
       },
     );
   }

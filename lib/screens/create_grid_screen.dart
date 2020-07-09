@@ -417,9 +417,7 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    action1;
-                  },
+                  onPressed: action1,
                 ),
           action2 == null
               ? null
@@ -429,10 +427,7 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    action2;
-                  },
-                ),
+                  onPressed: action2),
         ]);
   }
 }

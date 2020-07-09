@@ -6,7 +6,7 @@ import 'package:instasmart/screens/AuthScreen.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/OnBoardingScreen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
-import 'package:instasmart/screens/home_screen.dart';
+
 import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/screens/login_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
@@ -46,8 +46,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 //    ));
     return ChangeNotifierProvider<FirebaseLoginFunctions>(
       create: (context) => FirebaseLoginFunctions(),
-
-
       child: MaterialApp(
         title: 'InstaSmart',
         debugShowCheckedModeBanner: false,
@@ -86,19 +84,17 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             overline: TextStyle(fontFamily: 'NotoSans'),
           ),
         ),
-
-        home: OnBoarding(),
-//        FutureBuilder<User>(
-//             future: FirebaseLoginFunctions().currentUser(),
-//             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-//               if (snapshot.hasData) {
-//                 Provider.of<FirebaseLoginFunctions>(context).currUser =
-//                     snapshot.data;
-//                 return HomeScreen();
-//               } else {
-//                 return LoginScreen();
-//               }
-//             }),
+        home: FutureBuilder<User>(
+            future: FirebaseLoginFunctions().currentUser(),
+            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+              if (snapshot.hasData) {
+                Provider.of<FirebaseLoginFunctions>(context).currUser =
+                    snapshot.data;
+                return HomeScreen(user: snapshot.data);
+              } else {
+                return LoginScreen();
+              }
+            }),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../constants.dart';
 import 'reminder.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
@@ -13,7 +14,7 @@ class ReminderData {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .collection('reminders')
           .add({
