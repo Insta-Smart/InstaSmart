@@ -75,7 +75,9 @@ class AccountScreen extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Name: " "${user.firstName}" ?? 'Enter name'),
+              child: user.firstName == null
+                  ? Text("Name: Enter name")
+                  : user.firstName,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
