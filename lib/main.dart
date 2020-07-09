@@ -40,11 +40,13 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider<FirebaseLoginFunctions>(
+      create: (context) => FirebaseLoginFunctions(),
+
 //    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
 ////        statusBarColor: Color(Constants.COLOR_PRIMARY_DARK)
 //    ));
-    return ChangeNotifierProvider<FirebaseFunctions>(
-      create: (context) => FirebaseFunctions(),
+
       child: MaterialApp(
         title: 'InstaSmart',
         debugShowCheckedModeBanner: false,
@@ -83,18 +85,19 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             overline: TextStyle(fontFamily: 'NotoSans'),
           ),
         ),
+
         home: OnBoarding(),
 //        FutureBuilder<User>(
-//            future: FirebaseFunctions().currentUser(),
-//            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-//              if (snapshot.hasData) {
-//                Provider.of<FirebaseFunctions>(context).currUser =
-//                    snapshot.data;
-//                return HomeScreen();
-//              } else {
-//                return LoginScreen();
-//              }
-//            }),
+//             future: FirebaseLoginFunctions().currentUser(),
+//             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+//               if (snapshot.hasData) {
+//                 Provider.of<FirebaseLoginFunctions>(context).currUser =
+//                     snapshot.data;
+//                 return HomeScreen();
+//               } else {
+//                 return LoginScreen();
+//               }
+//             }),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),

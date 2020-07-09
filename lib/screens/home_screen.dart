@@ -11,6 +11,7 @@ import 'package:instasmart/screens/preview_screen.dart';
 import '../constants.dart';
 import 'package:provider/provider.dart';
 import 'package:instasmart/models/login_functions.dart';
+import 'package:instasmart/screens/frames_screen_test.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
-                FirebaseFunctions().signOut().then((value) =>
+                FirebaseLoginFunctions().signOut().then((value) =>
                     Navigator.pushNamed(context, LoginScreen.routeName));
               })
         ],

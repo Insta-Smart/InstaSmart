@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseFunctions firebase = Provider.of<FirebaseFunctions>(context);
+    final FirebaseLoginFunctions firebase = Provider.of<FirebaseLoginFunctions>(context);
     Future<User> user = firebase.currentUser();
 
     return SafeArea(

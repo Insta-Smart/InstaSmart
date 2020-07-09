@@ -10,7 +10,7 @@ import 'package:instasmart/utils/helper.dart';
 import '../constants.dart';
 import '../main.dart';
 
-class FirebaseFunctions extends ChangeNotifier {
+class FirebaseLoginFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
   final db = Firestore.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
