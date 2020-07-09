@@ -305,7 +305,7 @@ class _SignUpState extends State<SignUpScreen> {
     if (_key.currentState.validate()) {
       _key.currentState.save();
       showProgress(context, 'Creating new account, Please wait...', false);
-      var profilePicUrl = '';
+
       try {
         AuthResult result = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
@@ -315,14 +315,13 @@ class _SignUpState extends State<SignUpScreen> {
 //              .uploadUserImageToFireStorage(_image, result.user.uid);
 //        }
         User user = User(
-            email: email,
-            firstName: firstName,
-            phoneNumber: mobile,
-            uid: result.user.uid,
-            active: true,
-            lastName: lastName,
-            settings: Settings(allowPushNotifications: true),
-            profilePictureURL: profilePicUrl);
+          email: email,
+          firstName: firstName,
+          uid: result.user.uid,
+          active: true,
+          lastName: lastName,
+          settings: Settings(allowPushNotifications: true),
+        );
         await FireStoreUtils.firestore
             .collection(Constants.USERS)
             .document(result.user.uid)
