@@ -81,23 +81,12 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //        ),
         body: SafeArea(
           child: Container(
-            padding:
-                EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical * 5, 0, 0),
-            child: Card(
-              elevation: 10,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: ReorderableGrid(
-                        firebase: firebase,
-                        firebaseStorage: firebaseStorage,
-                        user: widget.user),
-                  ),
-                ],
-              ),
-            ),
+            width: SizeConfig.screenWidth,
+            height: SizeConfig.screenHeight,
+            child: ReorderableGrid(
+                firebase: firebase,
+                firebaseStorage: firebaseStorage,
+                user: widget.user),
           ),
         ),
         floatingActionButton: FloatingActionButton(

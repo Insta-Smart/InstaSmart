@@ -56,23 +56,6 @@ class _FramesScreenState extends State<FramesScreen> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-//      appBar: PageTopBar(
-//        title: 'Frames',
-//        appBar: AppBar(),
-//        widgets: <Widget>[
-////          IconButton(s
-////            //Like Button
-////            alignment: Alignment.centerRight,
-////            iconSize: 2,
-////            icon: Icon(Icons.favorite_border,
-////                size: 30, color: Constants.paleBlue),
-////            tooltip: 'Click to see liked frames.',
-////            onPressed: () {
-////              Navigator.pushNamed(context, LikedScreen.routeName);
-////            },
-////          ),
-//        ],
-        //),
         body: Stack(
           children: <Widget>[
             Column(

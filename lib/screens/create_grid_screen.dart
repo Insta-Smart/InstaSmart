@@ -2,29 +2,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
-import '../constants.dart';
-import 'final_grid_screen.dart';
 import 'package:instasmart/models/size_config.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:instasmart/models/splitImage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import 'final_grid_screen.dart';
 import 'frames_screen.dart';
-import 'loading_screen.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:image/image.dart' as imglib;
 import 'package:instasmart/models/save_images.dart';
 import 'package:instasmart/models/firebase_image_storage.dart';
-import 'home_screen.dart';
 import 'preview_screen.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:instasmart/widgets/grid_frame.dart';
 import 'package:instasmart/widgets/template_button.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:social_share_plugin/social_share_plugin.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
@@ -168,7 +164,6 @@ class _CreateScreenState extends State<CreateScreen> {
           child: Column(children: <Widget>[
             Container(
               height: SizeConfig.screenWidth,
-              //height: SizeConfig.blockSizeVertical * 60,
               child: RepaintBoundary(
                 key: _globalKey,
                 child: Stack(
@@ -225,9 +220,21 @@ class _CreateScreenState extends State<CreateScreen> {
                       : Container(),
                   finished
                       ? TemplateButton(
+                          iconType: Icons.image,
+                          title: 'Post to Insta',
+                          ontap: () async {
+                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+                            print(file.path);
+                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
+                          })
+                      : Container(),
+                  finished
+                      ? TemplateButton(
                           iconType: Icons.file_download,
                           title: 'Save to Gallery',
                           ontap: () async {
+//                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+//                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
                             pr.style(
                               message: 'Saving...',
                               borderRadius: 10.0,
@@ -256,24 +263,17 @@ class _CreateScreenState extends State<CreateScreen> {
                               genImages.add(
                                   overlayImages(srcBytesList[i], split[i]));
                             }
-                            await saveImages(genImages);
-                            pr.hide();
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    CustomDialogWidget(
-                                      title: 'Saved!',
-                                      body: 'Images have been saved to gallery',
-                                    ));
-//                            AwesomeDialog(
-//                              context: context,
-//                              headerAnimationLoop: false,
-//                              dialogType: DialogType.SUCCES,
-//                              animType: AnimType.BOTTOMSLIDE,
-//                              title: 'Saved',
-//                              desc: 'Images have been saved to gallery',
-//                              btnOkOnPress: () {},
-//                            )..show();
+                            saveImages(genImages).then((value) {
+                              pr.hide();
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      CustomDialogWidget(
+                                        title: 'Saved!',
+                                        body:
+                                            'Images have been saved to gallery',
+                                      ));
+                            });
                           },
                         )
                       : Container(),

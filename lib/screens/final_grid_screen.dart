@@ -16,6 +16,9 @@ import 'package:instasmart/widgets/split_grid.dart';
 import 'package:instasmart/widgets/gridline_painter.dart';
 import 'package:instasmart/models/widget_to_image.dart';
 import 'package:instasmart/widgets/template_button.dart';
+import 'package:social_share_plugin/social_share_plugin.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class FinalGrid extends StatefulWidget {
   Uint8List imgBytes;
@@ -121,6 +124,7 @@ class _FinalGridState extends State<FinalGrid> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+
                     TemplateButton(
                       iconType: Icons.file_download,
                       title: 'Save to Gallery',
@@ -175,6 +179,7 @@ class _FinalGridState extends State<FinalGrid> {
                                         index: 1,
                                       )));
                         }),
+
                   ]),
             )
           ],

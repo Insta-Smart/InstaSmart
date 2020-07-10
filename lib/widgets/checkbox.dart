@@ -15,7 +15,7 @@ class _ReminderCheckboxState extends State<ReminderCheckbox> {
   Widget build(BuildContext context) {
     return Container(
       child: CheckboxListTile(
-        activeColor: Constants.palePink,
+        activeColor: Colors.teal,
         value: widget.reminder.isPosted,
         onChanged: (bool value) {
           widget.reminder.togglePosted();

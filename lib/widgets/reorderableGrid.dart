@@ -59,26 +59,49 @@ class ReorderableGrid extends StatelessWidget {
                           children:
                               List.generate(snapshot.data.length, (index) {
                             return Container(
-                              height: (MediaQuery.of(context).size.width / 3),
-                              width: (MediaQuery.of(context).size.width / 3),
+                              height: SizeConfig.screenWidth / 3,
+                              width: SizeConfig.screenWidth / 3,
                               child: FittedBox(
                                 child: GestureDetector(
                                   onTap: () {
                                     showModalBottomSheet(
+                                        isScrollControlled: true,
                                         context: context,
+                                        backgroundColor: Colors.transparent,
                                         builder: (context) => Container(
-                                              color: Colors.transparent,
-                                              height: MediaQuery.of(context)
-                                                  .size
-                                                  .height,
+                                              height:
+                                                  SizeConfig.safeBlockVertical *
+                                                      65,
+                                              decoration: new BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    new BorderRadius.only(
+                                                  topLeft:
+                                                      const Radius.circular(
+                                                          25.0),
+                                                  topRight:
+                                                      const Radius.circular(
+                                                          25.0),
+                                                ),
+                                              ),
                                               child: Column(
                                                 children: <Widget>[
                                                   Container(
-                                                    height: 150,
+                                                    width:
+                                                        SizeConfig.screenWidth /
+                                                            2,
+                                                    height: SizeConfig.screenWidth /
+                                                        2,
                                                     child: Hero(
                                                       tag: snapshot.data[index],
-                                                      child: PreviewPhoto(
-                                                          snapshot.data[index]),
+                                                      child: PhotoView(backgroundDecoration:BoxDecoration(color: Colors.white),
+
+                                                      imageProvider: CachedNetworkImageProvider(
+                                                        snapshot.data[index],
+                                                      ),
+                                                        maxScale: 0.18,
+                                                        minScale: 0.18,
+                                                      ),
                                                     ),
                                                   ),
                                                   ListTile(
