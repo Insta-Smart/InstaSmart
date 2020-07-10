@@ -368,17 +368,20 @@ class _CreateScreenState extends State<CreateScreen> {
 class CustomDialogWidget extends StatelessWidget {
   final String body, title;
   final Function action1, action2;
+
+  final Function DialogCloseRoute;
   final String action1text, action2text;
 
-  const CustomDialogWidget({
-    Key key,
-    this.body,
-    this.title,
-    this.action1,
-    this.action1text,
-    this.action2text,
-    this.action2,
-  }) : super(key: key);
+  const CustomDialogWidget(
+      {Key key,
+      this.body,
+      this.title,
+      this.action1,
+      this.action1text,
+      this.action2text,
+      this.action2,
+      this.DialogCloseRoute})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -402,9 +405,12 @@ class CustomDialogWidget extends StatelessWidget {
               'Close',
               style: TextStyle(fontSize: 18),
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+
+            onPressed: DialogCloseRoute ??
+                () {
+                  Navigator.of(context).pop();
+                },
+
           ),
           action1 == null
               ? null
@@ -414,9 +420,9 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    action1;
-                  },
+
+                  onPressed: action1,
+
                 ),
           action2 == null
               ? null
@@ -426,10 +432,10 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-                  onPressed: () {
-                    action2;
-                  },
-                ),
+
+                  onPressed: action2),
+
+
         ]);
   }
 }
