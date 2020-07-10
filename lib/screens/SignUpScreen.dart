@@ -12,6 +12,8 @@ import 'package:instasmart/utils/helper.dart';
 import '../constants.dart';
 import 'package:instasmart/main.dart';
 
+import 'VerifyEmailScreen.dart';
+
 File _image;
 
 class SignUpScreen extends StatefulWidget {
@@ -67,7 +69,8 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "First Name",
           onSave: (val) {
-            firstName = val;
+            firstName = val.trim();
+
           },
           textObscure: false,
         ),
@@ -75,7 +78,9 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Last Name",
           onSave: (val) {
-            lastName = val;
+
+            lastName = val.trim();
+
           },
           textObscure: false,
         ),
@@ -83,7 +88,9 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Email Address",
           onSave: (String val) {
-            email = val.trim();
+
+            email = val.trim().replaceAll(' ', '');
+
           },
           Validator: validateEmail,
           textObscure: false,
@@ -139,10 +146,19 @@ class _SignUpState extends State<SignUpScreen> {
     if (_key.currentState.validate()) {
       _key.currentState.save();
       showProgress(context, 'Creating new account, Please wait...', false);
-      var profilePicUrl = '';
+
       try {
         AuthResult result = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          try {
+            value.user.sendEmailVerification();
+          } catch (e) {
+            print("An error occured while trying to send email verification:");
+            print(e.message);
+          }
+        });
         User user = User(
           email: email,
           firstName: firstName,
@@ -157,7 +173,7 @@ class _SignUpState extends State<SignUpScreen> {
             .setData(user.toJson());
         hideProgress();
         MyAppState.currentUser = user;
-        pushAndRemoveUntil(context, HomeScreen(user: user), false);
+        pushAndRemoveUntil(context, VerifyEmailScreen(), false);
       } catch (error) {
         hideProgress();
         (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'

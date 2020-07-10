@@ -66,15 +66,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     final AuthResult authResult = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
     currUser = _userFromFirebase(authResult.user);
-    var profilePicUrl = '';
-//        AuthResult result = await FirebaseAuth.instance
-//            .createUserWithEmailAndPassword(email: email, password: password);
-
-//        if (_image != null) {
-//          updateProgress('Uploading image, Please wait...');
-//          profilePicUrl = await FireStoreUtils()
-//              .uploadUserImageToFireStorage(_image, result.user.uid);
-//        }
 
     try {
       User user = User(
@@ -93,7 +84,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       MyAppState.currentUser = user;
 
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(currUser.uid)
           .setData({'user_images': ''});
     } catch (e) {

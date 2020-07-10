@@ -13,9 +13,19 @@ import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/AuthScreen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
 
+import 'package:instasmart/screens/create_grid_screen.dart';
+
+import 'package:instasmart/screens/frames_screen.dart';
+
 import 'package:instasmart/utils/helper.dart';
 
 import 'package:instasmart/main.dart';
+import 'EditingSettingScreen.dart';
+import 'HomeScreen.dart';
+import 'SignUpScreen.dart';
+
+import 'HomeScreen.dart';
+import 'SignUpScreen.dart';
 
 import 'HomeScreen.dart';
 import 'SignUpScreen.dart';
@@ -45,9 +55,13 @@ class AccountScreen extends StatelessWidget {
           // mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Hi ${user.firstName ?? 'there'}!',
-              style: TextStyle(fontSize: 45, color: Constants.palePink),
+
+            Container(
+              child: Text(
+                'Hi ${user.firstName ?? 'there'}!',
+                style: TextStyle(fontSize: 45, color: Constants.palePink),
+              ),
+
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 80,
@@ -295,6 +309,7 @@ class _EditSettingsState extends State<EditSettings> {
                             HomeScreen(index: 4, user: widget.user),
                       ));
                 }),
+
           ],
         );
       },

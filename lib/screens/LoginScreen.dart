@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,6 +20,7 @@ import 'package:instasmart/main.dart';
 final _fireStoreUtils = FireStoreUtils();
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
   @override
   State createState() {
     return _LoginScreen();
@@ -97,7 +99,7 @@ class _LoginScreen extends State<LoginScreen> {
                     textAlignVertical: TextAlignVertical.center,
                     validator: validatePassword,
                     onSaved: (String val) {
-                      email = val;
+                      email = val.trim().replaceAll(' ', '');
                     },
                     onFieldSubmitted: (password) async {
                       await onClick(
@@ -145,6 +147,10 @@ class _LoginScreen extends State<LoginScreen> {
                 ),
               ),
             ),
+            FlatButton(
+              child: Text('Forgot Password?'),
+              onPressed: () => _resetDialogBox(),
+            ),
             Padding(
               padding: const EdgeInsets.all(32.0),
               child: Center(
@@ -189,34 +195,6 @@ class _LoginScreen extends State<LoginScreen> {
                         ),
                       );
                     });
-//                    final facebookLogin = FacebookLogin();
-//                    final result = await facebookLogin.logIn(['email']);
-//                    switch (result.status) {
-//                      case FacebookLoginStatus.loggedIn:
-//                        showProgress(
-//                            context, 'Logging in, please wait...', false);
-//                        await FirebaseAuth.instance
-//                            .signInWithCredential(
-//                                FacebookAuthProvider.getCredential(
-//                                    accessToken: result.accessToken.token))
-//                            .then((AuthResult authResult) async {
-//                          User user = await _fireStoreUtils
-//                              .getCurrentUser(authResult.user.uid);
-//                          if (user == null) {
-//                            _createUserFromFacebookLogin(
-//                                result, authResult.user.uid);
-//                          } else {
-//                            _syncUserDataWithFacebookData(result, user);
-//                          }
-//                        });
-//                        break;
-//                      case FacebookLoginStatus.cancelledByUser:
-//                        break;
-//                      case FacebookLoginStatus.error:
-//                        showAlertDialog(
-//                            context, 'Error', 'Couldn\'t login via facebook.');
-//                        break;
-//                    }
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
@@ -245,51 +223,66 @@ class _LoginScreen extends State<LoginScreen> {
     }
   }
 
+  @override
+  Future<void> resetPassword(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {
     try {
       AuthResult result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      DocumentSnapshot documentSnapshot = await FireStoreUtils.firestore
-          .collection(Constants.USERS)
-          .document(result.user.uid)
-          .get();
-      User user;
-      if (documentSnapshot != null && documentSnapshot.exists) {
-        user = User.fromJson(documentSnapshot.data);
-        user.active = true;
-        await _fireStoreUtils.updateCurrentUser(user, context);
-        hideProgress();
-        MyAppState.currentUser = user;
+      if (!result.user.isEmailVerified) {
+        print('unverified email');
+        throw ('EMAIL_NOT_VERIFIED');
+      } else {
+        DocumentSnapshot documentSnapshot = await FireStoreUtils.firestore
+            .collection(Constants.USERS)
+            .document(result.user.uid)
+            .get();
+        User user;
+        if (documentSnapshot != null && documentSnapshot.exists) {
+          user = User.fromJson(documentSnapshot.data);
+          user.active = true;
+          //remove this line as trial -->// await _fireStoreUtils.updateCurrentUser(user, context);
+          hideProgress();
+          MyAppState.currentUser = user;
+        }
+        print("got user");
+        return user;
       }
-      print("got user");
-      return user;
     } catch (exception) {
       hideProgress();
-      switch ((exception as PlatformException).code) {
-        case 'ERROR_INVALID_EMAIL':
-          showAlertDialog(
-              context, 'Couldn\'t Authinticate', 'email address is malformed');
-          break;
-        case 'ERROR_WRONG_PASSWORD':
-          showAlertDialog(context, 'Couldn\'t Authinticate', 'wrong password');
-          break;
-        case 'ERROR_USER_NOT_FOUND':
-          showAlertDialog(context, 'Couldn\'t Authinticate',
-              'no user corresponding to the given email address');
-          break;
-        case 'ERROR_USER_DISABLED':
-          showAlertDialog(
-              context, 'Couldn\'t Authinticate', 'user has been disabled');
-          break;
-        case 'ERROR_TOO_MANY_REQUESTS':
-          showAlertDialog(context, 'Couldn\'t Authinticate',
-              'too many attempts to sign in as this user');
-          break;
-        case 'ERROR_OPERATION_NOT_ALLOWED':
-          showAlertDialog(context, 'Couldn\'t Authinticate',
-              'Email & Password accounts are not enabled');
-          break;
+      if (exception == 'EMAIL_NOT_VERIFIED') {
+        showAlertDialog(context, 'Email not verified', 'please verify email');
+      } else {
+        switch ((exception as PlatformException).code) {
+          case 'ERROR_INVALID_EMAIL':
+            showAlertDialog(context, 'Couldn\'t Authinticate',
+                'email address is malformed');
+            break;
+          case 'ERROR_WRONG_PASSWORD':
+            showAlertDialog(
+                context, 'Couldn\'t Authinticate', 'wrong password');
+            break;
+          case 'ERROR_USER_NOT_FOUND':
+            showAlertDialog(context, 'Couldn\'t Authinticate',
+                'no user corresponding to the given email address');
+            break;
+          case 'ERROR_USER_DISABLED':
+            showAlertDialog(
+                context, 'Couldn\'t Authinticate', 'user has been disabled');
+            break;
+          case 'ERROR_TOO_MANY_REQUESTS':
+            showAlertDialog(context, 'Couldn\'t Authinticate',
+                'too many attempts to sign in as this user');
+            break;
+          case 'ERROR_OPERATION_NOT_ALLOWED':
+            showAlertDialog(context, 'Couldn\'t Authinticate',
+                'Email & Password accounts are not enabled');
+            break;
+        }
       }
       print(exception.toString());
       return null;
@@ -303,46 +296,149 @@ class _LoginScreen extends State<LoginScreen> {
     super.dispose();
   }
 
-//[END] Google UP BUTTON
 
-//  void _createUserFromFacebookLogin(
-//      FacebookLoginResult result, String userID) async {
-//    final token = result.accessToken.token;
-//    final graphResponse = await http.get('https://graph.facebook.com/v2'
-//        '.12/me?fields=name,first_name,last_name,email,picture.type(large)&access_token=$token');
-//    final profile = json.decode(graphResponse.body);
-//    User user = User(
-//        firstName: profile['first_name'],
-//        lastName: profile['last_name'],
-//        email: profile['email'],
-//        profilePictureURL: profile['picture']['data']['url'],
-//        active: true,
-//        uid: userID);
-//    await FireStoreUtils.firestore
-//        .collection(Constants.USERS)
-//        .document(userID)
-//        .setData(user.toJson())
-//        .then((onValue) {
-//      MyAppState.currentUser = user;
-//      hideProgress();
-//      pushAndRemoveUntil(context, HomeScreen(user: user), false);
-//    });
-//  }
+  // Creates an alertDialog for the user to enter their email
+  Future<String> _resetDialogBox() {
+    return showDialog<String>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: "Reset email",
+          auth: FirebaseAuth.instance,
+        );
+      },
+    );
+  }
+}
 
-//  void _syncUserDataWithFacebookData(
-//      FacebookLoginResult result, User user) async {
-//    final token = result.accessToken.token;
-//    final graphResponse = await http.get('https://graph.facebook.com/v2'
-//        '.12/me?fields=name,first_name,last_name,email,picture.type(large)&access_token=$token');
-//    final profile = json.decode(graphResponse.body);
-//    user.profilePictureURL = profile['picture']['data']['url'];
-//    user.firstName = profile['first_name'];
-//    user.lastName = profile['last_name'];
-//    user.email = profile['email'];
-//    user.active = true;
-//    await _fireStoreUtils.updateCurrentUser(user, context);
-//    MyAppState.currentUser = user;
-//    hideProgress();
-//    pushAndRemoveUntil(context, HomeScreen(user: user), false);
-//  }
+class CustomAlertDialog extends StatefulWidget {
+  final String title;
+  final FirebaseAuth auth;
+
+  const CustomAlertDialog({Key key, this.title, this.auth}) : super(key: key);
+
+  @override
+  CustomAlertDialogState createState() {
+    return new CustomAlertDialogState();
+  }
+}
+
+class CustomAlertDialogState extends State<CustomAlertDialog> {
+  final _resetKey = GlobalKey<FormState>();
+  final _resetEmailController = TextEditingController();
+  String _resetEmail;
+  bool _resetValidate = false;
+
+
+  StreamController<bool> rebuild = StreamController<bool>();
+
+  bool _sendResetEmail() {
+    _resetEmail = _resetEmailController.text;
+
+    if (_resetKey.currentState.validate()) {
+      _resetKey.currentState.save();
+
+      try {
+        // You could consider using async/await here
+        widget.auth.sendPasswordResetEmail(email: _resetEmail);
+        return true;
+      } catch (exception) {
+        print(exception);
+      }
+    } else {
+      setState(() {
+        _resetValidate = true;
+      });
+      return false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
+        title: new Text(widget.title),
+        content: new SingleChildScrollView(
+          child: Form(
+            key: _resetKey,
+            autovalidate: _resetValidate,
+            child: ListBody(
+              children: <Widget>[
+                new Text(
+                  'Enter the Email Address associated with your account.',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                ),
+                Row(
+                  children: <Widget>[
+                    new Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Icon(
+                        Icons.email,
+                        size: 20.0,
+                      ),
+                    ),
+                    new Expanded(
+                      child: TextFormField(
+                        validator: validateEmail,
+                        onSaved: (String val) {
+                          _resetEmail = val;
+                        },
+                        controller: _resetEmailController,
+                        keyboardType: TextInputType.emailAddress,
+                        autofocus: true,
+                        decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Email',
+                            contentPadding:
+                                EdgeInsets.only(left: 70.0, top: 15.0),
+                            hintStyle:
+                                TextStyle(color: Colors.black, fontSize: 14.0)),
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+                new Column(children: <Widget>[
+                  Container(
+                    decoration: new BoxDecoration(
+                        border: new Border(
+                            bottom: new BorderSide(
+                                width: 0.5, color: Colors.black))),
+                  )
+                ]),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text(
+              'CANCEL',
+              style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop("");
+            },
+          ),
+          new FlatButton(
+            child: new Text(
+              'SEND EMAIL',
+              style: TextStyle(color: Constants.lightPurple),
+            ),
+            onPressed: () {
+              if (_sendResetEmail()) {
+                Navigator.of(context).pop(_resetEmail);
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }
