@@ -70,6 +70,7 @@ class _SignUpState extends State<SignUpScreen> {
           title: "First Name",
           onSave: (val) {
             firstName = val.trim();
+
           },
           textObscure: false,
         ),
@@ -77,7 +78,9 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Last Name",
           onSave: (val) {
+
             lastName = val.trim();
+
           },
           textObscure: false,
         ),
@@ -85,7 +88,9 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Email Address",
           onSave: (String val) {
+
             email = val.trim().replaceAll(' ', '');
+
           },
           Validator: validateEmail,
           textObscure: false,
@@ -144,6 +149,7 @@ class _SignUpState extends State<SignUpScreen> {
 
       try {
         AuthResult result = await FirebaseAuth.instance
+
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) {
           try {

@@ -368,6 +368,7 @@ class _CreateScreenState extends State<CreateScreen> {
 class CustomDialogWidget extends StatelessWidget {
   final String body, title;
   final Function action1, action2;
+
   final Function DialogCloseRoute;
   final String action1text, action2text;
 
@@ -404,10 +405,12 @@ class CustomDialogWidget extends StatelessWidget {
               'Close',
               style: TextStyle(fontSize: 18),
             ),
+
             onPressed: DialogCloseRoute ??
                 () {
                   Navigator.of(context).pop();
                 },
+
           ),
           action1 == null
               ? null
@@ -417,7 +420,9 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
+
                   onPressed: action1,
+
                 ),
           action2 == null
               ? null
@@ -427,7 +432,10 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
+
                   onPressed: action2),
+
+
         ]);
   }
 }

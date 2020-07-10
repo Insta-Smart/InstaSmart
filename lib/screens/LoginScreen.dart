@@ -296,6 +296,7 @@ class _LoginScreen extends State<LoginScreen> {
     super.dispose();
   }
 
+
   // Creates an alertDialog for the user to enter their email
   Future<String> _resetDialogBox() {
     return showDialog<String>(
@@ -328,6 +329,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
   final _resetEmailController = TextEditingController();
   String _resetEmail;
   bool _resetValidate = false;
+
 
   StreamController<bool> rebuild = StreamController<bool>();
 
