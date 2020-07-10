@@ -71,7 +71,7 @@ class ReorderableGrid extends StatelessWidget {
                                         builder: (context) => Container(
                                               height:
                                                   SizeConfig.safeBlockVertical *
-                                                      65,
+                                                      70,
                                               decoration: new BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:

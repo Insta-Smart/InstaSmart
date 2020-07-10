@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'checkbox.dart';
-import 'package:instasmart/models/reminder_data.dart';
 import 'package:instasmart/screens/reminder_modify_form.dart';
 
 class ReminderList extends StatelessWidget {

@@ -63,7 +63,7 @@ class ReminderData {
       List<Reminder> reminders = List<Reminder>();
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .collection('reminders')
           .getDocuments()
@@ -90,7 +90,7 @@ class ReminderData {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .collection('reminders')
           .document(reminder.id)
@@ -111,7 +111,7 @@ class ReminderData {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .collection('reminders')
           .document(reminder.id)

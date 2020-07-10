@@ -29,11 +29,13 @@ class ReminderFormState extends State<ReminderForm> {
   ValueChanged _onChanged = (val) => {};
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Edit"),
+        title: Text("Edit Reminder"),
+          backgroundColor: Constants.lightPurple
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -42,36 +44,48 @@ class ReminderFormState extends State<ReminderForm> {
             FormBuilder(
               // context,
               key: _fbKey,
-              // autovalidate: true,
+              autovalidate: true,
               readOnly: false,
               child: Column(
                 children: <Widget>[
                   Center(
                       child: Container(
-                    width: MediaQuery.of(context).size.width / 2.round(),
-                    height: MediaQuery.of(context).size.width / 2.round(),
+                    width: SizeConfig.screenWidth/1.5,
+                    height: SizeConfig.screenWidth/1.5,
                     child: Hero(
                         tag: widget.reminder.id,
                         child: Image.network(widget.reminder.picture_url)),
                   )),
-                  SizedBox(height: 15),
+                  SizedBox(height: SizeConfig.blockSizeVertical*7),
                   FormBuilderTextField(
                     attribute: "caption",
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.chat_bubble_outline),
                       labelText: "Caption",
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(25.0),
+                        ),
+                      ),
                     ),
                     initialValue: widget.reminder.caption,
                     onChanged: _onChanged,
                     keyboardType: TextInputType.text,
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: SizeConfig.blockSizeVertical*3),
                   FormBuilderDateTimePicker(
                     attribute: "postTime",
                     onChanged: _onChanged,
                     format: DateFormat("dd-MM-yyyy HH:mm"),
                     inputType: InputType.both,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.timer),
                       labelText: "Time to post",
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(25.0),
+                        ),
+                      ),
                     ),
                     validator: (val) => null,
                     initialTime: TimeOfDay.now(),
@@ -81,6 +95,7 @@ class ReminderFormState extends State<ReminderForm> {
                 ],
               ),
             ),
+            SizedBox(height: SizeConfig.blockSizeVertical*3),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -88,13 +103,20 @@ class ReminderFormState extends State<ReminderForm> {
                   margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
                   height: SizeConfig.blockSizeVertical * 10,
                   child: RaisedButton(
-                    elevation: 0,
+                    elevation: 5,
                     shape: Constants.buttonShape,
-                    color: Constants.paleBlue,
-                    child: Text(
-                      "Update Reminder",
-                      style: TextStyle(color: Colors.white, fontSize: 17),
-                      textAlign: TextAlign.center,
+                    color: Constants.lightPurple,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.update, color: Colors.white,),
+                        SizedBox(width: 10,),
+                        Text(
+                          "Update",
+
+                          style: TextStyle(color: Colors.white, fontSize: 17),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                     onPressed: () async{
                       if (_fbKey.currentState.saveAndValidate()) {
@@ -118,13 +140,19 @@ class ReminderFormState extends State<ReminderForm> {
                   margin: EdgeInsets.fromLTRB(0, 8, 0, 0),
                   height: SizeConfig.blockSizeVertical * 10,
                   child: RaisedButton(
-                    elevation: 0,
+                    elevation: 5,
                     shape: Constants.buttonShape,
                     color: Constants.palePink,
-                    child: Text(
-                      "Delete Reminder",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                      textAlign: TextAlign.center,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.delete, color: Colors.white,),
+                        SizedBox(width: 10,),
+                        Text(
+                          "Delete",
+                          style: TextStyle(color: Colors.white, fontSize: 17),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                     onPressed: () async{
                       if (_fbKey.currentState.saveAndValidate()) {

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:instasmart/models/reminder_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instasmart/models/notifications.dart';
-import 'package:instasmart/models/reminder.dart';
+import 'package:instasmart/models/size_config.dart';
 
 import '../constants.dart';
 
@@ -32,9 +32,11 @@ class ReminderFormState extends State<ReminderForm> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Schedule Post"),
+        backgroundColor: Constants.lightPurple,
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -43,14 +45,14 @@ class ReminderFormState extends State<ReminderForm> {
             FormBuilder(
               // context,
               key: _fbKey,
-              // autovalidate: true,
+              autovalidate: true,
               readOnly: false,
               child: Column(
                 children: <Widget>[
                   Center(
                       child: Container(
-                    width: MediaQuery.of(context).size.width / 2.round(),
-                    height: MediaQuery.of(context).size.width / 2.round(),
+                    width: SizeConfig.screenWidth / 1.5,
+                    height: SizeConfig.screenWidth/ 1.5,
                     child: Hero(
                       tag: widget.imageUrl,
                       child: CachedNetworkImage(
@@ -63,25 +65,40 @@ class ReminderFormState extends State<ReminderForm> {
                       ),
                     ),
                   )),
-                  SizedBox(height: 15),
+                  SizedBox(height: SizeConfig.blockSizeVertical*7),
                   FormBuilderTextField(
                     attribute: "caption",
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.chat_bubble_outline),
                       labelText: "Caption",
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(25.0),
+                        ),
+
+                      ),
+
                     ),
                     onChanged: _onChanged,
                     keyboardType: TextInputType.text,
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: SizeConfig.blockSizeVertical*3),
                   FormBuilderDateTimePicker(
                     attribute: "postTime",
                     onChanged: _onChanged,
                     format: DateFormat("dd-MM-yyyy HH:mm"),
+
                     inputType: InputType.both,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.timer),
                       labelText: "Time to post",
+                      border: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(
+                          const Radius.circular(25.0),
+                        ),
+                      ),
                     ),
-                    validator: (val) => null,
+                    validator: (val) =>null,
                     initialTime: TimeOfDay.now(),
                     initialValue:
                         DateTime.now().add(Duration(minutes: 1)).toLocal(),
@@ -90,17 +107,26 @@ class ReminderFormState extends State<ReminderForm> {
                 ],
               ),
             ),
+            SizedBox(height: SizeConfig.blockSizeVertical*3),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Expanded(
+                Container(
+                  height: SizeConfig.blockSizeHorizontal*12,
                   child: RaisedButton(
-                    elevation: 0,
+                    elevation: 5,
                     shape: Constants.buttonShape,
-                    color: Constants.paleBlue,
-                    child: Text(
-                      "Create Reminder",
-                      style: TextStyle(color: Colors.white, fontSize: 17),
-                      textAlign: TextAlign.center,
+                    color: Colors.teal,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.date_range, color: Colors.white,),
+                        SizedBox(width: 10,),
+                        Text(
+                          "Create Reminder",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                     onPressed: () async {
                       if (_fbKey.currentState.saveAndValidate()) {
