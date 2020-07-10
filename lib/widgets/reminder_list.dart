@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'checkbox.dart';
 import 'package:instasmart/screens/reminder_modify_form.dart';
 
@@ -23,7 +24,7 @@ class ReminderList extends StatelessWidget {
                     const BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0.0, 0.75),
-                      blurRadius: 1,
+                      blurRadius: 3,
                     ),
                   ],
                   color: Colors.white,
@@ -34,10 +35,8 @@ class ReminderList extends StatelessWidget {
                 child: ListTile(
                     title: Row(
                       children: <Widget>[
-                        Expanded(
-                          child: Text(reminder.caption),
-                        ),
-                        Expanded(child: ReminderCheckbox(reminder)),
+                        Expanded(child: Text(reminder.caption)),
+                        ReminderCheckbox(reminder),
                       ],
                     ),
                     onTap: () => {
@@ -46,7 +45,8 @@ class ReminderList extends StatelessWidget {
                             CupertinoPageRoute(
                               builder: (context) => ReminderForm(reminder),
                             ),
-                          )
+                          ),
+
                         },
                     leading: Hero(tag: reminder.id, child: reminder.picture)),
               ))

@@ -35,7 +35,7 @@ class ReminderData {
       List<Reminder> reminders = List<Reminder>();
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .collection('reminders')
           .where('date', isEqualTo: "${date.day}/${date.month}/${date.year}")
