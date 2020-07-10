@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/frames_firebase_functions.dart';
 import 'package:instasmart/models/size_config.dart';
+import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/liked_screen.dart';
 import 'package:instasmart/widgets/frame_widget.dart';
 import '../categories.dart';
@@ -20,65 +21,34 @@ import 'package:instasmart/screens/create_grid_screen.dart';
 // https://github.com/Ephenodrom/Flutter-Advanced-Examples/tree/master/lib/examples/filterList
 class FramesScreen extends StatefulWidget {
   static const routeName = '/frames';
+  final User user;
+
+  FramesScreen({Key key, @required this.user}) : super(key: key);
   @override
   _FramesScreenState createState() => _FramesScreenState();
 }
 
 class _FramesScreenState extends State<FramesScreen> {
-  StorageReference _reference =
-      FirebaseStorage.instance.ref().child("FramesSmall");
-  String _downloadurl;
   bool imagePressed = false;
   int imageNoPressed;
-  final collectionRef = Firestore.instance.collection('allframessmall');
+  final collectionRef = Firestore.instance.collection('Resized_Frames');
   String selectedCat = Categories.all;
 
-  Future setDownloadUrl(int index) async {
-    //downloads image from storage, based on index [files named as sample_index
-    // to directly display this image, use Image.network(_downloadurl)
-    try {
-      String downloadAddress = await _reference
-          .child("Untitled_Artwork ${index} copy-min.png")
-          .getDownloadURL(); //image name
-      //     print(downloadAddress);
-      setState(() {
-        _downloadurl = downloadAddress;
-        print(_downloadurl);
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void uploadImagetoFirestore() {
-    for (int i = 0; i < 23; i++) {
-      setDownloadUrl(i).then((value) {
-        collectionRef.add({'imageurl': _downloadurl, 'popularity': 0});
-        print("sent");
-      });
-      //print("new_downloadurl is ${_downloadurl}");
-    }
-  }
-
-  List frameList = new List(); //initial list, not to be changed
+  List<Frame> frameList = new List<Frame>(); //initial list, not to be changed
   List<Frame> filteredFrameList = new List<Frame>(); //filtered list
 
   Future<List<Frame>> futList;
 
   @override
   void initState() {
-    //uploadImagetoFirestore();// done initially to refresh store of images.
-    //TODO: automatically refresh store of images.
-    // uploadImagetoFirestore();
+    super.initState();
     futList =
         FramesFirebaseFunctions().GetUrlAndIdFromFirestore(Categories.all);
     futList.then((value) {
-      print('futList obj = ${value}');
       frameList = value;
       filteredFrameList = frameList;
     });
     imagePressed = false;
-    super.initState();
   }
 
   @override
@@ -158,9 +128,6 @@ class _FramesScreenState extends State<FramesScreen> {
                                   tag: index,
                                   child: buildFrameToDisplay(index),
                                 )));
-                        print(
-                            'snapshot is ${snapshot.data}'); //snapshot is null here
-
                       }
                       //TODO: I need to do this
                       if (snapshot.hasError) {
@@ -207,8 +174,6 @@ class _FramesScreenState extends State<FramesScreen> {
 
   Widget buildFrameToDisplay(int index) {
     try {
-      print("filteredframelist is");
-      print(filteredFrameList);
       Frame_Widget frameWidget =
           new Frame_Widget(frame: filteredFrameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.
@@ -217,8 +182,8 @@ class _FramesScreenState extends State<FramesScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    CreateScreen(filteredFrameList[index].imgurl, index),
+                builder: (context) => CreateScreen(
+                    filteredFrameList[index].imgurl, index, widget.user),
               ));
         },
         onLongPress: () {

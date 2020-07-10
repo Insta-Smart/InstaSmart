@@ -31,14 +31,13 @@ class _LikedScreenState extends State<LikedScreen> {
   bool imagePressed = false;
   int imageNoPressed;
   final userRef = Firestore.instance.collection('Users');
-  final FirebaseFunctions firebase = FirebaseFunctions();
+  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 
-  List frameList = new List();
+  List frameList = new List<Frame>();
   Future<List<Frame>> futList;
 
   Future<List<Frame>> getUrlAndIdFromFirestore() async {
-    //updates LinkdHashMap with imageurls
     frameList = new List<Frame>();
     try {
       user = await firebase.currentUser();
@@ -86,61 +85,30 @@ class _LikedScreenState extends State<LikedScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-//                    IconButton(
-//                      iconSize: 35,
-//                      icon: Icon(
-//                        Icons.arrow_back,
-//                        color: Constants.paleBlue,
-//                      ),
-//                      onPressed: () {
-//                        setState(() {
-//                          Navigator.pop(context);
-//                        });
-//                      },
-//                    ),
-//                    Container(
-//                      margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-//                      child: Text(
-//                        "Liked",
-//                        style: (TextStyle(fontSize: 45.0)),
-//                      ),
-//                    ),
-                      ],
-                    ),
                     FutureBuilder(
                         future: futList,
                         builder: (BuildContext context,
                             AsyncSnapshot<List<Frame>> snapshot) {
-                          Widget outerChild = Center(
-                            child: Text('Loading...',
-                                style: TextStyle(fontSize: 50)),
-                          );
-                          if (snapshot.hasData) {
-                            outerChild = GridView.builder(
-                                itemCount: frameList.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3),
-                                itemBuilder:
-                                    (BuildContext context, int index) =>
-                                        Container(
-                                            child: Hero(
-                                          tag: index,
-                                          child: buildFrameToDisplay(index),
-                                        )));
-                          }
-                          if (snapshot.hasError) {
-                            outerChild = Center(
-                              child: Text('Error. Please Refresh The Page',
-                                  style: TextStyle(fontSize: 50)),
+                          if (!snapshot.hasData) {
+                            return Container();
+                          } else {
+                            return Expanded(
+                              child: GridView.builder(
+                                  itemCount: frameList.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3),
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          Container(
+                                              child: Hero(
+                                            tag: index,
+                                            child: buildFrameToDisplay(index),
+                                          ))),
                             );
                           }
-                          return Expanded(
-                            child: outerChild,
-                          );
-                        })
+                          //TODO: I need to do this
+                        }),
                   ]),
               imagePressed ? buildPopUpImage(imageNoPressed) : Container(), //
             ],
@@ -163,7 +131,7 @@ class _LikedScreenState extends State<LikedScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    CreateScreen(frameList[index].imgurl, index),
+                    CreateScreen(frameList[index].imgurl, index, user),
               ));
         },
         onLongPress: () {

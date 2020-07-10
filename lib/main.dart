@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/AuthScreen.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/OnBoardingScreen.dart';
 import 'package:instasmart/screens/frames_screen.dart';
-import 'package:instasmart/screens/home_screen.dart';
+
 import 'package:instasmart/screens/liked_screen.dart';
-import 'package:instasmart/screens/login_screen.dart';
+import 'package:instasmart/screens/LoginScreen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
 import 'package:instasmart/screens/preview_screen.dart';
 import 'package:instasmart/screens/calendar_screen.dart';
@@ -43,8 +44,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 //    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
 ////        statusBarColor: Color(Constants.COLOR_PRIMARY_DARK)
 //    ));
-    return ChangeNotifierProvider<FirebaseFunctions>(
-      create: (context) => FirebaseFunctions(),
+    return ChangeNotifierProvider<FirebaseLoginFunctions>(
+      create: (context) => FirebaseLoginFunctions(),
       child: MaterialApp(
         title: 'InstaSmart',
         debugShowCheckedModeBanner: false,
@@ -83,18 +84,17 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             overline: TextStyle(fontFamily: 'NotoSans'),
           ),
         ),
-        home: OnBoarding(),
-//        FutureBuilder<User>(
-//            future: FirebaseFunctions().currentUser(),
-//            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-//              if (snapshot.hasData) {
-//                Provider.of<FirebaseFunctions>(context).currUser =
-//                    snapshot.data;
-//                return HomeScreen();
-//              } else {
-//                return LoginScreen();
-//              }
-//            }),
+        home: FutureBuilder<User>(
+            future: FirebaseLoginFunctions().currentUser(),
+            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+              if (snapshot.hasData) {
+                Provider.of<FirebaseLoginFunctions>(context).currUser =
+                    snapshot.data;
+                return HomeScreen(user: snapshot.data);
+              } else {
+                return LoginScreen();
+              }
+            }),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),

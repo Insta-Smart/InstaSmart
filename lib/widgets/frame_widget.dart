@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/liking_functions.dart';
 import '../constants.dart';
-import 'package:instasmart/models/login_functions.dart';
-import 'package:instasmart/models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:progressive_image/progressive_image.dart';
 
@@ -23,11 +21,9 @@ class _Frame_WidgetState extends State<Frame_Widget> {
   int _numLikes;
   bool liked =
       true; //TODO: change to checking whether imgurl exists in user's collection
-  final collectionRef = Firestore.instance.collection('allframessmall');
   final userRef = Firestore.instance.collection(Constants.USERS);
   final db = Firestore.instance;
-  final FirebaseFunctions firebase = FirebaseFunctions();
-  User user;
+  final collectionRef = Firestore.instance.collection('Resized_Frames');
 
   //RETURNS NUMBER OF LIKES THE IMAGE HAS AS A DOUBLE
   Future<double> getNumLikes() async {
@@ -93,41 +89,12 @@ class _Frame_WidgetState extends State<Frame_Widget> {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                child:
-//              ProgressiveImage.assetNetwork(
-//                placeholder: 'assets/images/loading_image.jpg',
-//                thumbnail:
-//                    'https://cdn5.vectorstock.com/i/1000x1000/88/54/circular-icon-loading-vector-26578854.jpg', // 64x43
-//                image: widget.frame.imgurl, // 3240x2160
-//                height: 250,
-//                width: 500,
-//              ),
-
-//                  CachedNetworkImage(
-//                imageUrl: widget.frame.imgurl,
-//                placeholder: (context, url) =>
-//                    Center(child: CircularProgressIndicator()),
-////                progressIndicatorBuilder: (context, url, downloadProgress) =>
-////                    Center(
-////                        child: CircularProgressIndicator(
-////                            value: downloadProgress.progress)),
-//                //errorWidget: (context, url, error) => Icon(Icons.error),
-//              ),
-
-                    Image.network(
-                  widget.frame.imgurl,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    );
-                  },
+                child: CachedNetworkImage(
+                  imageUrl: widget.frame.imgurl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               )),
         ),

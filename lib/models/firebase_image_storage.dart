@@ -12,7 +12,7 @@ import '../constants.dart';
 class FirebaseImageStorage {
   StorageReference _reference = FirebaseStorage.instance.ref();
   final db = Firestore.instance;
-  final FirebaseFunctions firebase = FirebaseFunctions();
+  final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
 
   Future<String> getDownloadUrl(int index) async {
     //downloads image from storage, based on index [files named as sample_index
@@ -44,7 +44,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .updateData({'user_images': imageUrls});
     } catch (e) {
@@ -151,7 +151,7 @@ class FirebaseImageStorage {
     try {
       User user = await firebase.currentUser();
       await db
-          .collection("Constants.USERS")
+          .collection(Constants.USERS)
           .document(user.uid)
           .updateData({'user_images': FieldValue.arrayRemove(imageUrls)});
       var instance = FirebaseStorage.instance;

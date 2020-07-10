@@ -12,6 +12,8 @@ import 'package:instasmart/utils/helper.dart';
 import '../constants.dart';
 import 'package:instasmart/main.dart';
 
+import 'VerifyEmailScreen.dart';
+
 File _image;
 
 class SignUpScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class _SignUpState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
-      //  retrieveLostData();
+      //retrieveLostData();
     }
 
     return Scaffold(
@@ -50,59 +52,6 @@ class _SignUpState extends State<SignUpScreen> {
     );
   }
 
-//  Future<void> retrieveLostData() async {
-//    final LostDataResponse response = await ImagePicker.retrieveLostData();
-//    if (response == null) {
-//      return;
-//    }
-//    if (response.file != null) {
-//      setState(() {
-//        _image = response.file;
-//      });
-//    }
-//  }
-
-  _onCameraClick() {
-    final action = CupertinoActionSheet(
-      message: Text(
-        "Add profile picture",
-        style: TextStyle(fontSize: 15.0),
-      ),
-      actions: <Widget>[
-//        CupertinoActionSheetAction(
-//          child: Text("Choose from gallery"),
-//          isDefaultAction: false,
-//          onPressed: () async {
-//            Navigator.pop(context);
-//            var image =
-//                await ImagePicker.pickImage(source: ImageSource.gallery);
-//            setState(() {
-//              _image = image;
-//            });
-//          },
-//        ),
-//        CupertinoActionSheetAction(
-//          child: Text("Take a picture"),
-//          isDestructiveAction: false,
-//          onPressed: () async {
-//            Navigator.pop(context);
-//            var image = await ImagePicker.pickImage(source: ImageSource.camera);
-//            setState(() {
-//              _image = image;
-//            });
-//          },
-//        )
-      ],
-      cancelButton: CupertinoActionSheetAction(
-        child: Text("Cancel"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-    showCupertinoModalPopup(context: context, builder: (context) => action);
-  }
-
   Widget formUI() {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -112,170 +61,57 @@ class _SignUpState extends State<SignUpScreen> {
             child: Text(
               'Create new account',
               style: TextStyle(
-                  color: Color(Constants.COLOR_PRIMARY),
+                  color: Constants.lightPurple,
                   fontWeight: FontWeight.bold,
                   fontSize: 25.0),
             )),
-        Container(
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-                child: TextFormField(
-                    //validator: validateName,
-                    onSaved: (String val) {
-                      firstName = val;
-                    },
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                    decoration: InputDecoration(
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        fillColor: Colors.white,
-                        hintText: 'First Name',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(Constants.COLOR_PRIMARY),
-                                width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))))),
-        ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-                child: TextFormField(
-                    //  validator: validateName,
-                    onSaved: (String val) {
-                      lastName = val;
-                    },
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                    decoration: InputDecoration(
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        fillColor: Colors.white,
-                        hintText: 'Last Name',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(Constants.COLOR_PRIMARY),
-                                width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))))),
-        ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-                child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                    validator: validateMobile,
-                    onSaved: (String val) {
-                      mobile = val;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        fillColor: Colors.white,
-                        hintText: 'Mobile Number',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(Constants.COLOR_PRIMARY),
-                                width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))))),
-        ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-                child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                    validator: validateEmail,
-                    onSaved: (String val) {
-                      email = val;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: new EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        fillColor: Colors.white,
-                        hintText: 'Email Address',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(Constants.COLOR_PRIMARY),
-                                width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))))),
-        ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-              child: TextFormField(
-                  obscureText: true,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                  controller: _passwordController,
-                  validator: validatePassword,
-                  onSaved: (String val) {
-                    password = val;
-                  },
-                  style: TextStyle(height: 0.8, fontSize: 18.0),
-                  cursorColor: Color(Constants.COLOR_PRIMARY),
-                  decoration: InputDecoration(
-                      contentPadding:
-                          new EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      fillColor: Colors.white,
-                      hintText: 'Password',
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                              color: Color(Constants.COLOR_PRIMARY),
-                              width: 2.0)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ))),
-            )),
-        ConstrainedBox(
-          constraints: BoxConstraints(minWidth: double.infinity),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-            child: TextFormField(
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (_) {
-                  _sendToServer();
-                },
-                obscureText: true,
-                validator: (val) =>
-                    validateConfirmPassword(_passwordController.text, val),
-                onSaved: (String val) {
-                  confirmPassword = val;
-                },
-                style: TextStyle(height: 0.8, fontSize: 18.0),
-                cursorColor: Color(Constants.COLOR_PRIMARY),
-                decoration: InputDecoration(
-                    contentPadding:
-                        new EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    fillColor: Colors.white,
-                    hintText: 'Confirm Password',
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                            color: Color(Constants.COLOR_PRIMARY), width: 2.0)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ))),
-          ),
+        SignUpTextWidget(
+          context: context,
+          title: "First Name",
+          onSave: (val) {
+            firstName = val.trim();
+          },
+          textObscure: false,
+        ),
+        SignUpTextWidget(
+          context: context,
+          title: "Last Name",
+          onSave: (val) {
+            lastName = val.trim();
+          },
+          textObscure: false,
+        ),
+        SignUpTextWidget(
+          context: context,
+          title: "Email Address",
+          onSave: (String val) {
+            email = val.trim().replaceAll(' ', '');
+          },
+          Validator: validateEmail,
+          textObscure: false,
+        ),
+        SignUpTextWidget(
+          context: context,
+          title: "Password",
+          onSave: (val) {
+            password = val.trim();
+          },
+          Validator: validatePassword,
+          Controller: _passwordController,
+          textObscure: true,
+        ),
+        SignUpTextWidget(
+          context: context,
+          title: "Confirm Password",
+          onSave: (val) {
+            confirmPassword = val.trim();
+          },
+          Validator: (val) =>
+              validateConfirmPassword(_passwordController.text, val),
+          onfieldsubmitted: (_) {
+            _sendToServer();
+          },
+          textObscure: true,
         ),
         Padding(
           padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40.0),
@@ -293,7 +129,7 @@ class _SignUpState extends State<SignUpScreen> {
               padding: EdgeInsets.only(top: 12, bottom: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
-                  side: BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                  side: BorderSide(color: Constants.lightPurple)),
             ),
           ),
         ),
@@ -308,12 +144,15 @@ class _SignUpState extends State<SignUpScreen> {
 
       try {
         AuthResult result = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-//        if (_image != null) {
-//          updateProgress('Uploading image, Please wait...');
-//          profilePicUrl = await FireStoreUtils()
-//              .uploadUserImageToFireStorage(_image, result.user.uid);
-//        }
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          try {
+            value.user.sendEmailVerification();
+          } catch (e) {
+            print("An error occured while trying to send email verification:");
+            print(e.message);
+          }
+        });
         User user = User(
           email: email,
           firstName: firstName,
@@ -328,7 +167,7 @@ class _SignUpState extends State<SignUpScreen> {
             .setData(user.toJson());
         hideProgress();
         MyAppState.currentUser = user;
-        pushAndRemoveUntil(context, HomeScreen(user: user), false);
+        pushAndRemoveUntil(context, VerifyEmailScreen(), false);
       } catch (error) {
         hideProgress();
         (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'
@@ -350,5 +189,64 @@ class _SignUpState extends State<SignUpScreen> {
     _passwordController.dispose();
     _image = null;
     super.dispose();
+  }
+}
+
+class SignUpTextWidget extends StatelessWidget {
+  const SignUpTextWidget(
+      {Key key,
+      @required this.context,
+      this.onSave,
+      this.title,
+      this.onfieldsubmitted,
+      this.Validator,
+      this.Controller,
+      this.textObscure,
+      this.MaxLength})
+      : super(key: key);
+
+  final BuildContext context;
+  final Function onSave;
+  final String title;
+  final Function onfieldsubmitted;
+  final Function Validator;
+  final bool textObscure;
+  final TextEditingController Controller;
+  final int MaxLength;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+        constraints: BoxConstraints(minWidth: double.infinity),
+        child: Padding(
+            padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+            child: TextFormField(
+                maxLength:
+                    title == "First Name" || title == "Last Name" ? 15 : null,
+                validator: Validator,
+                onSaved: (String val) {
+                  onSave(val);
+                },
+                keyboardType: title == "Email Address"
+                    ? TextInputType.emailAddress
+                    : null,
+                obscureText: textObscure,
+                controller: Controller,
+                textInputAction:
+                    textObscure ? TextInputAction.done : TextInputAction.next,
+                onFieldSubmitted: onfieldsubmitted ??
+                    (_) => FocusScope.of(context).nextFocus(),
+                decoration: InputDecoration(
+                    contentPadding:
+                        new EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    fillColor: Colors.white,
+                    hintText: title,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                            color: Constants.lightPurple, width: 2.0)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                    )))));
   }
 }

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/size_config.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:instasmart/screens/create_grid_screen.dart';
 import 'package:instasmart/screens/final_grid_screen.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:reorderables/reorderables.dart';
@@ -27,7 +28,7 @@ class ReorderableGrid extends StatelessWidget {
       @required this.user})
       : super(key: key);
 
-  final FirebaseFunctions firebase;
+  final FirebaseLoginFunctions firebase;
   final FirebaseImageStorage firebaseStorage;
   final User user;
 
@@ -118,22 +119,17 @@ class ReorderableGrid extends StatelessWidget {
                                                               snapshot
                                                                   .data[index]);
                                                       saveImages([imgBytes]);
-                                                      AwesomeDialog(
-                                                        context: context,
-                                                        headerAnimationLoop:
-                                                            false,
-                                                        dialogType:
-                                                            DialogType.SUCCES,
-                                                        animType: AnimType
-                                                            .BOTTOMSLIDE,
-                                                        title: 'Saved',
-                                                        desc:
-                                                            'Image have been saved to gallery',
-                                                        btnOkOnPress: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      )..show();
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              CustomDialogWidget(
+                                                                title: 'Saved!',
+                                                                body:
+                                                                    'Images have been saved to gallery',
+                                                              ));
+//
+//
                                                     },
                                                   ),
                                                   ListTile(

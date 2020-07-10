@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_login/flutter_login.dart';
 import 'package:instasmart/custom_packages/flutter_login_custom/flutter_login.dart';
 import 'package:instasmart/models/size_config.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/home_screen.dart';
 import '../constants.dart';
 import '../models/login_functions.dart';
@@ -13,7 +14,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseFunctions firebase = Provider.of<FirebaseFunctions>(context);
+    final FirebaseLoginFunctions firebase =
+        Provider.of<FirebaseLoginFunctions>(context);
     Future<User> user = firebase.currentUser();
 
     return SafeArea(

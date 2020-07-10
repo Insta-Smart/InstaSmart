@@ -28,10 +28,13 @@ String validateMobile(String value) {
 }
 
 String validatePassword(String value) {
-  if (value.length < 6)
-    return 'Password must be more than 5 charater';
-  else
-    return null;
+    Pattern pattern =
+        r'^(?=.{8,})(?=.*[A-Z])(?=.*[0-9])'; //Minimum 8 characters with atleast 1 Uppercase and 1 Numeric character
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Password must have at least:\n • 8 Characters\n • 1 Uppercase letter\n • 1 Number';
+    else
+      return null;
 }
 
 String validateEmail(String value) {

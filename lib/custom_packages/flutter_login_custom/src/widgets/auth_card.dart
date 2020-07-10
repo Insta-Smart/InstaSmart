@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/size_config.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -681,7 +682,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           ),
           onPressed: buttonEnabled
               ? () {
-                  FirebaseFunctions().signInWithGoogle().whenComplete(() {
+                  FirebaseLoginFunctions().signInWithGoogle().whenComplete(() {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
