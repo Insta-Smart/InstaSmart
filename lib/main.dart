@@ -1,29 +1,30 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:instasmart/constants.dart';
-import 'package:instasmart/screens/AuthScreen.dart';
-import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/screens/OnBoardingScreen.dart';
-import 'package:instasmart/screens/frames_screen.dart';
+// Dart imports:
+import 'dart:async';
 
-import 'package:instasmart/screens/liked_screen.dart';
-import 'package:instasmart/screens/LoginScreen.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
+import 'package:instasmart/screens/liked_screen/liked_screen.dart';
+import 'package:instasmart/screens/login_screen/login_screen.dart';
+import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
+import 'package:instasmart/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:instasmart/screens/preview_screen/preview_screen.dart';
+import 'services/login_functions.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
+import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
-import 'package:instasmart/screens/preview_screen.dart';
-import 'package:instasmart/screens/calendar_screen.dart';
 import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
-import 'package:provider/provider.dart';
-import 'package:instasmart/models/login_functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'models/user.dart';
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'constants.dart';
-import 'screens/AuthScreen.dart';
-import 'screens/OnBoardingScreen.dart';
+import 'package:instasmart/models/user.dart';
 
 void main() {
   SharedPreferences.setMockInitialValues({});
