@@ -9,8 +9,8 @@ import 'package:meta/meta.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 // Project imports:
-import '../constants.dart';
-import 'file:///C:/Users/noelm/Documents/Android/InstaSmart/lib/services/login_functions.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
 class FirebaseImageStorage {

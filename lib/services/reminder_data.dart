@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Project imports:
-import '../constants.dart';
-import '../models/reminder.dart';
-import 'file:///C:/Users/noelm/Documents/Android/InstaSmart/lib/services/login_functions.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/models/reminder.dart';
+import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
 class ReminderData {

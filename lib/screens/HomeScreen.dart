@@ -1,28 +1,17 @@
-// Dart imports:
-import 'dart:math';
-
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 // Project imports:
-import 'calendar_screen/calendar_screen.dart';
-import 'file:///C:/Users/noelm/Documents/Android/InstaSmart/lib/screens/onboarding_screen/onboarding_end_screen.dart';
-import 'file:///C:/Users/noelm/Documents/Android/InstaSmart/lib/screens/preview_screen/preview_screen.dart';
-import 'file:///C:/Users/noelm/Documents/Android/InstaSmart/lib/services/login_functions.dart';
-import 'liked_screen/liked_screen.dart';
+import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
+import 'package:instasmart/screens/preview_screen/preview_screen.dart';
+import 'package:instasmart/screens/liked_screen/liked_screen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/custom_packages/bottom_navy_bar_custom/bottom_navy_bar_custom.dart';
-import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/services/Authenticate.dart';
-import 'package:instasmart/utils/helper.dart';
-import 'profile_screen/profile_screen.dart';
+import 'package:instasmart/screens/profile_screen/profile_screen.dart';
 
 FireStoreUtils _fireStoreUtils = FireStoreUtils();
 

@@ -2,8 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Project imports:
-import '../constants.dart';
-import 'file:///C:/Users/noelm/Documents/Android/InstaSmart/lib/services/login_functions.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
 class LikingFunctions {

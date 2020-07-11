@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 // Project imports:
-import '../constants.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';

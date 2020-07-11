@@ -7,8 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // Project imports:
-import '../constants.dart';
-import '../main.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
