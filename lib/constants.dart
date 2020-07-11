@@ -1,7 +1,9 @@
+// Dart imports:
 import 'dart:io';
-import 'package:flutter/material.dart';
+
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Constants {
   static const brightPurple = Color(0xff8276D8);

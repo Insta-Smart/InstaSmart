@@ -1,24 +1,17 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
+import 'package:instasmart/screens/preview_screen/preview_screen.dart';
+import 'package:instasmart/screens/liked_screen/liked_screen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/custom_packages/bottom_navy_bar_custom/bottom_navy_bar_custom.dart';
-import 'package:instasmart/models/login_functions.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/screens/AuthScreen.dart';
-import 'package:instasmart/screens/preview_screen.dart';
+import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/services/Authenticate.dart';
-import 'package:instasmart/utils/helper.dart';
-
-import 'package:instasmart/main.dart';
-
-import 'account_screen.dart';
-import 'calendar_screen.dart';
-import 'frames_screen.dart';
-import 'liked_screen.dart';
+import 'package:instasmart/screens/profile_screen/profile_screen.dart';
 
 FireStoreUtils _fireStoreUtils = FireStoreUtils();
 
@@ -78,7 +71,7 @@ class _HomeState extends State<HomeScreen> {
               child: CalendarScreen(user: user),
             ),
             Expanded(
-              child: AccountScreen(user: user),
+              child: ProfileScreen(user: user),
             ),
           ],
         ),

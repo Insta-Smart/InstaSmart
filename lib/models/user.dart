@@ -13,8 +13,11 @@
 ////  final String photoUrl;
 ////  final String displayName;
 ////}
+
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {

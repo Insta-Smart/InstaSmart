@@ -1,12 +1,18 @@
+// Dart imports:
 import 'dart:io';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:instasmart/constants.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/utils/helper.dart';
-import 'package:instasmart/main.dart';
-import '../constants.dart';
 
 class FireStoreUtils {
   static Firestore firestore = Firestore.instance;

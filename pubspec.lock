@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.12"
+  colorize:
+    dependency: transitive
+    description:
+      name: colorize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   convert:
     dependency: transitive
     description:
@@ -422,6 +429,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  import_sorter:
+    dependency: "direct dev"
+    description:
+      name: import_sorter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   intl:
     dependency: transitive
     description:
@@ -742,6 +756,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  social_share_plugin:
+    dependency: "direct main"
+    description:
+      name: social_share_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1+1"
   source_span:
     dependency: transitive
     description:

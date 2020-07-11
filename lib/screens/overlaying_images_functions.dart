@@ -1,18 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:instasmart/constants.dart';
+// Dart imports:
 import 'dart:async';
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:instasmart/widgets/reorderableGrid.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-import 'dart:io';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
+// Project imports:
+import 'package:instasmart/constants.dart';
 
 //https://medium.com/flutter-community/export-your-widget-to-image-with-flutter-dc7ecfa6bafb reference
 

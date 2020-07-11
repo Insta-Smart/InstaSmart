@@ -1,29 +1,30 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:instasmart/constants.dart';
-import 'package:instasmart/screens/AuthScreen.dart';
-import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/screens/OnBoardingScreen.dart';
-import 'package:instasmart/screens/frames_screen.dart';
+// Dart imports:
+import 'dart:async';
 
-import 'package:instasmart/screens/liked_screen.dart';
-import 'package:instasmart/screens/LoginScreen.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
+import 'package:instasmart/screens/liked_screen/liked_screen.dart';
+import 'package:instasmart/screens/login_screen/login_screen.dart';
+import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
+import 'package:instasmart/screens/onboarding_screen/onboarding_screen.dart';
+import 'package:instasmart/screens/preview_screen/preview_screen.dart';
+import 'services/login_functions.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
+import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/overlaying_images_functions.dart';
-import 'package:instasmart/screens/preview_screen.dart';
-import 'package:instasmart/screens/calendar_screen.dart';
 import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
-import 'package:provider/provider.dart';
-import 'package:instasmart/models/login_functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'models/user.dart';
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'constants.dart';
-import 'screens/AuthScreen.dart';
-import 'screens/OnBoardingScreen.dart';
+import 'package:instasmart/models/user.dart';
 
 void main() {
   SharedPreferences.setMockInitialValues({});
@@ -49,41 +50,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: MaterialApp(
         title: 'InstaSmart',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          //      brightness: Brightness.light,
-//        primarySwatch: Colors.indigo,
-          primaryColor: Colors.white,
-          backgroundColor: Colors.white,
-          // fontFamily: 'SourceSansPro',
-          textTheme: TextTheme(
-            headline3: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 45.0,
-              // fontWeight: FontWeight.w400,
-              color: Colors.black,
-            ),
-            button: TextStyle(
-              // OpenSans is similar to NotoSans but the uppercases look a bit better IMO
-              fontFamily: 'OpenSans',
-            ),
-            caption: TextStyle(
-              fontFamily: 'NotoSans',
-              fontSize: 12.0,
-              fontWeight: FontWeight.normal,
-              color: Colors.deepPurple[300],
-            ),
-            headline1: TextStyle(fontFamily: 'Quicksand'),
-            headline2: TextStyle(fontFamily: 'Quicksand'),
-            headline4: TextStyle(fontFamily: 'Quicksand'),
-            headline5: TextStyle(fontFamily: 'NotoSans'),
-            headline6: TextStyle(fontFamily: 'NotoSans'),
-            subtitle1: TextStyle(fontFamily: 'NotoSans'),
-            bodyText1: TextStyle(fontFamily: 'NotoSans'),
-            bodyText2: TextStyle(fontFamily: 'NotoSans'),
-            subtitle2: TextStyle(fontFamily: 'NotoSans'),
-            overline: TextStyle(fontFamily: 'NotoSans'),
-          ),
-        ),
         home: FutureBuilder<User>(
             future: FirebaseLoginFunctions().currentUser(),
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
