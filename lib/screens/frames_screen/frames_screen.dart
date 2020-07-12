@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Project imports:
+import '../../constants.dart';
 import './components/category_button.dart';
 import 'package:instasmart/categories.dart';
 import 'package:instasmart/components/frame_widget.dart';
@@ -19,8 +20,6 @@ import 'package:instasmart/utils/size_config.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
-//TODO: add 'Explore' and 'Liked' to topbar
-//filter list base on that
 // https://github.com/Ephenodrom/Flutter-Advanced-Examples/tree/master/lib/examples/filterList
 class FramesScreen extends StatefulWidget {
   static const routeName = '/frames';
@@ -34,7 +33,8 @@ class FramesScreen extends StatefulWidget {
 class _FramesScreenState extends State<FramesScreen> {
   bool imagePressed = false;
   int imageNoPressed;
-  final collectionRef = Firestore.instance.collection('Resized_Frames');
+  final collectionRef =
+      Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
   String selectedCat = Categories.all;
 
   List<Frame> frameList = new List<Frame>(); //initial list, not to be changed
@@ -45,6 +45,7 @@ class _FramesScreenState extends State<FramesScreen> {
   @override
   void initState() {
     super.initState();
+    //FramesFirebaseFunctions().uploadImagetoFirestore();
     futList =
         FramesFirebaseFunctions().GetUrlAndIdFromFirestore(Categories.all);
     futList.then((value) {
@@ -115,7 +116,7 @@ class _FramesScreenState extends State<FramesScreen> {
                                   child: buildFrameToDisplay(index),
                                 )));
                       }
-                      //TODO: I need to do this
+
                       if (snapshot.hasError) {
                         outerChild = Center(
                           child: Text('Error. Please Refresh The Page',
@@ -129,7 +130,10 @@ class _FramesScreenState extends State<FramesScreen> {
                     },
                   ),
                 ]),
-            imagePressed ? PopupWidget(imgUrl: filteredFrameList[imageNoPressed].imgurl) : Container(), //
+            imagePressed
+                ? PopupWidget(
+                    imgUrl: filteredFrameList[imageNoPressed].lowResUrl)
+                : Container(), //
           ],
         ),
       ),
@@ -147,7 +151,7 @@ class _FramesScreenState extends State<FramesScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => CreateScreen(
-                    filteredFrameList[index].imgurl, index, widget.user),
+                    filteredFrameList[index].highResUrl, index, widget.user),
               ));
         },
         onLongPress: () {

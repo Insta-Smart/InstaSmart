@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,12 +43,15 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-////        statusBarColor: Color(Constants.COLOR_PRIMARY_DARK)
-//    ));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
     return ChangeNotifierProvider<FirebaseLoginFunctions>(
       create: (context) => FirebaseLoginFunctions(),
       child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Constants.lightPurple,
+          accentColor: Constants.paleBlue,
+        ),
         title: 'InstaSmart',
         debugShowCheckedModeBanner: false,
         home: FutureBuilder<User>(
