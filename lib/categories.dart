@@ -9,6 +9,9 @@ class Categories {
   static const food = 'food';
   static const dark = 'dark';
   static const watercolour = 'watercolour';
+  static const cute = 'cute';
+  static const paisley = 'paisley';
+  static const graffiti = 'graffiti';
 
   static List<String> catNamesList = <String>[
     Categories.all,
@@ -17,6 +20,8 @@ class Categories {
     Categories.landscape,
     Categories.floral,
     Categories.dark,
-    Categories.watercolour
+    Categories.watercolour,
+    Categories.cute,
+    Categories.paisley
   ];
 }

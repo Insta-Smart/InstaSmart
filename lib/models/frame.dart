@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 class Frame {
-  String imgurl;
+  String lowResUrl;
+  String highResUrl;
   String imgID;
   String category;
 
-  Frame({this.imgurl, this.imgID, this.category});
+  Frame({this.imgID, this.category, this.lowResUrl, this.highResUrl});
 }

@@ -61,7 +61,7 @@ class _HomeState extends State<HomeScreen> {
             Container(
               child: FramesScreen(user: user),
             ),
-            Expanded(
+            Container(
               child: LikedScreen(),
             ),
             Container(
@@ -70,7 +70,7 @@ class _HomeState extends State<HomeScreen> {
             Container(
               child: CalendarScreen(user: user),
             ),
-            Expanded(
+            Container(
               child: ProfileScreen(user: user),
             ),
           ],

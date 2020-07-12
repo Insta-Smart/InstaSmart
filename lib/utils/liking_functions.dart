@@ -7,13 +7,14 @@ import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
 class LikingFunctions {
-  final collectionRef = Firestore.instance.collection('Resized_Frames');
+  final collectionRef =
+      Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
   final userRef = Firestore.instance.collection(Constants.USERS);
 
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 
-  void addImgToLiked(String id, String url) async {
+  void addImgToLiked(String id, String lowResUrl, String highResUrl) async {
     try {
       User user = await firebase.currentUser();
       await userRef
@@ -21,7 +22,8 @@ class LikingFunctions {
           .collection('LikedFrames')
           .document(id)
           .setData({
-        'imgurl': url,
+        'lowResUrl': lowResUrl,
+        'highResUrl': highResUrl,
       });
       print('done adding img');
     } catch (e) {

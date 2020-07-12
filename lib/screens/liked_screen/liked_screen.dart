@@ -15,7 +15,6 @@ import 'package:instasmart/services/login_functions.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
-
 class LikedScreen extends StatefulWidget {
   static const routeName = '/liked';
   @override
@@ -45,7 +44,8 @@ class _LikedScreenState extends State<LikedScreen> {
           .then((value) {
         value.documents.forEach((el) {
           print(el.documentID);
-          frameList.add(Frame(imgurl: el.data['imgurl'], imgID: el.documentID));
+          frameList.add(
+              Frame(lowResUrl: el.data['lowResUrl'], imgID: el.documentID));
           //frameUrls.add(el.data['imgurl']);
         });
       });
@@ -122,7 +122,7 @@ class _LikedScreenState extends State<LikedScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    CreateScreen(frameList[index].imgurl, index, user),
+                    CreateScreen(frameList[index].highResUrl, index, user),
               ));
         },
         onLongPress: () {

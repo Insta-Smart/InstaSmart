@@ -27,20 +27,22 @@ class _Frame_WidgetState extends State<Frame_Widget> {
       true; //TODO: change to checking whether imgurl exists in user's collection
   final userRef = Firestore.instance.collection(Constants.USERS);
   final db = Firestore.instance;
-  final collectionRef = Firestore.instance.collection('Resized_Frames');
+  final collectionRef =
+      Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
 
   //RETURNS NUMBER OF LIKES THE IMAGE HAS AS A DOUBLE
   Future<double> getNumLikes() async {
     var num; //int if 0, double otherwise
     //getDocuments.then(value ....) {el.data.field or smth --> need to do this everytime its clickec --> change state of numLikes}
     try {
+      print('frame widget info:' + widget.frame.imgID);
       await collectionRef
           .document(widget.frame.imgID)
           .get()
           .then((DocumentSnapshot document) {
         num = document.data['popularity'];
         print(widget.frame.imgID);
-        print(widget.frame.imgurl);
+        print(widget.frame.lowResUrl);
       });
       print(num);
       return num is int ? num.toDouble() : num;
@@ -94,7 +96,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 child: CachedNetworkImage(
-                  imageUrl: widget.frame.imgurl,
+                  imageUrl: widget.frame.lowResUrl,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       CircularProgressIndicator(
                           value: downloadProgress.progress),
@@ -132,8 +134,8 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                 //if liked is true --> add image to user collection.
                 // if liked is false --> REMOVE image from collection
                 liked
-                    ? LikingFunctions()
-                        .addImgToLiked(widget.frame.imgID, widget.frame.imgurl)
+                    ? LikingFunctions().addImgToLiked(widget.frame.imgID,
+                        widget.frame.lowResUrl, widget.frame.highResUrl)
                     : LikingFunctions().delImgFromLiked(widget.frame.imgID);
               },
             ),
