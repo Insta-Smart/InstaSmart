@@ -1,6 +1,5 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 
 // Flutter imports:
@@ -10,12 +9,11 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image/image.dart' as imglib;
-import 'package:image_picker/image_picker.dart';
+import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reorderables/reorderables.dart';
-import 'package:social_share_plugin/social_share_plugin.dart';
 
 // Project imports:
 import 'components/grid_frame.dart';
@@ -157,13 +155,6 @@ class _CreateScreenState extends State<CreateScreen> {
         appBar: AppBar(),
         widgets: <Widget>[],
       ),
-//      AppBar(
-//        title: Text('Create Grid'),
-//        leading: IconButton(
-//          icon: Icon(Icons.keyboard_backspace),
-//          onPressed: () => Navigator.pop(context),
-//        ),
-//      ),
       body: Padding(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
         child: Container(
@@ -174,11 +165,15 @@ class _CreateScreenState extends State<CreateScreen> {
                 key: _globalKey,
                 child: Stack(
                   children: <Widget>[
-                    GridFrame(frameUrl: widget.frameUrl, index: widget.index,),
+                    GridFrameInitial(
+                      frameUrl: widget.frameUrl,
+                      index: widget.index,
+                    ),
                     buildGridView(),
                     finished
-                        ? GridFrame(
-                           frameUrl: widget.frameUrl, index: widget.index,
+                        ? GridFrameFinal(
+                            frameUrl: widget.frameUrl,
+                            index: widget.index,
                           )
                         : Container(),
                   ],
@@ -209,29 +204,11 @@ class _CreateScreenState extends State<CreateScreen> {
                               finished = true;
                             });
                             var srcBytesList = List();
-                            await images.forEach((img) async {
+                            for (var img in images) {
                               var bytes = await img.getByteData();
                               var srcBytes = bytes.buffer.asUint8List();
                               srcBytesList.add(srcBytes);
-                            });
-//                              Navigator.push(
-//                                    context,
-//                                    MaterialPageRoute(
-//                                        builder: (context) =>
-//                                            FinalGrid(srcBytesList[0]),
-//                                    ),
-//                                );
-                          },
-                        )
-                      : Container(),
-                  finished
-                      ? TemplateButton(
-                          iconType: Icons.image,
-                          title: 'Post to Insta',
-                          ontap: () async {
-                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
-                            print(file.path);
-                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
+                            }
                           })
                       : Container(),
                   finished
@@ -239,8 +216,6 @@ class _CreateScreenState extends State<CreateScreen> {
                           iconType: Icons.file_download,
                           title: 'Save to Gallery',
                           ontap: () async {
-//                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
-//                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
                             pr.style(
                               message: 'Saving...',
                               borderRadius: 10.0,
@@ -255,10 +230,12 @@ class _CreateScreenState extends State<CreateScreen> {
                             List<Uint8List> srcBytesList = List();
                             List<Uint8List> genImages = List();
 
-                            var srcBytes = await images.forEach((img) {
+                            for(var img in images){
                               img.getByteData().then((value) =>
                                   srcBytesList.add(value.buffer.asUint8List()));
-                            });
+                            }
+
+
                             var dstBytes =
                                 await networkImageToByte(widget.frameUrl);
                             var split = splitImage(
@@ -270,7 +247,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                   overlayImages(srcBytesList[i], split[i]));
                             }
                             saveImages(genImages).then((value) {
+                              print(value);
                               pr.hide();
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PostOrderScreen(value)));
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
@@ -302,10 +284,10 @@ class _CreateScreenState extends State<CreateScreen> {
 
                             List<Uint8List> srcBytesList = List();
                             List<Uint8List> genImages = List();
-                            var srcBytes = await images.forEach((img) {
+                            for(var img in images) {
                               img.getByteData().then((value) =>
                                   srcBytesList.add(value.buffer.asUint8List()));
-                            });
+                            }
                             var dstBytes =
                                 await networkImageToByte(widget.frameUrl);
                             var split = splitImage(
@@ -340,24 +322,6 @@ class _CreateScreenState extends State<CreateScreen> {
                                       },
                                       action1text: "Go To Preview",
                                     ));
-//                            AwesomeDialog(
-//                                context: context,
-//                                headerAnimationLoop: false,
-//                                dialogType: DialogType.SUCCES,
-//                                animType: AnimType.BOTTOMSLIDE,
-//                                title: 'Success',
-//                                desc: 'Images have been added to Preview',
-//                                btnOkOnPress: () {},
-//                                btnCancelText: 'Go to Preview',
-//                                btnCancelColor: Colors.blueAccent,
-//                                btnCancelOnPress: () {
-//                                  Navigator.push(
-//                                      context,
-//                                      MaterialPageRoute(
-//                                          builder: (context) => HomeScreen(
-//                                              index: 2, user: widget.user)));
-//                                })
-                            //   ..show();
                           },
                         )
                       : Container(),
@@ -411,12 +375,10 @@ class CustomDialogWidget extends StatelessWidget {
               'Close',
               style: TextStyle(fontSize: 18),
             ),
-
             onPressed: DialogCloseRoute ??
                 () {
                   Navigator.of(context).pop();
                 },
-
           ),
           action1 == null
               ? null
@@ -426,9 +388,7 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-
                   onPressed: action1,
-
                 ),
           action2 == null
               ? null
@@ -438,10 +398,7 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-
                   onPressed: action2),
-
-
         ]);
   }
 }
