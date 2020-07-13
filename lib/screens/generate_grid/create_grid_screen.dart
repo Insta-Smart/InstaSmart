@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:image_picker/image_picker.dart';
+import 'package:instasmart/constants.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -51,6 +53,7 @@ class _CreateScreenState extends State<CreateScreen> {
   @override
   void initState() {
     super.initState();
+    print('imgurl in create screen is: ${widget.frameUrl}');
   }
 
   void _onReorder(int oldIndex, int newIndex) {
@@ -152,6 +155,7 @@ class _CreateScreenState extends State<CreateScreen> {
     SizeConfig().init(context);
     GlobalKey _globalKey = new GlobalKey();
     return new Scaffold(
+      backgroundColor: Colors.white,
       appBar: PageTopBar(
         title: 'Create Grid',
         appBar: AppBar(),
@@ -174,11 +178,15 @@ class _CreateScreenState extends State<CreateScreen> {
                 key: _globalKey,
                 child: Stack(
                   children: <Widget>[
-                    GridFrame(frameUrl: widget.frameUrl, index: widget.index,),
+                    GridFrame(
+                      frameUrl: widget.frameUrl,
+                      index: widget.index,
+                    ),
                     buildGridView(),
                     finished
                         ? GridFrame(
-                           frameUrl: widget.frameUrl, index: widget.index,
+                            frameUrl: widget.frameUrl,
+                            index: widget.index,
                           )
                         : Container(),
                   ],
@@ -192,28 +200,44 @@ class _CreateScreenState extends State<CreateScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   !finished
-                      ? TemplateButton(
-                          title: '1. Add Your Photos',
-                          iconType: Icons.camera,
-                          ontap: () {
-                            loadAssets();
-                          })
-                      : Container(),
+                      ? Stack(
+                          alignment: Alignment(-1.2, -10),
+                          children: <Widget>[
+                            TemplateButton(
+                                title: ' Add Your Photos',
+                                iconType: Icons.camera,
+                                ontap: () {
+                                  loadAssets();
+                                }),
+                            addedImgs && !finished
+                                ? Container()
+                                : IconButton(
+                                    icon: Icon(
+                                    Icons.looks_one,
+                                    color: Constants.palePink,
+                                    size: 36,
+                                  )),
+                          ],
+                        )
+                      : Container(width: 0, height: 0),
                   addedImgs && !finished
-                      ? TemplateButton(
-                          title: '2. Finish',
-                          iconType: Icons.check_circle_outline,
-                          color: Colors.lightGreen,
-                          ontap: () async {
-                            setState(() {
-                              finished = true;
-                            });
-                            var srcBytesList = List();
-                            await images.forEach((img) async {
-                              var bytes = await img.getByteData();
-                              var srcBytes = bytes.buffer.asUint8List();
-                              srcBytesList.add(srcBytes);
-                            });
+                      ? Stack(
+                          alignment: Alignment(-1.4, -11),
+                          children: <Widget>[
+                            TemplateButton(
+                              title: ' Finish',
+                              iconType: Icons.check_circle_outline,
+                              color: Colors.lightGreen,
+                              ontap: () async {
+                                setState(() {
+                                  finished = true;
+                                });
+                                var srcBytesList = List();
+                                await images.forEach((img) async {
+                                  var bytes = await img.getByteData();
+                                  var srcBytes = bytes.buffer.asUint8List();
+                                  srcBytesList.add(srcBytes);
+                                });
 //                              Navigator.push(
 //                                    context,
 //                                    MaterialPageRoute(
@@ -221,125 +245,84 @@ class _CreateScreenState extends State<CreateScreen> {
 //                                            FinalGrid(srcBytesList[0]),
 //                                    ),
 //                                );
-                          },
+                              },
+                            ),
+                            IconButton(
+                                icon: Icon(
+                              Icons.looks_two,
+                              color: Constants.palePink,
+                              size: 36,
+                            )),
+                          ],
                         )
-                      : Container(),
+                      : Container(width: 0, height: 0),
                   finished
-                      ? TemplateButton(
-                          iconType: Icons.image,
-                          title: 'Post to Insta',
-                          ontap: () async {
-                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
-                            print(file.path);
-                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
-                          })
-                      : Container(),
-                  finished
-                      ? TemplateButton(
-                          iconType: Icons.file_download,
-                          title: 'Save to Gallery',
-                          ontap: () async {
-//                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
-//                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
-                            pr.style(
-                              message: 'Saving...',
-                              borderRadius: 10.0,
-                              backgroundColor: Colors.white,
-                              progressWidget: SpinKitFadingGrid(
-                                size: 30,
-                                color: Colors.deepPurple,
-                              ),
-                              elevation: 10.0,
-                            );
-                            pr.show();
-                            List<Uint8List> srcBytesList = List();
-                            List<Uint8List> genImages = List();
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                TemplateButton(
+                                  title: 'Add To Preview',
+                                  iconType: Icons.grid_on,
+                                  ontap: () async {
+                                    pr.style(
+                                      message: 'Adding to Preview...',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget: SpinKitFadingGrid(
+                                        size: 30,
+                                        color: Colors.deepPurple,
+                                      ),
+                                      elevation: 10.0,
+                                    );
+                                    pr.show();
 
-                            var srcBytes = await images.forEach((img) {
-                              img.getByteData().then((value) =>
-                                  srcBytesList.add(value.buffer.asUint8List()));
-                            });
-                            var dstBytes =
-                                await networkImageToByte(widget.frameUrl);
-                            var split = splitImage(
-                                imgBytes: dstBytes,
-                                verticalPieceCount: 3,
-                                horizontalPieceCount: 3);
-                            for (int i = 0; i < srcBytesList.length; i++) {
-                              genImages.add(
-                                  overlayImages(srcBytesList[i], split[i]));
-                            }
-                            saveImages(genImages).then((value) {
-                              pr.hide();
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      CustomDialogWidget(
-                                        title: 'Saved!',
-                                        body:
-                                            'Images have been saved to gallery',
-                                      ));
-                            });
-                          },
-                        )
-                      : Container(),
-                  finished
-                      ? TemplateButton(
-                          title: 'Add Grid to Preview',
-                          iconType: Icons.grid_on,
-                          ontap: () async {
-                            pr.style(
-                              message: 'Adding to Preview...',
-                              borderRadius: 10.0,
-                              backgroundColor: Colors.white,
-                              progressWidget: SpinKitFadingGrid(
-                                size: 30,
-                                color: Colors.deepPurple,
-                              ),
-                              elevation: 10.0,
-                            );
-                            pr.show();
+                                    List<Uint8List> srcBytesList = List();
+                                    List<Uint8List> genImages = List();
+                                    var srcBytes = await images.forEach((img) {
+                                      img.getByteData().then((value) =>
+                                          srcBytesList
+                                              .add(value.buffer.asUint8List()));
+                                    });
+                                    var dstBytes = await networkImageToByte(
+                                        widget.frameUrl);
+                                    var split = splitImage(
+                                        imgBytes: dstBytes,
+                                        verticalPieceCount: 3,
+                                        horizontalPieceCount: 3);
+                                    for (int i = 0;
+                                        i < srcBytesList.length;
+                                        i++) {
+                                      genImages.add(overlayImages(
+                                          srcBytesList[i], split[i]));
+                                    }
 
-                            List<Uint8List> srcBytesList = List();
-                            List<Uint8List> genImages = List();
-                            var srcBytes = await images.forEach((img) {
-                              img.getByteData().then((value) =>
-                                  srcBytesList.add(value.buffer.asUint8List()));
-                            });
-                            var dstBytes =
-                                await networkImageToByte(widget.frameUrl);
-                            var split = splitImage(
-                                imgBytes: dstBytes,
-                                verticalPieceCount: 3,
-                                horizontalPieceCount: 3);
-                            for (int i = 0; i < srcBytesList.length; i++) {
-                              genImages.add(
-                                  overlayImages(srcBytesList[i], split[i]));
-                            }
-
-                            await firebaseStorage
-                                .uploadByteImage(images: genImages)
-                                .then((imageUrls) =>
-                                    firebaseStorage.mergeImageUrls(
-                                        imageUrls.reversed.toList()));
-                            pr.hide();
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    CustomDialogWidget(
-                                      title: 'Success!',
-                                      body: 'Images have been added to Preview',
-                                      action1: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeScreen(
-                                                        index: 2,
-                                                        user: widget.user)));
-                                      },
-                                      action1text: "Go To Preview",
-                                    ));
+                                    await firebaseStorage
+                                        .uploadByteImage(images: genImages)
+                                        .then((imageUrls) =>
+                                            firebaseStorage.mergeImageUrls(
+                                                imageUrls.reversed.toList()));
+                                    pr.hide();
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            CustomDialogWidget(
+                                              title: 'Success!',
+                                              body:
+                                                  'Images have been added to Preview',
+                                              action1: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            HomeScreen(
+                                                                index: 2,
+                                                                user: widget
+                                                                    .user)));
+                                              },
+                                              action1text: "Go To Preview",
+                                            ));
 //                            AwesomeDialog(
 //                                context: context,
 //                                headerAnimationLoop: false,
@@ -357,8 +340,72 @@ class _CreateScreenState extends State<CreateScreen> {
 //                                          builder: (context) => HomeScreen(
 //                                              index: 2, user: widget.user)));
 //                                })
-                            //   ..show();
-                          },
+                                    //   ..show();
+                                  },
+                                ),
+                                TemplateButton(
+                                  iconType: Icons.file_download,
+                                  title: 'Save to Gallery',
+                                  ontap: () async {
+//                            File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+//                            await SocialSharePlugin.shareToFeedInstagram(path: file.path);
+                                    pr.style(
+                                      message: 'Saving...',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget: SpinKitFadingGrid(
+                                        size: 30,
+                                        color: Colors.deepPurple,
+                                      ),
+                                      elevation: 10.0,
+                                    );
+                                    pr.show();
+                                    List<Uint8List> srcBytesList = List();
+                                    List<Uint8List> genImages = List();
+
+                                    var srcBytes = await images.forEach((img) {
+                                      img.getByteData().then((value) =>
+                                          srcBytesList
+                                              .add(value.buffer.asUint8List()));
+                                    });
+                                    var dstBytes = await networkImageToByte(
+                                        widget.frameUrl);
+                                    var split = splitImage(
+                                        imgBytes: dstBytes,
+                                        verticalPieceCount: 3,
+                                        horizontalPieceCount: 3);
+                                    for (int i = 0;
+                                        i < srcBytesList.length;
+                                        i++) {
+                                      genImages.add(overlayImages(
+                                          srcBytesList[i], split[i]));
+                                    }
+                                    saveImages(genImages).then((value) {
+                                      pr.hide();
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              CustomDialogWidget(
+                                                title: 'Saved!',
+                                                body:
+                                                    'Images have been saved to gallery',
+                                              ));
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            TemplateButton(
+                                iconType: FontAwesomeIcons.instagram,
+                                title: ' Post To Instagram',
+                                ontap: () async {
+                                  File file = await ImagePicker.pickImage(
+                                      source: ImageSource.gallery);
+                                  print(file.path);
+                                  await SocialSharePlugin.shareToFeedInstagram(
+                                      path: file.path);
+                                }),
+                          ],
                         )
                       : Container(),
                 ],
@@ -411,12 +458,10 @@ class CustomDialogWidget extends StatelessWidget {
               'Close',
               style: TextStyle(fontSize: 18),
             ),
-
             onPressed: DialogCloseRoute ??
                 () {
                   Navigator.of(context).pop();
                 },
-
           ),
           action1 == null
               ? null
@@ -426,9 +471,7 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-
                   onPressed: action1,
-
                 ),
           action2 == null
               ? null
@@ -438,10 +481,7 @@ class CustomDialogWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18),
                   ),
-
                   onPressed: action2),
-
-
         ]);
   }
 }

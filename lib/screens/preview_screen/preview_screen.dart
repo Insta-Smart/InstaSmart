@@ -91,7 +91,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add_a_photo),
+          child: Icon(
+            Icons.add_a_photo,
+            color: Colors.white,
+          ),
           backgroundColor: Constants.paleBlue,
           onPressed: loadAssets,
         ));

@@ -44,8 +44,10 @@ class _LikedScreenState extends State<LikedScreen> {
           .then((value) {
         value.documents.forEach((el) {
           print(el.documentID);
-          frameList.add(
-              Frame(lowResUrl: el.data['lowResUrl'], imgID: el.documentID));
+          frameList.add(Frame(
+              lowResUrl: el.data['lowResUrl'],
+              imgID: el.documentID,
+              highResUrl: el.data['highResUrl']));
           //frameUrls.add(el.data['imgurl']);
         });
       });
