@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shimmer/shimmer.dart';
 
 // Project imports:
 import '../constants.dart';
@@ -98,8 +99,11 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                 child: CachedNetworkImage(
                   imageUrl: widget.frame.lowResUrl,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      CircularProgressIndicator(
-                          value: downloadProgress.progress),
+                      Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.grey[100],
+                    child: Expanded(),
+                  ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               )),

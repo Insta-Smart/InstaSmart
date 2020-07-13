@@ -94,41 +94,41 @@ class _FramesScreenState extends State<FramesScreen> {
                       ),
                     ),
                   ),
-                  FutureBuilder(
-                    future: futList,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Frame>> snapshot) {
-                      Widget outerChild = Center(
-                        child:
-                            Text('Loading...', style: TextStyle(fontSize: 50)),
-                      );
-                      if (snapshot.hasData &&
-                          snapshot.connectionState == ConnectionState.done) {
-                        outerChild = GridView.builder(
-                            itemCount: filteredFrameList.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                                    child: Hero(
-                                  tag: index,
-                                  child: buildFrameToDisplay(index),
-                                )));
-                      }
+        FutureBuilder(
+          future: futList,
+          builder: (BuildContext context,
+              AsyncSnapshot<List<Frame>> snapshot) {
+            Widget outerChild = Center(
+              child:
+                  Text('Loading...', style: TextStyle(fontSize: 50)),
+            );
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              outerChild = GridView.builder(
+                  itemCount: filteredFrameList.length,
+                  gridDelegate:
+                      SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3),
+                  itemBuilder: (BuildContext context, int index) =>
+                      Container(
+                          child: Hero(
+                        tag: index,
+                        child: buildFrameToDisplay(index),
+                      )));
+            }
 
-                      if (snapshot.hasError) {
-                        outerChild = Center(
-                          child: Text('Error. Please Refresh The Page',
-                              style: TextStyle(fontSize: 50)),
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.none) {}
-                      return Expanded(
-                        child: outerChild,
-                      );
-                    },
-                  ),
+            if (snapshot.hasError) {
+              outerChild = Center(
+                child: Text('Error. Please Refresh The Page',
+                    style: TextStyle(fontSize: 50)),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.none) {}
+            return Expanded(
+              child: outerChild,
+            );
+          },
+        ),
                 ]),
             imagePressed
                 ? PopupWidget(
