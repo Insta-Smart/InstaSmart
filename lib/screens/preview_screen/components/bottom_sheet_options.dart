@@ -1,10 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:social_share_plugin/social_share_plugin.dart';
 
 // Project imports:
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
@@ -12,6 +14,8 @@ import 'package:instasmart/screens/reminder_screen/reminder_create_form.dart';
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
+import 'url_to_file.dart';
+
 
 class BottomSheetOptions extends StatelessWidget {
   const BottomSheetOptions({
@@ -64,11 +68,11 @@ class BottomSheetOptions extends StatelessWidget {
                     ));
               }),
           ListTile(
-            leading: Icon(Icons.delete),
-            title: Text('Delete'),
+            leading: Icon(Icons.image),
+            title: Text('Share to Instagram'),
             onTap: () async {
-              Navigator.pop(context);
-              await firebaseStorage.deleteImages([imageUrl]);
+              File file = await urlToFile(imageUrl);
+              await SocialSharePlugin.shareToFeedInstagram(path: file.path);
             },
           ),
           ListTile(
@@ -83,6 +87,14 @@ class BottomSheetOptions extends StatelessWidget {
                         title: 'Saved!',
                         body: 'Images have been saved to gallery',
                       ));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.delete),
+            title: Text('Delete'),
+            onTap: () async {
+              Navigator.pop(context);
+              await firebaseStorage.deleteImages([imageUrl]);
             },
           ),
           ListTile(

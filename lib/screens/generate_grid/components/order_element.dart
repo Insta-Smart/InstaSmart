@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:social_share_plugin/social_share_plugin.dart';
+
+class OrderElement extends StatefulWidget {
+  OrderElement({
+    Key key,
+    @required this.filePaths,
+    @required this.index,
+  }) : super(key: key);
+
+  final List<String> filePaths;
+  final int index;
+
+  @override
+  _OrderElementState createState() => _OrderElementState();
+}
+
+class _OrderElementState extends State<OrderElement> {
+  List<String> filePaths;
+  int index;
+  bool pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    filePaths = widget.filePaths;
+    index = widget.index;
+    return GestureDetector(
+      onTap: () async {
+        await SocialSharePlugin.shareToFeedInstagram(
+          path: filePaths[filePaths.length - index - 1],
+          onSuccess: (String) {
+            print('index ${index + 1} success');
+            setState(() {
+              pressed = true;
+            });
+          },
+          onCancel: () {
+            print('cancel');
+            setState(() {
+              pressed = true;
+            });
+          },
+        );
+      },
+      child: Stack(children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 0.5, color: Colors.black),
+          ),
+          child: Image.file(
+            File(filePaths[filePaths.length - index - 1]),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(45),
+          child: Container(
+            color: pressed
+                ? Colors.green.withOpacity(0.8)
+                : Colors.deepPurpleAccent.withOpacity(0.8),
+            child: Center(
+              child: FlatButton(
+                onPressed: () async {
+                  await SocialSharePlugin.shareToFeedInstagram(
+                    path: filePaths[filePaths.length - index - 1],
+                    onSuccess: (String) {
+                      print('index ${index + 1} success');
+                      setState(() {
+                        pressed = true;
+                      });
+                    },
+                    onCancel: () {
+                      print('cancel');
+                      setState(() {
+                        pressed = true;
+                      });
+                    },
+                  );
+                },
+                child: Text(
+                  (index + 1).toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        )
+      ]),
+    );
+  }
+}
