@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // Project imports:
 import '../HomeScreen.dart';
+import '../help_screen.dart';
 import '../signup_screen/signup_screen.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
@@ -46,13 +47,11 @@ class ProfileScreen extends StatelessWidget {
           // mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-
             Container(
               child: Text(
                 'Hi ${user.firstName ?? 'there'}!',
                 style: TextStyle(fontSize: 45, color: Constants.palePink),
               ),
-
             ),
             Container(
               width: SizeConfig.blockSizeHorizontal * 80,
@@ -116,7 +115,13 @@ class ProfileScreen extends StatelessWidget {
                             Text("Need Help?", style: TextStyle(fontSize: 16))
                           ],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HelpScreen(),
+                              ));
+                        },
                       ),
                       FlatButton(
                         splashColor: Colors.black,
@@ -300,7 +305,6 @@ class _EditSettingsState extends State<EditSettings> {
                             HomeScreen(index: 4, user: widget.user),
                       ));
                 }),
-
           ],
         );
       },
