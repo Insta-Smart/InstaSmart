@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:instasmart/components/page_top_bar.dart';
 import 'package:intl/intl.dart';
 
 // Project imports:
@@ -38,9 +39,9 @@ class ReminderFormState extends State<ReminderForm> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Schedule Post"),
-        backgroundColor: Constants.lightPurple,
+      appBar: PageTopBar(
+        title: "Schedule Post",
+        appBar: AppBar(),
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -118,7 +119,7 @@ class ReminderFormState extends State<ReminderForm> {
                   child: RaisedButton(
                     elevation: 5,
                     shape: Constants.buttonShape,
-                    color: Colors.teal,
+                    color: Constants.paleBlue,
                     child: Row(
                       children: <Widget>[
                         Icon(

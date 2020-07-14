@@ -22,31 +22,43 @@ class TemplateButton extends StatefulWidget {
 class _TemplateButtonState extends State<TemplateButton> {
   @override
   Widget build(BuildContext context) {
+    final Color ButtonColor = widget.color ?? Constants.paleBlue;
     return Container(
+      margin: EdgeInsets.symmetric(
+          horizontal: SizeConfig.blockSizeHorizontal * 0.5,
+          vertical: SizeConfig.blockSizeVertical * 0.4),
       padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
-      child: FlatButton(
-        child: Column(
+      child: RaisedButton(
+        elevation: 1,
+        child: Row(
           children: <Widget>[
             widget.iconType == null
-                ? Container()
+                ? Container(
+                    width: 0,
+                    height: 0,
+                  )
                 : Icon(
-              widget.iconType,
-              color: Colors.white,
-              size: SizeConfig.blockSizeHorizontal*10,
-            ),
+                    widget.iconType,
+                    color: ButtonColor,
+                    size: SizeConfig.blockSizeHorizontal * 8,
+                  ),
             widget.title == null
                 ? Container()
-                : Text(widget.title,
-                style: TextStyle(color: Colors.white, fontSize: SizeConfig.blockSizeHorizontal*4)),
+                : Text(
+                    widget.title,
+                    style: TextStyle(color: ButtonColor, fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
           ],
         ),
-        color: widget.color == null ? Constants.paleBlue : widget.color,
+        color: widget.color == null ? Colors.white : Colors.white,
         shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(18)),
+            borderRadius: new BorderRadius.circular(12),
+            side: BorderSide(color: Colors.white, width: 1)),
         onPressed: widget.ontap,
         focusColor: Constants.brightPurple,
         hoverColor: Colors.black,
-        splashColor: Colors.red,
+        splashColor: Constants.palePink,
         padding: EdgeInsets.all(10),
 
         //function to change selectedVar goes here

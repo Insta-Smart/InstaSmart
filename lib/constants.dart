@@ -10,7 +10,7 @@ class Constants {
   static const darkPurple = Color(0xff635AA1);
   //static const paleBlue = Color(0xffA3C5DE);
   static const paleBlue = Color(0xff95c5ee); //A3C5DE
-  static const palePink = Color(0xffDF6666);
+  static const palePink = Color(0xffDE6666);
   static const lightPurple = Color(0xffAF97CA);
   // static const lightPurple = Color(0xff9575CD);
   static const double buttonHeight = 45;
