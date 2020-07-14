@@ -340,7 +340,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               color: Constants.lightPurple,
                               ontap: () async {
                                 pr.style(
-                                  message: 'Hold On...',
+                                  message: 'This takes some time...',
                                   borderRadius: 10.0,
                                   backgroundColor: Colors.white,
                                   progressWidget: SpinKitFadingGrid(

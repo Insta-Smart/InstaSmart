@@ -132,7 +132,7 @@ class _FramesScreenState extends State<FramesScreen> {
                 ]),
             imagePressed
                 ? PopupWidget(
-                    imgUrl: filteredFrameList[imageNoPressed].highResUrl)
+                    imgUrl: filteredFrameList[imageNoPressed].lowResUrl)
                 : Container(), //
           ],
         ),
