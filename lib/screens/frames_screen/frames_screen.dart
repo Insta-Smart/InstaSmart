@@ -69,12 +69,11 @@ class _FramesScreenState extends State<FramesScreen> {
                   Container(
                     //SizeConfig.blockSizeHorizontal * 90,
                     color: Colors.transparent,
-                    padding: EdgeInsets.fromLTRB(4, 0, 0, 0),
                     margin: EdgeInsets.fromLTRB(
-                        0, SizeConfig.blockSizeVertical * 2, 0, 10),
+                        0, SizeConfig.blockSizeVertical * 2, 0, 5),
                     //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
                     width: SizeConfig.screenWidth,
-                    height: SizeConfig.blockSizeVertical * 5.5,
+                    height: SizeConfig.blockSizeVertical * 6,
                     child: ListView.builder(
                       padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
                       scrollDirection: Axis.horizontal,
@@ -130,6 +129,21 @@ class _FramesScreenState extends State<FramesScreen> {
           },
         ),
                 ]),
+            Container(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                  icon: Icon(Icons.help),
+                  iconSize: SizeConfig.blockSizeHorizontal * 13,
+                  color: Constants.paleBlue,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => CustomDialogWidget(
+                              title: '#InstaSmartTip!',
+                              body: 'Tap the ♥ to save your favourite frames!',
+                            ));
+                  }),
+            ),
             imagePressed
                 ? PopupWidget(
                     imgUrl: filteredFrameList[imageNoPressed].lowResUrl)

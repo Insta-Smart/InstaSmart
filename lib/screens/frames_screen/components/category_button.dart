@@ -11,9 +11,9 @@ class CategoryButton extends StatefulWidget {
 
   const CategoryButton(
       {Key key,
-        @required this.catName,
-        @required this.ontap,
-        @required this.selectedCat})
+      @required this.catName,
+      @required this.ontap,
+      @required this.selectedCat})
       : super(key: key);
 
   @override
@@ -26,23 +26,21 @@ class _CategoryButtonState extends State<CategoryButton> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 7),
       child: RaisedButton(
-        elevation: 0,
+        elevation: widget.selectedCat == widget.catName ? 5 : 1,
         //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Text("#" + widget.catName,
             style: widget.selectedCat == widget.catName
                 ? TextStyle(
-                color: Constants.paleBlue,
-                fontSize: 17,
-                fontWeight: FontWeight.w700)
+                    color: Constants.paleBlue,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700)
                 : TextStyle(
-              color: Constants.lightPurple,
-              fontSize: 17,
-            )),
-        color: widget.selectedCat == widget.catName
-            ? Colors.transparent
-            : Colors.transparent,
+                    color: Constants.lightPurple,
+                    fontSize: 17,
+                  )),
+        color: Theme.of(context).scaffoldBackgroundColor,
         shape: Constants.buttonShape,
         onPressed: widget.ontap,
         focusColor: Constants.brightPurple,

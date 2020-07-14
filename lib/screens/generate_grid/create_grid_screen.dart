@@ -188,42 +188,84 @@ class _CreateScreenState extends State<CreateScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  !finished
-                      ? TemplateButton(
-                          title: '1. Add Your Photos',
-                          iconType: Icons.camera,
-                          ontap: () {
-                            loadAssets();
-                          })
-                      : Container(),
-                  addedImgs && !finished
-                      ? TemplateButton(
-                          title: '2. Finish',
-                          iconType: Icons.check_circle_outline,
-                          color: Colors.lightGreen,
-                          ontap: () async {
-                            setState(() {
-                              finished = true;
-                            });
-                            var srcBytesList = List();
-                            for (var img in images) {
-                              var bytes = await img.getByteData();
-                              var srcBytes = bytes.buffer.asUint8List();
-                              srcBytesList.add(srcBytes);
-                            }
-                          })
-                      : Container(),
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          !finished
+                              ? TemplateButton(
+                                  title: '1. Add Your Photos',
+                                  iconType: Icons.camera,
+                                  ontap: () {
+                                    loadAssets();
+                                  })
+                              : Container(),
+                          addedImgs && !finished
+                              ? TemplateButton(
+                                  title: '2. Finish',
+                                  iconType: Icons.check_circle_outline,
+                                  color: Colors.lightGreen,
+                                  ontap: () async {
+                                    setState(() {
+                                      finished = true;
+                                    });
+                                    var srcBytesList = List();
+                                    for (var img in images) {
+                                      var bytes = await img.getByteData();
+                                      var srcBytes = bytes.buffer.asUint8List();
+                                      srcBytesList.add(srcBytes);
+                                    }
+                                  })
+                              : Container(),
+                        ],
+                      ),
+                      addedImgs && !finished
+                          ? Container(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5),
+                              width: SizeConfig.blockSizeHorizontal * 75,
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    '#InstaSmartTip!',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Constants.paleBlue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    'Press & hold on each photo to rearrange them.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Constants.paleBlue),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container()
+                    ],
+                  ),
                   finished
                       ? Column(
                           children: <Widget>[
                             Row(
                               children: <Widget>[
                                 TemplateButton(
+                                  iconType: CupertinoIcons.pencil,
+                                  title: 'Edit',
+                                  ontap: () async {
+                                    setState(() {
+                                      finished = false;
+                                    });
+                                  },
+                                ),
+                                TemplateButton(
                                   iconType: Icons.file_download,
                                   title: 'Save to Gallery',
                                   ontap: () async {
                                     pr.style(
-                                      message: 'Saving...',
+                                      message:
+                                          'Saving... This takes some time!',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
@@ -269,12 +311,17 @@ class _CreateScreenState extends State<CreateScreen> {
                                     });
                                   },
                                 ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
                                 TemplateButton(
-                                  title: 'Add Grid to Preview',
+                                  title: 'Add to Preview',
                                   iconType: Icons.grid_on,
                                   ontap: () async {
                                     pr.style(
-                                      message: 'Adding to Preview...',
+                                      message:
+                                          'Adding to Preview... This takes some time!',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
@@ -331,61 +378,65 @@ class _CreateScreenState extends State<CreateScreen> {
                                               action1text: "Go To Preview",
                                             ));
                                   },
-                                )
+                                ),
+                                TemplateButton(
+                                  iconType: FontAwesomeIcons.instagram,
+                                  title: ' Post To Instagram',
+                                  color: Constants.lightPurple,
+                                  ontap: () async {
+                                    pr.style(
+                                      message: 'This takes some time...',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget: SpinKitFadingGrid(
+                                        size: 30,
+                                        color: Constants.lightPurple,
+                                      ),
+                                      elevation: 10.0,
+                                    );
+                                    pr.show();
+                                    List<Uint8List> srcBytesList = List();
+                                    List<Uint8List> genImages = List();
+
+                                    for (var img in images) {
+                                      img.getByteData().then((value) =>
+                                          srcBytesList
+                                              .add(value.buffer.asUint8List()));
+                                    }
+
+                                    var dstBytes = await networkImageToByte(
+                                        widget.frameUrl);
+                                    var split = splitImage(
+                                        imgBytes: dstBytes,
+                                        verticalPieceCount: 3,
+                                        horizontalPieceCount: 3);
+                                    for (int i = 0;
+                                        i < srcBytesList.length;
+                                        i++) {
+                                      genImages.add(overlayImages(
+                                          srcBytesList[i], split[i]));
+                                    }
+                                    saveImages(genImages).then((value) {
+                                      print(value);
+                                      pr.hide();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PostOrderScreen(
+                                                      value, widget.user)));
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              CustomDialogWidget(
+                                                title: 'Saved!',
+                                                body:
+                                                    'Images have been saved to gallery',
+                                              ));
+                                    });
+                                  },
+                                ),
                               ],
-                            ),
-                            TemplateButton(
-                              iconType: FontAwesomeIcons.instagram,
-                              title: ' Post To Instagram',
-                              color: Constants.lightPurple,
-                              ontap: () async {
-                                pr.style(
-                                  message: 'This takes some time...',
-                                  borderRadius: 10.0,
-                                  backgroundColor: Colors.white,
-                                  progressWidget: SpinKitFadingGrid(
-                                    size: 30,
-                                    color: Constants.lightPurple,
-                                  ),
-                                  elevation: 10.0,
-                                );
-                                pr.show();
-                                List<Uint8List> srcBytesList = List();
-                                List<Uint8List> genImages = List();
-
-                                for (var img in images) {
-                                  img.getByteData().then((value) => srcBytesList
-                                      .add(value.buffer.asUint8List()));
-                                }
-
-                                var dstBytes =
-                                    await networkImageToByte(widget.frameUrl);
-                                var split = splitImage(
-                                    imgBytes: dstBytes,
-                                    verticalPieceCount: 3,
-                                    horizontalPieceCount: 3);
-                                for (int i = 0; i < srcBytesList.length; i++) {
-                                  genImages.add(
-                                      overlayImages(srcBytesList[i], split[i]));
-                                }
-                                saveImages(genImages).then((value) {
-                                  print(value);
-                                  pr.hide();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PostOrderScreen(
-                                              value, widget.user)));
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          CustomDialogWidget(
-                                            title: 'Saved!',
-                                            body:
-                                                'Images have been saved to gallery',
-                                          ));
-                                });
-                              },
                             ),
                           ],
                         )
