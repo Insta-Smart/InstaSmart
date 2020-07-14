@@ -29,8 +29,9 @@ class _TemplateButtonState extends State<TemplateButton> {
           vertical: SizeConfig.blockSizeVertical * 0.4),
       padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
       child: RaisedButton(
-        elevation: 1,
+        elevation: 2,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             widget.iconType == null
                 ? Container(

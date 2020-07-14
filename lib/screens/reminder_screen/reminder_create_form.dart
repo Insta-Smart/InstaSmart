@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:instasmart/components/page_top_bar.dart';
+import 'package:instasmart/components/template_button.dart';
 import 'package:intl/intl.dart';
 
 // Project imports:
@@ -114,50 +115,30 @@ class ReminderFormState extends State<ReminderForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  height: SizeConfig.blockSizeHorizontal * 12,
-                  child: RaisedButton(
-                    elevation: 5,
-                    shape: Constants.buttonShape,
-                    color: Constants.paleBlue,
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.date_range,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Create Reminder",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                    onPressed: () async {
-                      if (_fbKey.currentState.saveAndValidate()) {
-                        var formValues = _fbKey.currentState.value;
-                        var caption = formValues['caption'];
-                        var postTime = formValues['postTime'];
-                        ReminderData().createReminder(
-                            caption: caption,
-                            pictureUrl: widget.imageUrl,
-                            postTime: postTime);
-                        var notifications = LocalNotifications();
-                        await notifications.initializing();
-                        print(DateTime.now().toLocal());
-                        notifications.scheduleNotification(postTime);
+                TemplateButton(
+                  iconType: Icons.date_range,
+                  title: 'Create Reminder',
+                  ontap: () async {
+                    if (_fbKey.currentState.saveAndValidate()) {
+                      var formValues = _fbKey.currentState.value;
+                      var caption = formValues['caption'];
+                      var postTime = formValues['postTime'];
+                      ReminderData().createReminder(
+                          caption: caption,
+                          pictureUrl: widget.imageUrl,
+                          postTime: postTime);
+                      var notifications = LocalNotifications();
+                      await notifications.initializing();
+                      print(DateTime.now().toLocal());
+                      notifications.scheduleNotification(postTime);
 
-                        Navigator.pop(context);
-                      } else {
-                        print(_fbKey.currentState.value);
-                        print("validation failed");
-                      }
-                    },
-                  ),
-                )
+                      Navigator.pop(context);
+                    } else {
+                      print(_fbKey.currentState.value);
+                      print("validation failed");
+                    }
+                  },
+                ),
               ],
             ),
           ],

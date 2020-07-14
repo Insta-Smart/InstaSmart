@@ -374,8 +374,8 @@ class _CreateScreenState extends State<CreateScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              PostOrderScreen(value)));
+                                          builder: (context) => PostOrderScreen(
+                                              value, widget.user)));
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) =>

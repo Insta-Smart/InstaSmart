@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:instasmart/utils/size_config.dart';
 import 'dart:io';
 import 'package:social_share_plugin/social_share_plugin.dart';
+
+import '../../../constants.dart';
 
 class OrderElement extends StatefulWidget {
   OrderElement({
@@ -55,9 +58,21 @@ class _OrderElementState extends State<OrderElement> {
         Padding(
           padding: const EdgeInsets.all(45),
           child: Container(
-            color: pressed
-                ? Colors.green.withOpacity(0.8)
-                : Colors.deepPurpleAccent.withOpacity(0.8),
+            width: SizeConfig.blockSizeHorizontal * 10,
+            height: SizeConfig.blockSizeHorizontal * 10,
+            decoration: new BoxDecoration(
+              color: pressed
+                  ? Colors.green.withOpacity(0.8)
+                  : Constants.darkPurple.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.5),
+                  blurRadius: 2,
+                  offset: Offset(3, SizeConfig.blockSizeHorizontal),
+                ),
+              ],
+            ),
             child: Center(
               child: FlatButton(
                 onPressed: () async {
@@ -80,6 +95,7 @@ class _OrderElementState extends State<OrderElement> {
                 child: Text(
                   (index + 1).toString(),
                   style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
