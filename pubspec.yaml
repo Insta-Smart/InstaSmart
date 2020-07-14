@@ -20,7 +20,6 @@ dependencies:
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+5
   bottom_navy_bar: ^5.4.0
-  image_cropper: ^1.2.2
   image_picker: ^0.6.6+4
   firebase_storage: ^3.1.5
   multi_image_picker: ^4.6.7
@@ -47,6 +46,7 @@ dependencies:
   http: ^0.12.1
   social_share_plugin: ^0.3.1+1
   shimmer: ^1.1.1
+  font_awesome_flutter: ^8.8.1
 
 
 dev_dependencies:

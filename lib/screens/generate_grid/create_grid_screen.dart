@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image/image.dart' as imglib;
+import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
@@ -212,117 +214,180 @@ class _CreateScreenState extends State<CreateScreen> {
                           })
                       : Container(),
                   finished
-                      ? TemplateButton(
-                          iconType: Icons.file_download,
-                          title: 'Save to Gallery',
-                          ontap: () async {
-                            pr.style(
-                              message: 'Saving...',
-                              borderRadius: 10.0,
-                              backgroundColor: Colors.white,
-                              progressWidget: SpinKitFadingGrid(
-                                size: 30,
-                                color: Colors.deepPurple,
-                              ),
-                              elevation: 10.0,
-                            );
-                            pr.show();
-                            List<Uint8List> srcBytesList = List();
-                            List<Uint8List> genImages = List();
+                      ? Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                TemplateButton(
+                                  iconType: Icons.file_download,
+                                  title: 'Save to Gallery',
+                                  ontap: () async {
+                                    pr.style(
+                                      message: 'Saving...',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget: SpinKitFadingGrid(
+                                        size: 30,
+                                        color: Constants.lightPurple,
+                                      ),
+                                      elevation: 10.0,
+                                    );
+                                    pr.show();
+                                    List<Uint8List> srcBytesList = List();
+                                    List<Uint8List> genImages = List();
 
-                            for(var img in images){
-                              img.getByteData().then((value) =>
-                                  srcBytesList.add(value.buffer.asUint8List()));
-                            }
+                                    for (var img in images) {
+                                      img.getByteData().then((value) =>
+                                          srcBytesList
+                                              .add(value.buffer.asUint8List()));
+                                    }
 
+                                    var dstBytes = await networkImageToByte(
+                                        widget.frameUrl);
+                                    var split = splitImage(
+                                        imgBytes: dstBytes,
+                                        verticalPieceCount: 3,
+                                        horizontalPieceCount: 3);
+                                    for (int i = 0;
+                                        i < srcBytesList.length;
+                                        i++) {
+                                      genImages.add(overlayImages(
+                                          srcBytesList[i], split[i]));
+                                    }
+                                    saveImages(genImages).then((value) {
+                                      print(value);
+                                      pr.hide();
 
-                            var dstBytes =
-                                await networkImageToByte(widget.frameUrl);
-                            var split = splitImage(
-                                imgBytes: dstBytes,
-                                verticalPieceCount: 3,
-                                horizontalPieceCount: 3);
-                            for (int i = 0; i < srcBytesList.length; i++) {
-                              genImages.add(
-                                  overlayImages(srcBytesList[i], split[i]));
-                            }
-                            saveImages(genImages).then((value) {
-                              print(value);
-                              pr.hide();
-                              Navigator.push(
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              CustomDialogWidget(
+                                                title: 'Saved!',
+                                                body:
+                                                    'Images have been saved to gallery',
+                                              ));
+                                    });
+                                  },
+                                ),
+                                TemplateButton(
+                                  title: 'Add Grid to Preview',
+                                  iconType: Icons.grid_on,
+                                  ontap: () async {
+                                    pr.style(
+                                      message: 'Adding to Preview...',
+                                      borderRadius: 10.0,
+                                      backgroundColor: Colors.white,
+                                      progressWidget: SpinKitFadingGrid(
+                                        size: 30,
+                                        color: Constants.lightPurple,
+                                      ),
+                                      elevation: 10.0,
+                                    );
+                                    pr.show();
+
+                                    List<Uint8List> srcBytesList = List();
+                                    List<Uint8List> genImages = List();
+                                    for (var img in images) {
+                                      img.getByteData().then((value) =>
+                                          srcBytesList
+                                              .add(value.buffer.asUint8List()));
+                                    }
+                                    var dstBytes = await networkImageToByte(
+                                        widget.frameUrl);
+                                    var split = splitImage(
+                                        imgBytes: dstBytes,
+                                        verticalPieceCount: 3,
+                                        horizontalPieceCount: 3);
+                                    for (int i = 0;
+                                        i < srcBytesList.length;
+                                        i++) {
+                                      genImages.add(overlayImages(
+                                          srcBytesList[i], split[i]));
+                                    }
+
+                                    await firebaseStorage
+                                        .uploadByteImage(images: genImages)
+                                        .then((imageUrls) =>
+                                            firebaseStorage.mergeImageUrls(
+                                                imageUrls.reversed.toList()));
+                                    pr.hide();
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            CustomDialogWidget(
+                                              title: 'Success!',
+                                              body:
+                                                  'Images have been added to Preview',
+                                              action1: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            HomeScreen(
+                                                                index: 2,
+                                                                user: widget
+                                                                    .user)));
+                                              },
+                                              action1text: "Go To Preview",
+                                            ));
+                                  },
+                                )
+                              ],
+                            ),
+                            TemplateButton(
+                              iconType: FontAwesomeIcons.instagram,
+                              title: ' Post To Instagram',
+                              color: Constants.lightPurple,
+                              ontap: () async {
+                                pr.style(
+                                  message: 'This takes some time...',
+                                  borderRadius: 10.0,
+                                  backgroundColor: Colors.white,
+                                  progressWidget: SpinKitFadingGrid(
+                                    size: 30,
+                                    color: Constants.lightPurple,
+                                  ),
+                                  elevation: 10.0,
+                                );
+                                pr.show();
+                                List<Uint8List> srcBytesList = List();
+                                List<Uint8List> genImages = List();
+
+                                for (var img in images) {
+                                  img.getByteData().then((value) => srcBytesList
+                                      .add(value.buffer.asUint8List()));
+                                }
+
+                                var dstBytes =
+                                    await networkImageToByte(widget.frameUrl);
+                                var split = splitImage(
+                                    imgBytes: dstBytes,
+                                    verticalPieceCount: 3,
+                                    horizontalPieceCount: 3);
+                                for (int i = 0; i < srcBytesList.length; i++) {
+                                  genImages.add(
+                                      overlayImages(srcBytesList[i], split[i]));
+                                }
+                                saveImages(genImages).then((value) {
+                                  print(value);
+                                  pr.hide();
+                                  Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => PostOrderScreen(value)));
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      CustomDialogWidget(
-                                        title: 'Saved!',
-                                        body:
-                                            'Images have been saved to gallery',
-                                      ));
-                            });
-                          },
-                        )
-                      : Container(),
-                  finished
-                      ? TemplateButton(
-                          title: 'Add Grid to Preview',
-                          iconType: Icons.grid_on,
-                          ontap: () async {
-                            pr.style(
-                              message: 'Adding to Preview...',
-                              borderRadius: 10.0,
-                              backgroundColor: Colors.white,
-                              progressWidget: SpinKitFadingGrid(
-                                size: 30,
-                                color: Colors.deepPurple,
-                              ),
-                              elevation: 10.0,
-                            );
-                            pr.show();
-
-                            List<Uint8List> srcBytesList = List();
-                            List<Uint8List> genImages = List();
-                            for(var img in images) {
-                              img.getByteData().then((value) =>
-                                  srcBytesList.add(value.buffer.asUint8List()));
-                            }
-                            var dstBytes =
-                                await networkImageToByte(widget.frameUrl);
-                            var split = splitImage(
-                                imgBytes: dstBytes,
-                                verticalPieceCount: 3,
-                                horizontalPieceCount: 3);
-                            for (int i = 0; i < srcBytesList.length; i++) {
-                              genImages.add(
-                                  overlayImages(srcBytesList[i], split[i]));
-                            }
-
-                            await firebaseStorage
-                                .uploadByteImage(images: genImages)
-                                .then((imageUrls) =>
-                                    firebaseStorage.mergeImageUrls(
-                                        imageUrls.reversed.toList()));
-                            pr.hide();
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    CustomDialogWidget(
-                                      title: 'Success!',
-                                      body: 'Images have been added to Preview',
-                                      action1: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeScreen(
-                                                        index: 2,
-                                                        user: widget.user)));
-                                      },
-                                      action1text: "Go To Preview",
-                                    ));
-                          },
+                                          builder: (context) => PostOrderScreen(
+                                              value, widget.user)));
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          CustomDialogWidget(
+                                            title: 'Saved!',
+                                            body:
+                                                'Images have been saved to gallery',
+                                          ));
+                                });
+                              },
+                            ),
+                          ],
                         )
                       : Container(),
                 ],

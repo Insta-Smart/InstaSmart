@@ -45,7 +45,7 @@ class _FramesScreenState extends State<FramesScreen> {
   @override
   void initState() {
     super.initState();
-    //FramesFirebaseFunctions().uploadImagetoFirestore();
+    // FramesFirebaseFunctions().uploadImagetoFirestore();
     futList =
         FramesFirebaseFunctions().GetUrlAndIdFromFirestore(Categories.all);
     futList.then((value) {
