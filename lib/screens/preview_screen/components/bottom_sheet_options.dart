@@ -16,16 +16,19 @@ import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'url_to_file.dart';
 
-
 class BottomSheetOptions extends StatelessWidget {
   const BottomSheetOptions({
     Key key,
-    @required this.firebaseStorage,
+    this.screen,
+    this.firebaseStorage,
     @required this.imageUrl,
   }) : super(key: key);
 
   final FirebaseImageStorage firebaseStorage;
   final String imageUrl;
+  final String screen;
+  final String CalenderScreen = 'Calender';
+  final String PreviewScreen = 'Preview';
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +58,20 @@ class BottomSheetOptions extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-              leading: Icon(
-                Icons.calendar_today,
-              ),
-              title: Text('Schedule Post'),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ReminderForm(imageUrl),
-                    ));
-              }),
+          screen == PreviewScreen
+              ? ListTile(
+                  leading: Icon(
+                    Icons.calendar_today,
+                  ),
+                  title: Text('Schedule Post'),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReminderForm(imageUrl),
+                        ));
+                  })
+              : Container(),
           ListTile(
             leading: Icon(Icons.image),
             title: Text('Share to Instagram'),
@@ -89,14 +94,16 @@ class BottomSheetOptions extends StatelessWidget {
                       ));
             },
           ),
-          ListTile(
-            leading: Icon(Icons.delete),
-            title: Text('Delete'),
-            onTap: () async {
-              Navigator.pop(context);
-              await firebaseStorage.deleteImages([imageUrl]);
-            },
-          ),
+          screen == PreviewScreen
+              ? ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Delete'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await firebaseStorage.deleteImages([imageUrl]);
+                  },
+                )
+              : Container(),
           ListTile(
             leading: Icon(Icons.close),
             title: Text('Close'),
