@@ -140,7 +140,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
         selectedColor: Colors.deepPurple,
-        todayColor: Colors.deepPurple[200],
+        todayColor: Constants.lightPurple,
         markersColor: Colors.black,
         outsideDaysVisible: false,
       ),
@@ -169,6 +169,5 @@ class _CalendarScreenState extends State<CalendarScreen>
   Widget _buildEventList() {
     print('building events');
     return ReminderList(selectedEvents: _selectedEvents);
-
   }
 }

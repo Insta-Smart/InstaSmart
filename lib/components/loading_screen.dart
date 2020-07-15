@@ -18,7 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           children: <Widget>[
             Container(
               color: Colors.transparent,
-              child: Image.asset('assets/images/instasmartLogo.png'),
+              child: Image.asset('assets/images/instasmartLogoHD.png'),
               height: 100,
               width: 100,
             ),

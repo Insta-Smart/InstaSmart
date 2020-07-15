@@ -67,6 +67,7 @@ class ReorderableGrid extends StatelessWidget {
                                             BottomSheetOptions(
                                               firebaseStorage: firebaseStorage,
                                               imageUrl: snapshot.data[index],
+                                              screen: 'Preview',
                                             ));
                                   },
                                   child: Hero(

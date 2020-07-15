@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:instasmart/components/page_top_bar.dart';
+import 'package:instasmart/screens/preview_screen/components/bottom_sheet_options.dart';
 import 'package:intl/intl.dart';
 
 // Project imports:
@@ -37,8 +39,10 @@ class ReminderFormState extends State<ReminderForm> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-          title: Text("Edit Reminder"), backgroundColor: Constants.lightPurple),
+      appBar: PageTopBar(
+        appBar: AppBar(),
+        title: 'Edit Reminder',
+      ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: ListView(
@@ -54,9 +58,25 @@ class ReminderFormState extends State<ReminderForm> {
                       child: Container(
                     width: SizeConfig.screenWidth / 1.5,
                     height: SizeConfig.screenWidth / 1.5,
-                    child: Hero(
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => BottomSheetOptions(
+                                  imageUrl: widget.reminder.picture_url,
+                                  screen: 'Calendar',
+                                ));
+                      },
+                      child: Hero(
                         tag: widget.reminder.id,
-                        child: Image.network(widget.reminder.picture_url)),
+                        child: Image.network(widget.reminder.picture_url),
+                      ),
+                    ),
+//                    Hero(
+//                        tag: widget.reminder.id,
+//                        child: Image.network(widget.reminder.picture_url)),
                   )),
                   SizedBox(height: SizeConfig.blockSizeVertical * 7),
                   FormBuilderTextField(

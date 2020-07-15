@@ -35,7 +35,7 @@ class VerifyEmailScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(40.0),
                           child: Image.asset(
-                            'assets/images/instasmartLogo.png',
+                            'assets/images/instasmartLogoHD.png',
                             height: 150,
                           ),
                         ),
