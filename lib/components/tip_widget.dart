@@ -34,7 +34,7 @@ class TipWidget extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) => CustomDialogWidget(
-                      title: '#InstaSmartTip!',
+                      title: '#InstaSmartTips!',
                       body: tipText,
                     ));
           }),

@@ -95,7 +95,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
           TipWidget(
             alignment: Alignment.bottomLeft,
             tipText:
-                '● Long-press and drag a post to rearrange it on your feed.\n● Tap the camera icon to add your own photos!',
+                '● Long-press and drag a post to rearrange it on your feed.\n \n● Tap the camera icon to add your own photos.'
+                '\n \n● Tap a post for more options.',
           ),
           Container(
             alignment: Alignment.bottomLeft,
