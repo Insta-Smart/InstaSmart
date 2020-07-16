@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:instasmart/components/tip_widget.dart';
 
 // Project imports:
 import '../../constants.dart';
@@ -129,20 +130,9 @@ class _FramesScreenState extends State<FramesScreen> {
                     },
                   ),
                 ]),
-            Container(
+            TipWidget(
+              tipText: 'Tap the ♥ to save your favourite frames!',
               alignment: Alignment.bottomRight,
-              child: IconButton(
-                  icon: Icon(Icons.help),
-                  iconSize: SizeConfig.blockSizeHorizontal * 13,
-                  color: Constants.paleBlue,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) => CustomDialogWidget(
-                              title: '#InstaSmartTip!',
-                              body: 'Tap the ♥ to save your favourite frames!',
-                            ));
-                  }),
             ),
             imagePressed
                 ? PopupWidget(

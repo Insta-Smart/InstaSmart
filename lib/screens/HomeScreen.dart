@@ -50,73 +50,75 @@ class _HomeState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox.expand(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
+    return SafeArea(
+      child: Scaffold(
+        body: SizedBox.expand(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() => _currentIndex = index);
+            },
+            children: <Widget>[
+              Container(
+                child: FramesScreen(user: user),
+              ),
+              Container(
+                child: LikedScreen(),
+              ),
+              Container(
+                child: PreviewScreen(user: user),
+              ),
+              Container(
+                child: CalendarScreen(user: user),
+              ),
+              Container(
+                child: ProfileScreen(user: user),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavyBarCustom(
+          selectedIndex: _currentIndex,
+          onItemSelected: (index) {
             setState(() => _currentIndex = index);
+            _pageController.jumpToPage(index);
           },
-          children: <Widget>[
-            Container(
-              child: FramesScreen(user: user),
+          backgroundColor: Colors.white,
+          items: <BottomNavyBarCustomItem>[
+            BottomNavyBarCustomItem(
+              title: Text('Explore'),
+              icon: Icon(Icons.search),
+              activeColor: Constants.lightPurple,
             ),
-            Container(
-              child: LikedScreen(),
+            BottomNavyBarCustomItem(
+              title: Text('Liked'),
+              icon: Icon(
+                Icons.favorite_border,
+              ),
+              activeColor: Constants.lightPurple,
             ),
-            Container(
-              child: PreviewScreen(user: user),
+            BottomNavyBarCustomItem(
+              title: Text('My Grids'),
+              icon: Icon(Icons.apps),
+              activeColor: Constants.lightPurple,
             ),
-            Container(
-              child: CalendarScreen(user: user),
+            BottomNavyBarCustomItem(
+              title: Text(
+                'Calender',
+                style: TextStyle(fontSize: 14, letterSpacing: 0.5),
+              ),
+              icon: Icon(Icons.access_time),
+              activeColor: Constants.lightPurple,
             ),
-            Container(
-              child: ProfileScreen(user: user),
+            BottomNavyBarCustomItem(
+              title: Text('Profile'),
+              icon: Icon(
+                Icons.account_circle,
+              ),
+              activeColor: Constants.lightPurple,
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavyBarCustom(
-        selectedIndex: _currentIndex,
-        onItemSelected: (index) {
-          setState(() => _currentIndex = index);
-          _pageController.jumpToPage(index);
-        },
-        backgroundColor: Colors.white,
-        items: <BottomNavyBarCustomItem>[
-          BottomNavyBarCustomItem(
-            title: Text('Explore'),
-            icon: Icon(Icons.search),
-            activeColor: Constants.lightPurple,
-          ),
-          BottomNavyBarCustomItem(
-            title: Text('Liked'),
-            icon: Icon(
-              Icons.favorite_border,
-            ),
-            activeColor: Constants.lightPurple,
-          ),
-          BottomNavyBarCustomItem(
-            title: Text('My Grids'),
-            icon: Icon(Icons.apps),
-            activeColor: Constants.lightPurple,
-          ),
-          BottomNavyBarCustomItem(
-            title: Text(
-              'Calender',
-              style: TextStyle(fontSize: 14, letterSpacing: 0.5),
-            ),
-            icon: Icon(Icons.access_time),
-            activeColor: Constants.lightPurple,
-          ),
-          BottomNavyBarCustomItem(
-            title: Text('Profile'),
-            icon: Icon(
-              Icons.account_circle,
-            ),
-            activeColor: Constants.lightPurple,
-          ),
-        ],
       ),
     );
   }

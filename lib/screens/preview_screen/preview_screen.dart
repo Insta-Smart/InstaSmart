@@ -4,6 +4,7 @@ import 'dart:async';
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/components/tip_widget.dart';
 
 // Package imports:
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -81,7 +82,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
 //          appBar: AppBar(),
 //        ),
         body: SafeArea(
-          child: Container(
+      child: Stack(
+        children: <Widget>[
+          Container(
             width: SizeConfig.screenWidth,
             height: SizeConfig.screenHeight,
             child: ReorderableGrid(
@@ -89,14 +92,24 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 firebaseStorage: firebaseStorage,
                 user: widget.user),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add_a_photo,
-            color: Colors.white,
+          TipWidget(
+            alignment: Alignment.bottomLeft,
+            tipText:
+                '● Long-press and drag a post to rearrange it on your feed.\n● Tap the camera icon to add your own photos!',
           ),
-          backgroundColor: Constants.paleBlue,
-          onPressed: loadAssets,
-        ));
+          Container(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton(
+              child: Icon(
+                Icons.add_a_photo,
+                color: Colors.white,
+              ),
+              backgroundColor: Constants.paleBlue,
+              onPressed: loadAssets,
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
