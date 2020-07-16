@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // Project imports:
 import '../HomeScreen.dart';
-import '../help_screen.dart';
+import '../../help_screen/help_screen.dart';
 import '../signup_screen/signup_screen.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';

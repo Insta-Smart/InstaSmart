@@ -121,9 +121,16 @@ class _Frame_WidgetState extends State<Frame_Widget> {
             child: IconButton(
               //Like Button
               alignment: Alignment(-6, -13),
-              icon: Icon(Icons.favorite,
-                  size: 30,
-                  color: liked ? Constants.palePink : Color(0xffdde0dd)),
+              focusColor: Constants.palePink,
+              icon: liked
+                  ? Icon(Icons.favorite,
+                      size: 30,
+                      color: liked ? Constants.palePink : Color(0xffdde0dd))
+                  : Icon(
+                      Icons.favorite,
+                      size: 30,
+                      color: Colors.grey.withOpacity(0.8),
+                    ),
               tooltip: 'Like frame to save it.',
               onPressed: () {
                 setState(() {

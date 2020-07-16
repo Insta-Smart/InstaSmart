@@ -33,14 +33,17 @@ class _CategoryButtonState extends State<CategoryButton> {
         child: Text("#" + widget.catName,
             style: widget.selectedCat == widget.catName
                 ? TextStyle(
-                    color: Constants.paleBlue,
+                    color: Colors.white,
                     fontSize: 17,
-                    fontWeight: FontWeight.w700)
+                    //fontWeight: FontWeight.w700
+                  )
                 : TextStyle(
-                    color: Constants.lightPurple,
+                    color: Constants.paleBlue.withOpacity(1),
                     fontSize: 17,
                   )),
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: widget.selectedCat == widget.catName
+            ? Constants.lightPurple
+            : Theme.of(context).scaffoldBackgroundColor,
         shape: Constants.buttonShape,
         onPressed: widget.ontap,
         focusColor: Constants.brightPurple,

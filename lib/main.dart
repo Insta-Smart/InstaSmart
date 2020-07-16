@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:instasmart/components/loading_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,8 +62,11 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 Provider.of<FirebaseLoginFunctions>(context).currUser =
                     snapshot.data;
                 return HomeScreen(user: snapshot.data);
-              } else {
+              }
+              if (!snapshot.hasData) {
                 return LoginScreen();
+              } else {
+                return LoadingScreen();
               }
             }),
         routes: {
