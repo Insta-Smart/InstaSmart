@@ -9,69 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/help_screen/helper/help_sections.dart';
 import 'package:instasmart/help_screen/helper/quad_clipper.dart';
-import 'package:instasmart/help_screen/theme/color/light_color.dart';
-import 'package:instasmart/help_screen/theme/theme.dart';
 import 'package:instasmart/utils/size_config.dart';
+
+//url ref:https://github.com/TheAlphamerc/flutter_smart_course
 
 class HelpScreen extends StatelessWidget {
   double width;
-
-  Widget _header(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
-      child: Container(
-          height: 120,
-          width: width,
-          decoration: BoxDecoration(
-            color: LightColor.orange,
-          ),
-          child: Stack(
-            fit: StackFit.expand,
-            alignment: Alignment.center,
-            children: <Widget>[
-              Positioned(
-                  top: 10,
-                  right: -120,
-                  child: _circularContainer(300, LightColor.lightOrange2)),
-              Positioned(
-                  top: -60,
-                  left: -65,
-                  child: _circularContainer(width * .5, LightColor.darkOrange)),
-              Positioned(
-                  top: -230,
-                  right: -30,
-                  child: _circularContainer(width * .7, Colors.transparent,
-                      borderColor: Colors.white38)),
-              Positioned(
-                  top: 50,
-                  left: 0,
-                  child: Container(
-                      width: width,
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Stack(
-                        children: <Widget>[
-                          Icon(
-                            Icons.keyboard_arrow_left,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Recomended",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w500),
-                              ))
-                        ],
-                      ))),
-            ],
-          )),
-    );
-  }
 
   Widget _circularContainer(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
@@ -97,7 +40,7 @@ class HelpScreen extends StatelessWidget {
                 children: <Widget>[
                   _courseInfo(CourseList.list[index],
                       _decorationContainerA(Colors.redAccent, -110, -85),
-                      background: LightColor.seeBlue),
+                      background: Constants.paleBlue),
                   Divider(
                     thickness: 1,
                     endIndent: 20,
@@ -155,7 +98,7 @@ class HelpScreen extends StatelessWidget {
                       children: <Widget>[
                         Text(model.name,
                             style: TextStyle(
-                                color: LightColor.purple,
+                                color: Constants.lightPurple,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold)),
                         CircleAvatar(
@@ -171,8 +114,8 @@ class HelpScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(model.description,
-                      style: AppTheme.h6Style.copyWith(
-                          fontSize: 12, color: LightColor.extraDarkPurple)),
+                      style:
+                          TextStyle(fontSize: 12, color: Constants.darkPurple)),
                   SizedBox(height: 15),
                   Row(
                     children: <Widget>[
@@ -218,7 +161,7 @@ class HelpScreen extends StatelessWidget {
             backgroundColor: Colors.orange,
           ),
         ),
-        _smallContainer(LightColor.yellow, 40, 20),
+        _smallContainer(Colors.yellow, 40, 20),
         Positioned(
           top: -30,
           right: -10,
@@ -230,65 +173,10 @@ class HelpScreen extends StatelessWidget {
           right: -50,
           child: CircleAvatar(
             radius: 60,
-            backgroundColor: LightColor.darkseeBlue,
+            backgroundColor: Constants.darkPurple,
             child:
-                CircleAvatar(radius: 40, backgroundColor: LightColor.seeBlue),
+                CircleAvatar(radius: 40, backgroundColor: Constants.paleBlue),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _decorationContainerB() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          top: -65,
-          left: -65,
-          child: CircleAvatar(
-            radius: 70,
-            backgroundColor: LightColor.lightOrange2,
-            child: CircleAvatar(
-                radius: 30, backgroundColor: LightColor.darkOrange),
-          ),
-        ),
-        Positioned(
-            bottom: -35,
-            right: -40,
-            child:
-                CircleAvatar(backgroundColor: LightColor.yellow, radius: 40)),
-        Positioned(
-          top: 50,
-          left: -40,
-          child: _circularContainer(70, Colors.transparent,
-              borderColor: Colors.white),
-        ),
-      ],
-    );
-  }
-
-  Widget _decorationContainerC() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          bottom: -65,
-          left: -35,
-          child: CircleAvatar(
-            radius: 70,
-            backgroundColor: Color(0xfffeeaea),
-          ),
-        ),
-        Positioned(
-            bottom: -30,
-            right: -25,
-            child: ClipRect(
-                clipper: QuadClipper(),
-                child: CircleAvatar(
-                    backgroundColor: LightColor.yellow, radius: 40))),
-        _smallContainer(
-          Colors.yellow,
-          35,
-          70,
         ),
       ],
     );

@@ -1,18 +1,31 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 
 // Project imports:
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/constants.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class TemplateButton extends StatefulWidget {
   final String title;
   final Function ontap;
   final IconData iconType;
   final Color color;
+  final String spinkitMes1;
+  final String spinkitMes2;
+  final CustomDialogWidget finishDialog;
 
   const TemplateButton(
-      {Key key, this.title, @required this.ontap, this.iconType, this.color})
+      {Key key,
+      this.title,
+      @required this.ontap,
+      this.iconType,
+      this.color,
+      this.spinkitMes1,
+      this.spinkitMes2,
+      this.finishDialog})
       : super(key: key);
 
   @override
@@ -22,6 +35,7 @@ class TemplateButton extends StatefulWidget {
 class _TemplateButtonState extends State<TemplateButton> {
   @override
   Widget build(BuildContext context) {
+    final ProgressDialog pr = ProgressDialog(context);
     final Color ButtonColor = widget.color ?? Constants.paleBlue;
     return Container(
       margin: EdgeInsets.symmetric(
@@ -57,9 +71,9 @@ class _TemplateButtonState extends State<TemplateButton> {
             borderRadius: new BorderRadius.circular(12),
             side: BorderSide(color: Colors.white, width: 1)),
         onPressed: widget.ontap,
-        focusColor: Constants.brightPurple,
-        hoverColor: Colors.black,
-        splashColor: Constants.palePink,
+        focusColor: Colors.white,
+        hoverColor: Colors.white70,
+        splashColor: Colors.white,
         padding: EdgeInsets.all(10),
 
         //function to change selectedVar goes here

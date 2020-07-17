@@ -161,6 +161,29 @@ class _CreateScreenState extends State<CreateScreen> {
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
         child: Container(
           child: Column(children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                finished
+                    ? Container(
+                        width: SizeConfig.blockSizeHorizontal * 30,
+                        height: SizeConfig.blockSizeVertical * 8,
+                        child: TemplateButton(
+                          iconType: CupertinoIcons.pencil,
+                          title: 'Edit',
+                          ontap: () async {
+                            setState(() {
+                              finished = false;
+                            });
+                          },
+                        ),
+                      )
+                    : Container(
+                        width: SizeConfig.blockSizeHorizontal * 30,
+                        height: SizeConfig.blockSizeVertical * 8,
+                      )
+              ],
+            ),
             Container(
               height: SizeConfig.screenWidth,
               child: RepaintBoundary(
@@ -251,21 +274,12 @@ class _CreateScreenState extends State<CreateScreen> {
                             Row(
                               children: <Widget>[
                                 TemplateButton(
-                                  iconType: CupertinoIcons.pencil,
-                                  title: 'Edit',
-                                  ontap: () async {
-                                    setState(() {
-                                      finished = false;
-                                    });
-                                  },
-                                ),
-                                TemplateButton(
                                   iconType: Icons.file_download,
                                   title: 'Save to Gallery',
                                   ontap: () async {
+                                    bool functionDone = false;
                                     pr.style(
-                                      message:
-                                          'Saving... This takes some time!',
+                                      message: 'Saving your grid...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
@@ -275,6 +289,24 @@ class _CreateScreenState extends State<CreateScreen> {
                                       elevation: 10.0,
                                     );
                                     pr.show();
+                                    Future.delayed(
+                                        const Duration(milliseconds: 6000), () {
+                                      if (!functionDone) {
+                                        pr.hide();
+                                        pr.style(
+                                          message:
+                                              'Saving in HD. Please wait...',
+                                          borderRadius: 10.0,
+                                          backgroundColor: Colors.white,
+                                          progressWidget: SpinKitFadingGrid(
+                                            size: 30,
+                                            color: Constants.lightPurple,
+                                          ),
+                                          elevation: 10.0,
+                                        );
+                                        pr.show();
+                                      }
+                                    });
                                     List<Uint8List> srcBytesList = List();
                                     List<Uint8List> genImages = List();
 
@@ -299,7 +331,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                     saveImages(genImages).then((value) {
                                       print(value);
                                       pr.hide();
-
+                                      functionDone = true;
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
@@ -311,17 +343,13 @@ class _CreateScreenState extends State<CreateScreen> {
                                     });
                                   },
                                 ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
                                 TemplateButton(
-                                  title: 'Add to Preview',
+                                  title: 'Add to My Grids',
                                   iconType: Icons.grid_on,
                                   ontap: () async {
+                                    bool functionDone = false;
                                     pr.style(
-                                      message:
-                                          'Adding to Preview... This takes some time!',
+                                      message: 'Adding to My Grids',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
@@ -331,61 +359,96 @@ class _CreateScreenState extends State<CreateScreen> {
                                       elevation: 10.0,
                                     );
                                     pr.show();
-
+                                    Future.delayed(
+                                        const Duration(milliseconds: 6000), () {
+                                      if (!functionDone) {
+                                        pr.hide();
+                                        pr.style(
+                                          message:
+                                              'This takes some time. Please wait...',
+                                          borderRadius: 10.0,
+                                          backgroundColor: Colors.white,
+                                          progressWidget: SpinKitFadingGrid(
+                                            size: 30,
+                                            color: Constants.lightPurple,
+                                          ),
+                                          elevation: 10.0,
+                                        );
+                                        pr.show();
+                                      }
+                                    });
+                                    //print('running function');
                                     List<Uint8List> srcBytesList = List();
                                     List<Uint8List> genImages = List();
-                                    for (var img in images) {
-                                      img.getByteData().then((value) =>
-                                          srcBytesList
-                                              .add(value.buffer.asUint8List()));
-                                    }
-                                    var dstBytes = await networkImageToByte(
-                                        widget.frameUrl);
-                                    var split = splitImage(
-                                        imgBytes: dstBytes,
-                                        verticalPieceCount: 3,
-                                        horizontalPieceCount: 3);
-                                    for (int i = 0;
-                                        i < srcBytesList.length;
-                                        i++) {
-                                      genImages.add(overlayImages(
-                                          srcBytesList[i], split[i]));
-                                    }
+                                    try {
+                                      for (var img in images) {
+                                        img.getByteData().then((value) =>
+                                            srcBytesList.add(
+                                                value.buffer.asUint8List()));
+                                      }
+                                      var dstBytes = await networkImageToByte(
+                                          widget.frameUrl);
+                                      var split = splitImage(
+                                          imgBytes: dstBytes,
+                                          verticalPieceCount: 3,
+                                          horizontalPieceCount: 3);
+                                      for (int i = 0;
+                                          i < srcBytesList.length;
+                                          i++) {
+                                        genImages.add(overlayImages(
+                                            srcBytesList[i], split[i]));
+                                      }
 
-                                    await firebaseStorage
-                                        .uploadByteImage(images: genImages)
-                                        .then((imageUrls) =>
-                                            firebaseStorage.mergeImageUrls(
-                                                imageUrls.reversed.toList()));
+                                      await firebaseStorage
+                                          .uploadByteImage(images: genImages)
+                                          .then((imageUrls) =>
+                                              firebaseStorage.mergeImageUrls(
+                                                  imageUrls.reversed.toList()));
+                                      functionDone = true;
+                                    } catch (e) {
+                                      print('error in adding to grid is ${e}');
+                                    }
                                     pr.hide();
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) =>
                                             CustomDialogWidget(
-                                              title: 'Success!',
-                                              body:
-                                                  'Images have been added to Preview',
-                                              action1: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            HomeScreen(
-                                                                index: 2,
-                                                                user: widget
-                                                                    .user)));
-                                              },
-                                              action1text: "Go To Preview",
+                                              title: functionDone
+                                                  ? 'Success!'
+                                                  : 'Error',
+                                              body: functionDone
+                                                  ? 'Images have been added to Preview'
+                                                  : 'Please try again',
+                                              action1: functionDone
+                                                  ? () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  HomeScreen(
+                                                                      index: 2,
+                                                                      user: widget
+                                                                          .user)));
+                                                    }
+                                                  : null,
+                                              action1text: functionDone
+                                                  ? "Go To Preview"
+                                                  : null,
                                             ));
                                   },
-                                ),
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
                                 TemplateButton(
                                   iconType: FontAwesomeIcons.instagram,
-                                  title: ' Post To Instagram',
+                                  title: 'Post To Instagram',
                                   color: Constants.lightPurple,
                                   ontap: () async {
+                                    bool functionDone = false;
                                     pr.style(
-                                      message: 'This takes some time...',
+                                      message: 'Saving your grid...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
@@ -395,6 +458,24 @@ class _CreateScreenState extends State<CreateScreen> {
                                       elevation: 10.0,
                                     );
                                     pr.show();
+                                    Future.delayed(
+                                        const Duration(milliseconds: 9000), () {
+                                      if (!functionDone) {
+                                        pr.hide();
+                                        pr.style(
+                                          message:
+                                              'Loading InstaSmart guide...',
+                                          borderRadius: 10.0,
+                                          backgroundColor: Colors.white,
+                                          progressWidget: SpinKitFadingGrid(
+                                            size: 30,
+                                            color: Constants.lightPurple,
+                                          ),
+                                          elevation: 10.0,
+                                        );
+                                        pr.show();
+                                      }
+                                    });
                                     List<Uint8List> srcBytesList = List();
                                     List<Uint8List> genImages = List();
 
@@ -418,21 +499,15 @@ class _CreateScreenState extends State<CreateScreen> {
                                     }
                                     saveImages(genImages).then((value) {
                                       print(value);
+                                      functionDone = true;
                                       pr.hide();
+
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   PostOrderScreen(
                                                       value, widget.user)));
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              CustomDialogWidget(
-                                                title: 'Saved!',
-                                                body:
-                                                    'Images have been saved to gallery',
-                                              ));
                                     });
                                   },
                                 ),

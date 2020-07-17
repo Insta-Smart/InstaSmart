@@ -125,7 +125,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
               icon: liked
                   ? Icon(Icons.favorite,
                       size: 30,
-                      color: liked ? Constants.palePink : Color(0xffdde0dd))
+                      color: liked ? Constants.lightPurple : Color(0xffdde0dd))
                   : Icon(
                       Icons.favorite,
                       size: 30,
