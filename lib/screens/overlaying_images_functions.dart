@@ -46,10 +46,10 @@ class _OverlayImagesFunctionsState extends State<OverlayImagesFunctions> {
     try {
       String downloadAddress =
           await _reference.child("sample_${index}.png").getDownloadURL();
-      print(downloadAddress);
+      //print(downloadAddress);
       setState(() {
         _downloadurl = downloadAddress;
-        print(_downloadurl);
+        //print(_downloadurl);
       });
     } catch (e) {
       print(e);
