@@ -5,16 +5,13 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 
-import 'package:flutter/material.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/help_screen/helper/help_sections.dart';
-import 'package:instasmart/help_screen/helper/quad_clipper.dart';
 import 'package:instasmart/utils/size_config.dart';
 
 //url ref:https://github.com/TheAlphamerc/flutter_smart_course
 
 class HelpScreen extends StatelessWidget {
-  double width;
 
   Widget _circularContainer(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {

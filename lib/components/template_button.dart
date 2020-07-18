@@ -1,12 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 
 // Project imports:
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/constants.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
 class TemplateButton extends StatefulWidget {
   final String title;
@@ -35,8 +33,7 @@ class TemplateButton extends StatefulWidget {
 class _TemplateButtonState extends State<TemplateButton> {
   @override
   Widget build(BuildContext context) {
-    final ProgressDialog pr = ProgressDialog(context);
-    final Color ButtonColor = widget.color ?? Constants.paleBlue;
+    final Color buttonColor = widget.color ?? Constants.paleBlue;
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: SizeConfig.blockSizeHorizontal * 0.5,
@@ -54,14 +51,14 @@ class _TemplateButtonState extends State<TemplateButton> {
                   )
                 : Icon(
                     widget.iconType,
-                    color: ButtonColor,
+                    color: buttonColor,
                     size: SizeConfig.blockSizeHorizontal * 8,
                   ),
             widget.title == null
                 ? Container()
                 : Text(
                     widget.title,
-                    style: TextStyle(color: ButtonColor, fontSize: 16),
+                    style: TextStyle(color: buttonColor, fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
           ],

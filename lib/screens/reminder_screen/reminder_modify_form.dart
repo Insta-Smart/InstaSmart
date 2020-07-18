@@ -65,18 +65,15 @@ class ReminderFormState extends State<ReminderForm> {
                             context: context,
                             backgroundColor: Colors.transparent,
                             builder: (context) => BottomSheetOptions(
-                                  imageUrl: widget.reminder.picture_url,
+                                  imageUrl: widget.reminder.pictureUrl,
                                   screen: 'Calendar',
                                 ));
                       },
                       child: Hero(
                         tag: widget.reminder.id,
-                        child: Image.network(widget.reminder.picture_url),
+                        child: Image.network(widget.reminder.pictureUrl),
                       ),
                     ),
-//                    Hero(
-//                        tag: widget.reminder.id,
-//                        child: Image.network(widget.reminder.picture_url)),
                   )),
                   SizedBox(height: SizeConfig.blockSizeVertical * 7),
                   FormBuilderTextField(

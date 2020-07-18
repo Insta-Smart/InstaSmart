@@ -80,7 +80,7 @@ class ReminderData {
               picture: Image.network(reminder['scheduled_image']),
               postTime: reminder['postTime'].toDate(),
               date: reminder['date'],
-              picture_url: reminder['scheduled_image'],
+              pictureUrl: reminder['scheduled_image'],
               id: reminder.documentID);
           reminders.add(rem);
         });
@@ -102,7 +102,7 @@ class ReminderData {
           .updateData({
         'caption': reminder.caption,
         'isPosted': reminder.isPosted,
-        'scheduled_image': reminder.picture_url,
+        'scheduled_image': reminder.pictureUrl,
         'date': reminder.date,
         'postTime': reminder.postTime,
       });
