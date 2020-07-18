@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Reminder {
   Image picture;
-  String picture_url;
+  String pictureUrl;
   String caption;
   String date;
   DateTime postTime;
@@ -11,7 +11,7 @@ class Reminder {
   String id;
 
 
-  Reminder({this.picture, this.caption, this.postTime, this.date,  this.isPosted = false, this.id, this.picture_url});
+  Reminder({this.picture, this.caption, this.postTime, this.date,  this.isPosted = false, this.id, this.pictureUrl});
 
   void togglePosted() {
     isPosted = !isPosted;

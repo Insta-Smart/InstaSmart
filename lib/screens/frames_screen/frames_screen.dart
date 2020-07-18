@@ -19,6 +19,7 @@ import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 import 'package:instasmart/services/frames_firebase_functions.dart';
 import 'package:instasmart/utils/size_config.dart';
+import 'package:shimmer/shimmer.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
@@ -96,40 +97,51 @@ class _FramesScreenState extends State<FramesScreen> {
                     ),
                   ),
                   FutureBuilder(
-                    future: futList,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Frame>> snapshot) {
-                      Widget outerChild = Center(
-                        child:
-                            Text('Loading...', style: TextStyle(fontSize: 50)),
-                      );
-                      if (snapshot.hasData &&
-                          snapshot.connectionState == ConnectionState.done) {
-                        outerChild = GridView.builder(
-                            itemCount: filteredFrameList.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                                    child: Hero(
+                      future: futList,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Frame>> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Expanded(
+                            child: GridView.builder(
+                              itemCount: 15,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Container(
+                                child: Hero(
+                                  tag: index,
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.grey[300],
+                                    highlightColor: Colors.grey[100],
+                                    child: Container(
+                                      height: SizeConfig.screenWidth / 3,
+                                      width: SizeConfig.screenWidth / 3,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Expanded(
+                            child: GridView.builder(
+                              itemCount: filteredFrameList.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Container(
+                                child: Hero(
                                   tag: index,
                                   child: buildFrameToDisplay(index),
-                                )));
-                      }
-
-                      if (snapshot.hasError) {
-                        outerChild = Center(
-                          child: Text('Error. Please Refresh The Page',
-                              style: TextStyle(fontSize: 50)),
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.none) {}
-                      return Expanded(
-                        child: outerChild,
-                      );
-                    },
-                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      }),
                 ]),
             TipWidget(
               tipText: 'Tap the ♥ to save your favourite frames!',
@@ -147,8 +159,8 @@ class _FramesScreenState extends State<FramesScreen> {
 
   Widget buildFrameToDisplay(int index) {
     try {
-      Frame_Widget frameWidget =
-          new Frame_Widget(frame: filteredFrameList[index], isLiked: false);
+      FrameWidget frameWidget =
+          new FrameWidget(frame: filteredFrameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.
       return GestureDetector(
         onTap: () {
@@ -183,3 +195,6 @@ class _FramesScreenState extends State<FramesScreen> {
     }
   }
 }
+
+
+

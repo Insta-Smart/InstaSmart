@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,7 +44,29 @@ class ReorderableGrid extends StatelessWidget {
                 future: firebaseStorage.getImageUrls(),
                 builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                   if (!snapshot.hasData) {
-                    return Container();
+                    return Expanded(
+                      child: GridView.builder(
+                        itemCount: 15,
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                        itemBuilder: (BuildContext context, int index) =>
+                            Container(
+                              child: Hero(
+                                tag: index,
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300],
+                                  highlightColor: Colors.grey[100],
+                                  child: Container(
+                                    height: SizeConfig.screenWidth / 3,
+                                    width: SizeConfig.screenWidth / 3,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                      ),
+                    );
                   } else {
                     return Container(
                       child: ReorderableWrap(

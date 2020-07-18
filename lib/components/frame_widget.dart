@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:instasmart/utils/size_config.dart';
 import 'package:shimmer/shimmer.dart';
 
 // Project imports:
@@ -11,18 +12,18 @@ import '../constants.dart';
 import 'package:instasmart/utils/liking_functions.dart';
 import 'package:instasmart/models/frame.dart';
 
-class Frame_Widget extends StatefulWidget {
+class FrameWidget extends StatefulWidget {
   final Frame frame;
   final bool isLiked;
 
-  Frame_Widget({Key key, @required this.frame, @required this.isLiked})
+  FrameWidget({Key key, @required this.frame, @required this.isLiked})
       : super(key: key);
 
   @override
-  _Frame_WidgetState createState() => _Frame_WidgetState();
+  _FrameWidgetState createState() => _FrameWidgetState();
 }
 
-class _Frame_WidgetState extends State<Frame_Widget> {
+class _FrameWidgetState extends State<FrameWidget> {
   int _numLikes;
   bool liked =
       true; //TODO: change to checking whether imgurl exists in user's collection
@@ -46,11 +47,12 @@ class _Frame_WidgetState extends State<Frame_Widget> {
         //print(widget.frame.lowResUrl);
       });
       //  print(num);
-      return num is int ? num.toDouble() : num;
+
     } catch (e) {
       print('error in get num likes is');
       print(e);
     }
+    return num is int ? num.toDouble() : num;
   }
 
   //DOES getNumLikes() --> SETS VAR NUM TO RESULT AS INTEGER, TAKES IN IMGID
@@ -68,7 +70,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     liked = false;
     super.initState();
     if (!widget.isLiked) {
-      LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
+        LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
         //print('value of initlikedstate is: ${value}');
         if (mounted) {
           setState(() {
@@ -102,7 +104,11 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                       Shimmer.fromColors(
                     baseColor: Colors.grey[300],
                     highlightColor: Colors.grey[100],
-                    child: Expanded(),
+                    child: Container(
+                      height: SizeConfig.screenWidth / 3,
+                      width: SizeConfig.screenWidth / 3,
+                      color: Colors.grey,
+                    ),
                   ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
@@ -135,7 +141,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
               onPressed: () {
                 setState(() {
                   liked = !liked;
-                  print("liked status is: ${liked}");
+                  print("liked status is: $liked");
                   //increment popularity of this image, identified by imgurl
                   liked ? _numLikes++ : _numLikes--; //update _numLikes
                 });
@@ -165,7 +171,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
                 ),
                 _numLikes == null
                     ? Container()
-                    : Text('${_numLikes}',
+                    : Text('$_numLikes',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14)),
               ],

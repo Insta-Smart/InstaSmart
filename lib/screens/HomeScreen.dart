@@ -10,10 +10,8 @@ import 'package:instasmart/constants.dart';
 import 'package:instasmart/custom_packages/bottom_navy_bar_custom/bottom_navy_bar_custom.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
-import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/screens/profile_screen/profile_screen.dart';
 
-FireStoreUtils _fireStoreUtils = FireStoreUtils();
 
 class HomeScreen extends StatefulWidget {
   final User user;
