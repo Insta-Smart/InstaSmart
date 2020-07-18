@@ -165,7 +165,7 @@ class _FramesScreenState extends State<FramesScreen> {
             imagePressed = true;
             imageNoPressed = index;
           });
-          print(index);
+          // print(index);
         },
         onLongPressUp: () {
           //set state of longPressed to false

@@ -35,7 +35,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     final FirebaseUser user = await auth.currentUser();
     currUser = _userFromFirebase(user);
     String firstName, lastName, signInMethod;
-    await userRef.document(user.uid).get().then((value) {
+    userRef.document(user.uid).get().then((value) {
       firstName = value["firstName"] ?? " ";
       lastName = value["lastName"] ?? " ";
       signInMethod = user.providerData[1].providerId;
@@ -140,13 +140,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
 
   Future<String> signInWithGoogle() async {
     try {
-//      try {
-//        await _googleSignIn.signIn();
-//      } catch (error) {
-//        print(error);
-//      }
-//    }
-
       final GoogleSignInAccount googleSignInAccount =
           await googleSignIn.signIn();
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -167,6 +160,36 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       assert(user.uid == currentUser.uid);
       currUser = _userFromFirebase(currentUser);
 
+      {
+        try {
+          User user = User(
+            email: currentUser.email,
+            firstName: currentUser.displayName,
+            uid: currentUser.uid,
+            active: true,
+            lastName: ' ',
+            settings: Settings(allowPushNotifications: true),
+          );
+          print('user login data is:');
+          print(user.toJson());
+          Map<String, String> userImMap = {'user_images': ''};
+          Map finalMap = user.toJson();
+          finalMap.addAll(userImMap);
+          await db
+              .collection(Constants.USERS)
+              .document(currentUser.uid)
+              .setData(finalMap);
+          // hideProgress();
+          MyAppState.currentUser = user;
+
+//          await db
+//              .collection(Constants.USERS)
+//              .document(currUser.uid)
+//              .setData({'user_images': ''});
+        } catch (e) {
+          print('error in setting google sign in data' + e.toString());
+        }
+      }
       return 'signInWithGoogle succeeded: $user';
     } catch (e) {
       print("Google sign in error: ${e}");

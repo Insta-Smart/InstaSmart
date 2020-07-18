@@ -36,16 +36,16 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     var num; //int if 0, double otherwise
     //getDocuments.then(value ....) {el.data.field or smth --> need to do this everytime its clickec --> change state of numLikes}
     try {
-      print('frame widget info:' + widget.frame.imgID);
+      // print('frame widget info:' + widget.frame.imgID);
       await collectionRef
           .document(widget.frame.imgID)
           .get()
           .then((DocumentSnapshot document) {
         num = document.data['popularity'];
-        print(widget.frame.imgID);
-        print(widget.frame.lowResUrl);
+        // print(widget.frame.imgID);
+        //print(widget.frame.lowResUrl);
       });
-      print(num);
+      //  print(num);
       return num is int ? num.toDouble() : num;
     } catch (e) {
       print('error in get num likes is');
@@ -58,7 +58,7 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     getNumLikes().then((double num) {
       setState(() {
         _numLikes = num.round();
-        print('${widget.frame.imgID} has ${num} likes');
+        //print('${widget.frame.imgID} has ${num} likes');
       });
     });
   }
@@ -69,14 +69,14 @@ class _Frame_WidgetState extends State<Frame_Widget> {
     super.initState();
     if (!widget.isLiked) {
       LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
-        print('value of initlikedstate is: ${value}');
+        //print('value of initlikedstate is: ${value}');
         if (mounted) {
           setState(() {
             liked = value;
           });
         }
       });
-      print('final liked is ${liked}');
+      // print('final liked is ${liked}');
     } else {
       setState(() {
         liked = true;
