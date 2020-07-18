@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 
 // Project imports:
@@ -21,10 +22,6 @@ import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
-
-//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-
-final _fireStoreUtils = FireStoreUtils();
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -49,167 +46,175 @@ class _LoginScreen extends State<LoginScreen> {
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0.0,
       ),
-      body: Form(
-        key: _key,
-        autovalidate: _validate,
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
-              child: Text(
-                'Sign In',
-                style: TextStyle(
-                    color: Constants.lightPurple,
-                    fontSize: 25.0,
+      body: Container(
+        child: Form(
+          key: _key,
+          autovalidate: _validate,
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
+                child: Center(
+                  child: Text(
+                    'Sign In',
+                    style: TextStyle(
+                        color: Color(Constants.COLOR_PRIMARY),
+                        fontSize: 35.0,
                     fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-            ),
-            ConstrainedBox(
-              constraints: BoxConstraints(minWidth: double.infinity),
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
-                child: TextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    textInputAction: TextInputAction.next,
-                    validator: validateEmail,
-                    onSaved: (String val) {
-                      email = val.trim();
-                    },
-                    onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                    controller: _emailController,
-                    style: TextStyle(fontSize: 18.0),
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: Color(Constants.COLOR_PRIMARY),
-                    decoration: InputDecoration(
-                        contentPadding:
-                            new EdgeInsets.only(left: 16, right: 16),
-                        fillColor: Colors.white,
-                        hintText: 'E-mail Address',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(Constants.COLOR_PRIMARY),
-                                width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))),
+              ConstrainedBox(
+                constraints: BoxConstraints(minWidth: double.infinity),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
+                  child: TextFormField(
+                      textAlignVertical: TextAlignVertical.center,
+                      textInputAction: TextInputAction.next,
+                      validator: validateEmail,
+                      onSaved: (String val) {
+                        email = val.trim();
+                      },
+                      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      controller: _emailController,
+                      style: TextStyle(fontSize: 18.0),
+                      keyboardType: TextInputType.emailAddress,
+                      cursorColor: Color(Constants.COLOR_PRIMARY),
+                      decoration: InputDecoration(
+                          contentPadding:
+                              new EdgeInsets.only(left: 16, right: 16),
+                          fillColor: Colors.white,
+                          hintText: 'Enter your Email',
+                          prefixIcon: Icon(Icons.email, color: Color(Constants.COLOR_PRIMARY),),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                  color: Color(Constants.COLOR_PRIMARY),
+                                  width: 2.0)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ))),
+                ),
               ),
-            ),
-            ConstrainedBox(
-              constraints: BoxConstraints(minWidth: double.infinity),
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
-                child: TextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    validator: validatePassword,
-                    onSaved: (String val) {
-                      email = val.trim().replaceAll(' ', '');
-                    },
-                    onFieldSubmitted: (password) async {
+              ConstrainedBox(
+                constraints: BoxConstraints(minWidth: double.infinity),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
+                  child: TextFormField(
+                      textAlignVertical: TextAlignVertical.center,
+                      validator: validatePassword,
+                      onSaved: (String val) {
+                        email = val.trim().replaceAll(' ', '');
+                      },
+                      onFieldSubmitted: (password) async {
+                        await onClick(
+                            _emailController.text, _passwordController.text);
+                      },
+                      controller: _passwordController,
+                      textInputAction: TextInputAction.done,
+                      style: TextStyle(fontSize: 18.0),
+                      obscureText: true,
+                      cursorColor: Color(Constants.COLOR_PRIMARY),
+                      decoration: InputDecoration(
+                          contentPadding:
+                              new EdgeInsets.only(left: 16, right: 16),
+                          fillColor: Colors.white,
+                          hintText: 'Enter your Password',
+                          prefixIcon: Icon(Icons.lock,color: Color(Constants.COLOR_PRIMARY),),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                  color: Color(Constants.COLOR_PRIMARY),
+                                  width: 2.0)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ))),
+                ),
+              ),
+              FlatButton(
+                child: Text('Forgot Password?'),
+                onPressed: () => _resetDialogBox(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RaisedButton(
+                    color: Color(Constants.COLOR_PRIMARY),
+                    child: Text(
+                      'Log In',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    textColor: Colors.white,
+                    splashColor: Color(Constants.COLOR_PRIMARY),
+                    onPressed: () async {
                       await onClick(
                           _emailController.text, _passwordController.text);
                     },
-                    controller: _passwordController,
-                    textInputAction: TextInputAction.done,
-                    style: TextStyle(fontSize: 18.0),
-                    cursorColor: Color(Constants.COLOR_PRIMARY),
-                    decoration: InputDecoration(
-                        contentPadding:
-                            new EdgeInsets.only(left: 16, right: 16),
-                        fillColor: Colors.white,
-                        hintText: 'Password',
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(Constants.COLOR_PRIMARY),
-                                width: 2.0)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ))),
+                    padding: EdgeInsets.only(top: 12, bottom: 12),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        side: BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity),
-                child: RaisedButton(
-                  color: Constants.lightPurple,
+
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Center(
                   child: Text(
-                    'Log In',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'OR',
+                    style: TextStyle(color: Color(Constants.COLOR_PRIMARY)),
                   ),
-                  textColor: Colors.white,
-                  splashColor: Color(Constants.COLOR_PRIMARY),
-                  onPressed: () async {
-                    await onClick(
-                        _emailController.text, _passwordController.text);
-                  },
-                  padding: EdgeInsets.only(top: 12, bottom: 12),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(color: Constants.lightPurple)),
                 ),
               ),
-            ),
-            FlatButton(
-              child: Text('Forgot Password?'),
-              onPressed: () => _resetDialogBox(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Center(
-                child: Text(
-                  'OR',
-                  style: TextStyle(color: Constants.lightPurple),
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity),
-                child: RaisedButton.icon(
-                  label: Text(
-                    'Sign In With Google',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  icon: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Image.asset(
-                      'assets/images/google-logo.png',
-                      //color: Colors.white,
-                      height: 30,
-                      width: 30,
+              Padding(
+                padding:
+                    const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: RaisedButton.icon(
+                    label: Text(
+                      'Sign In With Google',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
+                    icon: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Image.asset(
+                        'assets/images/google-logo.png',
+                        //color: Colors.white,
+                        height: 30,
+                        width: 30,
+                      ),
+                    ),
+                    color: Colors.white,
+                    textColor: Color(Constants.COLOR_PRIMARY),
+                    splashColor: Constants.paleBlue,
+                    onPressed: () async {
+                      FirebaseLoginFunctions()
+                          .signInWithGoogle()
+                          .whenComplete(() async {
+                        User user = await FirebaseLoginFunctions().currentUser();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return HomeScreen(user: user);
+                            },
+                          ),
+                        );
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        side: BorderSide(color: Colors.white)),
                   ),
-                  color: Colors.white,
-                  textColor: Constants.lightPurple,
-                  splashColor: Constants.paleBlue,
-                  onPressed: () async {
-                    FirebaseLoginFunctions()
-                        .signInWithGoogle()
-                        .whenComplete(() async {
-                      User user = await FirebaseLoginFunctions().currentUser();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return HomeScreen(user: user);
-                          },
-                        ),
-                      );
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(color: Colors.white)),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -388,6 +393,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                       child: Icon(
                         Icons.email,
                         size: 20.0,
+                        color: Color(Constants.COLOR_PRIMARY),
                       ),
                     ),
                     new Expanded(
@@ -430,13 +436,13 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
-              Navigator.of(context).pop("");
+              Navigator.of(context).pop();
             },
           ),
           new FlatButton(
             child: new Text(
               'SEND EMAIL',
-              style: TextStyle(color: Constants.lightPurple),
+              style: TextStyle(color: Color(Constants.COLOR_PRIMARY)),
             ),
             onPressed: () {
               if (_sendResetEmail()) {
