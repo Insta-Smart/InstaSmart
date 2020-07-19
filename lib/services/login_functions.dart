@@ -91,6 +91,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
           .document(currUser.uid)
           .setData({'user_images': ''});
     } catch (e) {
+      print('error in creating user with email');
       print(e.toString());
     }
     return _userFromFirebase(authResult.user);

@@ -5,11 +5,12 @@ import 'package:instasmart/utils/size_config.dart';
 
 import '../constants.dart';
 
-class TipWidget extends StatelessWidget {
+class TipDialogWidget extends StatelessWidget {
   final Alignment alignment;
   final String tipText;
 
-  const TipWidget({Key key, this.alignment, this.tipText}) : super(key: key);
+  const TipDialogWidget({Key key, this.alignment, this.tipText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,37 @@ class TipWidget extends StatelessWidget {
                       body: tipText,
                     ));
           }),
+    );
+  }
+}
+
+class TipTextWidget extends StatelessWidget {
+  final String tipBody;
+
+  const TipTextWidget({Key key, @required this.tipBody}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+      width: SizeConfig.blockSizeHorizontal * 75,
+      child: Column(
+        children: <Widget>[
+          Text(
+            '#InstaSmartTip!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Constants.paleBlue,
+                fontWeight: FontWeight.bold,
+                fontSize: 25),
+          ),
+          Text(
+            tipBody,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Constants.paleBlue, fontSize: 18),
+          ),
+        ],
+      ),
     );
   }
 }

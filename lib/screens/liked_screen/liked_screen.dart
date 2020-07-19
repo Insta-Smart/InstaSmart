@@ -1,6 +1,11 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/components/template_button.dart';
+import 'package:instasmart/components/tip_widgets.dart';
+import 'package:instasmart/constants.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
+import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:instasmart/utils/size_config.dart';
 // Package imports:
@@ -24,6 +29,7 @@ class LikedScreen extends StatefulWidget {
 
 class _LikedScreenState extends State<LikedScreen> {
   bool imagePressed = false;
+  bool hasFrames;
   int imageNoPressed;
   final userRef = Firestore.instance.collection('Users');
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
@@ -62,7 +68,7 @@ class _LikedScreenState extends State<LikedScreen> {
   void initState() {
     super.initState();
     //uploadImagetoFirestore();// done initially to refresh store of images.
-    //TODO: automatically refresh store of images.
+
     futList = getUrlAndIdFromFirestore();
     imagePressed = false;
   }
@@ -72,6 +78,7 @@ class _LikedScreenState extends State<LikedScreen> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
 //      appBar: PageTopBar(
 //        title: 'Liked',
 //        appBar: AppBar(),
@@ -85,45 +92,78 @@ class _LikedScreenState extends State<LikedScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Frame>> snapshot) {
                     if (!snapshot.hasData) {
-                      return Expanded(
-                        child: GridView.builder(
-                          itemCount: 9,
-                          gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3),
-                          itemBuilder: (BuildContext context, int index) =>
-                              Container(
-                                child: Hero(
-                                  tag: index,
-                                  child: Shimmer.fromColors(
-                                    baseColor: Colors.grey[300],
-                                    highlightColor: Colors.grey[100],
-                                    child: Container(
-                                      height: SizeConfig.screenWidth / 3,
-                                      width: SizeConfig.screenWidth / 3,
-                                      color: Colors.grey,
-                                    ),
+                      hasFrames = snapshot.data == null;
+                      if (hasFrames) {
+                        return Expanded(
+                          child: GridView.builder(
+                            itemCount: 9,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int index) =>
+                                Container(
+                              child: Hero(
+                                tag: index,
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300],
+                                  highlightColor: Colors.grey[100],
+                                  child: Container(
+                                    height: SizeConfig.screenWidth / 3,
+                                    width: SizeConfig.screenWidth / 3,
+                                    color: Colors.grey,
                                   ),
                                 ),
                               ),
-                        ),
-                      );
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          child: GridView.builder(
+                              itemCount: frameList.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Container(
+                                      child: Hero(
+                                    tag: index,
+                                    child: buildFrameToDisplay(index),
+                                  ))),
+                        );
+                      }
                     } else {
                       return Container(
-                        child: GridView.builder(
-                            itemCount: frameList.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                                    child: Hero(
-                                  tag: index,
-                                  child: buildFrameToDisplay(index),
-                                ))),
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            TipTextWidget(
+                              tipBody:
+                                  'Heart your favourite frames & easily view them here.',
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 6),
+                              width: SizeConfig.blockSizeHorizontal * 40,
+                              child: TemplateButton(
+                                  title: 'Explore Now!',
+                                  iconType: Icons.navigate_next,
+                                  color: Constants.palePink,
+                                  ontap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomeScreen(
+                                            user: user,
+                                          ),
+                                        ));
+                                  }),
+                            ),
+                          ],
+                        ),
                       );
                     }
-                    //TODO: I need to do this
                   }),
               imagePressed
                   ? PopupWidget(imgUrl: frameList[imageNoPressed].imgurl)
