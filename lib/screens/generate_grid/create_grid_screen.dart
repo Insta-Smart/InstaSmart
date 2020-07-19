@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image/image.dart' as imglib;
+import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -147,7 +148,8 @@ class _CreateScreenState extends State<CreateScreen> {
       return imglib.encodePng(overlayedImage);
     }
 
-    final ProgressDialog pr = ProgressDialog(context);
+    final ProgressDialog pr = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
 
     SizeConfig().init(context);
     GlobalKey _globalKey = new GlobalKey();
@@ -155,7 +157,26 @@ class _CreateScreenState extends State<CreateScreen> {
       appBar: PageTopBar(
         title: 'Create Grid',
         appBar: AppBar(),
-        widgets: <Widget>[],
+        widgets: <Widget>[
+          finished
+              ? Container(
+                  width: SizeConfig.blockSizeHorizontal * 30,
+                  height: SizeConfig.blockSizeVertical * 8,
+                  child: TemplateButton(
+                    iconType: CupertinoIcons.pencil,
+                    title: ' Edit',
+                    ontap: () async {
+                      setState(() {
+                        finished = false;
+                      });
+                    },
+                  ),
+                )
+              : Container(
+                  width: SizeConfig.blockSizeHorizontal * 30,
+                  height: SizeConfig.blockSizeVertical * 8,
+                )
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
@@ -163,26 +184,7 @@ class _CreateScreenState extends State<CreateScreen> {
           child: Column(children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                finished
-                    ? Container(
-                        width: SizeConfig.blockSizeHorizontal * 30,
-                        height: SizeConfig.blockSizeVertical * 8,
-                        child: TemplateButton(
-                          iconType: CupertinoIcons.pencil,
-                          title: 'Edit',
-                          ontap: () async {
-                            setState(() {
-                              finished = false;
-                            });
-                          },
-                        ),
-                      )
-                    : Container(
-                        width: SizeConfig.blockSizeHorizontal * 30,
-                        height: SizeConfig.blockSizeVertical * 8,
-                      )
-              ],
+              children: <Widget>[],
             ),
             Container(
               height: SizeConfig.screenWidth,
@@ -243,27 +245,9 @@ class _CreateScreenState extends State<CreateScreen> {
                         ],
                       ),
                       addedImgs && !finished
-                          ? Container(
-                              padding: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 5),
-                              width: SizeConfig.blockSizeHorizontal * 75,
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    '#InstaSmartTip!',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Constants.paleBlue,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                  Text(
-                                    'Press & hold on each photo to rearrange them.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Constants.paleBlue),
-                                  ),
-                                ],
-                              ),
+                          ? TipTextWidget(
+                              tipBody:
+                                  'Press & hold on each photo to rearrange them.',
                             )
                           : Container()
                     ],
@@ -289,22 +273,26 @@ class _CreateScreenState extends State<CreateScreen> {
                                       elevation: 10.0,
                                     );
                                     pr.show();
+
                                     Future.delayed(
                                         const Duration(milliseconds: 6000), () {
                                       if (!functionDone) {
-                                        pr.hide();
-                                        pr.style(
-                                          message:
-                                              'Saving in HD. Please wait...',
-                                          borderRadius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          progressWidget: SpinKitFadingGrid(
-                                            size: 30,
-                                            color: Constants.lightPurple,
-                                          ),
-                                          elevation: 10.0,
-                                        );
-                                        pr.show();
+                                        pr.update(
+                                            progress: 50.0,
+                                            message: 'Please wait...');
+//                                        pr.hide();
+//                                        pr.style(
+//                                          message:
+//                                              'Saving in HD. Please wait...',
+//                                          borderRadius: 10.0,
+//                                          backgroundColor: Colors.white,
+//                                          progressWidget: SpinKitFadingGrid(
+//                                            size: 30,
+//                                            color: Constants.lightPurple,
+//                                          ),
+//                                          elevation: 10.0,
+//                                        );
+//                                        pr.show();
                                       }
                                     });
                                     List<Uint8List> srcBytesList = List();
@@ -344,7 +332,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                   },
                                 ),
                                 TemplateButton(
-                                  title: 'Add to My Grids',
+                                  title: ' Add to My Grids',
                                   iconType: Icons.grid_on,
                                   ontap: () async {
                                     bool functionDone = false;
@@ -362,19 +350,10 @@ class _CreateScreenState extends State<CreateScreen> {
                                     Future.delayed(
                                         const Duration(milliseconds: 6000), () {
                                       if (!functionDone) {
-                                        pr.hide();
-                                        pr.style(
-                                          message:
-                                              'This takes some time. Please wait...',
-                                          borderRadius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          progressWidget: SpinKitFadingGrid(
-                                            size: 30,
-                                            color: Constants.lightPurple,
-                                          ),
-                                          elevation: 10.0,
-                                        );
-                                        pr.show();
+                                        pr.update(
+                                            progress: 50.0,
+                                            message:
+                                                'This takes some time. Please wait...');
                                       }
                                     });
                                     //print('running function');
@@ -443,7 +422,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               children: <Widget>[
                                 TemplateButton(
                                   iconType: FontAwesomeIcons.instagram,
-                                  title: 'Post To Instagram',
+                                  title: ' Post To Instagram',
                                   color: Constants.lightPurple,
                                   ontap: () async {
                                     bool functionDone = false;
@@ -459,21 +438,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                     );
                                     pr.show();
                                     Future.delayed(
-                                        const Duration(milliseconds: 9000), () {
+                                        const Duration(milliseconds: 6000), () {
                                       if (!functionDone) {
-                                        pr.hide();
-                                        pr.style(
-                                          message:
-                                              'Loading InstaSmart guide...',
-                                          borderRadius: 10.0,
-                                          backgroundColor: Colors.white,
-                                          progressWidget: SpinKitFadingGrid(
-                                            size: 30,
-                                            color: Constants.lightPurple,
-                                          ),
-                                          elevation: 10.0,
-                                        );
-                                        pr.show();
+                                        pr.update(
+                                            progress: 50.0,
+                                            message:
+                                                'Loading InstaSmart guide.');
                                       }
                                     });
                                     List<Uint8List> srcBytesList = List();

@@ -61,7 +61,7 @@ class _LoginScreen extends State<LoginScreen> {
                     style: TextStyle(
                         color: Color(Constants.COLOR_PRIMARY),
                         fontSize: 35.0,
-                    fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -77,7 +77,8 @@ class _LoginScreen extends State<LoginScreen> {
                       onSaved: (String val) {
                         email = val.trim();
                       },
-                      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      onFieldSubmitted: (_) =>
+                          FocusScope.of(context).nextFocus(),
                       controller: _emailController,
                       style: TextStyle(fontSize: 18.0),
                       keyboardType: TextInputType.emailAddress,
@@ -87,7 +88,10 @@ class _LoginScreen extends State<LoginScreen> {
                               new EdgeInsets.only(left: 16, right: 16),
                           fillColor: Colors.white,
                           hintText: 'Enter your Email',
-                          prefixIcon: Icon(Icons.email, color: Color(Constants.COLOR_PRIMARY),),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Color(Constants.COLOR_PRIMARY),
+                          ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -123,7 +127,10 @@ class _LoginScreen extends State<LoginScreen> {
                               new EdgeInsets.only(left: 16, right: 16),
                           fillColor: Colors.white,
                           hintText: 'Enter your Password',
-                          prefixIcon: Icon(Icons.lock,color: Color(Constants.COLOR_PRIMARY),),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: Color(Constants.COLOR_PRIMARY),
+                          ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -139,14 +146,16 @@ class _LoginScreen extends State<LoginScreen> {
                 onPressed: () => _resetDialogBox(),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
+                padding:
+                    const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: RaisedButton(
                     color: Color(Constants.COLOR_PRIMARY),
                     child: Text(
                       'Log In',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     textColor: Colors.white,
                     splashColor: Color(Constants.COLOR_PRIMARY),
@@ -157,11 +166,11 @@ class _LoginScreen extends State<LoginScreen> {
                     padding: EdgeInsets.only(top: 12, bottom: 12),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
-                        side: BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                        side:
+                            BorderSide(color: Color(Constants.COLOR_PRIMARY))),
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Center(
@@ -179,7 +188,8 @@ class _LoginScreen extends State<LoginScreen> {
                   child: RaisedButton.icon(
                     label: Text(
                       'Sign In With Google',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     icon: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -197,7 +207,8 @@ class _LoginScreen extends State<LoginScreen> {
                       FirebaseLoginFunctions()
                           .signInWithGoogle()
                           .whenComplete(() async {
-                        User user = await FirebaseLoginFunctions().currentUser();
+                        User user =
+                            await FirebaseLoginFunctions().currentUser();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
@@ -245,25 +256,25 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       AuthResult result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      if (!result.user.isEmailVerified) {
-        print('unverified email');
-        throw ('EMAIL_NOT_VERIFIED');
-      } else {
-        DocumentSnapshot documentSnapshot = await FireStoreUtils.firestore
-            .collection(Constants.USERS)
-            .document(result.user.uid)
-            .get();
-        User user;
-        if (documentSnapshot != null && documentSnapshot.exists) {
-          user = User.fromJson(documentSnapshot.data);
-          user.active = true;
-          //remove this line as trial -->// await _fireStoreUtils.updateCurrentUser(user, context);
-          hideProgress();
-          MyAppState.currentUser = user;
-        }
-        print("got user");
-        return user;
+//      if (!result.user.isEmailVerified) {
+//        print('unverified email');
+//        throw ('EMAIL_NOT_VERIFIED');
+      // }
+
+      DocumentSnapshot documentSnapshot = await FireStoreUtils.firestore
+          .collection(Constants.USERS)
+          .document(result.user.uid)
+          .get();
+      User user;
+      if (documentSnapshot != null && documentSnapshot.exists) {
+        user = User.fromJson(documentSnapshot.data);
+        user.active = true;
+        //remove this line as trial -->// await _fireStoreUtils.updateCurrentUser(user, context);
+        hideProgress();
+        MyAppState.currentUser = user;
       }
+      print("got user");
+      return user;
     } catch (exception) {
       hideProgress();
       if (exception == 'EMAIL_NOT_VERIFIED') {
@@ -308,7 +319,6 @@ class _LoginScreen extends State<LoginScreen> {
     super.dispose();
   }
 
-
   // Creates an alertDialog for the user to enter their email
   Future<String> _resetDialogBox() {
     return showDialog<String>(
@@ -341,7 +351,6 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
   final _resetEmailController = TextEditingController();
   String _resetEmail;
   bool _resetValidate = false;
-
 
   StreamController<bool> rebuild = StreamController<bool>();
 

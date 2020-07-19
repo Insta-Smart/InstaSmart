@@ -50,9 +50,9 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       create: (context) => FirebaseLoginFunctions(),
       child: MaterialApp(
         theme: ThemeData(
-          primaryColor: Constants.lightPurple,
-          accentColor: Constants.paleBlue,
-        ),
+            primaryColor: Constants.lightPurple,
+            accentColor: Constants.paleBlue,
+            backgroundColor: Colors.white),
         title: 'InstaSmart',
         debugShowCheckedModeBanner: false,
         home: FutureBuilder<User>(

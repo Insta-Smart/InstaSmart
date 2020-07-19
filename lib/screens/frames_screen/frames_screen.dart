@@ -2,11 +2,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:showcaseview/showcaseview.dart';
+//import 'package:showcaseview/showcaseview.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instasmart/components/tip_widget.dart';
+import 'package:instasmart/components/tip_widgets.dart';
 
 // Project imports:
 import '../../constants.dart';
@@ -130,7 +130,7 @@ class _FramesScreenState extends State<FramesScreen> {
                               itemCount: filteredFrameList.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
+                                      crossAxisCount: 2),
                               itemBuilder: (BuildContext context, int index) =>
                                   Container(
                                 child: Hero(
@@ -143,7 +143,7 @@ class _FramesScreenState extends State<FramesScreen> {
                         }
                       }),
                 ]),
-            TipWidget(
+            TipDialogWidget(
               tipText: 'Tap the ♥ to save your favourite frames!',
               alignment: Alignment.bottomRight,
             ),
@@ -195,6 +195,3 @@ class _FramesScreenState extends State<FramesScreen> {
     }
   }
 }
-
-
-
