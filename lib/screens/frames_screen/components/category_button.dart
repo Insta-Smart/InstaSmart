@@ -25,33 +25,48 @@ class _CategoryButtonState extends State<CategoryButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 7),
-      child: RaisedButton(
-        elevation: widget.selectedCat == widget.catName ? 5 : 1,
-        //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        child: Text("#" + widget.catName,
-            style: widget.selectedCat == widget.catName
-                ? TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    //fontWeight: FontWeight.w700
-                  )
-                : TextStyle(
-                    color: Constants.paleBlue.withOpacity(1),
-                    fontSize: 17,
-                  )),
-        color: widget.selectedCat == widget.catName
-            ? Constants.lightPurple
-            : Theme.of(context).scaffoldBackgroundColor,
-        shape: Constants.buttonShape,
-        onPressed: widget.ontap,
-        focusColor: Constants.brightPurple,
-        hoverColor: Colors.white,
-        splashColor: Constants.lightPurple,
+        padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 7),
+        child: Stack(
+          children: <Widget>[
+//            RaisedButton(
+//                elevation: widget.selectedCat == widget.catName ? 5 : 1,
+//                //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//                child: Text(
+//                  "#" + widget.catName,
+//                  style: TextStyle(color: Colors.white, fontSize: 17),
+//                ),
+//                color: Colors.white,
+//                shape: Constants.buttonShape,
+//                onPressed: widget.ontap
+//                //function to change selectedVar goes here
+//                ),
+            RaisedButton(
+              elevation: widget.selectedCat == widget.catName ? 5 : 1,
+              //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: Text("#" + widget.catName,
+                  style: widget.selectedCat == widget.catName
+                      ? TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          //fontWeight: FontWeight.w700
+                        )
+                      : TextStyle(
+                          color: Constants.paleBlue.withOpacity(1),
+                          fontSize: 17,
+                        )),
+              color: widget.selectedCat == widget.catName
+                  ? Constants.lightPurple
+                  : Theme.of(context).backgroundColor,
+              shape: Constants.buttonShape,
+              onPressed: widget.ontap,
+              focusColor: Constants.brightPurple,
+              hoverColor: Constants.lightPurple,
+              splashColor: Constants.lightPurple,
 
-        //function to change selectedVar goes here
-      ),
-    );
+              //function to change selectedVar goes here
+            ),
+          ],
+        ));
   }
 }

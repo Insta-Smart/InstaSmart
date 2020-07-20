@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instasmart/screens/help_screen/help_screen.dart';
 
 // Project imports:
 import '../HomeScreen.dart';
-import '../../help_screen/help_screen.dart';
 import '../signup_screen/signup_screen.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
