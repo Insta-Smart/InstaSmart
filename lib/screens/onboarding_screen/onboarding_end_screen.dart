@@ -6,6 +6,7 @@ import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/login_screen/login_screen.dart';
 import 'package:instasmart/screens/signup_screen/signup_screen.dart';
 import 'package:instasmart/utils/helper.dart';
+import 'package:instasmart/utils/size_config.dart';
 
 class AuthScreen extends StatelessWidget {
   @override
@@ -16,17 +17,13 @@ class AuthScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 70.0, bottom: 20.0),
-                child: Icon(
-                  Icons.phone_iphone,
-                  size: 150,
-                  color: Color(Constants.COLOR_PRIMARY),
-                ),
+              child: Image.asset(
+                'assets/images/instasmartLogoHD.png',
+                height: SizeConfig.blockSizeVertical * 50,
               ),
             ),
             Text(
-              'Say Hello To Your New App!',
+              'Beautify Your Feed, Effortlessly!',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Color(Constants.COLOR_PRIMARY),
@@ -36,7 +33,7 @@ class AuthScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'You\'ve just saved a week of development and headaches.',
+                "You're personal, smart Instagram manager. Create aesthetic grids & never forget to post again!",
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),

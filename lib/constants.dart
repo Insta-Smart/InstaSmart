@@ -1,14 +1,17 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/main.dart';
+
+import 'main.dart';
 
 class Constants {
-  static const brightPurple = Color(0xff8276D8);
-  static const darkPurple = Color(0xff635AA1);
+  static Color brightPurple = Color(0xff8276D8);
+  static Color darkPurple = Color(0xff635AA1);
   //static const paleBlue = Color(0xffA3C5DE);
-  static const paleBlue = Color(0xff95c5ee); //A3C5DE
-  static const palePink = Color(0xffDD8080);
-  static const lightPurple = Color(0xffAF97CA);
+  static Color paleBlue = Color(0xff95c5ee); //A3C5DE
+  static Color palePink = Color(0xffDD8080);
+  static Color lightPurple = Color(0xffAF97CA);
   // static const lightPurple = Color(0xff9575CD);
   static const double buttonHeight = 45;
   static const double buttonRadius = 20.0;

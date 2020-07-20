@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/help_screen/helper/help_sections.dart';
 import 'package:instasmart/utils/size_config.dart';
+
+import 'helper/help_sections.dart';
 
 //url ref:https://github.com/TheAlphamerc/flutter_smart_course
 
 class HelpScreen extends StatelessWidget {
-
   Widget _circularContainer(double height, Color color,
       {Color borderColor = Colors.transparent, double borderWidth = 2}) {
     return Container(
@@ -26,28 +26,19 @@ class HelpScreen extends StatelessWidget {
     );
   }
 
-  Widget _courseList() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: List.generate(CourseList.list.length, (index) {
-              return Column(
-                children: <Widget>[
-                  _courseInfo(CourseList.list[index],
-                      _decorationContainerA(Colors.redAccent, -110, -85),
-                      background: Constants.paleBlue),
-                  Divider(
-                    thickness: 1,
-                    endIndent: 20,
-                    indent: 20,
-                  )
-                ],
-              );
-            })),
-      ),
-    );
+  List<Widget> _courseList() {
+    return List.generate(CourseList.list.length, (index) {
+      return Column(children: <Widget>[
+        _courseInfo(CourseList.list[index],
+            _decorationContainerA(Colors.redAccent, -110, -85),
+            background: Constants.paleBlue),
+        Divider(
+          thickness: 1,
+          endIndent: 20,
+          indent: 20,
+        )
+      ]);
+    });
   }
 
   Widget _card(
@@ -74,16 +65,13 @@ class HelpScreen extends StatelessWidget {
 
   Widget _courseInfo(CourseModel model, Widget decoration, {Color background}) {
     return Container(
-        height: SizeConfig.blockSizeVertical * 40,
+        padding: EdgeInsets.only(
+            left: SizeConfig.blockSizeHorizontal * 6,
+            right: SizeConfig.blockSizeHorizontal * 3),
         width: SizeConfig.blockSizeHorizontal * 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Container(
-              width: SizeConfig.screenWidth * 0.3,
-              height: SizeConfig.screenHeight * 0.3,
-              child: Icon(Icons.screen_lock_portrait),
-            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,16 +80,18 @@ class HelpScreen extends StatelessWidget {
                   Container(
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(model.name,
-                            style: TextStyle(
-                                color: Constants.lightPurple,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold)),
-                        CircleAvatar(
-                          radius: 3,
-                          backgroundColor: background,
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: SizeConfig.blockSizeHorizontal * 4),
+                          child: Text(model.name,
+                              style: TextStyle(
+                                  color: Constants.lightPurple,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold)),
                         ),
+                        Icon(model.symbol, color: Constants.lightPurple),
                         SizedBox(
                           width: 5,
                         ),
@@ -111,8 +101,10 @@ class HelpScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(model.description,
-                      style:
-                          TextStyle(fontSize: 12, color: Constants.darkPurple)),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Constants.darkPurple,
+                          height: 1.5)),
                   SizedBox(height: 15),
                   Row(
                     children: <Widget>[
@@ -142,7 +134,7 @@ class HelpScreen extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-            color: isPrimaryCard ? Colors.white : textColor, fontSize: 12),
+            color: isPrimaryCard ? Colors.white : textColor, fontSize: 15),
       ),
     );
   }
@@ -208,10 +200,10 @@ class HelpScreen extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Container(child: _courseList()),
+              child: ListView(
+                children: _courseList(),
               ),
-            )
+            ),
           ])),
     );
   }
