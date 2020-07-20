@@ -60,7 +60,6 @@ class _FramesScreenState extends State<FramesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -106,7 +105,7 @@ class _FramesScreenState extends State<FramesScreen> {
                               itemCount: 15,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
+                                      crossAxisCount: 2),
                               itemBuilder: (BuildContext context, int index) =>
                                   Container(
                                 child: Hero(
@@ -115,8 +114,6 @@ class _FramesScreenState extends State<FramesScreen> {
                                     baseColor: Colors.grey[300],
                                     highlightColor: Colors.grey[100],
                                     child: Container(
-                                      height: SizeConfig.screenWidth / 3,
-                                      width: SizeConfig.screenWidth / 3,
                                       color: Colors.grey,
                                     ),
                                   ),
