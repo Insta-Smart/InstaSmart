@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/components/template_button.dart';
+import 'package:instasmart/components/tip_widgets.dart';
+import 'package:instasmart/utils/helper.dart';
 import 'package:shimmer/shimmer.dart';
 
 // Package imports:
@@ -15,6 +18,8 @@ import 'package:instasmart/screens/preview_screen/components/preview_photo.dart'
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/size_config.dart';
+
+import '../../HomeScreen.dart';
 
 class ReorderableGrid extends StatelessWidget {
   const ReorderableGrid(
@@ -44,29 +49,53 @@ class ReorderableGrid extends StatelessWidget {
                 future: firebaseStorage.getImageUrls(),
                 builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                   if (!snapshot.hasData) {
-                    return Expanded(
-                      child: GridView.builder(
-                        itemCount: 15,
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                        itemBuilder: (BuildContext context, int index) =>
-                            Container(
-                              child: Hero(
-                                tag: index,
-                                child: Shimmer.fromColors(
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
-                                  child: Container(
-                                    height: SizeConfig.screenWidth / 3,
-                                    width: SizeConfig.screenWidth / 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
+                    return Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          TipTextWidget(
+                            tipBody:
+                                "You haven't created any grids yet.\nCreate & view them here!",
+                          ),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 40,
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 5),
+                            child: TemplateButton(
+                              title: 'Get Started!',
+                              iconType: Icons.navigate_next,
+                              color: Constants.palePink,
+                              ontap: () {
+                                pushAndRemoveUntil(
+                                    context, HomeScreen(user: user), false);
+                              },
                             ),
+                          )
+                        ],
                       ),
                     );
+//                    return Container(
+//                      child: GridView.builder(
+//                        itemCount: 15,
+//                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                            crossAxisCount: 3),
+//                        itemBuilder: (BuildContext context, int index) =>
+//                            Container(
+//                          child: Hero(
+//                            tag: index,
+//                            child: Shimmer.fromColors(
+//                              baseColor: Colors.grey[300],
+//                              highlightColor: Colors.grey[100],
+//                              child: Container(
+//                                height: SizeConfig.screenWidth / 3,
+//                                width: SizeConfig.screenWidth / 3,
+//                                color: Colors.grey,
+//                              ),
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    );
                   } else {
                     return Container(
                       child: ReorderableWrap(

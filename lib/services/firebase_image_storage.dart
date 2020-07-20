@@ -67,7 +67,7 @@ class FirebaseImageStorage {
           .document(user.uid)
           .get()
           .then((doc) => {imageUrls = doc['user_images']});
-      return imageUrls.reversed.toList();
+      return imageUrls == null ? null : imageUrls.reversed.toList();
     } catch (e) {
       print('error in getImageUrls is:');
       print(e.toString());

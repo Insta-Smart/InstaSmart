@@ -74,7 +74,6 @@ class _SignUpState extends State<SignUpScreen> {
           title: "First Name",
           onSave: (val) {
             firstName = val.trim();
-
           },
           textObscure: false,
         ),
@@ -82,9 +81,7 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Last Name",
           onSave: (val) {
-
             lastName = val.trim();
-
           },
           textObscure: false,
         ),
@@ -92,9 +89,7 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Email Address",
           onSave: (String val) {
-
             email = val.trim().replaceAll(' ', '');
-
           },
           Validator: validateEmail,
           textObscure: false,
@@ -153,20 +148,18 @@ class _SignUpState extends State<SignUpScreen> {
 
       try {
         AuthResult result = await FirebaseAuth.instance
-
-            .createUserWithEmailAndPassword(email: email, password: password)
-            .then((value) {
-          try {
-            value.user.sendEmailVerification();
-          } catch (e) {
-            print("An error occured while trying to send email verification:");
-            print(e.message);
-          }
-        });
+            .createUserWithEmailAndPassword(email: email, password: password);
+        try {
+          result.user.sendEmailVerification();
+        } catch (e) {
+          print("An error occured while trying to send email verification:");
+          print(e.message);
+        }
+        FirebaseUser currUser = result.user;
         User user = User(
           email: email,
           firstName: firstName,
-          uid: result.user.uid,
+          uid: currUser.uid,
           active: true,
           lastName: lastName,
           settings: Settings(allowPushNotifications: true),
@@ -177,13 +170,14 @@ class _SignUpState extends State<SignUpScreen> {
             .setData(user.toJson());
         hideProgress();
         MyAppState.currentUser = user;
-        pushAndRemoveUntil(context, VerifyEmailScreen(), false);
+        pushAndRemoveUntil(context, HomeScreen(user: user), false);
       } catch (error) {
         hideProgress();
-        (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'
-            ? showAlertDialog(context, 'Failed', 'Couldn\'t sign up')
-            : showAlertDialog(context, 'Failed',
-                'Email already in use, Please pick another email!');
+        print("error in sign up:");
+//        (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'
+//            ? showAlertDialog(context, 'Failed', 'Couldn\'t sign up')
+//            : showAlertDialog(context, 'Failed',
+//                'Email already in use, Please pick another email!');
         print(error.toString());
       }
     } else {
