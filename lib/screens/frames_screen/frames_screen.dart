@@ -60,6 +60,7 @@ class _FramesScreenState extends State<FramesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         body: Stack(
