@@ -50,102 +50,106 @@ class ReorderableGrid extends StatelessWidget {
                 builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                   if (!snapshot.hasData) {
                     return Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          TipTextWidget(
-                            tipBody:
-                                "You haven't created any grids yet.\nCreate & view them here!",
-                          ),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 40,
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 5),
-                            child: TemplateButton(
-                              title: 'Get Started!',
-                              iconType: Icons.navigate_next,
-                              color: Constants.palePink,
-                              ontap: () {
-                                pushAndRemoveUntil(
-                                    context, HomeScreen(user: user), false);
-                              },
+                      child: GridView.builder(
+                        itemCount:  15,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
+                        itemBuilder: (BuildContext context, int index) =>
+                            Container(
+                          child: Hero(
+                            tag: index,
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              child: Container(
+                                height: SizeConfig.screenWidth / 3,
+                                width: SizeConfig.screenWidth / 3,
+                                color: Colors.grey,
+                              ),
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       ),
                     );
-//                    return Container(
-//                      child: GridView.builder(
-//                        itemCount: 15,
-//                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                            crossAxisCount: 3),
-//                        itemBuilder: (BuildContext context, int index) =>
-//                            Container(
-//                          child: Hero(
-//                            tag: index,
-//                            child: Shimmer.fromColors(
-//                              baseColor: Colors.grey[300],
-//                              highlightColor: Colors.grey[100],
-//                              child: Container(
-//                                height: SizeConfig.screenWidth / 3,
-//                                width: SizeConfig.screenWidth / 3,
-//                                color: Colors.grey,
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
-//                    );
                   } else {
-                    return Container(
-                      child: ReorderableWrap(
-                          minMainAxisCount: 3,
-                          spacing: 1.0,
-                          runSpacing: 1.0,
-                          padding: const EdgeInsets.all(0),
-                          children:
-                              List.generate(snapshot.data.length, (index) {
-                            return Container(
-                              height: SizeConfig.screenWidth / 3,
-                              width: SizeConfig.screenWidth / 3,
-                              child: FittedBox(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        context: context,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (context) =>
-                                            BottomSheetOptions(
-                                              firebaseStorage: firebaseStorage,
-                                              imageUrl: snapshot.data[index],
-                                              screen: 'Preview',
-                                            ));
-                                  },
-                                  child: Hero(
-                                    tag: snapshot.data[index],
-                                    child: PreviewPhoto(snapshot.data[index]),
-                                  ),
-                                ),
-                                fit: BoxFit.fill,
+                    if (snapshot.data.length == 0) {
+                      return Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            TipTextWidget(
+                              tipBody:
+                                  "You haven't created any grids yet.\nCreate & view them here!",
+                            ),
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal * 40,
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 5),
+                              child: TemplateButton(
+                                title: 'Get Started!',
+                                iconType: Icons.navigate_next,
+                                color: Constants.palePink,
+                                ontap: () {
+                                  pushAndRemoveUntil(
+                                      context, HomeScreen(user: user), false);
+                                },
                               ),
-                            );
-                          }),
-                          onReorder: (int oldIndex, int newIndex) {
-                            firebaseStorage.reorderImageArray(
-                                oldIndex, newIndex);
-                          },
-                          onNoReorder: (int index) {
-                            //this callback is optional
-                            debugPrint(
-                                '${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
-                          },
-                          onReorderStarted: (int index) {
-                            //this callback is optional
-                            debugPrint(
-                                '${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
-                          }),
-                    );
+                            )
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        child: ReorderableWrap(
+                            minMainAxisCount: 3,
+                            spacing: 1.0,
+                            runSpacing: 1.0,
+                            padding: const EdgeInsets.all(0),
+                            children:
+                                List.generate(snapshot.data.length, (index) {
+                              return Container(
+                                height: SizeConfig.screenWidth / 3,
+                                width: SizeConfig.screenWidth / 3,
+                                child: FittedBox(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context) =>
+                                              BottomSheetOptions(
+                                                firebaseStorage:
+                                                    firebaseStorage,
+                                                imageUrl: snapshot.data[index],
+                                                screen: 'Preview',
+                                              ));
+                                    },
+                                    child: Hero(
+                                      tag: snapshot.data[index],
+                                      child: PreviewPhoto(snapshot.data[index]),
+                                    ),
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                              );
+                            }),
+                            onReorder: (int oldIndex, int newIndex) {
+                              firebaseStorage.reorderImageArray(
+                                  oldIndex, newIndex);
+                            },
+                            onNoReorder: (int index) {
+                              //this callback is optional
+                              debugPrint(
+                                  '${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
+                            },
+                            onReorderStarted: (int index) {
+                              //this callback is optional
+                              debugPrint(
+                                  '${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
+                            }),
+                      );
+                    }
                   }
                 });
           }
