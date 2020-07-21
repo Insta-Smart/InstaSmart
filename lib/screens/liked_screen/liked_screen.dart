@@ -75,7 +75,6 @@ class _LikedScreenState extends State<LikedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -92,29 +91,56 @@ class _LikedScreenState extends State<LikedScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Frame>> snapshot) {
                     if (!snapshot.hasData) {
-                      hasFrames = snapshot.data == null;
-                      if (hasFrames) {
-                        return Expanded(
-                          child: GridView.builder(
-                            itemCount: 9,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                              child: Hero(
-                                tag: index,
-                                child: Shimmer.fromColors(
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
-                                  child: Container(
-                                    height: SizeConfig.screenWidth / 3,
-                                    width: SizeConfig.screenWidth / 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
+                      return GridView.builder(
+                        itemCount: 9,
+                        gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemBuilder: (BuildContext context, int index) =>
+                            Container(
+                          child: Hero(
+                            tag: index,
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              child: Container(
+                                color: Colors.grey,
                               ),
                             ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      hasFrames = snapshot.data.length==0;
+                      if (hasFrames) {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TipTextWidget(
+                                tipBody:
+                                    'Heart your favourite frames & easily view them here.',
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 6),
+                                width: SizeConfig.blockSizeHorizontal * 40,
+                                child: TemplateButton(
+                                    title: 'Explore Now!',
+                                    iconType: Icons.navigate_next,
+                                    color: Constants.palePink,
+                                    ontap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(
+                                              user: user,
+                                            ),
+                                          ));
+                                    }),
+                              ),
+                            ],
                           ),
                         );
                       } else {
@@ -123,7 +149,7 @@ class _LikedScreenState extends State<LikedScreen> {
                               itemCount: frameList.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
+                                      crossAxisCount: 2),
                               itemBuilder: (BuildContext context, int index) =>
                                   Container(
                                       child: Hero(
@@ -132,37 +158,6 @@ class _LikedScreenState extends State<LikedScreen> {
                                   ))),
                         );
                       }
-                    } else {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TipTextWidget(
-                              tipBody:
-                                  'Heart your favourite frames & easily view them here.',
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 6),
-                              width: SizeConfig.blockSizeHorizontal * 40,
-                              child: TemplateButton(
-                                  title: 'Explore Now!',
-                                  iconType: Icons.navigate_next,
-                                  color: Constants.palePink,
-                                  ontap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HomeScreen(
-                                            user: user,
-                                          ),
-                                        ));
-                                  }),
-                            ),
-                          ],
-                        ),
-                      );
                     }
                   }),
               imagePressed

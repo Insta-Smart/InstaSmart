@@ -247,9 +247,6 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   @override
-  Future<void> resetPassword(String email) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  }
 
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {
