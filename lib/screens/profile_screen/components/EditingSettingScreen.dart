@@ -91,8 +91,7 @@ class _EditSettingsState extends State<EditSettings> {
                         textColor: Colors.white,
                         splashColor: Constants.lightPurple,
                         onPressed: () async {
-                          await updateServer().then(_showMyDialog());
-//); //TODO: Error here: Unhandled Exception: type 'Future<void>' is not a subtype of type '(dynamic) => dynamic' of 'f'
+                          await updateServer().then(_showAlertDialog());
                         },
                         padding: EdgeInsets.only(top: 12, bottom: 12),
                         shape: RoundedRectangleBorder(
@@ -125,7 +124,7 @@ class _EditSettingsState extends State<EditSettings> {
     }
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showAlertDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -134,12 +133,8 @@ class _EditSettingsState extends State<EditSettings> {
             title: 'Saved!',
             body: 'Changes have been saved',
             DialogCloseRoute: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        HomeScreen(index: 4, user: widget.user),
-                  ));
+              pushAndRemoveUntil(
+                  context, HomeScreen(index: 4, user: widget.user), false);
             });
       },
     );

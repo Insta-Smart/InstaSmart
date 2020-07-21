@@ -71,6 +71,12 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     currUser = _userFromFirebase(authResult.user);
 
     try {
+      authResult.user.sendEmailVerification();
+    } catch (e) {
+      print("An error occured while trying to send email verification:");
+      print(e.message);
+    }
+    try {
       User user = User(
         email: email,
         firstName: firstName,
@@ -79,22 +85,19 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         lastName: lastName,
         settings: Settings(allowPushNotifications: true),
       );
-      await FireStoreUtils.firestore
-          .collection(Constants.USERS)
-          .document(authResult.user.uid)
-          .setData(user.toJson());
-      hideProgress();
       MyAppState.currentUser = user;
-
+      Map<String, String> userImMap = {'user_images': ''};
+      Map finalMap = user.toJson();
+      finalMap.addAll(userImMap);
       await db
           .collection(Constants.USERS)
           .document(currUser.uid)
-          .setData({'user_images': ''});
+          .setData(finalMap);
     } catch (e) {
       print('error in creating user with email');
       print(e.toString());
     }
-    return _userFromFirebase(authResult.user);
+    return MyAppState.currentUser;
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
@@ -161,36 +164,39 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       assert(user.uid == currentUser.uid);
       currUser = _userFromFirebase(currentUser);
 
-      {
-        try {
-          User user = User(
-            email: currentUser.email,
-            firstName: currentUser.displayName,
-            uid: currentUser.uid,
-            active: true,
-            lastName: ' ',
-            settings: Settings(allowPushNotifications: true),
-          );
-          print('user login data is:');
-          print(user.toJson());
-          Map<String, String> userImMap = {'user_images': ''};
-          Map finalMap = user.toJson();
-          finalMap.addAll(userImMap);
+      try {
+        User user = User(
+          email: currentUser.email,
+          firstName: currentUser.displayName,
+          uid: currentUser.uid,
+          active: true,
+          lastName: ' ',
+          settings: Settings(allowPushNotifications: true),
+        );
+        print('user login data is:');
+        print(user.toJson());
+        Map<String, String> userImMap = {'user_images': ''};
+        Map finalMap = user.toJson();
+        finalMap.addAll(userImMap);
+        bool userExists;
+        await db
+            .collection(Constants.USERS)
+            .document(currentUser.uid)
+            .get()
+            .then((value) {
+          userExists = value.exists;
+        });
+        if (!userExists) {
           await db
               .collection(Constants.USERS)
               .document(currentUser.uid)
               .setData(finalMap);
-          // hideProgress();
-          MyAppState.currentUser = user;
-
-//          await db
-//              .collection(Constants.USERS)
-//              .document(currUser.uid)
-//              .setData({'user_images': ''});
-        } catch (e) {
-          print('error in setting google sign in data' + e.toString());
         }
+        MyAppState.currentUser = user;
+      } catch (e) {
+        print('error in setting google sign in data' + e.toString());
       }
+
       return 'signInWithGoogle succeeded: $user';
     } catch (e) {
       print("Google sign in error: ${e}");

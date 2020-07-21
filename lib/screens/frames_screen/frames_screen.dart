@@ -144,7 +144,7 @@ class _FramesScreenState extends State<FramesScreen> {
                       }),
                 ]),
             TipDialogWidget(
-              tipText: 'Tap the ♥ to save your favourite frames!',
+              tipText: 'Tap the ♥ to save frames to your Liked Collection!',
               alignment: Alignment.bottomRight,
             ),
             imagePressed

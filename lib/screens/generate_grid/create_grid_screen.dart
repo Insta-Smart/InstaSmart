@@ -13,6 +13,7 @@ import 'package:image/image.dart' as imglib;
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
+import 'package:instasmart/utils/helper.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -182,10 +183,6 @@ class _CreateScreenState extends State<CreateScreen> {
         padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 8),
         child: Container(
           child: Column(children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[],
-            ),
             Container(
               height: SizeConfig.screenWidth,
               child: RepaintBoundary(
@@ -218,12 +215,16 @@ class _CreateScreenState extends State<CreateScreen> {
                       Row(
                         children: <Widget>[
                           !finished
-                              ? TemplateButton(
-                                  title: '1. Add Your Photos',
-                                  iconType: Icons.camera,
-                                  ontap: () {
-                                    loadAssets();
-                                  })
+                              ? Column(
+                                  children: <Widget>[
+                                    TemplateButton(
+                                        title: '1. Add Your Photos',
+                                        iconType: Icons.camera,
+                                        ontap: () {
+                                          loadAssets();
+                                        }),
+                                  ],
+                                )
                               : Container(),
                           addedImgs && !finished
                               ? TemplateButton(
@@ -244,12 +245,13 @@ class _CreateScreenState extends State<CreateScreen> {
                               : Container(),
                         ],
                       ),
-                      addedImgs && !finished
+                      !finished
                           ? TipTextWidget(
-                              tipBody:
-                                  'Press & hold on each photo to rearrange them.',
+                              tipBody: !addedImgs
+                                  ? 'To create a 3x1 or 6x1 grid, add just 3 or 6 photos.'
+                                  : 'Press & hold on each photo to rearrange them.',
                             )
-                          : Container()
+                          : Container(),
                     ],
                   ),
                   finished
@@ -332,12 +334,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                   },
                                 ),
                                 TemplateButton(
-                                  title: ' Add to My Grids',
+                                  title: ' Add to My Feed',
                                   iconType: Icons.grid_on,
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Adding to My Grids',
+                                      message: 'Adding to My Feed',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
@@ -400,14 +402,13 @@ class _CreateScreenState extends State<CreateScreen> {
                                                   : 'Please try again',
                                               action1: functionDone
                                                   ? () {
-                                                      Navigator.push(
+                                                      pushAndRemoveUntil(
                                                           context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  HomeScreen(
-                                                                      index: 2,
-                                                                      user: widget
-                                                                          .user)));
+                                                          HomeScreen(
+                                                              index: 2,
+                                                              user:
+                                                                  widget.user),
+                                                          false);
                                                     }
                                                   : null,
                                               action1text: functionDone

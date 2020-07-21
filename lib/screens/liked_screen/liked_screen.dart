@@ -6,6 +6,7 @@ import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
+import 'package:instasmart/utils/helper.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:instasmart/utils/size_config.dart';
 // Package imports:
@@ -92,76 +93,23 @@ class _LikedScreenState extends State<LikedScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Frame>> snapshot) {
                     if (!snapshot.hasData) {
-                      hasFrames = snapshot.data == null;
-                      if (hasFrames) {
-                        return Expanded(
-                          child: GridView.builder(
-                            itemCount: 9,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Container(
-                              child: Hero(
-                                tag: index,
-                                child: Shimmer.fromColors(
-                                  baseColor: Colors.grey[300],
-                                  highlightColor: Colors.grey[100],
-                                  child: Container(
-                                    height: SizeConfig.screenWidth / 3,
-                                    width: SizeConfig.screenWidth / 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Container(
-                          child: GridView.builder(
-                              itemCount: frameList.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
-                              itemBuilder: (BuildContext context, int index) =>
-                                  Container(
-                                      child: Hero(
-                                    tag: index,
-                                    child: buildFrameToDisplay(index),
-                                  ))),
-                        );
-                      }
+                      return Container();
                     } else {
                       return Container(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TipTextWidget(
-                              tipBody:
-                                  'Heart your favourite frames & easily view them here.',
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 6),
-                              width: SizeConfig.blockSizeHorizontal * 40,
-                              child: TemplateButton(
-                                  title: 'Explore Now!',
-                                  iconType: Icons.navigate_next,
-                                  color: Constants.palePink,
-                                  ontap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HomeScreen(
-                                            user: user,
-                                          ),
-                                        ));
-                                  }),
-                            ),
-                          ],
-                        ),
+                        child: frameList.length == 0
+                            ? ExploreNowWidget(user: user)
+                            : GridView.builder(
+                                itemCount: frameList.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        Container(
+                                            child: Hero(
+                                          tag: index,
+                                          child: buildFrameToDisplay(index),
+                                        ))),
                       );
                     }
                   }),
@@ -213,5 +161,40 @@ class _LikedScreenState extends State<LikedScreen> {
       //  tryFrame();
       print(e);
     }
+  }
+}
+
+class ExploreNowWidget extends StatelessWidget {
+  const ExploreNowWidget({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TipTextWidget(
+            tipBody: 'Heart your favourite frames & easily view them here.',
+          ),
+          Container(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 6),
+            width: SizeConfig.blockSizeHorizontal * 40,
+            child: TemplateButton(
+                title: 'Explore Now!',
+                iconType: Icons.navigate_next,
+                color: Constants.palePink,
+                ontap: () {
+                  pushAndRemoveUntil(context, HomeScreen(user: user), false);
+                }),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -11,6 +11,7 @@ import 'package:instasmart/utils/size_config.dart';
 class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -33,7 +34,7 @@ class AuthScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                "You're personal, smart Instagram manager. Create aesthetic grids & never forget to post again!",
+                "Your personal, smart Instagram manager. Create aesthetic grids & never forget to post again!",
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
