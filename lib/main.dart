@@ -23,7 +23,6 @@ import 'services/login_functions.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
-import 'package:instasmart/screens/overlaying_images_functions.dart';
 import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/models/user.dart';
@@ -74,8 +73,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
           HomeScreen.routeName: (context) => HomeScreen(),
           FramesScreen.routeName: (context) => FramesScreen(),
           PreviewScreen.routeName: (context) => PreviewScreen(),
-          OverlayImagesFunctions.routeName: (context) =>
-              OverlayImagesFunctions(),
           CalendarScreen.routeName: (context) => CalendarScreen(),
           LikedScreen.routeName: (context) => LikedScreen(),
         },
