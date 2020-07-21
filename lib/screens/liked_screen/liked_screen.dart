@@ -6,6 +6,7 @@ import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
+import 'package:instasmart/utils/helper.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:instasmart/utils/size_config.dart';
 // Package imports:
@@ -91,6 +92,7 @@ class _LikedScreenState extends State<LikedScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Frame>> snapshot) {
                     if (!snapshot.hasData) {
+<<<<<<< HEAD
                       return GridView.builder(
                         itemCount: 9,
                         gridDelegate:
@@ -158,6 +160,26 @@ class _LikedScreenState extends State<LikedScreen> {
                                   ))),
                         );
                       }
+=======
+                      return Container();
+                    } else {
+                      return Container(
+                        child: frameList.length == 0
+                            ? ExploreNowWidget(user: user)
+                            : GridView.builder(
+                                itemCount: frameList.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        Container(
+                                            child: Hero(
+                                          tag: index,
+                                          child: buildFrameToDisplay(index),
+                                        ))),
+                      );
+>>>>>>> 222b677b91b4721275591b31e919daf69a5a0687
                     }
                   }),
               imagePressed
@@ -208,5 +230,40 @@ class _LikedScreenState extends State<LikedScreen> {
       //  tryFrame();
       print(e);
     }
+  }
+}
+
+class ExploreNowWidget extends StatelessWidget {
+  const ExploreNowWidget({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TipTextWidget(
+            tipBody: 'Heart your favourite frames & easily view them here.',
+          ),
+          Container(
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 6),
+            width: SizeConfig.blockSizeHorizontal * 40,
+            child: TemplateButton(
+                title: 'Explore Now!',
+                iconType: Icons.navigate_next,
+                color: Constants.palePink,
+                ontap: () {
+                  pushAndRemoveUntil(context, HomeScreen(user: user), false);
+                }),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -33,13 +33,13 @@ class PostOrderScreen extends StatelessWidget {
                 Icon(
                   Icons.touch_app,
                   color: Constants.lightPurple,
-                  size: 50,
+                  size: 46,
                 ),
                 Center(
                   child: Text(
-                    'Tap Each Photo In Order',
+                    'Tap & Upload Each Photo In Order',
                     style:
-                        TextStyle(fontSize: 25, color: Constants.lightPurple),
+                        TextStyle(fontSize: 22, color: Constants.lightPurple),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -77,13 +77,8 @@ class PostOrderScreen extends StatelessWidget {
                 title: 'Done',
                 color: Constants.lightPurple,
                 ontap: () {
+                  //  Navigator.pop(context);
                   Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomeScreen(
-                                user: user,
-                              )));
                 },
               ),
             )
