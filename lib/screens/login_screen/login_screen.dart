@@ -241,11 +241,7 @@ class _LoginScreen extends State<LoginScreen> {
     }
   }
 
-<<<<<<< HEAD
-  @override
 
-=======
->>>>>>> 222b677b91b4721275591b31e919daf69a5a0687
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {
     try {

@@ -92,7 +92,6 @@ class _LikedScreenState extends State<LikedScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Frame>> snapshot) {
                     if (!snapshot.hasData) {
-<<<<<<< HEAD
                       return GridView.builder(
                         itemCount: 9,
                         gridDelegate:
@@ -160,26 +159,6 @@ class _LikedScreenState extends State<LikedScreen> {
                                   ))),
                         );
                       }
-=======
-                      return Container();
-                    } else {
-                      return Container(
-                        child: frameList.length == 0
-                            ? ExploreNowWidget(user: user)
-                            : GridView.builder(
-                                itemCount: frameList.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2),
-                                itemBuilder:
-                                    (BuildContext context, int index) =>
-                                        Container(
-                                            child: Hero(
-                                          tag: index,
-                                          child: buildFrameToDisplay(index),
-                                        ))),
-                      );
->>>>>>> 222b677b91b4721275591b31e919daf69a5a0687
                     }
                   }),
               imagePressed

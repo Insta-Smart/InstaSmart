@@ -177,14 +177,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
               .collection(Constants.USERS)
               .document(currentUser.uid)
               .setData(finalMap);
-<<<<<<< HEAD
-          // hideProgress();
-          MyAppState.currentUser = user;
-
-        } catch (e) {
-          print('error in setting google sign in data' + e.toString());
-=======
->>>>>>> 222b677b91b4721275591b31e919daf69a5a0687
         }
         MyAppState.currentUser = user;
       } catch (e) {
