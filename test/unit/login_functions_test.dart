@@ -56,12 +56,14 @@ void main() {
       expect(isValid, false);
     });
 
-    test('password should have atleast 1 Uppercase letter, 1 number and 8 characters', () {
+    test(
+        'password should have atleast 1 Uppercase letter, 1 number and 8 characters',
+        () {
       final login = FirebaseLoginFunctions();
       bool isValid = login.validatePassword('1234567Q');
       expect(isValid, true);
     });
-
-});
-
+  });
 }
+
+

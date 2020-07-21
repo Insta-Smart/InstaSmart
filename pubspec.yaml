@@ -52,7 +52,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-#  test: ^1.4.3
   flutter_launcher_icons: "^0.7.3"
   import_sorter: ^4.1.0
   flutter_native_splash: ^0.1.9
@@ -74,4 +73,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-

@@ -1,3 +1,4 @@
+
 class Validation{
   static bool validateEmail(String value) {
     Pattern pattern =
@@ -13,3 +14,5 @@ class Validation{
     return (!regex.hasMatch(value)) ? false : true;
   }
 }
+
+

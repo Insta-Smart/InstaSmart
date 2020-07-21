@@ -12,7 +12,6 @@ import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/profile_screen/profile_screen.dart';
 
-
 class HomeScreen extends StatefulWidget {
   final User user;
   static const routeName = '/home';
@@ -96,7 +95,7 @@ class _HomeState extends State<HomeScreen> {
               activeColor: Constants.lightPurple,
             ),
             BottomNavyBarCustomItem(
-              title: Text('My Grids'),
+              title: Text('My Feed'),
               icon: Icon(Icons.apps),
               activeColor: Constants.lightPurple,
             ),

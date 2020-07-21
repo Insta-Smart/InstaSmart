@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 import 'package:instasmart/screens/help_screen/help_screen.dart';
 
 // Project imports:
@@ -243,7 +244,7 @@ class _EditSettingsState extends State<EditSettings> {
                         splashColor: Constants.lightPurple,
                         onPressed: () async {
                           await updateServer().then(
-                              _showMyDialog()); //TODO: Error here: Unhandled Exception: type 'Future<void>' is not a subtype of type '(dynamic) => dynamic' of 'f'
+                              _showAlertDialog()); //TODO: Error here: Unhandled Exception: type 'Future<void>' is not a subtype of type '(dynamic) => dynamic' of 'f'
                         },
                         padding: EdgeInsets.only(top: 12, bottom: 12),
                         shape: RoundedRectangleBorder(
@@ -276,37 +277,22 @@ class _EditSettingsState extends State<EditSettings> {
     }
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showAlertDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Saved changes'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-                child: Text('Okay'),
-                onPressed: () {
-//                  var nav = Navigator.of(context);
-//                  nav.pop(context);
-//                  nav.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            HomeScreen(index: 4, user: widget.user),
-                      ));
-                }),
-          ],
-        );
+        return CustomDialogWidget(
+            title: 'Saved!',
+            body: 'Changes have been saved',
+            DialogCloseRoute: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        HomeScreen(index: 4, user: widget.user),
+                  ));
+            });
       },
     );
   }

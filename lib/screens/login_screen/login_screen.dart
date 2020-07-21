@@ -209,13 +209,8 @@ class _LoginScreen extends State<LoginScreen> {
                           .whenComplete(() async {
                         User user =
                             await FirebaseLoginFunctions().currentUser();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return HomeScreen(user: user);
-                            },
-                          ),
-                        );
+                        pushAndRemoveUntil(
+                            context, HomeScreen(user: user), false);
                       });
                     },
                     shape: RoundedRectangleBorder(
@@ -245,8 +240,6 @@ class _LoginScreen extends State<LoginScreen> {
       });
     }
   }
-
-  @override
 
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {

@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instasmart/services/login_functions.dart';
+import 'package:instasmart/services/login_functions.dart';
 
 // Project imports:
 import 'components/VerifyEmailScreen.dart';
@@ -147,37 +149,19 @@ class _SignUpState extends State<SignUpScreen> {
       showProgress(context, 'Creating new account, Please wait...', false);
 
       try {
-        AuthResult result = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-        try {
-          result.user.sendEmailVerification();
-        } catch (e) {
-          print("An error occured while trying to send email verification:");
-          print(e.message);
-        }
-        FirebaseUser currUser = result.user;
-        User user = User(
-          email: email,
-          firstName: firstName,
-          uid: currUser.uid,
-          active: true,
-          lastName: lastName,
-          settings: Settings(allowPushNotifications: true),
-        );
-        await FireStoreUtils.firestore
-            .collection(Constants.USERS)
-            .document(result.user.uid)
-            .setData(user.toJson());
-        hideProgress();
-        MyAppState.currentUser = user;
-        pushAndRemoveUntil(context, HomeScreen(user: user), false);
+        FirebaseLoginFunctions()
+            .createUserWithEmailAndPassword(
+                email, password, firstName, mobile, lastName)
+            .then((value) {
+          pushAndRemoveUntil(context, HomeScreen(user: value), false);
+        });
       } catch (error) {
         hideProgress();
         print("error in sign up:");
-//        (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'
-//            ? showAlertDialog(context, 'Failed', 'Couldn\'t sign up')
-//            : showAlertDialog(context, 'Failed',
-//                'Email already in use, Please pick another email!');
+        (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'
+            ? showAlertDialog(context, 'Failed', 'Couldn\'t sign up')
+            : showAlertDialog(context, 'Failed',
+                'Email already in use, Please pick another email!');
         print(error.toString());
       }
     } else {
