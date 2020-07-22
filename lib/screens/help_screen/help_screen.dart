@@ -8,7 +8,7 @@ import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/utils/size_config.dart';
 
-import 'helper/help_sections.dart';
+import './components/help_sections.dart';
 
 //url ref:https://github.com/TheAlphamerc/flutter_smart_course
 

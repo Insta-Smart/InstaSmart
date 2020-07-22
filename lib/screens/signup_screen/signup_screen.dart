@@ -7,20 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/services/login_functions.dart';
 
 // Project imports:
 import 'components/VerifyEmailScreen.dart';
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
-
-File _image;
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -64,16 +58,20 @@ class _SignUpState extends State<SignUpScreen> {
       children: <Widget>[
         new Align(
             alignment: Alignment.topLeft,
-            child: Text(
-              'Create new account',
-              style: TextStyle(
-                  color: Constants.lightPurple,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0),
+            child: Center(
+              child: Text(
+                'Sign Up',
+                style: TextStyle(
+                    color: Color(Constants.COLOR_PRIMARY),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 35.0),
+              ),
             )),
+        SizedBox(height: 20,),
         SignUpTextWidget(
           context: context,
           title: "First Name",
+          prefixIcon: Icon(Icons.person),
           onSave: (val) {
             firstName = val.trim();
           },
@@ -82,6 +80,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Last Name",
+          prefixIcon: Icon(Icons.person),
           onSave: (val) {
             lastName = val.trim();
           },
@@ -90,6 +89,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Email Address",
+          prefixIcon: Icon(Icons.email),
           onSave: (String val) {
             email = val.trim().replaceAll(' ', '');
           },
@@ -99,6 +99,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Password",
+          prefixIcon: Icon(Icons.lock),
           onSave: (val) {
             password = val.trim();
           },
@@ -109,6 +110,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Confirm Password",
+          prefixIcon: Icon(Icons.lock),
           onSave: (val) {
             confirmPassword = val.trim();
           },
@@ -126,7 +128,7 @@ class _SignUpState extends State<SignUpScreen> {
             child: RaisedButton(
               color: Color(Constants.COLOR_PRIMARY),
               child: Text(
-                'Sign Up',
+                'Create Account',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               textColor: Colors.white,
@@ -135,7 +137,7 @@ class _SignUpState extends State<SignUpScreen> {
               padding: EdgeInsets.only(top: 12, bottom: 12),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25.0),
-                  side: BorderSide(color: Constants.lightPurple)),
+                  side: BorderSide(color: Color(Constants.COLOR_PRIMARY),),),
             ),
           ),
         ),
@@ -151,8 +153,9 @@ class _SignUpState extends State<SignUpScreen> {
       try {
         FirebaseLoginFunctions()
             .createUserWithEmailAndPassword(
-                email, password, firstName, mobile, lastName)
+                email, password, firstName, lastName)
             .then((value) {
+              hideProgress();
           pushAndRemoveUntil(context, HomeScreen(user: value), false);
         });
       } catch (error) {
@@ -175,7 +178,6 @@ class _SignUpState extends State<SignUpScreen> {
   @override
   void dispose() {
     _passwordController.dispose();
-    _image = null;
     super.dispose();
   }
 }
@@ -190,7 +192,8 @@ class SignUpTextWidget extends StatelessWidget {
       this.Validator,
       this.Controller,
       this.textObscure,
-      this.MaxLength})
+      this.MaxLength,
+      this.prefixIcon})
       : super(key: key);
 
   final BuildContext context;
@@ -201,6 +204,7 @@ class SignUpTextWidget extends StatelessWidget {
   final bool textObscure;
   final TextEditingController Controller;
   final int MaxLength;
+  final Icon prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -229,12 +233,13 @@ class SignUpTextWidget extends StatelessWidget {
                         new EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     fillColor: Colors.white,
                     hintText: title,
+                    prefixIcon: prefixIcon,
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
+                        borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
-                            color: Constants.lightPurple, width: 2.0)),
+                            color: Color(Constants.COLOR_PRIMARY), width: 2.0)),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     )))));
   }
 }

@@ -14,7 +14,7 @@ class ReminderData {
   final db = Firestore.instance;
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
 
-  void createReminder(
+  Future<String> createReminder(
       {String caption, String pictureUrl, DateTime postTime}) async {
     try {
       User user = await firebase.currentUser();
@@ -29,7 +29,7 @@ class ReminderData {
         'date': "${postTime.day}/${postTime.month}/${postTime.year}",
         'postTime': postTime,
       });
-      print('done creating');
+      return ('Created Reminder');
     } catch (e) {
       print(e);
     }
@@ -51,6 +51,7 @@ class ReminderData {
               caption: reminder['caption'],
               isPosted: reminder['isPosted'],
               picture: Image.network(reminder['scheduled_image']),
+              pictureUrl: reminder['scheduled_image'],
               postTime: reminder['postTime'].toDate(),
               date: reminder['date'],
               id: reminder.documentID);
@@ -91,7 +92,7 @@ class ReminderData {
     }
   }
 
-  void updateReminder(Reminder reminder) async {
+  Future<String> updateReminder(Reminder reminder) async {
     try {
       User user = await firebase.currentUser();
       await db
@@ -106,13 +107,13 @@ class ReminderData {
         'date': reminder.date,
         'postTime': reminder.postTime,
       });
-      print('done updating');
+      return ('Updated Reminder');
     } catch (e) {
       print(e);
     }
   }
 
-  void deleteReminder(Reminder reminder) async {
+  Future<String> deleteReminder(Reminder reminder) async {
     try {
       User user = await firebase.currentUser();
       await db
@@ -121,7 +122,7 @@ class ReminderData {
           .collection('reminders')
           .document(reminder.id)
           .delete();
-      print('done deleting');
+      return ('Deleted Reminder');
     } catch (e) {
       print(e);
     }
