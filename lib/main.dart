@@ -58,8 +58,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             future: FirebaseLoginFunctions().currentUser(),
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               if (snapshot.hasData) {
-                Provider.of<FirebaseLoginFunctions>(context).currUser =
-                    snapshot.data;
                 return HomeScreen(user: snapshot.data);
               }
               if (!snapshot.hasData) {
@@ -99,11 +97,11 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         //user offline
         currentUser.active = false;
         currentUser.lastOnlineTimestamp = Timestamp.now();
-        FireStoreUtils.currentUserDocRef.updateData(currentUser.toJson());
+        FirebaseLoginFunctions().updateUserData(currentUser.toJson());
       } else if (state == AppLifecycleState.resumed) {
         //user online
         currentUser.active = true;
-        FireStoreUtils.currentUserDocRef.updateData(currentUser.toJson());
+        FirebaseLoginFunctions().updateUserData(currentUser.toJson());
       }
     }
   }
@@ -125,7 +123,7 @@ class OnBoardingState extends State<OnBoarding> {
     if (finishedOnBoarding) {
       FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
       if (firebaseUser != null) {
-        User user = await FireStoreUtils().getCurrentUser(firebaseUser.uid);
+        User user = await FirebaseLoginFunctions().currentUser();
         if (user != null) {
           MyAppState.currentUser = user;
           pushReplacement(context, new HomeScreen());

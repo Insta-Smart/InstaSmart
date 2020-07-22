@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/models/user.dart';
 import '../mock_services/mock_login_functions.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -67,23 +66,48 @@ void main() {
       bool isValid = login.validatePassword('1234567Q');
       expect(isValid, true);
     });
+  });
 
-    test(
-        'sign in with email and password',
-            () async {
+  group('Authentication Tests', () {
+    final email = 'test123@gmail.com';
+    final password = '1234567Q';
+    final firstName = 'John';
+    final lastName = 'Appleseed';
+    final uid = '933erij3nb4rfvfkd';
 
-              final login = MockFireBaseLoginFunctions();
-              var user = await login.signInWithEmailAndPassword('test@gmail.com', '1234567Q');
-             expect(user, isA<User>());
-        });
+    User user = User(
+      email: email,
+      firstName: firstName,
+      uid: uid,
+      active: true,
+      lastName: lastName,
+      settings: Settings(allowPushNotifications: true),
+    );
 
-    test(
-        'sign in with email and password',
-            () async {
 
-          final login = MockFireBaseLoginFunctions();
-          var user = await login.signInWithEmailAndPassword('test@gmail.com', '1234567Q');
-          expect(user, isA<User>());
-        });
+    test('sign in with email and password', () async {
+      final login = MockFireBaseLoginFunctions();
+      var user = await login.signInWithEmailAndPassword(email, password);
+      expect(user, isA<User>());
+    });
+
+    test('current user function returns a User object with current user details', () async {
+      final login = MockFireBaseLoginFunctions();
+      await login.signInWithEmailAndPassword(email, password);
+      var user = await login.currentUser();
+      expect(user, isA<User>());
+    });
+
+    test('Sign Out', () async {
+      final login = MockFireBaseLoginFunctions();
+      await login.signInWithEmailAndPassword(email, password);
+      expect(login.signOut(), isA<void>());
+    });
+
+//    test('Google Sign In', () async {
+//      final login = MockFireBaseLoginFunctions();
+//      var signIn = await login.signInWithGoogle();
+//      expect(signIn, isA<String>());
+//    });
   });
 }

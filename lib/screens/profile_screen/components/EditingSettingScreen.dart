@@ -63,8 +63,7 @@ class _EditSettingsState extends State<EditSettings> {
                     title: "First Name",
                     onSave: (val) {
                       firstName = val;
-                      print('sign in method is: ${widget.user.logInMethod}');
-                    },
+                      },
                     textObscure: false,
                   ),
                   SignUpTextWidget(
