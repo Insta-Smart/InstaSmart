@@ -92,24 +92,73 @@ class _LikedScreenState extends State<LikedScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Frame>> snapshot) {
                     if (!snapshot.hasData) {
-                      return Container();
-                    } else {
-                      return Container(
-                        child: frameList.length == 0
-                            ? ExploreNowWidget(user: user)
-                            : GridView.builder(
-                                itemCount: frameList.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2),
-                                itemBuilder:
-                                    (BuildContext context, int index) =>
-                                        Container(
-                                            child: Hero(
-                                          tag: index,
-                                          child: buildFrameToDisplay(index),
-                                        ))),
+                      return GridView.builder(
+                        itemCount: 9,
+                        gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemBuilder: (BuildContext context, int index) =>
+                            Container(
+                          child: Hero(
+                            tag: index,
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey[300],
+                              highlightColor: Colors.grey[100],
+                              child: Container(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ),
                       );
+                    } else {
+                      hasFrames = snapshot.data.length==0;
+                      if (hasFrames) {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TipTextWidget(
+                                tipBody:
+                                    'Heart your favourite frames & easily view them here.',
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 6),
+                                width: SizeConfig.blockSizeHorizontal * 40,
+                                child: TemplateButton(
+                                    title: 'Explore Now!',
+                                    iconType: Icons.navigate_next,
+                                    color: Constants.palePink,
+                                    ontap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(
+                                              user: user,
+                                            ),
+                                          ));
+                                    }),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          child: GridView.builder(
+                              itemCount: frameList.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  Container(
+                                      child: Hero(
+                                    tag: index,
+                                    child: buildFrameToDisplay(index),
+                                  ))),
+                        );
+                      }
                     }
                   }),
               imagePressed

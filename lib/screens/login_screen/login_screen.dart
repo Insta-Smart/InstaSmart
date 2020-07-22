@@ -241,6 +241,7 @@ class _LoginScreen extends State<LoginScreen> {
     }
   }
 
+
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {
     try {

@@ -49,11 +49,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         logInMethod: signInMethod);
   }
 
-  Future<User> signInAnonymously() async {
-    final AuthResult authResult = await auth.signInAnonymously();
-    return _userFromFirebase(authResult.user);
-  }
-
   Future<User> signInWithEmailAndPassword(String email, String password) async {
     final AuthResult authResult =
         await auth.signInWithCredential(EmailAuthProvider.getCredential(
@@ -104,15 +99,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     await auth.sendPasswordResetEmail(email: email);
   }
 
-  Future<User> signInWithEmailAndLink({String email, String link}) async {
-    final AuthResult authResult =
-        await auth.signInWithEmailAndLink(email: email, link: link);
-    return _userFromFirebase(authResult.user);
-  }
-
-  Future<bool> isSignInWithEmailLink(String link) async {
-    return await auth.isSignInWithEmailLink(link);
-  }
 
   Future<void> signOut() async {
     await auth.signOut();
