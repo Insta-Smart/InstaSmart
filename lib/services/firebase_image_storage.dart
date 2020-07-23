@@ -59,7 +59,7 @@ class FirebaseImageStorage {
   Future<List> getImageUrls() async {
     //updates listofurls with imageurls
     try {
-      List imageUrls;
+      var imageUrls;
       User user = await firebase.currentUser();
       print('current user in firebase_image_storage is: ${user.uid}');
       await db
@@ -67,7 +67,7 @@ class FirebaseImageStorage {
           .document(user.uid)
           .get()
           .then((doc) => {imageUrls = doc['user_images']});
-      return imageUrls == null ? null : imageUrls.reversed.toList();
+      return imageUrls == "" ? List() : imageUrls.reversed.toList();
     } catch (e) {
       print('error in getImageUrls is:');
       print(e.toString());

@@ -72,7 +72,9 @@ class ReorderableGrid extends StatelessWidget {
                       ),
                     );
                   } else {
-                    if (snapshot.data.length == 0) {
+                    bool hasFrames;
+                    hasFrames = snapshot.data.length == 0;
+                    if (hasFrames) {
                       return Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

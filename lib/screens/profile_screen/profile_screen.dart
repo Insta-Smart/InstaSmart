@@ -34,6 +34,7 @@ class ProfileScreen extends StatelessWidget {
     SizeConfig().init(context);
     final userRef = Firestore.instance.collection('Users');
     final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
+    print("current user in my app in profile: ${MyAppState.currentUser.uid}");
     //User user = await firebase.currentUser();
 
     return Scaffold(
