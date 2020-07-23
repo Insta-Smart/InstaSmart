@@ -67,7 +67,9 @@ class _SignUpState extends State<SignUpScreen> {
                     fontSize: 35.0),
               ),
             )),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         SignUpTextWidget(
           context: context,
           title: "First Name",
@@ -136,8 +138,11 @@ class _SignUpState extends State<SignUpScreen> {
               onPressed: _sendToServer,
               padding: EdgeInsets.only(top: 12, bottom: 12),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  side: BorderSide(color: Color(Constants.COLOR_PRIMARY),),),
+                borderRadius: BorderRadius.circular(25.0),
+                side: BorderSide(
+                  color: Color(Constants.COLOR_PRIMARY),
+                ),
+              ),
             ),
           ),
         ),
@@ -155,8 +160,8 @@ class _SignUpState extends State<SignUpScreen> {
             .createUserWithEmailAndPassword(
                 email, password, firstName, lastName)
             .then((value) {
-              hideProgress();
-          pushAndRemoveUntil(context, HomeScreen(user: value), false);
+          hideProgress();
+          pushAndRemoveUntil(context, HomeScreen(), false);
         });
       } catch (error) {
         hideProgress();

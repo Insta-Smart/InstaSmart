@@ -43,8 +43,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-//    SystemChrome.setSystemUIOverlayStyle(
-//        SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
     return ChangeNotifierProvider<FirebaseLoginFunctions>(
       create: (context) => FirebaseLoginFunctions(),
       child: MaterialApp(

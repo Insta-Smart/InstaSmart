@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:instasmart/test_driver/Keys.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -58,13 +59,14 @@ class _FrameWidgetState extends State<FrameWidget> {
   }
 
   //DOES getNumLikes() --> SETS VAR NUM TO RESULT AS INTEGER, TAKES IN IMGID
-  void setNumLikes() {
+  int setNumLikes() {
     getNumLikes().then((double num) {
       setState(() {
         _numLikes = num.round();
         //print('${widget.frame.imgID} has ${num} likes');
       });
     });
+    return _numLikes;
   }
 
   @override
@@ -181,6 +183,7 @@ class _FrameWidgetState extends State<FrameWidget> {
                     _numLikes == null
                         ? Container()
                         : Text('$_numLikes',
+                            key: Key('counter ${widget.frame.lowResUrl}'),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14)),
                   ],
@@ -191,6 +194,7 @@ class _FrameWidgetState extends State<FrameWidget> {
                   child: Material(
                     color: Colors.transparent,
                     child: IconButton(
+                      key: Key('increment ${widget.frame.lowResUrl}'),
                       padding: EdgeInsets.symmetric(
                           horizontal: SizeConfig.blockSizeHorizontal * 5),
                       //Like Button
@@ -204,11 +208,10 @@ class _FrameWidgetState extends State<FrameWidget> {
                               size: 30,
                               color: Colors.grey.withOpacity(0.8),
                             ),
-                      tooltip: 'Like frame to save it.',
                       onPressed: () {
                         setState(() {
                           liked = !liked;
-                          print("liked status is: $liked");
+                          //print("liked status is: $liked");
                           //increment popularity of this image, identified by imgurl
                           liked ? _numLikes++ : _numLikes--; //update _numLikes
                         });

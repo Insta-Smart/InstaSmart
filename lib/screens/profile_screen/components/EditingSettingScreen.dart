@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
@@ -20,9 +21,7 @@ import 'package:instasmart/screens/signup_screen/signup_screen.dart';
 import 'package:instasmart/utils/helper.dart';
 
 class EditSettings extends StatefulWidget {
-  final User user;
-
-  EditSettings(@required this.user);
+  EditSettings();
 
   @override
   _EditSettingsState createState() => _EditSettingsState();
@@ -34,7 +33,7 @@ class _EditSettingsState extends State<EditSettings> {
   bool _validate = false;
   String firstName, lastName, password, confirmPassword;
   bool passwordChanged = false;
-
+  User user = MyAppState.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +62,7 @@ class _EditSettingsState extends State<EditSettings> {
                     title: "First Name",
                     onSave: (val) {
                       firstName = val;
-                      },
+                    },
                     textObscure: false,
                   ),
                   SignUpTextWidget(
@@ -113,11 +112,13 @@ class _EditSettingsState extends State<EditSettings> {
       //change name
       print("new name is: ${firstName}");
       await userRef
-          .document(widget.user.uid)
+          .document(user.uid)
           .updateData({"firstName": firstName, "lastName": lastName});
-      widget.user.changeFirstName(firstName);
-      widget.user.changeLastName(
+      user.changeFirstName(firstName);
+      user.changeLastName(
           lastName); //changing locally so dont have to call firebase
+      print('changed user is ${user}');
+      MyAppState.currentUser = user;
     } catch (e) {
       print("error in updating settings is: ${e}");
     }
@@ -132,8 +133,7 @@ class _EditSettingsState extends State<EditSettings> {
             title: 'Saved!',
             body: 'Changes have been saved',
             DialogCloseRoute: () {
-              pushAndRemoveUntil(
-                  context, HomeScreen(index: 4, user: widget.user), false);
+              pushAndRemoveUntil(context, HomeScreen(index: 4), false);
             });
       },
     );
