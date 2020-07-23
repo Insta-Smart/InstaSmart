@@ -14,6 +14,7 @@ void main() {
     final secondLoginButton = find.byValueKey(Keys.secondLogin);
     final counterTextFinder = find.byValueKey(Keys.COUNTER);
     final buttonFinder = find.byValueKey(Keys.increment);
+    final iconFinder = find.byValueKey(Keys.iconWidget);
     FlutterDriver driver;
 
     // Connect to the Flutter driver before running any tests.
@@ -44,12 +45,27 @@ void main() {
       await driver.tap(secondLoginButton);
       await driver.tap(find.byValueKey(Categories.landscape));
       String origNumLikes = await driver.getText(counterTextFinder);
-      String expectedNumLikes = (int.parse(origNumLikes) + 1).toString();
+
+      Future<bool> isLiked() async {
+        //only liked heart icon has this key. if not found, heart is not yet liked.
+        try {
+          await driver.waitFor(iconFinder, timeout: Duration(seconds: 30));
+          return true;
+        } catch (exception) {
+          return false;
+        }
+      }
+
+      String expectedNumLikes;
+      await isLiked().then((value) {
+        expectedNumLikes = value
+            ? (int.parse(origNumLikes) - 1).toString()
+            : (int.parse(origNumLikes) + 1).toString();
+      });
       await driver.tap(buttonFinder);
       // Then, verify the counter text is incremented by 1.
       expect(await driver.getText(counterTextFinder), expectedNumLikes);
-      await driver.tap(buttonFinder);
-      expect(await driver.getText(counterTextFinder), origNumLikes);
+
       //TODO: change 8 to driver.getText();
       //TODO: make it switch category
       //TODO: make it unlike also

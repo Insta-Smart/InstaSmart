@@ -201,8 +201,12 @@ class _FrameWidgetState extends State<FrameWidget> {
                       // alignment: Alignment(-6, -13),
                       focusColor: Constants.palePink,
                       icon: liked
-                          ? Icon(Icons.favorite,
-                              size: 30, color: Constants.palePink)
+                          ? Icon(
+                              Icons.favorite,
+                              size: 30,
+                              color: Constants.palePink,
+                              key: Key('iconWidget ' + widget.frame.lowResUrl),
+                            )
                           : Icon(
                               Icons.favorite_border,
                               size: 30,

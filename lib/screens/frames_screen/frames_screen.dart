@@ -102,14 +102,14 @@ class _FramesScreenState extends State<FramesScreen> {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    child: Text('log out'),
-                    onPressed: () async {
-                      await FirebaseAuth.instance.signOut();
-                      MyAppState.currentUser = null;
-                      pushAndRemoveUntil(context, AuthScreen(), false);
-                    },
-                  ),
+//                  FlatButton(
+//                    child: Text('log out'),
+//                    onPressed: () async {
+//                      await FirebaseAuth.instance.signOut();
+//                      MyAppState.currentUser = null;
+//                      pushAndRemoveUntil(context, AuthScreen(), false);
+//                    },
+//                  ),
                   FutureBuilder(
                       future: futList,
                       builder: (BuildContext context,
