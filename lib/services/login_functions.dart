@@ -10,43 +10,30 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
 
 class FirebaseLoginFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
   final db = Firestore.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  User currUser;
   final userRef = Firestore.instance.collection(Constants.USERS);
 
-  User _userFromFirebase(FirebaseUser user) {
-    if (user == null) {
-      return null;
-    }
 
-    return User(
-      uid: user.uid,
-      email: user.email,
-    );
-  }
 
   Future<User> currentUser() async {
     final FirebaseUser user = await auth.currentUser();
-    currUser = _userFromFirebase(user);
     String firstName, lastName, signInMethod;
     userRef.document(user.uid).get().then((value) {
       firstName = value["firstName"] ?? " ";
       lastName = value["lastName"] ?? " ";
-      signInMethod = user.providerData[1].providerId;
+//      signInMethod = user.providerData[1].providerId;
     });
 
     return User(
         uid: user.uid,
         email: user.email,
         firstName: firstName,
-        lastName: lastName,
-        logInMethod: signInMethod);
+        lastName: lastName,);
   }
 
   Future<User> signInWithEmailAndPassword(String email, String password) async {
@@ -55,21 +42,19 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       email: email,
       password: password,
     ));
-    currUser = _userFromFirebase(authResult.user);
-    return _userFromFirebase(authResult.user);
+    return currentUser();
   }
 
   Future<User> createUserWithEmailAndPassword(String email, String password,
-      String firstName, String mobile, String lastName) async {
+      String firstName, String lastName) async {
     final AuthResult authResult = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    currUser = _userFromFirebase(authResult.user);
 
     try {
       authResult.user.sendEmailVerification();
     } catch (e) {
       print("An error occured while trying to send email verification:");
-      print(e.message);
+      print(e);
     }
     try {
       User user = User(
@@ -86,13 +71,18 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       finalMap.addAll(userImMap);
       await db
           .collection(Constants.USERS)
-          .document(currUser.uid)
+          .document(user.uid)
           .setData(finalMap);
     } catch (e) {
       print('error in creating user with email');
       print(e.toString());
     }
     return MyAppState.currentUser;
+  }
+
+  Future<void> updateUserData(Map data){
+    db.collection(Constants.USERS)
+        .document(MyAppState.currentUser.uid).updateData(data);
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
@@ -104,9 +94,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     await auth.signOut();
   }
 
-  Stream<User> get onAuthStateChanged {
-    return auth.onAuthStateChanged.map(_userFromFirebase);
-  }
 
   bool validateEmail(String value) {
     Pattern pattern =
@@ -122,11 +109,11 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     return (!regex.hasMatch(value)) ? false : true;
   }
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: <String>[
-      'email',
-    ],
-  );
+//  GoogleSignIn _googleSignIn = GoogleSignIn(
+//    scopes: <String>[
+//      'email',
+//    ],
+//  );
 
   Future<String> signInWithGoogle() async {
     try {
@@ -148,7 +135,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
 
       final FirebaseUser currentUser = await auth.currentUser();
       assert(user.uid == currentUser.uid);
-      currUser = _userFromFirebase(currentUser);
 
       try {
         User user = User(

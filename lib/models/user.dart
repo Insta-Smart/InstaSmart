@@ -1,49 +1,28 @@
-//import 'package:meta/meta.dart';
-//
-////class User {
-////   User({
-////    @required this.uid,
-////    this.email,
-////    this.photoUrl,
-////    this.displayName,
-////  });
-////
-////  final String uid;
-////  final String email;
-////  final String photoUrl;
-////  final String displayName;
-////}
 
-// Dart imports:
 import 'dart:io';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
-  String email = ' ';
-  String firstName = 'Enter Name';
-  String lastName = ' ';
+  String email;
+  String firstName;
+  String lastName;
   Settings settings = Settings(allowPushNotifications: true);
   bool active = false;
   Timestamp lastOnlineTimestamp = Timestamp.now();
   String uid;
-  // String profilePictureURL = '';
   bool selected = false;
   String appIdentifier = 'Flutter ${Platform.operatingSystem}';
-  String logInMethod; //password, google.com
 
   User({
     this.email,
     this.firstName,
-    //  this.phoneNumber,
     this.lastName,
     this.active,
     this.lastOnlineTimestamp,
     this.settings,
     this.uid,
-    this.logInMethod,
-    //   this.profilePictureURL
   });
 
   String fullName() {

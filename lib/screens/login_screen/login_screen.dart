@@ -3,23 +3,16 @@ import 'dart:async';
 import 'dart:convert';
 
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
 
 // Project imports:
 import '../HomeScreen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
 
@@ -245,22 +238,16 @@ class _LoginScreen extends State<LoginScreen> {
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {
     try {
-      AuthResult result = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-//      if (!result.user.isEmailVerified) {
-//        print('unverified email');
-//        throw ('EMAIL_NOT_VERIFIED');
-      // }
+      User user = await FirebaseLoginFunctions()
+          .signInWithEmailAndPassword(email,password);
 
-      DocumentSnapshot documentSnapshot = await FireStoreUtils.firestore
+      var documentSnapshot = await FirebaseLoginFunctions().db
           .collection(Constants.USERS)
-          .document(result.user.uid)
+          .document(user.uid)
           .get();
-      User user;
       if (documentSnapshot != null && documentSnapshot.exists) {
         user = User.fromJson(documentSnapshot.data);
         user.active = true;
-        //remove this line as trial -->// await _fireStoreUtils.updateCurrentUser(user, context);
         hideProgress();
         MyAppState.currentUser = user;
       }
@@ -273,20 +260,20 @@ class _LoginScreen extends State<LoginScreen> {
       } else {
         switch ((exception as PlatformException).code) {
           case 'ERROR_INVALID_EMAIL':
-            showAlertDialog(context, 'Couldn\'t Authinticate',
+            showAlertDialog(context, 'Couldn\'t Authenticate',
                 'email address is malformed');
             break;
           case 'ERROR_WRONG_PASSWORD':
             showAlertDialog(
-                context, 'Couldn\'t Authinticate', 'wrong password');
+                context, 'Incorrect Password', 'Please try again');
             break;
           case 'ERROR_USER_NOT_FOUND':
-            showAlertDialog(context, 'Couldn\'t Authinticate',
-                'no user corresponding to the given email address');
+            showAlertDialog(context, 'Account not found',
+                'No account with was found with the entered email address');
             break;
           case 'ERROR_USER_DISABLED':
             showAlertDialog(
-                context, 'Couldn\'t Authinticate', 'user has been disabled');
+                context, 'Couldn\'t Authenticate', 'user has been disabled');
             break;
           case 'ERROR_TOO_MANY_REQUESTS':
             showAlertDialog(context, 'Couldn\'t Authinticate',
@@ -317,8 +304,7 @@ class _LoginScreen extends State<LoginScreen> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return CustomAlertDialog(
-          title: "Reset email",
-          auth: FirebaseAuth.instance,
+          title: "Reset Password",
         );
       },
     );
@@ -327,9 +313,8 @@ class _LoginScreen extends State<LoginScreen> {
 
 class CustomAlertDialog extends StatefulWidget {
   final String title;
-  final FirebaseAuth auth;
 
-  const CustomAlertDialog({Key key, this.title, this.auth}) : super(key: key);
+  const CustomAlertDialog({Key key, this.title}) : super(key: key);
 
   @override
   CustomAlertDialogState createState() {
@@ -353,7 +338,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
 
       try {
         // You could consider using async/await here
-        widget.auth.sendPasswordResetEmail(email: _resetEmail);
+        FirebaseLoginFunctions().sendPasswordResetEmail(_resetEmail);
         return true;
       } catch (exception) {
         print(exception);
@@ -380,7 +365,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
             child: ListBody(
               children: <Widget>[
                 new Text(
-                  'Enter the Email Address associated with your account.',
+                  'Enter the email associated with your account.',
                   style: TextStyle(fontSize: 14.0),
                 ),
                 Padding(
@@ -407,9 +392,9 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                         autofocus: true,
                         decoration: new InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Email',
+                            hintText: 'Enter your Email',
                             contentPadding:
-                                EdgeInsets.only(left: 70.0, top: 15.0),
+                                EdgeInsets.only(left: 10.0, top: 10),
                             hintStyle:
                                 TextStyle(color: Colors.black, fontSize: 14.0)),
                         style: TextStyle(color: Colors.black),
@@ -432,7 +417,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
         actions: <Widget>[
           new FlatButton(
             child: new Text(
-              'CANCEL',
+              'Cancel',
               style: TextStyle(color: Colors.black),
             ),
             onPressed: () {
@@ -441,7 +426,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
           ),
           new FlatButton(
             child: new Text(
-              'SEND EMAIL',
+              'Send Reset Email',
               style: TextStyle(color: Color(Constants.COLOR_PRIMARY)),
             ),
             onPressed: () {
