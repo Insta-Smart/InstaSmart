@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 // Project imports:
@@ -18,8 +19,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final userRef = Firestore.instance.collection(Constants.USERS);
 
-
-
   Future<User> currentUser() async {
     final FirebaseUser user = await auth.currentUser();
     String firstName, lastName, signInMethod;
@@ -30,10 +29,11 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     });
 
     return User(
-        uid: user.uid,
-        email: user.email,
-        firstName: firstName,
-        lastName: lastName,);
+      uid: user.uid,
+      email: user.email,
+      firstName: firstName,
+      lastName: lastName,
+    );
   }
 
   Future<User> signInWithEmailAndPassword(String email, String password) async {
@@ -46,7 +46,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
   }
 
   Future<User> createUserWithEmailAndPassword(String email, String password,
-      String firstName, String lastName) async {
+      String firstName, String lastName, BuildContext context) async {
     final AuthResult authResult = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
 
@@ -69,31 +69,29 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       Map<String, String> userImMap = {'user_images': ''};
       Map finalMap = user.toJson();
       finalMap.addAll(userImMap);
-      await db
-          .collection(Constants.USERS)
-          .document(user.uid)
-          .setData(finalMap);
+      await db.collection(Constants.USERS).document(user.uid).setData(finalMap);
+      return MyAppState.currentUser;
     } catch (e) {
       print('error in creating user with email');
       print(e.toString());
+      throw (e as PlatformException);
     }
-    return MyAppState.currentUser;
   }
 
-  Future<void> updateUserData(Map data){
-    db.collection(Constants.USERS)
-        .document(MyAppState.currentUser.uid).updateData(data);
+  Future<void> updateUserData(Map data) {
+    db
+        .collection(Constants.USERS)
+        .document(MyAppState.currentUser.uid)
+        .updateData(data);
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
     await auth.sendPasswordResetEmail(email: email);
   }
 
-
   Future<void> signOut() async {
     await auth.signOut();
   }
-
 
   bool validateEmail(String value) {
     Pattern pattern =

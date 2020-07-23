@@ -43,8 +43,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-//    SystemChrome.setSystemUIOverlayStyle(
-//        SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
     return ChangeNotifierProvider<FirebaseLoginFunctions>(
       create: (context) => FirebaseLoginFunctions(),
       child: MaterialApp(
@@ -58,7 +58,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             future: FirebaseLoginFunctions().currentUser(),
             builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               if (snapshot.hasData) {
-                return HomeScreen(user: snapshot.data);
+                MyAppState.currentUser = snapshot.data;
+                return HomeScreen();
               }
               if (!snapshot.hasData) {
                 return AuthScreen();
