@@ -26,16 +26,15 @@ import 'package:instasmart/utils/size_config.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({
     Key key,
-    this.user,
   }) : super(key: key);
-
-  final User user;
 
   @override
   Widget build(BuildContext context) {
+    User user = MyAppState.currentUser;
     SizeConfig().init(context);
     final userRef = Firestore.instance.collection('Users');
     final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
+    print("current user in my app in profile: ${MyAppState.currentUser.uid}");
     //User user = await firebase.currentUser();
 
     return Scaffold(
@@ -50,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Text(
-                'Hi ${user.firstName ?? 'there'}!',
+                'Hi ${user.firstName.substring(0, user.firstName.indexOf(' ') + 1) ?? 'there'}!',
                 style: TextStyle(fontSize: 45, color: Constants.palePink),
               ),
             ),

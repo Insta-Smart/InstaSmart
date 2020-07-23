@@ -67,7 +67,9 @@ class _SignUpState extends State<SignUpScreen> {
                     fontSize: 35.0),
               ),
             )),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         SignUpTextWidget(
           context: context,
           title: "First Name",
@@ -136,8 +138,11 @@ class _SignUpState extends State<SignUpScreen> {
               onPressed: _sendToServer,
               padding: EdgeInsets.only(top: 12, bottom: 12),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  side: BorderSide(color: Color(Constants.COLOR_PRIMARY),),),
+                borderRadius: BorderRadius.circular(25.0),
+                side: BorderSide(
+                  color: Color(Constants.COLOR_PRIMARY),
+                ),
+              ),
             ),
           ),
         ),
@@ -150,15 +155,13 @@ class _SignUpState extends State<SignUpScreen> {
       _key.currentState.save();
       showProgress(context, 'Creating new account, Please wait...', false);
 
-      try {
-        FirebaseLoginFunctions()
-            .createUserWithEmailAndPassword(
-                email, password, firstName, lastName)
-            .then((value) {
-              hideProgress();
-          pushAndRemoveUntil(context, HomeScreen(user: value), false);
-        });
-      } catch (error) {
+      FirebaseLoginFunctions()
+          .createUserWithEmailAndPassword(
+              email, password, firstName, lastName, context)
+          .then((value) {
+        hideProgress();
+        pushAndRemoveUntil(context, HomeScreen(), false);
+      }).catchError((error) {
         hideProgress();
         print("error in sign up:");
         (error as PlatformException).code != 'ERROR_EMAIL_ALREADY_IN_USE'
@@ -166,7 +169,7 @@ class _SignUpState extends State<SignUpScreen> {
             : showAlertDialog(context, 'Failed',
                 'Email already in use, Please pick another email!');
         print(error.toString());
-      }
+      });
     } else {
       print('false');
       setState(() {

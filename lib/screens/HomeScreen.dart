@@ -1,6 +1,7 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:instasmart/main.dart';
 
 // Project imports:
 import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
@@ -17,20 +18,19 @@ class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
   final int index;
 
-  HomeScreen({Key key, @required this.user, this.index}) : super(key: key);
+  HomeScreen({Key key, this.user, this.index}) : super(key: key);
 
   @override
   State createState() {
-    return _HomeState(user);
+    return _HomeState();
   }
 }
 
 class _HomeState extends State<HomeScreen> {
-  final User user;
-
-  _HomeState(this.user);
+  _HomeState();
   int _currentIndex;
   PageController _pageController;
+  User user = MyAppState.currentUser;
 
   @override
   void initState() {
@@ -57,19 +57,19 @@ class _HomeState extends State<HomeScreen> {
             },
             children: <Widget>[
               Container(
-                child: FramesScreen(user: user),
+                child: FramesScreen(),
               ),
               Container(
                 child: LikedScreen(),
               ),
               Container(
-                child: PreviewScreen(user: user),
+                child: PreviewScreen(),
               ),
               Container(
-                child: CalendarScreen(user: user),
+                child: CalendarScreen(),
               ),
               Container(
-                child: ProfileScreen(user: user),
+                child: ProfileScreen(),
               ),
             ],
           ),

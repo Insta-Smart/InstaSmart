@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/components/tip_widgets.dart';
+import 'package:instasmart/main.dart';
+import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
+import 'package:instasmart/utils/helper.dart';
 
 // Project imports:
 import '../../constants.dart';
@@ -26,9 +30,8 @@ import 'package:shimmer/shimmer.dart';
 // https://github.com/Ephenodrom/Flutter-Advanced-Examples/tree/master/lib/examples/filterList
 class FramesScreen extends StatefulWidget {
   static const routeName = '/frames';
-  final User user;
 
-  FramesScreen({Key key, @required this.user}) : super(key: key);
+  FramesScreen({Key key}) : super(key: key);
   @override
   _FramesScreenState createState() => _FramesScreenState();
 }
@@ -56,6 +59,8 @@ class _FramesScreenState extends State<FramesScreen> {
       filteredFrameList = frameList;
     });
     imagePressed = false;
+    print(
+        'in frames screen, my app current user is: ${MyAppState.currentUser}');
   }
 
   @override
@@ -83,6 +88,7 @@ class _FramesScreenState extends State<FramesScreen> {
                       itemCount: Categories.catNamesList.length,
                       itemBuilder: (BuildContext context, int index) =>
                           CategoryButton(
+                        key: Key(Categories.catNamesList[index]),
                         catName: Categories.catNamesList[index],
                         selectedCat: selectedCat,
                         ontap: () => setState(() {
@@ -96,6 +102,14 @@ class _FramesScreenState extends State<FramesScreen> {
                       ),
                     ),
                   ),
+//                  FlatButton(
+//                    child: Text('log out'),
+//                    onPressed: () async {
+//                      await FirebaseAuth.instance.signOut();
+//                      MyAppState.currentUser = null;
+//                      pushAndRemoveUntil(context, AuthScreen(), false);
+//                    },
+//                  ),
                   FutureBuilder(
                       future: futList,
                       builder: (BuildContext context,
@@ -166,7 +180,9 @@ class _FramesScreenState extends State<FramesScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => CreateScreen(
-                    filteredFrameList[index].highResUrl, index, widget.user),
+                    filteredFrameList[index].highResUrl,
+                    index,
+                    MyAppState.currentUser),
               ));
         },
         onLongPress: () {

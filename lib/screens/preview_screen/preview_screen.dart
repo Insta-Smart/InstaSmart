@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/tip_widgets.dart';
+import 'package:instasmart/main.dart';
 
 // Package imports:
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -20,10 +21,9 @@ import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/size_config.dart';
 
 class PreviewScreen extends StatefulWidget {
-  final User user;
   static const routeName = '/preview';
 
-  PreviewScreen({Key key, @required this.user}) : super(key: key);
+  PreviewScreen({Key key}) : super(key: key);
 
   @override
   _PreviewScreenState createState() => new _PreviewScreenState();
@@ -35,6 +35,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
   @override
   void initState() {
     super.initState();
+    print('my app current user is:');
+    print(MyAppState.currentUser);
   }
 
   var firebaseStorage = FirebaseImageStorage();
@@ -92,7 +94,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: ReorderableGrid(
                     firebase: firebase,
                     firebaseStorage: firebaseStorage,
-                    user: widget.user),
+                    user: MyAppState.currentUser),
               ),
               TipDialogWidget(
                 alignment: Alignment.bottomLeft,

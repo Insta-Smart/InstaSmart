@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/login_screen/login_screen.dart';
 import 'package:instasmart/screens/signup_screen/signup_screen.dart';
+import 'package:instasmart/test_driver/Keys.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
 
@@ -47,6 +48,7 @@ class AuthScreen extends StatelessWidget {
                   color: Color(Constants.COLOR_PRIMARY),
                   child: Text(
                     'Log In',
+                    key: Key(Keys.Login),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   textColor: Colors.white,

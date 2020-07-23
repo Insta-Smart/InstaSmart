@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+import 'package:instasmart/test_driver/Keys.dart';
 
 // Project imports:
 import '../HomeScreen.dart';
@@ -64,6 +65,7 @@ class _LoginScreen extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
                   child: TextFormField(
+                      key: Key(Keys.enterEmail),
                       textAlignVertical: TextAlignVertical.center,
                       textInputAction: TextInputAction.next,
                       validator: validateEmail,
@@ -101,10 +103,11 @@ class _LoginScreen extends State<LoginScreen> {
                   padding:
                       const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
                   child: TextFormField(
+                      key: Key(Keys.enterPassword),
                       textAlignVertical: TextAlignVertical.center,
                       validator: validatePassword,
                       onSaved: (String val) {
-                        email = val.trim().replaceAll(' ', '');
+                        password = val.trim().replaceAll(' ', '');
                       },
                       onFieldSubmitted: (password) async {
                         await onClick(
@@ -147,6 +150,7 @@ class _LoginScreen extends State<LoginScreen> {
                     color: Color(Constants.COLOR_PRIMARY),
                     child: Text(
                       'Log In',
+                      key: Key(Keys.secondLogin),
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -225,8 +229,8 @@ class _LoginScreen extends State<LoginScreen> {
       showProgress(context, 'Logging in, please wait...', false);
       User user =
           await loginWithUserNameAndPassword(email.trim(), password.trim());
-      if (user != null)
-        pushAndRemoveUntil(context, HomeScreen(user: user), false);
+      MyAppState.currentUser = user;
+      if (user != null) pushAndRemoveUntil(context, HomeScreen(), false);
     } else {
       setState(() {
         _validate = true;
@@ -234,14 +238,14 @@ class _LoginScreen extends State<LoginScreen> {
     }
   }
 
-
   Future<User> loginWithUserNameAndPassword(
       String email, String password) async {
     try {
       User user = await FirebaseLoginFunctions()
-          .signInWithEmailAndPassword(email,password);
+          .signInWithEmailAndPassword(email, password);
 
-      var documentSnapshot = await FirebaseLoginFunctions().db
+      var documentSnapshot = await FirebaseLoginFunctions()
+          .db
           .collection(Constants.USERS)
           .document(user.uid)
           .get();
@@ -264,8 +268,7 @@ class _LoginScreen extends State<LoginScreen> {
                 'email address is malformed');
             break;
           case 'ERROR_WRONG_PASSWORD':
-            showAlertDialog(
-                context, 'Incorrect Password', 'Please try again');
+            showAlertDialog(context, 'Incorrect Password', 'Please try again');
             break;
           case 'ERROR_USER_NOT_FOUND':
             showAlertDialog(context, 'Account not found',

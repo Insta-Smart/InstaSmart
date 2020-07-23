@@ -51,7 +51,7 @@ class ReorderableGrid extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return Container(
                       child: GridView.builder(
-                        itemCount:  15,
+                        itemCount: 15,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3),
                         itemBuilder: (BuildContext context, int index) =>
@@ -72,7 +72,9 @@ class ReorderableGrid extends StatelessWidget {
                       ),
                     );
                   } else {
-                    if (snapshot.data.length == 0) {
+                    bool hasFrames;
+                    hasFrames = snapshot.data.length == 0;
+                    if (hasFrames) {
                       return Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -98,6 +100,28 @@ class ReorderableGrid extends StatelessWidget {
                           ],
                         ),
                       );
+//                    return Container(
+//                      child: GridView.builder(
+//                        itemCount: 15,
+//                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                            crossAxisCount: 3),
+//                        itemBuilder: (BuildContext context, int index) =>
+//                            Container(
+//                          child: Hero(
+//                            tag: index,
+//                            child: Shimmer.fromColors(
+//                              baseColor: Colors.grey[300],
+//                              highlightColor: Colors.grey[100],
+//                              child: Container(
+//                                height: SizeConfig.screenWidth / 3,
+//                                width: SizeConfig.screenWidth / 3,
+//                                color: Colors.grey,
+//                              ),
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    );
                     } else {
                       return Container(
                         child: ReorderableWrap(
