@@ -6,17 +6,19 @@ import 'package:instasmart/constants.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
 
+
 class LikingFunctions {
+  static final instance = Firestore.instance;
   final collectionRef =
-      Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
-  final userRef = Firestore.instance.collection(Constants.USERS);
+      instance.collection(Constants.ALL_FRAMES_COLLECTION);
+  final userRef = instance.collection(Constants.USERS);
 
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
   User user;
 
   void addImgToLiked(String id, String lowResUrl, String highResUrl) async {
     try {
-      User user = await firebase.currentUser();
+      user = await firebase.currentUser();
       await userRef
           .document(user.uid)
           .collection('LikedFrames')
@@ -33,7 +35,7 @@ class LikingFunctions {
 
   void delImgFromLiked(String id) async {
     try {
-      User user = await firebase.currentUser();
+      user = await firebase.currentUser();
       await userRef
           .document(user.uid)
           .collection('LikedFrames')
@@ -45,7 +47,7 @@ class LikingFunctions {
     }
   }
 
-  //INCREMENTS VALUE OF POPULARITY OF THIS IMAGE IN ALLFRAMESPNGURL COLLECTION
+  //INCREMENTS/DECREMENTS VALUE OF POPULARITY OF THIS IMAGE IN ALLFRAMESPNGURL COLLECTION
   void updateLikes(String givenURL, bool isLiked) {
     try {
       collectionRef.document(givenURL).updateData(
@@ -80,12 +82,4 @@ class LikingFunctions {
     }
   }
 
-  bool getInitLikedStat(String id) {
-    bool liked;
-    futInitLikedStat(id).then((value) {
-      liked = value;
-      //  print('result of getInitLIkedstat: ${liked}');
-      return liked;
-    });
-  }
 }

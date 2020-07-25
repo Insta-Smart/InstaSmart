@@ -7,6 +7,6 @@ class MockReminderData extends ReminderData {
   final db = MockFirestoreInstance();
 
   @override
-  final MockFireBaseLoginFunctions firebase = MockFireBaseLoginFunctions();
+  final MockFirebaseLoginFunctions firebase = MockFirebaseLoginFunctions();
 
 }

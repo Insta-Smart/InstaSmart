@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Text(
-                'Hi ${user.firstName.substring(0, user.firstName.indexOf(' ') + 1) ?? 'there'}!',
+                'Hi ${user.firstName}!',
                 style: TextStyle(fontSize: 45, color: Constants.palePink),
               ),
             ),

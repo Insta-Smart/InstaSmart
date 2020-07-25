@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image/image.dart' as imglib;
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
@@ -29,6 +28,7 @@ import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
+import 'package:instasmart/utils/overlayImages.dart';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
@@ -119,35 +119,6 @@ class _CreateScreenState extends State<CreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Uint8List overlayImages(Uint8List imgTop, Uint8List imgBottom) {
-      int dstWidth = 1080;
-      imglib.Image image = imglib.Image(dstWidth, dstWidth);
-      imglib.Image dst = imglib.decodeImage(imgBottom);
-      imglib.Image src = imglib.decodeImage(imgTop);
-
-      dst = imglib.copyResizeCropSquare(dst, dstWidth);
-      src = imglib.copyResizeCropSquare(src, dstWidth - 100);
-      int srcWidth = src.width.floor().toInt();
-      dstWidth = dst.width.floor().toInt();
-      int dstPostion = ((dst.width - src.width) / 2).toInt();
-      var overlayedImage = imglib.copyInto(image, src,
-          dstX: dstPostion,
-          dstY: dstPostion,
-          srcH: srcWidth,
-          srcW: srcWidth,
-          srcX: 0,
-          srcY: 0,
-          blend: true);
-      var finalImage = imglib.copyInto(overlayedImage, dst,
-          dstX: 0,
-          dstY: 0,
-          srcH: dstWidth,
-          srcW: dstWidth,
-          srcX: 0,
-          srcY: 0,
-          blend: true);
-      return imglib.encodePng(overlayedImage);
-    }
 
     final ProgressDialog pr = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);

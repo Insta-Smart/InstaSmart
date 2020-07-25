@@ -288,6 +288,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.6"
+  firebase_storage_mocks:
+    dependency: "direct main"
+    description:
+      name: firebase_storage_mocks
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   flushbar:
     dependency: transitive
     description:
@@ -601,7 +608,7 @@ packages:
     source: hosted
     version: "0.9.6+3"
   mockito:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: mockito
       url: "https://pub.dartlang.org"
