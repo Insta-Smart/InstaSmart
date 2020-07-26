@@ -34,14 +34,15 @@ jobs:
     strategy:
       #set of different configurations of the virtual environment.
       matrix:
-        api-level: [21, 29]
+        api-level: [29]
         target: [default]
     needs: test
     steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1.3.2
         with:
-          flutter-version: '1.17.1'
+          flutter-version: '1.12.14'
+          channel: 'dev'
       - name: Run Flutter Driver tests
         #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
         #https://github.com/ReactiveCircus/android-emulator-runner
