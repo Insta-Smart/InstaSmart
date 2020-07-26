@@ -1,25 +1,57 @@
-name: Dart CI
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+#The name of your workflow.
+name:  Test, build and deploy
+# Trigger the workflow on push or pull request
+on: [push,pull_request]
+#A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
-  build:
 
-    runs-on: ubuntu-latest
-
+  test:
+    #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
+    runs-on: ubunutu-latest
+    #sequence of tasks called
     steps:
+      # The branch or tag ref that triggered the workflow will be checked out.
+      # https://github.com/actions/checkout
       - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
+      # Setup a flutter environment.
+      # https://github.com/marketplace/actions/flutter-action
       - uses: subosito/flutter-action@v1.3.2
         with:
           flutter-version: '1.17.1'
+          channel: 'dev'
       - run: flutter pub get
-      - run: flutter test test/unit
-      - run: flutter build apk
+      # run static analys code
+      - run: flutter  analyze
+      # run  flutter widgets tests  and unit tests
+      - run: flutter test
+    
+
+
+  drive_android:
+    #if conditional to prevent a job from running
+    if: github.event_name != 'pull_request'
+    runs-on: macos-latest
+    #creates a build matrix for your jobs
+    strategy:
+      #set of different configurations of the virtual environment.
+      matrix:
+        api-level: [21, 29]
+        target: [default]
+    needs: test
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.14'
+          channel: 'dev'
+      - name: Run Flutter Driver tests
+        #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
+        #https://github.com/ReactiveCircus/android-emulator-runner
+        uses: reactivecircus/android-emulator-runner@v1
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+          script: flutter drive --target=test_driver/app.dart
 
