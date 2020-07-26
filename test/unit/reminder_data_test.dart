@@ -6,7 +6,7 @@ import '../mock_services/mock_reminder_data.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  group('Reminder Data CRUD Operations', () {
+  group('Reminder Data CRUD Operations:', () {
     String caption = 'Instasmart reminder test';
     String pictureUrl =
         'https://drive.google.com/uc?export=view&id=19sjeFM_bR70UE37Lpa9FUgClOA71dLv4';

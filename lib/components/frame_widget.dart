@@ -12,7 +12,7 @@ import 'package:shimmer/shimmer.dart';
 
 // Project imports:
 import '../constants.dart';
-import 'package:instasmart/utils/liking_functions.dart';
+import 'package:instasmart/services/liking_functions.dart';
 import 'package:instasmart/models/frame.dart';
 
 class FrameWidget extends StatefulWidget {

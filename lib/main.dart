@@ -23,7 +23,6 @@ import 'services/login_functions.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
-import 'package:instasmart/services/Authenticate.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/models/user.dart';
 
