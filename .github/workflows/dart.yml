@@ -35,7 +35,7 @@ jobs:
       #set of different configurations of the virtual environment.
       matrix:
         api-level: [29]
-        target: [default]
+        target: [google_apis]
     needs: test
     steps:
       - uses: actions/checkout@v1
