@@ -7,7 +7,7 @@ jobs:
 
   test:
     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
-    runs-on: ubunutu-latest
+    runs-on: ubuntu-latest
     #sequence of tasks called
     steps:
       # The branch or tag ref that triggered the workflow will be checked out.
