@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group(
-      'Split Image into parts based on given number of vertical and horizontal pieces:',
+      'Split Image into parts based on given number of horizontal and vertical pieces:',
       () {
         var imgBytes;
     test('split into 3 parts (1x3) ', () async {
