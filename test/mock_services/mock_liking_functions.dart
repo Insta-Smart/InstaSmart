@@ -1,8 +1,10 @@
+// Package imports:
+import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
+
 // Project imports:
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/services/liking_functions.dart';
-import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
+import 'package:instasmart/services/login_functions.dart';
 import 'mock_login_functions.dart';
 
 class MockLikingFunctions extends LikingFunctions{

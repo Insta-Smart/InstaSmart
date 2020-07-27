@@ -1,7 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import '../mock_services/mock_liking_functions.dart';
+
+// Package imports:
 import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
+import '../mock_services/mock_liking_functions.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

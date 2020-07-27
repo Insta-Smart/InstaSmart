@@ -3,9 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Project imports:
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
-
+import 'package:instasmart/services/login_functions.dart';
 
 class LikingFunctions {
   static final instance = Firestore.instance;

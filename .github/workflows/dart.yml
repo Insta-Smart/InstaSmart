@@ -1,11 +1,16 @@
 #The name of your workflow.
-name:  Test, build and deploy
+name:  Test, build and release
 # Trigger the workflow on push or pull request
-on: [push,pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
 
-  test:
+  Unit_Tests:
     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
     runs-on: ubuntu-latest
     #sequence of tasks called
@@ -26,7 +31,7 @@ jobs:
     
 
 
-  drive_android:
+  Nexus_6_Integration_Test:
     #if conditional to prevent a job from running
     if: github.event_name != 'pull_request'
     runs-on: macos-latest
@@ -36,13 +41,13 @@ jobs:
       matrix:
         api-level: [29]
         target: [google_apis]
-    needs: test
+    needs: Unit_Tests
     steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1.3.2
         with:
           flutter-version: '1.17.1'
-      - name: Run Flutter Driver tests
+      - name: Run Flutter Integration tests
         #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
         #https://github.com/ReactiveCircus/android-emulator-runner
         uses: reactivecircus/android-emulator-runner@v1

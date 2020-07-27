@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instasmart/main.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 // Project imports:
-import 'components/reminder_list.dart';
 import 'package:instasmart/constants.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/models/reminder.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/services/reminder_data.dart';
+import 'components/reminder_list.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = '/calendar';

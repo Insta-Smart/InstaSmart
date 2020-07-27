@@ -18,19 +18,37 @@ class AuthScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Center(
-              child: Image.asset(
-                'assets/images/instasmartLogoHD.png',
-                height: SizeConfig.blockSizeVertical * 50,
+            Padding(
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*15),
+              child: Center(
+                child: Image.asset(
+                  'assets/images/instasmartLogo.png',
+                  height: SizeConfig.blockSizeVertical * 20,
+                ),
               ),
             ),
-            Text(
-              'Beautify Your Feed, Effortlessly!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Color(Constants.COLOR_PRIMARY),
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold),
+            Padding(
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*1),
+              child: Text(
+                'InstaSmart',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Constants.deepBlue,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+              child: Text(
+                'Beautify your Feed. Effortlessly.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color(Constants.COLOR_PRIMARY),
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),

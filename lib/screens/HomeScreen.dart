@@ -1,16 +1,16 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instasmart/main.dart';
 
 // Project imports:
-import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
-import 'package:instasmart/screens/preview_screen/preview_screen.dart';
-import 'package:instasmart/screens/liked_screen/liked_screen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/custom_packages/bottom_navy_bar_custom/bottom_navy_bar_custom.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
 import 'package:instasmart/screens/frames_screen/frames_screen.dart';
+import 'package:instasmart/screens/liked_screen/liked_screen.dart';
+import 'package:instasmart/screens/preview_screen/preview_screen.dart';
 import 'package:instasmart/screens/profile_screen/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {

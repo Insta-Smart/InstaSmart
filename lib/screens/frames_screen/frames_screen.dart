@@ -1,29 +1,32 @@
 // Flutter imports:
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-//import 'package:showcaseview/showcaseview.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instasmart/components/tip_widgets.dart';
-import 'package:instasmart/main.dart';
-import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
-import 'package:instasmart/utils/helper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shimmer/shimmer.dart';
 
 // Project imports:
-import '../../constants.dart';
-import './components/category_button.dart';
 import 'package:instasmart/categories.dart';
 import 'package:instasmart/components/frame_widget.dart';
 import 'package:instasmart/components/popup_widget.dart';
+import 'package:instasmart/components/tip_widgets.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
 import 'package:instasmart/services/frames_firebase_functions.dart';
+import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
-import 'package:shimmer/shimmer.dart';
+import '../../constants.dart';
+import './components/category_button.dart';
+
+//import 'package:showcaseview/showcaseview.dart';
+
+
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 

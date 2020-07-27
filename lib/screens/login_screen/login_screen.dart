@@ -7,15 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import 'package:instasmart/test_driver/Keys.dart';
-
 // Project imports:
-import '../HomeScreen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/login_functions.dart';
+import 'package:instasmart/test_driver/Keys.dart';
 import 'package:instasmart/utils/helper.dart';
+import '../HomeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';

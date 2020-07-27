@@ -1,4 +1,7 @@
+// Dart imports:
 import 'dart:typed_data';
+
+// Package imports:
 import 'package:image/image.dart' as imglib;
 
 Uint8List overlayImages(Uint8List imgTop, Uint8List imgBottom) {

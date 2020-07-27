@@ -1,10 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 
 // Project imports:
-import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/constants.dart';
+import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/utils/size_config.dart';
 
 class TemplateButton extends StatefulWidget {
   final String title;

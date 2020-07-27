@@ -1,7 +1,10 @@
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+// Dart imports:
 import 'dart:io';
 import 'dart:math';
+
+// Package imports:
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 Future<File> urlToFile(String imageUrl) async {
 // generate random number.

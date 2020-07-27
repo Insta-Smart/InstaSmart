@@ -1,5 +1,6 @@
 // Dart imports:
 
+// Dart imports:
 import 'dart:typed_data';
 
 // Package imports:
@@ -10,8 +11,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 // Project imports:
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:instasmart/services/login_functions.dart';
 
 class FirebaseImageStorage {
   StorageReference reference = FirebaseStorage.instance.ref();

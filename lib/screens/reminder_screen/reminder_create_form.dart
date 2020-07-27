@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:instasmart/components/page_top_bar.dart';
-import 'package:instasmart/components/template_button.dart';
 import 'package:intl/intl.dart';
 
 // Project imports:
+import 'package:instasmart/components/page_top_bar.dart';
+import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/services/notifications.dart';
 import 'package:instasmart/services/reminder_data.dart';

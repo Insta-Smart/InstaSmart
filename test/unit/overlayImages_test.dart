@@ -1,7 +1,12 @@
+// Dart imports:
 import 'dart:typed_data';
-import 'package:instasmart/utils/overlayImages.dart';
-import 'package:network_image_to_byte/network_image_to_byte.dart';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:network_image_to_byte/network_image_to_byte.dart';
+
+// Project imports:
+import 'package:instasmart/utils/overlayImages.dart';
 
 void main() {
   group(
