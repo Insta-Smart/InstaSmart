@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+// Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/models/user.dart';
@@ -53,7 +58,7 @@ class PostOrderScreen extends StatelessWidget {
                   color: Constants.lightPurple,
                 ),
                 Icon(Icons.arrow_forward, color: Constants.lightPurple),
-                Icon(Icons.looks_6, color: Constants.lightPurple),
+                Icon(Icons.looks, color: Constants.lightPurple),
               ],
             ),
             SizedBox(

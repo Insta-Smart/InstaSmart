@@ -1,6 +1,8 @@
+// Dart imports:
+import 'dart:io';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';

@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:photo_view/photo_view.dart';
 
+// Project imports:
+import 'gridline_painter.dart';
+
 class GridFrameInitial extends StatelessWidget {
   const GridFrameInitial({
     Key key,
@@ -58,31 +61,34 @@ class GridFrameFinal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration:
-          BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
-      child: PhotoView.customChild(
-        backgroundDecoration: BoxDecoration(
-          color: Colors.transparent,
-        ),
-        initialScale: 1.0,
-        minScale: 1.0,
-        maxScale: 5.0,
-        //Hero tag is index
-        child: Image.network(
-          frameUrl,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes
-                    : null,
-              ),
-            );
-          },
+    return CustomPaint(
+      foregroundPainter: Grid9Painter(),
+      child: Container(
+        decoration:
+            BoxDecoration(border: Border.all(width: 0.5, color: Colors.black)),
+        child: PhotoView.customChild(
+          backgroundDecoration: BoxDecoration(
+            color: Colors.transparent,
+          ),
+          initialScale: 1.0,
+          minScale: 1.0,
+          maxScale: 5.0,
+          //Hero tag is index
+          child: Image.network(
+            frameUrl,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes
+                      : null,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

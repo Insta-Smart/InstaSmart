@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
+
+// Project imports:
 import 'package:instasmart/utils/size_config.dart';
 
 class PreviewPhoto extends StatefulWidget {

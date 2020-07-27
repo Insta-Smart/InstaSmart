@@ -1,8 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import '../mock_services/mock_firebase_image_storage.dart';
+
+// Package imports:
+import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 
+// Project imports:
+import '../mock_services/mock_firebase_image_storage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

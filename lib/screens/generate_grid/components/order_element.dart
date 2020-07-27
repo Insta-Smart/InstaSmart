@@ -1,8 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:instasmart/utils/size_config.dart';
+// Dart imports:
 import 'dart:io';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:social_share_plugin/social_share_plugin.dart';
 
+// Project imports:
+import 'package:instasmart/utils/size_config.dart';
 import '../../../constants.dart';
 
 class OrderElement extends StatefulWidget {

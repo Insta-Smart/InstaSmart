@@ -1,8 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 import 'package:instasmart/utils/size_config.dart';
-
 import '../constants.dart';
 
 class TipDialogWidget extends StatelessWidget {

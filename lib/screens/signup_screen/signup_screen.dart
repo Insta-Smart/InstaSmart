@@ -6,15 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Package imports:
-import 'package:instasmart/services/login_functions.dart';
-
 // Project imports:
-import 'components/VerifyEmailScreen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
+import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
+import 'components/VerifyEmailScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override

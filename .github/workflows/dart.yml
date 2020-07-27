@@ -5,7 +5,7 @@ on: [push,pull_request]
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
 
-  test:
+  Unit Tests:
     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
     runs-on: ubuntu-latest
     #sequence of tasks called
@@ -26,7 +26,7 @@ jobs:
     
 
 
-  drive_android:
+  Nexus 6 Integration Test:
     #if conditional to prevent a job from running
     if: github.event_name != 'pull_request'
     runs-on: macos-latest
@@ -42,7 +42,7 @@ jobs:
       - uses: subosito/flutter-action@v1.3.2
         with:
           flutter-version: '1.17.1'
-      - name: Run Flutter Driver tests
+      - name: Run Flutter Integration tests
         #GitHub Action for installing, configuring and running Android Emulators (work only Mac OS)
         #https://github.com/ReactiveCircus/android-emulator-runner
         uses: reactivecircus/android-emulator-runner@v1

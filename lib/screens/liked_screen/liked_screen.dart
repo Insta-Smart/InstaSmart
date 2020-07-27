@@ -1,24 +1,25 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instasmart/components/template_button.dart';
-import 'package:instasmart/components/tip_widgets.dart';
-import 'package:instasmart/constants.dart';
-import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/screens/frames_screen/frames_screen.dart';
-import 'package:instasmart/utils/helper.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:instasmart/utils/size_config.dart';
+
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shimmer/shimmer.dart';
 
 // Project imports:
 import 'package:instasmart/components/frame_widget.dart';
 import 'package:instasmart/components/popup_widget.dart';
+import 'package:instasmart/components/template_button.dart';
+import 'package:instasmart/components/tip_widgets.dart';
+import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
+import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 import 'package:instasmart/services/login_functions.dart';
+import 'package:instasmart/utils/helper.dart';
+import 'package:instasmart/utils/size_config.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 

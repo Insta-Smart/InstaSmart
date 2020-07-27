@@ -6,9 +6,9 @@ import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
-import 'onboarding_end_screen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/utils/helper.dart';
+import 'onboarding_end_screen.dart';
 
 final _currentPageNotifier = ValueNotifier<int>(0);
 

@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:instasmart/test_driver/Keys.dart';
-import 'package:instasmart/utils/size_config.dart';
 import 'package:shimmer/shimmer.dart';
 
 // Project imports:
-import '../constants.dart';
-import 'package:instasmart/services/liking_functions.dart';
 import 'package:instasmart/models/frame.dart';
+import 'package:instasmart/services/liking_functions.dart';
+import 'package:instasmart/test_driver/Keys.dart';
+import 'package:instasmart/utils/size_config.dart';
+import '../constants.dart';
 
 class FrameWidget extends StatefulWidget {
   final Frame frame;
