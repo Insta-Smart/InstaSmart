@@ -34,7 +34,7 @@ void main() {
 //      expect(await driver.getText(counterTextFinder), "0");
 //    });
 
-    test('increments the counter', () async {
+    test('increments the number of likes', () async {
       // First, tap the button.
       await driver.clearTimeline();
       await driver.tap(loginButton);
