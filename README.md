@@ -4,26 +4,23 @@
     <img src="assets/images/instasmartLogo.png" alt="Logo" width="150" height="150">
   </a>
 
-  <h1 align="center">InstaSmart</h1>
+  <h1 align="center">InstaSmart<br />
+  </h1>
 
   <p align="center">
   <br />
     Beautify your feed. Effortlessly.
     <br />
     <br />
-    <a href="https://popcorn-data.herokuapp.com/">Website</a>
-    ·
-    <a href="https://medium.com/analytics-vidhya/popcorn-data-analysing-cinema-seating-patterns-part-ii-987fbde9d363">Medium Article</a>
-  </p>
-</p>
+
 
 
 ## About
-InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. 
+InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. More details can be found at [here](https://docs.google.com/document/d/1zLvbWGw6q75HyQKes5T7n6x1hmygoy8gyzssS_MPyGE/edit?usp=sharing).
 
 
 ## Built With
-* [Flutter](https://flutter.dev/fi)
+* [Flutter](https://flutter.dev/)
 * [Firebase](https://firebase.google.com/)
 
 
