@@ -29,7 +29,6 @@ import 'services/login_functions.dart';
 
 void main() {
   SharedPreferences.setMockInitialValues({});
-  enableFlutterDriverExtension();
   runApp(new MyApp());
 }
 
