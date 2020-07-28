@@ -1,16 +1,34 @@
-# instasmart
+<br />
+<p align="center">
+  <a href="https://popcorn-data.herokuapp.com/">
+    <img src="assets/images/instasmartLogo.png" alt="Logo" width="150" height="150">
+  </a>
 
-A new Flutter application.
+  <h1 align="center">InstaSmart</h1>
 
-## Getting Started
+  <p align="center">
+  <br />
+    Beautify your feed. Effortlessly.
+    <br />
+    <br />
+    <a href="https://popcorn-data.herokuapp.com/">Website</a>
+    ·
+    <a href="https://medium.com/analytics-vidhya/popcorn-data-analysing-cinema-seating-patterns-part-ii-987fbde9d363">Medium Article</a>
+  </p>
+</p>
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## About
+InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Built With
+* [Flutter](https://flutter.dev/fi)
+* [Firebase](https://firebase.google.com/)
+
+
+## Team
+* [Noel Mathew Isaac](https://github.com/noelmathewisaac)
+* [Vanshiqa Agrawal](https://github.com/vanshiqa)
+
+
