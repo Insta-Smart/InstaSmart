@@ -16,7 +16,7 @@
 
 
 ## About
-InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. More details can be found at [here](https://docs.google.com/document/d/1zLvbWGw6q75HyQKes5T7n6x1hmygoy8gyzssS_MPyGE/edit?usp=sharing).
+InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. More details can be found [here](https://docs.google.com/document/d/1zLvbWGw6q75HyQKes5T7n6x1hmygoy8gyzssS_MPyGE/edit?usp=sharing).
 
 
 ## Built With
