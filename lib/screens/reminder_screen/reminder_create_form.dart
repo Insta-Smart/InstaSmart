@@ -91,7 +91,7 @@ class ReminderFormState extends State<ReminderForm> {
                     attribute: "postTime",
                     onChanged: _onChanged,
                     format: DateFormat("dd-MM-yyyy HH:mm"),
-
+                    initialEntryMode: DatePickerEntryMode.calendar,
                     inputType: InputType.both,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.timer),

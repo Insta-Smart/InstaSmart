@@ -131,14 +131,14 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       assert(!user.isAnonymous);
       assert(await user.getIdToken() != null);
 
-      final FirebaseUser currentUser = await auth.currentUser();
-      assert(user.uid == currentUser.uid);
+      final FirebaseUser currUser = await auth.currentUser();
+      assert(user.uid == currUser.uid);
 
       try {
         User user = User(
-          email: currentUser.email,
-          firstName: currentUser.displayName,
-          uid: currentUser.uid,
+          email: currUser.email,
+          firstName: currUser.displayName,
+          uid: currUser.uid,
           active: true,
           lastName: ' ',
           settings: Settings(allowPushNotifications: true),
@@ -151,7 +151,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         bool userExists;
         await db
             .collection(Constants.USERS)
-            .document(currentUser.uid)
+            .document(currUser.uid)
             .get()
             .then((value) {
           userExists = value.exists;
@@ -159,10 +159,14 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         if (!userExists) {
           await db
               .collection(Constants.USERS)
-              .document(currentUser.uid)
+              .document(currUser.uid)
               .setData(finalMap);
+          MyAppState.currentUser = user;
+        } else {
+          currentUser().then((value) {
+            MyAppState.currentUser = value;
+          });
         }
-        MyAppState.currentUser = user;
       } catch (e) {
         print('error in setting google sign in data' + e.toString());
       }

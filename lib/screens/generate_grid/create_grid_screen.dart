@@ -119,9 +119,8 @@ class _CreateScreenState extends State<CreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final ProgressDialog pr = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
+        type: ProgressDialogType.Normal, isDismissible: false, showLogs: true);
 
     SizeConfig().init(context);
     GlobalKey _globalKey = new GlobalKey();
@@ -239,7 +238,8 @@ class _CreateScreenState extends State<CreateScreen> {
                                       message: 'Saving your grid...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
-                                      messageTextStyle: TextStyle(color: Colors.black),
+                                      messageTextStyle:
+                                          TextStyle(color: Colors.black),
                                       progressWidget: SpinKitFadingGrid(
                                         size: 30,
                                         color: Constants.lightPurple,
@@ -314,7 +314,8 @@ class _CreateScreenState extends State<CreateScreen> {
                                       message: 'Adding to My Feed',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
-                                      messageTextStyle: TextStyle(color: Colors.black),
+                                      messageTextStyle:
+                                          TextStyle(color: Colors.black),
                                       progressWidget: SpinKitFadingGrid(
                                         size: 30,
                                         color: Constants.lightPurple,
@@ -385,7 +386,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                                     }
                                                   : null,
                                               action1text: functionDone
-                                                  ? "Go To Preview"
+                                                  ? "Go To My Feed"
                                                   : null,
                                             ));
                                   },
@@ -403,7 +404,8 @@ class _CreateScreenState extends State<CreateScreen> {
                                     pr.style(
                                       message: 'Saving your grid...',
                                       borderRadius: 10.0,
-                                      messageTextStyle: TextStyle(color: Colors.black),
+                                      //messageTextStyle:
+                                      //    TextStyle(color: Colors.black),
                                       backgroundColor: Colors.white,
                                       progressWidget: SpinKitFadingGrid(
                                         size: 30,

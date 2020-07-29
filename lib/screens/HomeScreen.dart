@@ -49,6 +49,7 @@ class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SizedBox.expand(
           child: PageView(
             controller: _pageController,
