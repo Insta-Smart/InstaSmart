@@ -26,8 +26,6 @@ import './components/category_button.dart';
 
 //import 'package:showcaseview/showcaseview.dart';
 
-
-
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
 
 // https://github.com/Ephenodrom/Flutter-Advanced-Examples/tree/master/lib/examples/filterList
@@ -71,6 +69,7 @@ class _FramesScreenState extends State<FramesScreen> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
             Column(
@@ -81,12 +80,15 @@ class _FramesScreenState extends State<FramesScreen> {
                     //SizeConfig.blockSizeHorizontal * 90,
                     color: Colors.transparent,
                     margin: EdgeInsets.fromLTRB(
-                        0, SizeConfig.blockSizeVertical * 2, 0, 5),
+                        3,
+                        SizeConfig.blockSizeVertical * 1,
+                        0,
+                        SizeConfig.blockSizeVertical * 1),
                     //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
                     width: SizeConfig.screenWidth,
                     height: SizeConfig.blockSizeVertical * 6,
                     child: ListView.builder(
-                      padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                       scrollDirection: Axis.horizontal,
                       itemCount: Categories.catNamesList.length,
                       itemBuilder: (BuildContext context, int index) =>
@@ -150,7 +152,9 @@ class _FramesScreenState extends State<FramesScreen> {
                                   Container(
                                 child: Hero(
                                   tag: index,
-                                  child: buildFrameToDisplay(index),
+                                  child: Container(
+                                      padding: EdgeInsets.only(bottom: 20),
+                                      child: buildFrameToDisplay(index)),
                                 ),
                               ),
                             ),

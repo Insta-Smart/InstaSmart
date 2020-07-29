@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Project imports:
 import 'package:instasmart/categories.dart';
@@ -14,9 +15,9 @@ class FramesFirebaseFunctions {
   final collectionRef =
       Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
   StorageReference _lowResReference =
-      FirebaseStorage.instance.ref().child('FramesScreen');
+      FirebaseStorage.instance.ref().child(Constants.LowResCollection);
   StorageReference _highResReference =
-      FirebaseStorage.instance.ref().child('CreateScreen');
+      FirebaseStorage.instance.ref().child(Constants.HighResCollection);
   String _downloadurl;
   List catList = Categories.catNamesList;
 
@@ -25,10 +26,18 @@ class FramesFirebaseFunctions {
       int index, String el, StorageReference refe) async {
     //downloads image from storage, based on index [files named as sample_index
     // to directly display this image, use Image.network(_downloadurl)
+    String fileName;
+    if (refe == _lowResReference) {
+      fileName = 'Untitled_Artwork ${index}_180x180.png';
+    } else {
+      fileName = 'Untitled_Artwork ${index}.png';
+    }
+
     try {
-      String downloadAddress = await refe
+      String downloadAddress = await _highResReference
           .child(el)
-          .child("Untitled_Artwork ${index} copy-min.png")
+          .child(fileName)
+          // .child("Untitled_Artwork ${index} copy-min.png")
           .getDownloadURL(); //image name
       //     print(downloadAddress);
       _downloadurl = downloadAddress;
@@ -48,7 +57,7 @@ class FramesFirebaseFunctions {
   void uploadImagetoFirestore() async {
     try {
       for (String el in catList) {
-        for (int i = 0; i < 23; i++) {
+        for (int i = 0; i < 30; i++) {
           String highResUrl;
           String lowResUrl;
           await setDownloadUrl(i, el, _lowResReference).then((value) {

@@ -20,11 +20,11 @@ class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Constants.paleBlue),
+        style: TextStyle(color: Constants.lightPurple),
       ),
       actions: widgets,
       iconTheme:
-          IconThemeData(color: Constants.paleBlue //change your color here
+          IconThemeData(color: Constants.lightPurple //change your color here
               ),
     );
   }

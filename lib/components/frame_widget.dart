@@ -94,154 +94,142 @@ class _FrameWidgetState extends State<FrameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-          width: SizeConfig.screenWidth * 0.5,
+    return Container(
+      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0, bottom: 0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: Container(
+              // margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+              height: SizeConfig.blockSizeVertical * 20,
+              width: SizeConfig.screenWidth * 0.4,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 3,
+                    blurRadius: 5,
+                    offset: Offset(2, 3), // changes position of shadow
+                  ),
+                ],
+              ),
 // L-R margin should be same as GridView container margin in frames_screen.dart
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                width: SizeConfig.screenWidth * 0.5,
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: CachedNetworkImage(
-                    imageUrl: widget.frame.lowResUrl,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300],
-                      highlightColor: Colors.grey[100],
-                      child: Container(
-                        height: SizeConfig.screenWidth / 2,
-                        width: SizeConfig.screenWidth / 2,
-                        color: Colors.grey,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: SizeConfig.screenWidth * 0.5,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.frame.lowResUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          child: Container(
+                            height: SizeConfig.screenWidth / 2,
+                            width: SizeConfig.screenWidth / 2,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
-              )),
-        ),
-
-//          ClipRRect(
-//              borderRadius: BorderRadius.circular(25),
-//              child: Image.network(widget.frame.imgurl)),
-//
-//        Material(
-//          type: MaterialType.transparency,
-//          color: Colors.white,
-//          child: Material(
-//            color: Colors.transparent,
-//            child: IconButton(
-//              //Like Button
-//              alignment: Alignment(-6, -13),
-//              focusColor: Constants.palePink,
-//              icon: liked
-//                  ? Icon(Icons.favorite,
-//                      size: 30,
-//                      color: liked ? Constants.palePink : Color(0xffdde0dd))
-//                  : Icon(
-//                      Icons.favorite,
-//                      size: 30,
-//                      color: Colors.grey.withOpacity(0.8),
-//                    ),
-//              tooltip: 'Like frame to save it.',
-//              onPressed: () {
-//                setState(() {
-//                  liked = !liked;
-//                  print("liked status is: $liked");
-//                  //increment popularity of this image, identified by imgurl
-//                  liked ? _numLikes++ : _numLikes--; //update _numLikes
-//                });
-//
-//                LikingFunctions().updateLikes(widget.frame.imgID, liked);
-//
-//                //if liked is true --> add image to user collection.
-//                // if liked is false --> REMOVE image from collection
-//                liked
-//                    ? LikingFunctions().addImgToLiked(widget.frame.imgID,
-//                        widget.frame.lowResUrl, widget.frame.highResUrl)
-//                    : LikingFunctions().delImgFromLiked(widget.frame.imgID);
-//              },
-//            ),
-//          ),
-//        ),
-        Container(
-          child: Container(
-            color: Colors.white.withOpacity(0.8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.favorite,
-                      color: Constants.palePink,
-                      size: 15,
-                    ),
-                    _numLikes == null
-                        ? Container()
-                        : Text('$_numLikes',
-                            key: Key('counter ${widget.frame.lowResUrl}'),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14)),
-                  ],
-                ),
-                Material(
-                  type: MaterialType.transparency,
-                  color: Colors.white,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: IconButton(
-                      key: Key('increment ${widget.frame.lowResUrl}'),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.blockSizeHorizontal * 5),
-                      //Like Button
-                      // alignment: Alignment(-6, -13),
-                      focusColor: Constants.palePink,
-                      icon: liked
-                          ? Icon(
-                              Icons.favorite,
-                              size: 30,
-                              color: Constants.palePink,
-                              key: Key('iconWidget ' + widget.frame.lowResUrl),
-                            )
-                          : Icon(
-                              Icons.favorite_border,
-                              size: 30,
-                              color: Colors.grey.withOpacity(0.8),
-                            ),
-                      onPressed: () {
-                        setState(() {
-                          liked = !liked;
-                          //print("liked status is: $liked");
-                          //increment popularity of this image, identified by imgurl
-                          liked ? _numLikes++ : _numLikes--; //update _numLikes
-                        });
-
-                        LikingFunctions()
-                            .updateLikes(widget.frame.imgID, liked);
-
-                        //if liked is true --> add image to user collection.
-                        // if liked is false --> REMOVE image from collection
-                        liked
-                            ? LikingFunctions().addImgToLiked(
-                                widget.frame.imgID,
-                                widget.frame.lowResUrl,
-                                widget.frame.highResUrl)
-                            : LikingFunctions()
-                                .delImgFromLiked(widget.frame.imgID);
-                      },
-                    ),
-                  ),
-                ),
-              ],
+                  )),
             ),
           ),
-          alignment: Alignment(0, 0.8),
-        ),
-      ],
+          Expanded(
+            child: Container(
+              //alignment: Alignment.center,
+              color: Colors.white.withOpacity(0.3),
+
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0),
+              // width: SizeConfig.screenWidth * 0.45,
+              //height: SizeConfig.blockSizeVertical * 4.5,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.favorite,
+                        color: Constants.palePink,
+                        size: 10,
+                      ),
+                      _numLikes == null
+                          ? Container()
+                          : Text('$_numLikes',
+                              key: Key('counter ${widget.frame.lowResUrl}'),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12)),
+                    ],
+                  ),
+                  Material(
+                    type: MaterialType.transparency,
+                    color: Colors.white,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: IconButton(
+                        key: Key('increment ${widget.frame.lowResUrl}'),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.blockSizeHorizontal * 5),
+                        //Like Button
+                        // alignment: Alignment(-6, -13),
+                        focusColor: Constants.palePink,
+                        icon: liked
+                            ? Icon(
+                                Icons.favorite,
+                                size: 25,
+                                color: Constants.palePink,
+                                key:
+                                    Key('iconWidget ' + widget.frame.lowResUrl),
+                              )
+                            : Icon(
+                                Icons.favorite_border,
+                                size: 25,
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                        onPressed: () {
+                          setState(() {
+                            liked = !liked;
+                            //print("liked status is: $liked");
+                            //increment popularity of this image, identified by imgurl
+                            liked
+                                ? _numLikes++
+                                : _numLikes--; //update _numLikes
+                          });
+
+                          LikingFunctions()
+                              .updateLikes(widget.frame.imgID, liked);
+
+                          //if liked is true --> add image to user collection.
+                          // if liked is false --> REMOVE image from collection
+                          liked
+                              ? LikingFunctions().addImgToLiked(
+                                  widget.frame.imgID,
+                                  widget.frame.lowResUrl,
+                                  widget.frame.highResUrl)
+                              : LikingFunctions()
+                                  .delImgFromLiked(widget.frame.imgID);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            //  alignment: Alignment(0, 0.8),
+          ),
+        ],
+      ),
     );
   }
 }

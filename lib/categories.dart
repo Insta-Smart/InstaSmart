@@ -1,4 +1,3 @@
-
 class Categories {
   static const all = "all";
   static const minimalist = "minimalist";
@@ -20,6 +19,7 @@ class Categories {
     Categories.dark,
     Categories.watercolour,
     Categories.cute,
-    Categories.paisley
+    Categories.paisley,
+    Categories.graffiti
   ];
 }

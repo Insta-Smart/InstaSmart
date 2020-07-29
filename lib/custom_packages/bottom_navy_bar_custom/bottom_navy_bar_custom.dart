@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../constants.dart';
+
 class BottomNavyBarCustom extends StatelessWidget {
   final int selectedIndex;
   final double iconSize;
@@ -62,6 +64,7 @@ class BottomNavyBarCustom extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: containerHeight,
+          color: Colors.transparent,
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
@@ -122,7 +125,7 @@ class _ItemWidget extends StatelessWidget {
       duration: animationDuration,
       curve: curve,
       decoration: BoxDecoration(
-        color: isSelected ? item.activeColor.withOpacity(1) : backgroundColor,
+        color: isSelected ? Colors.white.withOpacity(1) : backgroundColor,
         borderRadius: BorderRadius.circular(itemCornerRadius),
       ),
       child: SingleChildScrollView(
@@ -141,8 +144,8 @@ class _ItemWidget extends StatelessWidget {
                 data: IconThemeData(
                   size: isSelected ? 25 : iconSize,
                   color: isSelected
-                      ? Colors.white
-                      : item.inactiveColor ?? item.activeColor,
+                      ? item.activeColor
+                      : item.inactiveColor ?? Colors.black.withOpacity(0.4),
                 ),
                 child: item.icon,
               ),
@@ -151,7 +154,9 @@ class _ItemWidget extends StatelessWidget {
                   child: Container(
                     child: DefaultTextStyle.merge(
                       style: TextStyle(
-                          color: Colors.white,
+                          color: isSelected
+                              ? item.activeColor
+                              : item.inactiveColor,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.5,
                           fontSize: 15),

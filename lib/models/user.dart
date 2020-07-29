@@ -47,7 +47,7 @@ class User {
       "email": this.email,
       "firstName": this.firstName,
       "lastName": this.lastName,
-      "settings": this.settings.toJson(),
+      // "settings": this.settings.toJson(),
       "id": this.uid,
       'active': this.active,
       'lastOnlineTimestamp': this.lastOnlineTimestamp,

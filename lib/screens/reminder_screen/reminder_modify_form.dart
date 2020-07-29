@@ -94,6 +94,7 @@ class ReminderFormState extends State<ReminderForm> {
                   SizedBox(height: SizeConfig.blockSizeVertical * 3),
                   FormBuilderDateTimePicker(
                     attribute: "postTime",
+                    initialEntryMode: DatePickerEntryMode.calendar,
                     onChanged: _onChanged,
                     format: DateFormat("dd-MM-yyyy HH:mm"),
                     inputType: InputType.both,
