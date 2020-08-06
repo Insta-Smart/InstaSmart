@@ -39,28 +39,6 @@ class HelpScreen extends StatelessWidget {
     });
   }
 
-  Widget _card(
-      {Color primaryColor = Colors.redAccent,
-      String imgPath,
-      Widget backWidget}) {
-    return Container(
-        width: SizeConfig.screenWidth * .34,
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  offset: Offset(0, 5),
-                  blurRadius: 10,
-                  color: Color(0x12000000))
-            ]),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: backWidget,
-        ));
-  }
-
   Widget _courseInfo(CourseModel model, Widget decoration, {Color background}) {
     return Container(
         padding: EdgeInsets.only(

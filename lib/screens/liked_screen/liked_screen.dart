@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:instasmart/components/shimmer_widget.dart';
 
 // Project imports:
 import 'package:instasmart/components/frame_widget.dart';
@@ -15,7 +15,6 @@ import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
@@ -61,7 +60,7 @@ class _LikedScreenState extends State<LikedScreen> {
         });
       });
     } catch (e) {
-      print('error in likedscreen is ${e}');
+      print('error in likedscreen is $e');
     }
     return frameList;
   }
@@ -95,25 +94,15 @@ class _LikedScreenState extends State<LikedScreen> {
                     if (!snapshot.hasData) {
                       return GridView.builder(
                         itemCount: 9,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) =>
                             Container(
-                          child: Hero(
-                            tag: index,
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey[300],
-                              highlightColor: Colors.grey[100],
-                              child: Container(
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          child: Hero(tag: index, child: ShimmerWidget()),
                         ),
                       );
                     } else {
-                      hasFrames = snapshot.data.length==0;
+                      hasFrames = snapshot.data.length == 0;
                       if (hasFrames) {
                         return Container(
                           alignment: Alignment.center,

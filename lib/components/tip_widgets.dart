@@ -37,7 +37,7 @@ class TipDialogWidget extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) => CustomDialogWidget(
-                      title: '#InstaSmartTips!',
+                      title: '#InstaSmartTip!',
                       body: tipText,
                     ));
           }),
@@ -53,7 +53,7 @@ class TipTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
       width: SizeConfig.blockSizeHorizontal * 75,
       child: Column(
         children: <Widget>[
@@ -63,7 +63,7 @@ class TipTextWidget extends StatelessWidget {
             style: TextStyle(
                 color: Constants.paleBlue,
                 fontWeight: FontWeight.bold,
-                fontSize: 25),
+                fontSize: 22),
           ),
           Text(
             tipBody,

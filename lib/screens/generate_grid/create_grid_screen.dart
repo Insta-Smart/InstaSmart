@@ -103,6 +103,7 @@ class _CreateScreenState extends State<CreateScreen> {
         ),
       );
     } on Exception catch (e) {
+      print('error in multi-image-picker: ${e}');
       error = e.toString();
     }
 
@@ -176,7 +177,7 @@ class _CreateScreenState extends State<CreateScreen> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(
-                  0, SizeConfig.blockSizeVertical * 3, 0, 0),
+                  0, SizeConfig.blockSizeVertical * 1, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

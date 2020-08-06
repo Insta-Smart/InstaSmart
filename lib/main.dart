@@ -28,7 +28,6 @@ import 'services/login_functions.dart';
 
 void main() {
   SharedPreferences.setMockInitialValues({});
-
   runApp(new MyApp());
 }
 
