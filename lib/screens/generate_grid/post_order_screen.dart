@@ -3,14 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/utils/size_config.dart';
 import '../../constants.dart';
 import './components/order_element.dart';

@@ -89,61 +89,58 @@ class _FrameWidgetState extends State<FrameWidget> {
       });
     }
     setNumLikes();
-    print('outcome of setinitlikedstate:');
+    //print('outcome of setinitlikedstate:');
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0, bottom: 0),
       child: Column(
         children: <Widget>[
           Container(
-            child: Container(
-              // margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
-              height: SizeConfig.blockSizeVertical * 20,
-              width: SizeConfig.screenWidth * 0.4,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: Offset(2, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-// L-R margin should be same as GridView container margin in frames_screen.dart
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: SizeConfig.screenWidth * 0.5,
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.frame.lowResUrl,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          child: Container(
-                            height: SizeConfig.screenWidth / 2,
-                            width: SizeConfig.screenWidth / 2,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    ),
-                  )),
+            // margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+            height: SizeConfig.blockSizeVertical * 18,
+            width: SizeConfig.blockSizeVertical * 19,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: Offset(2, 3), // changes position of shadow
+                ),
+              ],
             ),
+// L-R margin should be same as GridView container margin in frames_screen.dart
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: SizeConfig.screenWidth * 0.5,
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.frame.lowResUrl,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          height: SizeConfig.screenWidth / 2,
+                          width: SizeConfig.screenWidth / 2,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
+                )),
           ),
           Expanded(
             child: Container(
@@ -155,7 +152,7 @@ class _FrameWidgetState extends State<FrameWidget> {
               //height: SizeConfig.blockSizeVertical * 4.5,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Row(
                     children: <Widget>[
