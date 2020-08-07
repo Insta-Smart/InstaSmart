@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
+import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/preview_screen/components/bottom_sheet_options.dart';
 import 'package:instasmart/services/notifications.dart';
 import 'package:instasmart/services/reminder_data.dart';
@@ -145,7 +146,7 @@ class ReminderFormState extends State<ReminderForm> {
                     onPressed: () async {
                       if (_fbKey.currentState.saveAndValidate()) {
                         var formValues = _fbKey.currentState.value;
-                        var notifications = LocalNotifications();
+                        var notifications = LocalNotifications(context);
                         await notifications.initializing();
                         notifications
                             .cancelNotification(widget.reminder.postTime);
@@ -188,12 +189,19 @@ class ReminderFormState extends State<ReminderForm> {
                     onPressed: () async {
                       if (_fbKey.currentState.saveAndValidate()) {
                         print(_fbKey.currentState.value);
-                        var notifications = LocalNotifications();
+                        var notifications = LocalNotifications(context);
                         await notifications.initializing();
                         notifications
                             .cancelNotification(widget.reminder.postTime);
                         ReminderData().deleteReminder(widget.reminder);
-                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen(
+                                      index: 3,
+                                    )),
+                            (Route<dynamic> route) => false);
+                        ;
                       } else {
                         print(_fbKey.currentState.value);
                         print("validation failed");

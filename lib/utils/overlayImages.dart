@@ -31,5 +31,5 @@ Uint8List overlayImages(Uint8List imgTop, Uint8List imgBottom) {
       srcX: 0,
       srcY: 0,
       blend: true);
-  return imglib.encodePng(overlayedImage);
+  return imglib.encodePng(finalImage);
 }

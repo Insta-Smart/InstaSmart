@@ -127,7 +127,7 @@ class ReminderFormState extends State<ReminderForm> {
                           caption: caption,
                           pictureUrl: widget.imageUrl,
                           postTime: postTime);
-                      var notifications = LocalNotifications();
+                      var notifications = LocalNotifications(context);
                       await notifications.initializing();
                       print(DateTime.now().toLocal());
                       notifications.scheduleNotification(postTime);
