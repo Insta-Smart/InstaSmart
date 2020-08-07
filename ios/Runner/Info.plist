@@ -43,6 +43,29 @@
 	<false/>
 	<key>UIStatusBarHidden</key>
 	<true/>
+<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
+<!-- Google Sign-in Section -->
+<key>CFBundleURLTypes</key>
+<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<!-- TODO Replace this value: -->
+			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+			<string>com.googleusercontent.apps.575653619962-hqcaicbbdo1i2eeravqi1c3c3pm0sgch</string>
+		</array>
+	</dict>
+</array>
+<!-- End of the Google Sign-in Section -->
+
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app requires access to the photo library.</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>This app does not require access to the microphone.</string>
+<key>NSCameraUsageDescription</key>
+<string>This app requires access to the camera.</string>
 
 </dict>
 </plist>

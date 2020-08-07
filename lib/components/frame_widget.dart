@@ -87,55 +87,54 @@ class _FrameWidgetState extends State<FrameWidget> {
       });
     }
     setNumLikes();
-    print('outcome of setinitlikedstate:');
+    //print('outcome of setinitlikedstate:');
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: SizeConfig.blockSizeHorizontal * 2.5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: Offset(2, 3), // changes position of shadow
-          ),
-        ],
-      ),
-// L-R margin should be same as GridView container margin in frames_screen.dart
       child: Column(
         children: <Widget>[
           Container(
-            height: SizeConfig.blockSizeVertical * 20,
-            padding: EdgeInsets.only(top: 4),
+            // margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
+            height: SizeConfig.blockSizeVertical * 18,
+            width: SizeConfig.blockSizeVertical * 19,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: Offset(2, 3), // changes position of shadow
+                ),
+              ],
+            ),
+// L-R margin should be same as GridView container margin in frames_screen.dart
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
-                  width: SizeConfig.screenWidth * 0.4,
+                  width: SizeConfig.screenWidth * 0.5,
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: CachedNetworkImage(
                       imageUrl: widget.frame.lowResUrl,
                       progressIndicatorBuilder:
                           (context, url, downloadProgress) =>
-                          Shimmer.fromColors(
-                            baseColor: Colors.grey[300],
-                            highlightColor: Colors.grey[100],
-                            child: Container(
-                              height: SizeConfig.screenWidth / 2,
-                              width: SizeConfig.screenWidth / 2,
-                              color: Colors.grey,
-                            ),
-                          ),
+                              Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          height: SizeConfig.screenWidth / 2,
+                          width: SizeConfig.screenWidth / 2,
+                          color: Colors.grey,
+                        ),
+                      ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
@@ -144,8 +143,9 @@ class _FrameWidgetState extends State<FrameWidget> {
           Expanded(
             child: Container(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                //crossAxisAlignment: CrossAxisAlignment.center,
+
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
                     key: Key('increment ${widget.frame.lowResUrl}'),

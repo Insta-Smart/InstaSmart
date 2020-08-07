@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instasmart/components/shimmer_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 // Project imports:
@@ -79,16 +80,13 @@ class _FramesScreenState extends State<FramesScreen> {
                   Container(
                     //SizeConfig.blockSizeHorizontal * 90,
                     color: Colors.transparent,
-                    margin: EdgeInsets.fromLTRB(
-                        3,
-                        SizeConfig.blockSizeVertical * 1,
-                        0,
-                        SizeConfig.blockSizeVertical * 1),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.blockSizeHorizontal * 6,
+                        vertical: SizeConfig.blockSizeVertical * 1),
                     //  SizeConfig.blockSizeHorizontal * 2, 0, 0, 0),
                     width: SizeConfig.screenWidth,
                     height: SizeConfig.blockSizeVertical * 6,
                     child: ListView.builder(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                       scrollDirection: Axis.horizontal,
                       itemCount: Categories.catNamesList.length,
                       itemBuilder: (BuildContext context, int index) =>
@@ -130,13 +128,7 @@ class _FramesScreenState extends State<FramesScreen> {
                                   Container(
                                 child: Hero(
                                   tag: index,
-                                  child: Shimmer.fromColors(
-                                    baseColor: Colors.grey[300],
-                                    highlightColor: Colors.grey[100],
-                                    child: Container(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                                  child: ShimmerWidget(),
                                 ),
                               ),
                             ),
