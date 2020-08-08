@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:network_image_to_byte/network_image_to_byte.dart';
 
 // Project imports:
 import '../mock_services/mock_firebase_image_storage.dart';

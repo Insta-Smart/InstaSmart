@@ -48,8 +48,8 @@ dependencies:
   firebase_storage_mocks: ^0.1.0
   firebase_auth_mocks: ^0.2.1
   google_sign_in_mocks: ^0.1.0+2
-
-
+  settings_ui: ^0.3.0
+  adaptive_theme: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -78,3 +78,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+

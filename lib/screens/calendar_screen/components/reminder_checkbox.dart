@@ -7,7 +7,7 @@ import 'package:instasmart/services/reminder_data.dart';
 
 class ReminderCheckbox extends StatefulWidget {
   ReminderCheckbox(this.reminder);
-  var reminder;
+  final reminder;
   @override
   _ReminderCheckboxState createState() => _ReminderCheckboxState();
 }
@@ -24,7 +24,7 @@ class _ReminderCheckboxState extends State<ReminderCheckbox> {
         ReminderData().updateReminder(widget.reminder);
         String status = value ? 'posted':'unposted';
         Widget snackBar = SnackBar(
-          content: Text('Marked as ${status}'),
+          content: Text('Marked as $status'),
           backgroundColor: Constants.lightPurple,
           duration: Duration(seconds: 1),
         );

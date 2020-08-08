@@ -14,7 +14,7 @@ Uint8List overlayImages(Uint8List imgTop, Uint8List imgBottom) {
   src = imglib.copyResizeCropSquare(src, dstWidth - 100);
   int srcWidth = src.width.floor().toInt();
   dstWidth = dst.width.floor().toInt();
-  int dstPostion = ((dst.width - src.width) / 2).toInt();
+  int dstPostion = ((dst.width - src.width) ~/ 2);
   var overlayedImage = imglib.copyInto(image, src,
       dstX: dstPostion,
       dstY: dstPostion,

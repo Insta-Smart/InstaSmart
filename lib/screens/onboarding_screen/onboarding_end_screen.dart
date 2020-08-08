@@ -66,7 +66,7 @@ class AuthScreen extends StatelessWidget {
                   color: Color(Constants.COLOR_PRIMARY),
                   child: Text(
                     'Log In',
-                    key: Key(Keys.Login),
+                    key: Key(Keys.login),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   textColor: Colors.white,

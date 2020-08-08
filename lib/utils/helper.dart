@@ -51,6 +51,24 @@ String validateEmail(String value) {
     return null;
 }
 
+String validateFirstName(String value){
+  if(value==null || value==''){
+    return 'First name cannot be empty';
+  }
+  else{
+    return null;
+  }
+}
+
+String validateLastName(String value){
+  if(value==null || value==''){
+    return 'Last name cannot be empty';
+  }
+  else{
+    return null;
+  }
+}
+
 String validateConfirmPassword(String password, String confirmPassword) {
   print("$password $confirmPassword");
   if (password != confirmPassword) {

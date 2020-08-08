@@ -21,11 +21,12 @@ class FirebaseLoginFunctions extends ChangeNotifier {
 
   Future<User> currentUser() async {
     final FirebaseUser user = await auth.currentUser();
-    String firstName, lastName, signInMethod;
+    String firstName, lastName;
+    bool darkMode;
     userRef.document(user.uid).get().then((value) {
-      firstName = value["firstName"] ?? " ";
-      lastName = value["lastName"] ?? " ";
-//      signInMethod = user.providerData[1].providerId;
+      firstName = value["firstName"];
+      lastName = value["lastName"];
+      darkMode = value['darkMode'];
     });
 
     return User(
@@ -33,6 +34,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       email: user.email,
       firstName: firstName,
       lastName: lastName,
+
     );
   }
 
@@ -63,7 +65,7 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         uid: authResult.user.uid,
         active: true,
         lastName: lastName,
-        settings: Settings(allowPushNotifications: true),
+        darkMode: false,
       );
       MyAppState.currentUser = user;
       Map<String, String> userImMap = {'user_images': ''};
@@ -83,7 +85,9 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         .collection(Constants.USERS)
         .document(MyAppState.currentUser.uid)
         .updateData(data);
+    return null;
   }
+
 
   Future<void> sendPasswordResetEmail(String email) async {
     await auth.sendPasswordResetEmail(email: email);
@@ -141,7 +145,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
           uid: currUser.uid,
           active: true,
           lastName: ' ',
-          settings: Settings(allowPushNotifications: true),
         );
         print('user login data is:');
         print(user.toJson());
@@ -170,10 +173,11 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       } catch (e) {
         print('error in setting google sign in data' + e.toString());
       }
-
       return 'signInWithGoogle succeeded: $user';
+
+
     } catch (e) {
-      print("Google sign in error: ${e}");
+      print("Google sign in error: $e");
     }
   }
 

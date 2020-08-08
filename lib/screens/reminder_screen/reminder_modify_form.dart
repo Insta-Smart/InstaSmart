@@ -18,7 +18,7 @@ import 'package:instasmart/utils/size_config.dart';
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_form';
   ReminderForm(this.reminder);
-  var reminder;
+  final reminder;
   @override
   ReminderFormState createState() {
     return ReminderFormState();
@@ -147,7 +147,7 @@ class ReminderFormState extends State<ReminderForm> {
                       if (_fbKey.currentState.saveAndValidate()) {
                         var formValues = _fbKey.currentState.value;
                         var notifications = LocalNotifications(context);
-                        await notifications.initializing();
+                        notifications.initializing();
                         notifications
                             .cancelNotification(widget.reminder.postTime);
                         widget.reminder.caption = formValues['caption'];
@@ -190,7 +190,7 @@ class ReminderFormState extends State<ReminderForm> {
                       if (_fbKey.currentState.saveAndValidate()) {
                         print(_fbKey.currentState.value);
                         var notifications = LocalNotifications(context);
-                        await notifications.initializing();
+                        notifications.initializing();
                         notifications
                             .cancelNotification(widget.reminder.postTime);
                         ReminderData().deleteReminder(widget.reminder);
@@ -201,7 +201,6 @@ class ReminderFormState extends State<ReminderForm> {
                                       index: 3,
                                     )),
                             (Route<dynamic> route) => false);
-                        ;
                       } else {
                         print(_fbKey.currentState.value);
                         print("validation failed");

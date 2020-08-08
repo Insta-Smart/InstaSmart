@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Project imports:
 import 'package:instasmart/categories.dart';
@@ -30,7 +29,7 @@ class FramesFirebaseFunctions {
     if (refe == _lowResReference) {
       fileName = 'Untitled_Artwork ${index}_180x180.png';
     } else {
-      fileName = 'Untitled_Artwork ${index}.png';
+      fileName = 'Untitled_Artwork $index.png';
     }
 
     try {
@@ -62,10 +61,10 @@ class FramesFirebaseFunctions {
           String lowResUrl;
           await setDownloadUrl(i, el, _lowResReference).then((value) {
             lowResUrl = value;
-            print('initial lowres ${lowResUrl}');
+            print('initial lowres $lowResUrl');
           });
           await setDownloadUrl(i, el, _highResReference).then((value) {
-            print('final lowres is ${lowResUrl}');
+            print('final lowres is $lowResUrl');
             highResUrl = value;
             if (lowResUrl == null) {
             } else {
@@ -87,16 +86,16 @@ class FramesFirebaseFunctions {
     //print("new_downloadurl is ${_downloadurl}");
   }
 
-  Future<List<Frame>> GetUrlAndIdFromFirestore(String category) async {
+  Future<List<Frame>> getUrlAndIdFromFirestore(String category) async {
     print('calling get url');
 
     List<Frame> frameList = new List<Frame>();
     var doc;
     try {
       if (category == Categories.all) {
-        doc = await collectionRef.orderBy("popularity", descending: true);
+        doc = collectionRef.orderBy("popularity", descending: true);
       } else {
-        doc = await collectionRef
+        doc = collectionRef
             .orderBy("popularity", descending: true)
             .where('category', isEqualTo: category);
       }
@@ -118,10 +117,10 @@ class FramesFirebaseFunctions {
           //  });
         });
       });
-      return frameList;
     } catch (e) {
-      print('error in gettingurl:${e}');
+      print('error in gettingurl:$e');
     }
+    return frameList;
   }
 
   //RETURNS IMGID IN ALLFRAMESPNGURL BY USING IMGURL
@@ -134,7 +133,7 @@ class FramesFirebaseFunctions {
     result.documents.forEach((res) {
       imgID = res.documentID;
     });
-    print('imgID is ${imgID}');
+    print('imgID is $imgID');
     return imgID;
   }
 
@@ -155,7 +154,6 @@ class FramesFirebaseFunctions {
     return filteredFrameList;
   }
 
-  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container();

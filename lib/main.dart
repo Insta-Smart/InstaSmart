@@ -4,7 +4,6 @@ import 'dart:async';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_driver/driver_extension.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,15 +25,20 @@ import 'package:instasmart/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:instasmart/screens/preview_screen/preview_screen.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'services/login_functions.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
-void main() {
-  SharedPreferences.setMockInitialValues({});
-  runApp(new MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 
 class MyApp extends StatefulWidget {
   @override
   MyAppState createState() => MyAppState();
+  final AdaptiveThemeMode savedThemeMode;
+
+  const MyApp({Key key, this.savedThemeMode}) : super(key: key);
 }
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
@@ -44,38 +48,48 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
-    return ChangeNotifierProvider<FirebaseLoginFunctions>(
-      create: (context) => FirebaseLoginFunctions(),
-      child: MaterialApp(
-        theme: ThemeData(
+    return AdaptiveTheme(
+        light: ThemeData(
             primaryColor: Constants.lightPurple,
-            accentColor: Constants.paleBlue,
-            backgroundColor: Colors.white),
-        title: 'InstaSmart',
-        debugShowCheckedModeBanner: false,
-        home: FutureBuilder<User>(
-            future: FirebaseLoginFunctions().currentUser(),
-            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-              if (snapshot.hasData) {
-                MyAppState.currentUser = snapshot.data;
-                return HomeScreen();
-              }
-              if (!snapshot.hasData) {
-                return AuthScreen();
-              } else {
-                return LoadingScreen();
-              }
-            }),
-        routes: {
-          LoginScreen.routeName: (context) => LoginScreen(),
-          HomeScreen.routeName: (context) => HomeScreen(),
-          FramesScreen.routeName: (context) => FramesScreen(),
-          PreviewScreen.routeName: (context) => PreviewScreen(),
-          CalendarScreen.routeName: (context) => CalendarScreen(),
-          LikedScreen.routeName: (context) => LikedScreen(),
-        },
-      ),
-    );
+            accentColor: Constants.paleBlue,),
+        dark: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.teal,
+          accentColor: Constants.lightPurple,
+        ),
+        initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
+        builder: (theme, darkTheme) =>
+            ChangeNotifierProvider<FirebaseLoginFunctions>(
+              create: (context) => FirebaseLoginFunctions(),
+              child: MaterialApp(
+                theme: theme,
+                darkTheme: darkTheme,
+                title: 'InstaSmart',
+                debugShowCheckedModeBanner: false,
+                home: FutureBuilder<User>(
+                    future: FirebaseLoginFunctions().currentUser(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<User> snapshot) {
+                      if (snapshot.hasData) {
+                        MyAppState.currentUser = snapshot.data;
+                        return HomeScreen();
+                      }
+                      if (!snapshot.hasData) {
+                        return AuthScreen();
+                      } else {
+                        return LoadingScreen();
+                      }
+                    }),
+                routes: {
+                  LoginScreen.routeName: (context) => LoginScreen(),
+                  HomeScreen.routeName: (context) => HomeScreen(),
+                  FramesScreen.routeName: (context) => FramesScreen(),
+                  PreviewScreen.routeName: (context) => PreviewScreen(),
+                  CalendarScreen.routeName: (context) => CalendarScreen(),
+                  LikedScreen.routeName: (context) => LikedScreen(),
+                },
+              ),
+            ));
   }
 
   @override

@@ -8,11 +8,10 @@ class User {
   String email;
   String firstName;
   String lastName;
-  Settings settings = Settings(allowPushNotifications: true);
   bool active = false;
   Timestamp lastOnlineTimestamp = Timestamp.now();
   String uid;
-  bool selected = false;
+  bool darkMode = false;
   String appIdentifier = 'Flutter ${Platform.operatingSystem}';
 
   User({
@@ -20,8 +19,8 @@ class User {
     this.firstName,
     this.lastName,
     this.active,
+    this.darkMode,
     this.lastOnlineTimestamp,
-    this.settings,
     this.uid,
   });
 
@@ -35,9 +34,8 @@ class User {
       firstName: parsedJson['firstName'] ?? '',
       lastName: parsedJson['lastName'] ?? '',
       active: parsedJson['active'] ?? false,
+      darkMode: parsedJson['darkMode'] ?? false,
       lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
-      settings: Settings.fromJson(
-          parsedJson['settings'] ?? {'allowPushNotifications': true}),
       uid: parsedJson['id'] ?? parsedJson['userID'] ?? '',
     );
   }
@@ -50,6 +48,7 @@ class User {
       // "settings": this.settings.toJson(),
       "id": this.uid,
       'active': this.active,
+      'darkMode': this.darkMode,
       'lastOnlineTimestamp': this.lastOnlineTimestamp,
       'appIdentifier': this.appIdentifier
     };
@@ -62,19 +61,9 @@ class User {
   void changeLastName(String newLastName) {
     lastName = newLastName;
   }
-}
-
-class Settings {
-  bool allowPushNotifications = true;
-
-  Settings({this.allowPushNotifications});
-
-  factory Settings.fromJson(Map<dynamic, dynamic> parsedJson) {
-    return new Settings(
-        allowPushNotifications: parsedJson['allowPushNotifications'] ?? true);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'allowPushNotifications': this.allowPushNotifications};
+  void toggleDark(){
+    darkMode=!darkMode;
   }
 }
+
+

@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
 import 'package:instasmart/models/reminder.dart';
+
 import '../mock_services/mock_reminder_data.dart';
 
 void main() {
@@ -19,15 +20,15 @@ void main() {
     String email = 'test@gmail.com';
     String password = '1234567Q';
 
-    var ReminderData = MockReminderData();
+    var reminderData = MockReminderData();
 
     test('create new reminder', () async {
-      var user = await ReminderData.firebase
+      var user = await reminderData.firebase
           .signInWithEmailAndPassword(email, password);
-      String status = await ReminderData.createReminder(
+      String status = await reminderData.createReminder(
           caption: caption, pictureUrl: pictureUrl, postTime: postTime);
 
-      final snapshot = await ReminderData.db
+      final snapshot = await reminderData.db
           .collection('Users')
           .document(user.uid)
           .collection('reminders')
@@ -37,36 +38,36 @@ void main() {
     });
 
     test('get all reminders', () async {
-      var reminders = await ReminderData.getAllReminders();
+      var reminders = await reminderData.getAllReminders();
       expect(reminders, isA<List<Reminder>>());
       expect(reminders.first.pictureUrl, pictureUrl);
     });
 
     test('get all reminders for a specific date', () async {
-      var reminders = await ReminderData.getReminders(postTime);
+      var reminders = await reminderData.getReminders(postTime);
       expect(reminders, isA<List<Reminder>>());
       expect(reminders.first.pictureUrl, pictureUrl);
     });
 
     test('update reminder details', () async {
 
-      var reminders = await ReminderData.getReminders(postTime);
+      var reminders = await reminderData.getReminders(postTime);
       expect(reminders.first.caption, caption);
 
       var newReminder = reminders.first;
       newReminder.caption = "Updated caption";
 
-      String status = await ReminderData.updateReminder(newReminder);
-      var updatedReminders = await ReminderData.getReminders(postTime);
+      String status = await reminderData.updateReminder(newReminder);
+      var updatedReminders = await reminderData.getReminders(postTime);
       expect(updatedReminders.first.caption, "Updated caption");
       expect(status, 'Updated Reminder');
     });
 
     test('delete reminder', () async {
 
-      var reminder = await ReminderData.getReminders(postTime);
-      String status = await ReminderData.deleteReminder(reminder.first);
-      var updatedReminders = await ReminderData.getReminders(postTime);
+      var reminder = await reminderData.getReminders(postTime);
+      String status = await reminderData.deleteReminder(reminder.first);
+      var updatedReminders = await reminderData.getReminders(postTime);
       expect(updatedReminders.length, 0);
       expect(status, 'Deleted Reminder');
     });

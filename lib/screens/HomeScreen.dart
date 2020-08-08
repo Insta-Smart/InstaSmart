@@ -12,6 +12,7 @@ import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/liked_screen/liked_screen.dart';
 import 'package:instasmart/screens/preview_screen/preview_screen.dart';
 import 'package:instasmart/screens/profile_screen/profile_screen.dart';
+import 'profile_screen/test.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
@@ -70,7 +71,7 @@ class _HomeState extends State<HomeScreen> {
                 child: CalendarScreen(),
               ),
               Container(
-                child: ProfileScreen(),
+                child: SettingsPage(),
               ),
             ],
           ),

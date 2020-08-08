@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:instasmart/screens/calendar_screen/calendar_screen.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 
 class LocalNotifications {

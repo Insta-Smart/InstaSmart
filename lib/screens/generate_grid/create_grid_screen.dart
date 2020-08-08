@@ -478,7 +478,7 @@ class CustomDialogWidget extends StatelessWidget {
   final String body, title;
   final Function action1, action2;
 
-  final Function DialogCloseRoute;
+  final Function dialogCloseRoute;
   final String action1text, action2text;
 
   const CustomDialogWidget(
@@ -489,7 +489,7 @@ class CustomDialogWidget extends StatelessWidget {
       this.action1text,
       this.action2text,
       this.action2,
-      this.DialogCloseRoute})
+      this.dialogCloseRoute})
       : super(key: key);
 
   @override
@@ -514,7 +514,7 @@ class CustomDialogWidget extends StatelessWidget {
               'Close',
               style: TextStyle(fontSize: 18),
             ),
-            onPressed: DialogCloseRoute ??
+            onPressed: dialogCloseRoute ??
                 () {
                   Navigator.of(context).pop();
                 },
