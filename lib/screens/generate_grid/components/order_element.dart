@@ -38,7 +38,7 @@ class _OrderElementState extends State<OrderElement> {
       onTap: () async {
         await SocialSharePlugin.shareToFeedInstagram(
           path: filePaths[filePaths.length - index - 1],
-          onSuccess: (String) {
+          onSuccess: (string) {
             //print('index ${index + 1} success');
             setState(() {
               pressed = true;

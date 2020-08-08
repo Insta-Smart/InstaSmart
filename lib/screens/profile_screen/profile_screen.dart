@@ -35,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
     final userRef = Firestore.instance.collection('Users');
     final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
     print("current user in my app in profile: ${MyAppState.currentUser.uid}");
-    //User user = await firebase.currentUser();
+//    User user = await firebase.currentUser();
 
     return Scaffold(
       body: Container(
@@ -139,8 +139,6 @@ class ProfileScreen extends StatelessWidget {
                           ],
                         ),
                         onPressed: () async {
-                          user.active = false;
-                          user.lastOnlineTimestamp = Timestamp.now();
                           //      _fireStoreUtils.updateCurrentUser(user, context);
                           await FirebaseAuth.instance.signOut();
                           MyAppState.currentUser = null;
@@ -173,7 +171,7 @@ class ProfileScreen extends StatelessWidget {
 class EditSettings extends StatefulWidget {
   final User user;
 
-  EditSettings(@required this.user);
+  EditSettings(this.user);
 
   @override
   _EditSettingsState createState() => _EditSettingsState();
@@ -263,7 +261,7 @@ class _EditSettingsState extends State<EditSettings> {
     try {
       final userRef = Firestore.instance.collection('${Constants.USERS}');
       //change name
-      print("new name is: ${firstName}");
+      print("new name is: $firstName");
       await userRef
           .document(widget.user.uid)
           .updateData({"firstName": firstName, "lastName": lastName});
@@ -271,7 +269,7 @@ class _EditSettingsState extends State<EditSettings> {
       widget.user.changeLastName(
           lastName); //changing locally so dont have to call firebase
     } catch (e) {
-      print("error in updating settings is: ${e}");
+      print("error in updating settings is: $e");
     }
   }
 
@@ -283,7 +281,7 @@ class _EditSettingsState extends State<EditSettings> {
         return CustomDialogWidget(
             title: 'Saved!',
             body: 'Changes have been saved',
-            DialogCloseRoute: () {
+            dialogCloseRoute: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(

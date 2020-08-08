@@ -75,10 +75,10 @@ class LikingFunctions {
         // print(liked);
       }
       //  print(liked);
-      return liked;
     } catch (e) {
-      print('error in getInitLikedStat is ${e}');
+      print('error in getInitLikedStat is $e');
     }
+    return liked;
   }
 
 }

@@ -106,7 +106,7 @@ class FirebaseImageStorage {
           StorageReference ref =
               reference.child("Preview_Images/${user.uid}/${DateTime.now()}");
           print(ref);
-          StorageUploadTask uploadTask = await ref.putData(imageData);
+          StorageUploadTask uploadTask = ref.putData(imageData);
           print(uploadTask);
           StorageTaskSnapshot storageTaskSnapshot;
 
@@ -135,7 +135,7 @@ class FirebaseImageStorage {
     // Function is run when user reorders images on preview screen
     var imageUrls = await getImageUrls();
     List tempList = List();
-    await imageUrls.forEach((element) {
+    imageUrls.forEach((element) {
       tempList.add(element);
     });
     var removed = tempList.removeAt(oldIndex);

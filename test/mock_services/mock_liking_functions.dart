@@ -8,7 +8,6 @@ import 'package:instasmart/services/login_functions.dart';
 import 'mock_login_functions.dart';
 
 class MockLikingFunctions extends LikingFunctions{
-  @override
   static final instance = MockFirestoreInstance();
   @override
   final collectionRef =

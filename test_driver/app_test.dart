@@ -8,11 +8,11 @@ void main() {
     // First, define the Finders and use them to locate widgets from the
     // test suite. Note: the Strings provided to the `byValueKey` method must
     // be the same as the Strings we used for the Keys in step 1.
-    final loginButton = find.byValueKey(Keys.Login);
+    final loginButton = find.byValueKey(Keys.login);
     final emailField = find.byValueKey(Keys.enterEmail);
     final passwordField = find.byValueKey(Keys.enterPassword);
     final secondLoginButton = find.byValueKey(Keys.secondLogin);
-    final counterTextFinder = find.byValueKey(Keys.COUNTER);
+    final counterTextFinder = find.byValueKey(Keys.counter);
     final buttonFinder = find.byValueKey(Keys.increment);
     final iconFinder = find.byValueKey(Keys.iconWidget);
     FlutterDriver driver;

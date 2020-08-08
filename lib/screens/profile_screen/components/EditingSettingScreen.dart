@@ -1,5 +1,4 @@
 // Dart imports:
-import 'dart:math';
 import 'dart:ui';
 
 // Flutter imports:
@@ -110,17 +109,17 @@ class _EditSettingsState extends State<EditSettings> {
     try {
       final userRef = Firestore.instance.collection('${Constants.USERS}');
       //change name
-      print("new name is: ${firstName}");
+      print("new name is: $firstName");
       await userRef
           .document(user.uid)
           .updateData({"firstName": firstName, "lastName": lastName});
       user.changeFirstName(firstName);
       user.changeLastName(
           lastName); //changing locally so dont have to call firebase
-      print('changed user is ${user}');
+      print('changed user is $user');
       MyAppState.currentUser = user;
     } catch (e) {
-      print("error in updating settings is: ${e}");
+      print("error in updating settings is: $e");
     }
   }
 
@@ -132,7 +131,7 @@ class _EditSettingsState extends State<EditSettings> {
         return CustomDialogWidget(
             title: 'Saved!',
             body: 'Changes have been saved',
-            DialogCloseRoute: () {
+            dialogCloseRoute: () {
               pushAndRemoveUntil(context, HomeScreen(index: 4), false);
             });
       },

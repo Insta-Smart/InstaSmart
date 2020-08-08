@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 // Project imports:
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/reminder.dart';
-import 'package:instasmart/models/user.dart';
-import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/services/reminder_data.dart';
 import 'components/reminder_list.dart';
 
@@ -74,62 +71,64 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   @override
   Widget build(BuildContext context) {
-    final firebase = Provider.of<FirebaseLoginFunctions>(context);
-    return SafeArea(
-      child: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
-              .collection(
-                  '${Constants.USERS}/${MyAppState.currentUser.uid}/reminders')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return _buildTableCalendar();
-            } else {
-              return Scaffold(
-                body: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    FutureBuilder<List<Reminder>>(
-                        future: ReminderData().getAllReminders(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Reminder>> snapshot) {
-                          if (!snapshot.hasData) {
-                            return _buildTableCalendar();
-                          } else {
-                            _events = {};
-                            for (var reminder in snapshot.data) {
-                              int day = reminder.postTime.day;
-                              int month = reminder.postTime.month;
-                              int year = reminder.postTime.year;
-                              try {
-                                _events[DateTime(year, month, day)]
-                                    .add(reminder);
-                              } catch (e) {
-                                _events[DateTime(year, month, day)] = [];
-                                _events[DateTime(year, month, day)]
-                                    .add(reminder);
+//    final firebase = Provider.of<FirebaseLoginFunctions>(context);
+    return Scaffold(
+      body: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance
+                .collection(
+                    '${Constants.USERS}/${MyAppState.currentUser.uid}/reminders')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return _buildTableCalendar();
+              } else {
+                return Scaffold(
+                  body: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      FutureBuilder<List<Reminder>>(
+                          future: ReminderData().getAllReminders(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Reminder>> snapshot) {
+                            if (!snapshot.hasData) {
+                              return _buildTableCalendar();
+                            } else {
+                              _events = {};
+                              for (var reminder in snapshot.data) {
+                                int day = reminder.postTime.day;
+                                int month = reminder.postTime.month;
+                                int year = reminder.postTime.year;
+                                try {
+                                  _events[DateTime(year, month, day)]
+                                      .add(reminder);
+                                } catch (e) {
+                                  _events[DateTime(year, month, day)] = [];
+                                  _events[DateTime(year, month, day)]
+                                      .add(reminder);
+                                }
                               }
+                              return Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  _buildTableCalendar(),
+                                ],
+                              );
                             }
-                            return Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                _buildTableCalendar(),
-                              ],
-                            );
-                          }
-                        }),
-                    const SizedBox(height: 16.0),
-                    FutureBuilder<List<Reminder>>(
-                        future: ReminderData().getAllReminders(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Reminder>> snapshot) {
-                          return Expanded(child: _buildEventList());
-                        })
-                  ],
-                ),
-              );
-            }
-          }),
+                          }),
+                      const SizedBox(height: 16.0),
+                      FutureBuilder<List<Reminder>>(
+                          future: ReminderData().getAllReminders(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<Reminder>> snapshot) {
+                            return Expanded(child: _buildEventList());
+                          })
+                    ],
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
 
@@ -159,13 +158,6 @@ class _CalendarScreenState extends State<CalendarScreen>
     );
   }
 
-  Widget _buildHolidaysMarker() {
-    return Icon(
-      Icons.add_box,
-      size: 20.0,
-      color: Colors.blueGrey[800],
-    );
-  }
 
   Widget _buildEventList() {
     print('building events');

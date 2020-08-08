@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,7 +10,6 @@ import 'package:intl/intl.dart';
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/template_button.dart';
-import 'package:instasmart/constants.dart';
 import 'package:instasmart/services/notifications.dart';
 import 'package:instasmart/services/reminder_data.dart';
 import 'package:instasmart/utils/size_config.dart';
@@ -19,7 +17,7 @@ import 'package:instasmart/utils/size_config.dart';
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_create';
   ReminderForm(this.imageUrl);
-  var imageUrl;
+  final imageUrl;
   @override
   ReminderFormState createState() {
     return ReminderFormState();
@@ -127,8 +125,8 @@ class ReminderFormState extends State<ReminderForm> {
                           caption: caption,
                           pictureUrl: widget.imageUrl,
                           postTime: postTime);
-                      var notifications = LocalNotifications();
-                      await notifications.initializing();
+                      var notifications = LocalNotifications(context);
+                      notifications.initializing();
                       print(DateTime.now().toLocal());
                       notifications.scheduleNotification(postTime);
 

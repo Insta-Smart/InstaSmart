@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 // Project imports:
 import 'package:instasmart/models/frame.dart';
 import 'package:instasmart/services/liking_functions.dart';
-import 'package:instasmart/test_driver/Keys.dart';
 import 'package:instasmart/utils/size_config.dart';
 import '../constants.dart';
 
@@ -29,16 +27,15 @@ class FrameWidget extends StatefulWidget {
 class _FrameWidgetState extends State<FrameWidget> {
   int _numLikes;
   bool liked =
-      true; //TODO: change to checking whether imgurl exists in user's collection
+  true; //TODO: change to checking whether imgurl exists in user's collection
   final userRef = Firestore.instance.collection(Constants.USERS);
   final db = Firestore.instance;
   final collectionRef =
-      Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
+  Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
 
   //RETURNS NUMBER OF LIKES THE IMAGE HAS AS A DOUBLE
   Future<double> getNumLikes() async {
     var num; //int if 0, double otherwise
-    //getDocuments.then(value ....) {el.data.field or smth --> need to do this everytime its clickec --> change state of numLikes}
     try {
       // print('frame widget info:' + widget.frame.imgID);
       await collectionRef
@@ -144,86 +141,55 @@ class _FrameWidgetState extends State<FrameWidget> {
           ),
           Expanded(
             child: Container(
-              //alignment: Alignment.center,
-              color: Colors.white.withOpacity(0.3),
-
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0),
-              // width: SizeConfig.screenWidth * 0.45,
-              //height: SizeConfig.blockSizeVertical * 4.5,
               child: Row(
+
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.favorite,
-                        color: Constants.palePink,
-                        size: 10,
-                      ),
-                      _numLikes == null
-                          ? Container()
-                          : Text('$_numLikes',
-                              key: Key('counter ${widget.frame.lowResUrl}'),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12)),
-                    ],
-                  ),
-                  Material(
-                    type: MaterialType.transparency,
-                    color: Colors.white,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: IconButton(
-                        key: Key('increment ${widget.frame.lowResUrl}'),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.blockSizeHorizontal * 5),
-                        //Like Button
-                        // alignment: Alignment(-6, -13),
-                        focusColor: Constants.palePink,
-                        icon: liked
-                            ? Icon(
-                                Icons.favorite,
-                                size: 25,
-                                color: Constants.palePink,
-                                key:
-                                    Key('iconWidget ' + widget.frame.lowResUrl),
-                              )
-                            : Icon(
-                                Icons.favorite_border,
-                                size: 25,
-                                color: Colors.grey.withOpacity(0.8),
-                              ),
-                        onPressed: () {
-                          setState(() {
-                            liked = !liked;
-                            //print("liked status is: $liked");
-                            //increment popularity of this image, identified by imgurl
-                            liked
-                                ? _numLikes++
-                                : _numLikes--; //update _numLikes
-                          });
-
-                          LikingFunctions()
-                              .updateLikes(widget.frame.imgID, liked);
-
-                          //if liked is true --> add image to user collection.
-                          // if liked is false --> REMOVE image from collection
-                          liked
-                              ? LikingFunctions().addImgToLiked(
-                                  widget.frame.imgID,
-                                  widget.frame.lowResUrl,
-                                  widget.frame.highResUrl)
-                              : LikingFunctions()
-                                  .delImgFromLiked(widget.frame.imgID);
-                        },
-                      ),
+                  IconButton(
+                    key: Key('increment ${widget.frame.lowResUrl}'),
+                    focusColor: Constants.palePink,
+                    padding: EdgeInsets.zero,
+                    icon: liked
+                        ? Icon(
+                      Icons.favorite,
+                      size: 25,
+                      color: Constants.palePink,
+                      key: Key('iconWidget ' + widget.frame.lowResUrl),
+                    )
+                        : Icon(
+                      Icons.favorite_border,
+                      size: 25,
+                      color: Colors.grey.withOpacity(0.8),
                     ),
+                    onPressed: () {
+                      setState(() {
+                        liked = !liked;
+                        //print("liked status is: $liked");
+                        //increment popularity of this image, identified by imgurl
+                        liked ? _numLikes++ : _numLikes--; //update _numLikes
+                      });
+
+                      LikingFunctions().updateLikes(widget.frame.imgID, liked);
+
+                      //if liked is true --> add image to user collection.
+                      // if liked is false --> REMOVE image from collection
+                      liked
+                          ? LikingFunctions().addImgToLiked(widget.frame.imgID,
+                          widget.frame.lowResUrl, widget.frame.highResUrl)
+                          : LikingFunctions()
+                          .delImgFromLiked(widget.frame.imgID);
+                    },
                   ),
+                  _numLikes == null
+                      ? Container()
+                      : Text('$_numLikes',
+                      key: Key('counter ${widget.frame.lowResUrl}'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 14)),
                 ],
               ),
             ),
-            //  alignment: Alignment(0, 0.8),
           ),
         ],
       ),

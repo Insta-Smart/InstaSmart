@@ -76,18 +76,6 @@ void main() {
   group('Authentication Tests:', () {
     final email = 'test123@gmail.com';
     final password = '1234567Q';
-    final firstName = 'John';
-    final lastName = 'Appleseed';
-    final uid = '933erij3nb4rfvfkd';
-
-    User user = User(
-      email: email,
-      firstName: firstName,
-      uid: uid,
-      active: true,
-      lastName: lastName,
-      settings: Settings(allowPushNotifications: true),
-    );
 
 
     test('sign in with email and password should return a user', () async {
@@ -111,7 +99,7 @@ void main() {
 
     test('send password reset email', () async {
       final login = MockFirebaseLoginFunctions();
-      var reset = await login.sendPasswordResetEmail(email);
+      await login.sendPasswordResetEmail(email);
     });
 
   });

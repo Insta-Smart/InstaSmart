@@ -29,15 +29,15 @@ class ReminderData {
         'date': "${postTime.day}/${postTime.month}/${postTime.year}",
         'postTime': postTime,
       });
-      return ('Created Reminder');
     } catch (e) {
       print(e);
     }
+    return ('Created Reminder');
   }
 
   Future<List<Reminder>> getReminders(DateTime date) async {
+    List<Reminder> reminders = List<Reminder>();
     try {
-      List<Reminder> reminders = List<Reminder>();
       User user = await firebase.currentUser();
       await db
           .collection(Constants.USERS)
@@ -58,15 +58,15 @@ class ReminderData {
           reminders.add(rem);
         });
       });
-      return reminders;
     } catch (e) {
       print(e);
     }
+    return reminders;
   }
 
   Future<List<Reminder>> getAllReminders() async {
+    List<Reminder> reminders = List<Reminder>();
     try {
-      List<Reminder> reminders = List<Reminder>();
       User user = await firebase.currentUser();
       await db
           .collection(Constants.USERS)
@@ -86,10 +86,11 @@ class ReminderData {
           reminders.add(rem);
         });
       });
-      return reminders;
+
     } catch (e) {
       print(e);
     }
+    return reminders;
   }
 
   Future<String> updateReminder(Reminder reminder) async {
@@ -107,10 +108,11 @@ class ReminderData {
         'date': reminder.date,
         'postTime': reminder.postTime,
       });
-      return ('Updated Reminder');
+
     } catch (e) {
       print(e);
     }
+    return ('Updated Reminder');
   }
 
   Future<String> deleteReminder(Reminder reminder) async {
@@ -122,9 +124,9 @@ class ReminderData {
           .collection('reminders')
           .document(reminder.id)
           .delete();
-      return ('Deleted Reminder');
     } catch (e) {
       print(e);
     }
+    return ('Deleted Reminder');
   }
 }

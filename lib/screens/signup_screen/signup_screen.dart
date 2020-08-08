@@ -8,11 +8,9 @@ import 'package:flutter/services.dart';
 
 // Project imports:
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
-import 'components/VerifyEmailScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -71,6 +69,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "First Name",
+          validator: validateFirstName,
           prefixIcon: Icon(Icons.person),
           onSave: (val) {
             firstName = val.trim();
@@ -80,6 +79,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Last Name",
+          validator: validateLastName,
           prefixIcon: Icon(Icons.person),
           onSave: (val) {
             lastName = val.trim();
@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUpScreen> {
           onSave: (String val) {
             email = val.trim().replaceAll(' ', '');
           },
-          Validator: validateEmail,
+          validator: validateEmail,
           textObscure: false,
         ),
         SignUpTextWidget(
@@ -103,8 +103,8 @@ class _SignUpState extends State<SignUpScreen> {
           onSave: (val) {
             password = val.trim();
           },
-          Validator: validatePassword,
-          Controller: _passwordController,
+          validator: validatePassword,
+          controller: _passwordController,
           textObscure: true,
         ),
         SignUpTextWidget(
@@ -114,7 +114,7 @@ class _SignUpState extends State<SignUpScreen> {
           onSave: (val) {
             confirmPassword = val.trim();
           },
-          Validator: (val) =>
+          validator: (val) =>
               validateConfirmPassword(_passwordController.text, val),
           onfieldsubmitted: (_) {
             _sendToServer();
@@ -190,10 +190,10 @@ class SignUpTextWidget extends StatelessWidget {
       this.onSave,
       this.title,
       this.onfieldsubmitted,
-      this.Validator,
-      this.Controller,
+      this.validator,
+      this.controller,
       this.textObscure,
-      this.MaxLength,
+      this.maxLength,
       this.prefixIcon})
       : super(key: key);
 
@@ -201,10 +201,10 @@ class SignUpTextWidget extends StatelessWidget {
   final Function onSave;
   final String title;
   final Function onfieldsubmitted;
-  final Function Validator;
+  final Function validator;
   final bool textObscure;
-  final TextEditingController Controller;
-  final int MaxLength;
+  final TextEditingController controller;
+  final int maxLength;
   final Icon prefixIcon;
 
   @override
@@ -216,7 +216,7 @@ class SignUpTextWidget extends StatelessWidget {
             child: TextFormField(
                 maxLength:
                     title == "First Name" || title == "Last Name" ? 15 : null,
-                validator: Validator,
+                validator: validator,
                 onSaved: (String val) {
                   onSave(val);
                 },
@@ -224,7 +224,7 @@ class SignUpTextWidget extends StatelessWidget {
                     ? TextInputType.emailAddress
                     : null,
                 obscureText: textObscure,
-                controller: Controller,
+                controller: controller,
                 textInputAction:
                     textObscure ? TextInputAction.done : TextInputAction.next,
                 onFieldSubmitted: onfieldsubmitted ??

@@ -14,7 +14,6 @@ import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
-import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/size_config.dart';

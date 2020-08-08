@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instasmart/components/shimmer_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -16,11 +15,8 @@ import 'package:instasmart/components/popup_widget.dart';
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/frame.dart';
-import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
-import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
 import 'package:instasmart/services/frames_firebase_functions.dart';
-import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
 import '../../constants.dart';
 import './components/category_button.dart';
@@ -55,7 +51,7 @@ class _FramesScreenState extends State<FramesScreen> {
     super.initState();
     // FramesFirebaseFunctions().uploadImagetoFirestore();
     futList =
-        FramesFirebaseFunctions().GetUrlAndIdFromFirestore(Categories.all);
+        FramesFirebaseFunctions().getUrlAndIdFromFirestore(Categories.all);
     futList.then((value) {
       frameList = value;
       filteredFrameList = frameList;
