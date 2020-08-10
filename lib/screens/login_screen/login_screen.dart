@@ -35,7 +35,7 @@ class _LoginScreen extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).focusColor),
         elevation: 0.0,
       ),
       body: Container(
@@ -51,7 +51,7 @@ class _LoginScreen extends State<LoginScreen> {
                   child: Text(
                     'Sign In',
                     style: TextStyle(
-                        color: Color(Constants.COLOR_PRIMARY),
+                        color: Theme.of(context).primaryColor,
                         fontSize: 35.0,
                         fontWeight: FontWeight.bold),
                   ),
@@ -75,7 +75,7 @@ class _LoginScreen extends State<LoginScreen> {
                       controller: _emailController,
                       style: TextStyle(fontSize: 18.0),
                       keyboardType: TextInputType.emailAddress,
-                      cursorColor: Color(Constants.COLOR_PRIMARY),
+                      cursorColor: Theme.of(context).focusColor,
                       decoration: InputDecoration(
                           contentPadding:
                               new EdgeInsets.only(left: 16, right: 16),
@@ -83,12 +83,12 @@ class _LoginScreen extends State<LoginScreen> {
                           hintText: 'Enter your Email',
                           prefixIcon: Icon(
                             Icons.email,
-                            color: Color(Constants.COLOR_PRIMARY),
+                            color: Theme.of(context).primaryColor,
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
-                                  color: Color(Constants.COLOR_PRIMARY),
+                                  color: Theme.of(context).primaryColor,
                                   width: 2.0)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -115,7 +115,7 @@ class _LoginScreen extends State<LoginScreen> {
                       textInputAction: TextInputAction.done,
                       style: TextStyle(fontSize: 18.0),
                       obscureText: true,
-                      cursorColor: Color(Constants.COLOR_PRIMARY),
+                      cursorColor: Theme.of(context).focusColor,
                       decoration: InputDecoration(
                           contentPadding:
                               new EdgeInsets.only(left: 16, right: 16),
@@ -123,12 +123,12 @@ class _LoginScreen extends State<LoginScreen> {
                           hintText: 'Enter your Password',
                           prefixIcon: Icon(
                             Icons.lock,
-                            color: Color(Constants.COLOR_PRIMARY),
+                            color: Theme.of(context).primaryColor,
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
-                                  color: Color(Constants.COLOR_PRIMARY),
+                                  color: Theme.of(context).primaryColor,
                                   width: 2.0)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -145,7 +145,7 @@ class _LoginScreen extends State<LoginScreen> {
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: RaisedButton(
-                    color: Color(Constants.COLOR_PRIMARY),
+                    color: Theme.of(context).primaryColor,
                     child: Text(
                       'Log In',
                       key: Key(Keys.secondLogin),
@@ -153,7 +153,7 @@ class _LoginScreen extends State<LoginScreen> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     textColor: Colors.white,
-                    splashColor: Color(Constants.COLOR_PRIMARY),
+                    splashColor: Theme.of(context).primaryColor,
                     onPressed: () async {
                       await onClick(
                           _emailController.text, _passwordController.text);
@@ -162,7 +162,7 @@ class _LoginScreen extends State<LoginScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         side:
-                            BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                            BorderSide(color: Theme.of(context).primaryColor)),
                   ),
                 ),
               ),
@@ -171,7 +171,7 @@ class _LoginScreen extends State<LoginScreen> {
                 child: Center(
                   child: Text(
                     'OR',
-                    style: TextStyle(color: Color(Constants.COLOR_PRIMARY)),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ),
               ),
@@ -196,7 +196,7 @@ class _LoginScreen extends State<LoginScreen> {
                       ),
                     ),
                     color: Colors.white,
-                    textColor: Color(Constants.COLOR_PRIMARY),
+                    textColor: Theme.of(context).primaryColor,
                     splashColor: Constants.paleBlue,
                     onPressed: () async {
                       FirebaseLoginFunctions()
@@ -379,7 +379,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                       child: Icon(
                         Icons.email,
                         size: 20.0,
-                        color: Color(Constants.COLOR_PRIMARY),
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     new Expanded(
@@ -397,8 +397,8 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                             contentPadding:
                                 EdgeInsets.only(left: 10.0, top: 10),
                             hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 14.0)),
-                        style: TextStyle(color: Colors.black),
+                                TextStyle(color: Theme.of(context).focusColor, fontSize: 14.0)),
+                        style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                     )
                   ],
@@ -408,7 +408,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                     decoration: new BoxDecoration(
                         border: new Border(
                             bottom: new BorderSide(
-                                width: 0.5, color: Colors.black))),
+                                width: 0.5, color: Theme.of(context).focusColor))),
                   )
                 ]),
               ],
@@ -419,7 +419,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
           new FlatButton(
             child: new Text(
               'Cancel',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Theme.of(context).focusColor),
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -428,7 +428,7 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
           new FlatButton(
             child: new Text(
               'Send Reset Email',
-              style: TextStyle(color: Color(Constants.COLOR_PRIMARY)),
+              style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             onPressed: () {
               if (_sendResetEmail()) {

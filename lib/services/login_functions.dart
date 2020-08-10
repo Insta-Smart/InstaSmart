@@ -11,7 +11,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/utils/helper.dart';
 
 class FirebaseLoginFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
@@ -22,11 +21,9 @@ class FirebaseLoginFunctions extends ChangeNotifier {
   Future<User> currentUser() async {
     final FirebaseUser user = await auth.currentUser();
     String firstName, lastName;
-    bool darkMode;
-    userRef.document(user.uid).get().then((value) {
+    await userRef.document(user.uid).get().then((value) {
       firstName = value["firstName"];
       lastName = value["lastName"];
-      darkMode = value['darkMode'];
     });
 
     return User(
@@ -65,7 +62,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         uid: authResult.user.uid,
         active: true,
         lastName: lastName,
-        darkMode: false,
       );
       MyAppState.currentUser = user;
       Map<String, String> userImMap = {'user_images': ''};

@@ -36,7 +36,7 @@ class PostOrderScreen extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   Icons.touch_app,
-                  color: Constants.lightPurple,
+//                  color: Constants.lightPurple,
                   size: 46,
                 ),
                 Container(
@@ -46,7 +46,7 @@ class PostOrderScreen extends StatelessWidget {
                   child: Text(
                     'Tap & Upload Each Photo In Order',
                     style:
-                        TextStyle(fontSize: 22, color: Constants.lightPurple),
+                        TextStyle(fontSize: 22),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -57,10 +57,10 @@ class PostOrderScreen extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   Icons.looks_one,
-                  color: Constants.lightPurple,
+//                  color: Constants.lightPurple,
                 ),
-                Icon(Icons.arrow_forward, color: Constants.lightPurple),
-                Icon(Icons.looks, color: Constants.lightPurple),
+                Icon(Icons.arrow_forward, ),
+                Icon(Icons.looks),
               ],
             ),
             SizedBox(

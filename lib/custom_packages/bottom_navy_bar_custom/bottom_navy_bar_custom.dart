@@ -54,8 +54,8 @@ class BottomNavyBarCustom extends StatelessWidget {
             bottomRight: Radius.zero),
         boxShadow: [
 //          if (showElevation)
-          const BoxShadow(
-            color: Colors.black26,
+          BoxShadow(
+            color: Theme.of(context).highlightColor,
             blurRadius: 2,
           ),
         ],
@@ -125,7 +125,7 @@ class _ItemWidget extends StatelessWidget {
       duration: animationDuration,
       curve: curve,
       decoration: BoxDecoration(
-        color: isSelected ? Colors.white.withOpacity(1) : backgroundColor,
+        color: isSelected ? Theme.of(context).scaffoldBackgroundColor.withOpacity(1) : backgroundColor,
         borderRadius: BorderRadius.circular(itemCornerRadius),
       ),
       child: SingleChildScrollView(
@@ -145,7 +145,7 @@ class _ItemWidget extends StatelessWidget {
                   size: isSelected ? 25 : iconSize,
                   color: isSelected
                       ? item.activeColor
-                      : item.inactiveColor ?? Colors.black.withOpacity(0.2),
+                      : item.inactiveColor ?? Theme.of(context).focusColor,
                 ),
                 child: item.icon,
               ),

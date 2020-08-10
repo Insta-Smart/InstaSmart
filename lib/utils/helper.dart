@@ -9,16 +9,6 @@ import 'package:progress_dialog/progress_dialog.dart';
 // Project imports:
 import 'package:instasmart/constants.dart';
 
-//String validateName(String value) {
-//  String patttern = r'(^[a-zA-Z ]*$)';
-//  RegExp regExp = new RegExp(patttern);
-//  if (value.length == 0) {
-//    return "Name is Required";
-//  } else if (!regExp.hasMatch(value)) {
-//    return "Name must be a-z and A-Z";
-//  }
-//  return null;
-//}
 
 String validateMobile(String value) {
   String patttern = r'(^[0-9]*$)';

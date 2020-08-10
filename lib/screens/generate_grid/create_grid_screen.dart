@@ -30,6 +30,7 @@ import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
 import 'components/grid_frame.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
@@ -96,7 +97,7 @@ class _CreateScreenState extends State<CreateScreen> {
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
-          actionBarColor: "#FF95C5EE",
+          actionBarColor: "#b37df0",
           actionBarTitle: "Select Images",
           allViewTitle: "All Photos",
           useDetailsView: false,
@@ -220,7 +221,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       !finished
                           ? TipTextWidget(
                               tipBody: !addedImgs
-                                  ? 'To create a 3x1 or 6x1 grid, add just 3 or 6 photos.'
+                                  ? 'To create a 1x3 or 2x3 grid, add just 3 or 6 photos.'
                                   : 'Press & hold on each photo to rearrange them.',
                             )
                           : Container(),
@@ -398,7 +399,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                 TemplateButton(
                                   iconType: FontAwesomeIcons.instagram,
                                   title: ' Post To Instagram',
-                                  color: Constants.lightPurple,
+//                                  color: Constants.lightPurple,
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
@@ -412,6 +413,7 @@ class _CreateScreenState extends State<CreateScreen> {
 //                                        size: 30,
 //                                        color: Constants.lightPurple,
 //                                      ),
+
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -476,70 +478,3 @@ class _CreateScreenState extends State<CreateScreen> {
   }
 }
 
-class CustomDialogWidget extends StatelessWidget {
-  final String body, title;
-  final Function action1, action2;
-
-  final Function dialogCloseRoute;
-  final String action1text, action2text;
-
-  const CustomDialogWidget(
-      {Key key,
-      this.body,
-      this.title,
-      this.action1,
-      this.action1text,
-      this.action2text,
-      this.action2,
-      this.dialogCloseRoute})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12.0))),
-        backgroundColor: Colors.white.withOpacity(0.88),
-        title: Text(
-          title,
-          style: TextStyle(fontSize: 30),
-          textAlign: TextAlign.center,
-        ),
-        content: Text(
-          body,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Close',
-              style: TextStyle(fontSize: 18),
-            ),
-            onPressed: dialogCloseRoute ??
-                () {
-                  Navigator.of(context).pop();
-                },
-          ),
-          action1 == null
-              ? null
-              : FlatButton(
-                  child: Text(
-                    action1text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: action1,
-                ),
-          action2 == null
-              ? null
-              : FlatButton(
-                  child: Text(
-                    action2text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: action2),
-        ]);
-  }
-}

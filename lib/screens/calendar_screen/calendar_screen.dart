@@ -141,7 +141,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       calendarStyle: CalendarStyle(
         selectedColor: Colors.deepPurple,
         todayColor: Constants.lightPurple,
-        markersColor: Colors.black,
+        markersColor: Theme.of(context).focusColor,
         outsideDaysVisible: false,
       ),
       headerStyle: HeaderStyle(

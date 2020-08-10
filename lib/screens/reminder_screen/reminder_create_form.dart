@@ -90,6 +90,7 @@ class ReminderFormState extends State<ReminderForm> {
                     onChanged: _onChanged,
                     format: DateFormat("dd-MM-yyyy HH:mm"),
                     initialEntryMode: DatePickerEntryMode.calendar,
+                    timePickerInitialEntryMode: TimePickerEntryMode.input,
                     inputType: InputType.both,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.timer),
@@ -100,7 +101,7 @@ class ReminderFormState extends State<ReminderForm> {
                         ),
                       ),
                     ),
-                    validator: (val) => null,
+                    validators: [FormBuilderValidators.required()],
                     initialTime: TimeOfDay.now(),
                     initialValue:
                         DateTime.now().add(Duration(minutes: 1)).toLocal(),
