@@ -55,22 +55,19 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             ),
             primaryColor: Constants.lightPurple,
             accentColor: Constants.paleBlue,
-        textSelectionColor: Constants.deepBlue,
-        focusColor: Colors.black.withOpacity(0.4),
-        highlightColor: Colors.black26),
+            textSelectionColor: Constants.deepBlue,
+            focusColor: Colors.black.withOpacity(0.4),
+            highlightColor: Colors.black26),
         dark: ThemeData(
-          colorScheme: ColorScheme.dark(
-            primary: Constants.lightPurple,
-            primaryVariant: Constants.lightPurple
-          ),
-          brightness: Brightness.dark,
-          primaryColor: Constants.lightPurple,
-          accentColor: Colors.teal,
-          focusColor: Colors.white,
-          highlightColor: Colors.white24,
-          textSelectionColor: Colors.white
-
-        ),
+            colorScheme: ColorScheme.dark(
+                primary: Constants.lightPurple,
+                primaryVariant: Constants.lightPurple),
+            brightness: Brightness.dark,
+            primaryColor: Constants.lightPurple,
+            accentColor: Colors.teal,
+            focusColor: Colors.white,
+            highlightColor: Colors.white24,
+            textSelectionColor: Colors.white),
         initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
         builder: (theme, darkTheme) =>
             ChangeNotifierProvider<FirebaseLoginFunctions>(

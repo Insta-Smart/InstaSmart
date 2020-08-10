@@ -84,6 +84,9 @@ class _OrderElementState extends State<OrderElement> {
             child: Center(
               child: FlatButton(
                 onPressed: () async {
+                  setState(() {
+                    pressed = true;
+                  });
                   await Share.file(
                     'instasmart image',
                     'instasmart-image.png',
