@@ -39,7 +39,10 @@ class PostOrderScreen extends StatelessWidget {
                   color: Constants.lightPurple,
                   size: 46,
                 ),
-                Center(
+                Container(
+                  width: SizeConfig.screenWidth * 0.8,
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
                   child: Text(
                     'Tap & Upload Each Photo In Order',
                     style:
