@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instasmart/components/page_top_bar.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,8 +33,9 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<AdaptiveThemeMode> themeMode = AdaptiveTheme.getThemeMode();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: Text('Profile'),
+      appBar: PageTopBar(
+        title: 'Profile',
+        appBar: AppBar(),
       ),
       body: FutureBuilder<AdaptiveThemeMode>(
           future: themeMode,

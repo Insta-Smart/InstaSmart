@@ -13,10 +13,12 @@ class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).bottomAppBarColor,
+      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Theme.of(context).primaryColor),
       ),
       actions: widgets,
     );
