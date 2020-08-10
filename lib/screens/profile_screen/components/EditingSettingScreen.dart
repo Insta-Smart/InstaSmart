@@ -15,7 +15,7 @@ import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
-import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/screens/signup_screen/signup_screen.dart';
 import 'package:instasmart/utils/helper.dart';
 
@@ -52,7 +52,6 @@ class _EditSettingsState extends State<EditSettings> {
                       child: Text(
                         'Edit Settings',
                         style: TextStyle(
-                            color: Constants.lightPurple,
                             fontWeight: FontWeight.bold,
                             fontSize: 25.0),
                       )),
@@ -79,7 +78,6 @@ class _EditSettingsState extends State<EditSettings> {
                       constraints:
                           const BoxConstraints(minWidth: double.infinity),
                       child: RaisedButton(
-                        color: Constants.lightPurple,
                         child: Text(
                           'Save',
                           style: TextStyle(
@@ -93,7 +91,7 @@ class _EditSettingsState extends State<EditSettings> {
                         padding: EdgeInsets.only(top: 12, bottom: 12),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
-                            side: BorderSide(color: Constants.lightPurple)),
+                            side: BorderSide()),
                       ),
                     ),
                   ),

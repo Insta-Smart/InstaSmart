@@ -50,14 +50,28 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         SystemUiOverlayStyle(statusBarColor: Constants.lightPurple));
     return AdaptiveTheme(
         light: ThemeData(
+            colorScheme: ColorScheme.light(
+              primary: Constants.lightPurple, //constant Color(0xFF16A5A6)
+            ),
             primaryColor: Constants.lightPurple,
-            accentColor: Constants.paleBlue,),
+            accentColor: Constants.paleBlue,
+        textSelectionColor: Constants.deepBlue,
+        focusColor: Colors.black.withOpacity(0.4),
+        highlightColor: Colors.black26),
         dark: ThemeData(
+          colorScheme: ColorScheme.dark(
+            primary: Constants.lightPurple,
+            primaryVariant: Constants.lightPurple
+          ),
           brightness: Brightness.dark,
-          primaryColor: Colors.teal,
-          accentColor: Constants.lightPurple,
+          primaryColor: Constants.lightPurple,
+          accentColor: Colors.teal,
+          focusColor: Colors.white,
+          highlightColor: Colors.white24,
+          textSelectionColor: Colors.white
+
         ),
-        initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
+        initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
         builder: (theme, darkTheme) =>
             ChangeNotifierProvider<FirebaseLoginFunctions>(
               create: (context) => FirebaseLoginFunctions(),

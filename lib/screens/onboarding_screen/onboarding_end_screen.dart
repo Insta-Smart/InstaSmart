@@ -33,7 +33,7 @@ class AuthScreen extends StatelessWidget {
                 'InstaSmart',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Constants.deepBlue,
+                    color: Theme.of(context).textSelectionColor,
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -45,7 +45,7 @@ class AuthScreen extends StatelessWidget {
                 'Beautify your Feed. Effortlessly.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Color(Constants.COLOR_PRIMARY),
+                    color: Theme.of(context).primaryColor,
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -63,21 +63,21 @@ class AuthScreen extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: RaisedButton(
-                  color: Color(Constants.COLOR_PRIMARY),
+                  color: Theme.of(context).primaryColor,
                   child: Text(
                     'Log In',
                     key: Key(Keys.login),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   textColor: Colors.white,
-                  splashColor: Color(Constants.COLOR_PRIMARY),
+                  splashColor: Theme.of(context).primaryColor,
                   onPressed: () {
                     push(context, new LoginScreen());
                   },
                   padding: EdgeInsets.only(top: 12, bottom: 12),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(color: Color(Constants.COLOR_PRIMARY))),
+                      side: BorderSide(color: Theme.of(context).primaryColor)),
                 ),
               ),
             ),
@@ -86,7 +86,7 @@ class AuthScreen extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: FlatButton(
-                  textColor: Colors.black54,
+                  textColor: Theme.of(context).focusColor,
                   child: Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -97,7 +97,7 @@ class AuthScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: 12, bottom: 12),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
-                      side: BorderSide(color: Colors.black54)),
+                      side: BorderSide(color: Theme.of(context).focusColor)),
                 ),
               ),
             )

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:instasmart/constants.dart';
-import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/utils/size_config.dart';
 
 class TemplateButton extends StatefulWidget {

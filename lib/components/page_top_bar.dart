@@ -1,9 +1,6 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Project imports:
-import 'package:instasmart/constants.dart';
-
 class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final AppBar appBar;
@@ -16,16 +13,12 @@ class PageTopBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
       title: Text(
         title,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Constants.lightPurple),
+        style: TextStyle(color: Colors.white),
       ),
       actions: widgets,
-      iconTheme:
-          IconThemeData(color: Constants.lightPurple //change your color here
-              ),
     );
   }
 

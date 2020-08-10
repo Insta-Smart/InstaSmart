@@ -33,7 +33,7 @@ class _SignUpState extends State<SignUpScreen> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).focusColor),
       ),
       body: SingleChildScrollView(
         child: new Container(
@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUpScreen> {
               child: Text(
                 'Sign Up',
                 style: TextStyle(
-                    color: Color(Constants.COLOR_PRIMARY),
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 35.0),
               ),
@@ -70,7 +70,7 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "First Name",
           validator: validateFirstName,
-          prefixIcon: Icon(Icons.person),
+          prefixIcon: Icon(Icons.person,color:Theme.of(context).focusColor),
           onSave: (val) {
             firstName = val.trim();
           },
@@ -80,7 +80,7 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Last Name",
           validator: validateLastName,
-          prefixIcon: Icon(Icons.person),
+          prefixIcon: Icon(Icons.person,color:Theme.of(context).focusColor),
           onSave: (val) {
             lastName = val.trim();
           },
@@ -89,7 +89,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Email Address",
-          prefixIcon: Icon(Icons.email),
+          prefixIcon: Icon(Icons.email, color: Theme.of(context).focusColor,),
           onSave: (String val) {
             email = val.trim().replaceAll(' ', '');
           },
@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Password",
-          prefixIcon: Icon(Icons.lock),
+          prefixIcon: Icon(Icons.lock, color:Theme.of(context).focusColor),
           onSave: (val) {
             password = val.trim();
           },
@@ -110,7 +110,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Confirm Password",
-          prefixIcon: Icon(Icons.lock),
+          prefixIcon: Icon(Icons.lock, color:Theme.of(context).focusColor),
           onSave: (val) {
             confirmPassword = val.trim();
           },
@@ -126,19 +126,19 @@ class _SignUpState extends State<SignUpScreen> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: RaisedButton(
-              color: Color(Constants.COLOR_PRIMARY),
+              color: Theme.of(context).primaryColor,
               child: Text(
                 'Create Account',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               textColor: Colors.white,
-              splashColor: Color(Constants.COLOR_PRIMARY),
+              splashColor: Theme.of(context).primaryColor,
               onPressed: _sendToServer,
               padding: EdgeInsets.only(top: 12, bottom: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(
-                  color: Color(Constants.COLOR_PRIMARY),
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),
@@ -238,7 +238,7 @@ class SignUpTextWidget extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
-                            color: Color(Constants.COLOR_PRIMARY), width: 2.0)),
+                            color: Theme.of(context).primaryColor, width: 2.0)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     )))));

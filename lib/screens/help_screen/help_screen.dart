@@ -63,11 +63,10 @@ class HelpScreen extends StatelessWidget {
                               horizontal: SizeConfig.blockSizeHorizontal * 4),
                           child: Text(model.name,
                               style: TextStyle(
-                                  color: Constants.lightPurple,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold)),
                         ),
-                        Icon(model.symbol, color: Constants.lightPurple),
+                        Icon(model.symbol),
                         SizedBox(
                           width: 5,
                         ),
