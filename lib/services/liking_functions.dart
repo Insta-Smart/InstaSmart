@@ -1,15 +1,12 @@
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-// Project imports:
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/services/login_functions.dart';
 
 class LikingFunctions {
   static final instance = Firestore.instance;
-  final collectionRef =
-      instance.collection(Constants.ALL_FRAMES_COLLECTION);
+  final collectionRef = instance.collection(Constants.ALL_FRAMES_COLLECTION);
   final userRef = instance.collection(Constants.USERS);
 
   final FirebaseLoginFunctions firebase = FirebaseLoginFunctions();
@@ -80,5 +77,4 @@ class LikingFunctions {
     }
     return liked;
   }
-
 }

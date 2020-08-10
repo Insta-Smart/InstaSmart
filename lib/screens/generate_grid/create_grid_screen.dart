@@ -2,24 +2,13 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:network_image_to_byte/network_image_to_byte.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reorderables/reorderables.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
-
-// Project imports:
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/components/tip_widgets.dart';
-import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
@@ -29,8 +18,12 @@ import 'package:instasmart/utils/overlayImages.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:network_image_to_byte/network_image_to_byte.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:reorderables/reorderables.dart';
+
 import 'components/grid_frame.dart';
-import 'package:instasmart/components/custom_dialog_widget.dart';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
@@ -477,4 +470,3 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 }
-

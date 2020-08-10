@@ -1,16 +1,10 @@
 // Dart imports:
-import 'dart:io';
 import 'dart:typed_data';
 
-// Flutter imports:
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:social_share_plugin/social_share_plugin.dart';
-
-// Project imports:
 import 'package:instasmart/utils/size_config.dart';
+
 import '../../../constants.dart';
 
 class OrderElement extends StatefulWidget {
@@ -38,12 +32,15 @@ class _OrderElementState extends State<OrderElement> {
     index = widget.index;
     return GestureDetector(
       onTap: () async {
+        setState(() {
+          pressed = true;
+        });
         await Share.file(
           'instasmart image',
           'instasmart-image.png',
           imgBytes[imgBytes.length - index - 1],
           'image/png',
-        );
+        ); //
 //        await SocialSharePlugin.shareToFeedInstagram(
 //          path: filePaths[filePaths.length - index - 1],
 //          onSuccess: (string) {
