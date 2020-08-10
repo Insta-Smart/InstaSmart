@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/tip_widgets.dart';
-import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/services/login_functions.dart';
@@ -50,7 +49,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
         materialOptions: MaterialOptions(
-          actionBarColor: "#abcdef",
+          actionBarColor: "#b37df0",
           actionBarTitle: "InstaSmart",
           allViewTitle: "All Photos",
           useDetailsView: false,
@@ -79,7 +78,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
     var firebase = Provider.of<FirebaseLoginFunctions>(context);
     SizeConfig().init(context);
     return new Scaffold(
-        backgroundColor: Colors.white,
         appBar: PageTopBar(
           title: 'Plan Your Instagram Feed',
           appBar: AppBar(),
@@ -108,7 +106,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     Icons.add_a_photo,
                     color: Colors.white,
                   ),
-                  backgroundColor: Constants.paleBlue,
+                  backgroundColor: Theme.of(context).accentColor,
                   onPressed: loadAssets,
                 ),
               )

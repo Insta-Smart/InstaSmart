@@ -12,7 +12,7 @@ import 'package:instasmart/screens/frames_screen/frames_screen.dart';
 import 'package:instasmart/screens/liked_screen/liked_screen.dart';
 import 'package:instasmart/screens/preview_screen/preview_screen.dart';
 import 'package:instasmart/screens/profile_screen/profile_screen.dart';
-import 'profile_screen/test.dart';
+import 'profile_screen/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
@@ -50,7 +50,7 @@ class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SizedBox.expand(
           child: PageView(
             controller: _pageController,
@@ -82,24 +82,24 @@ class _HomeState extends State<HomeScreen> {
             setState(() => _currentIndex = index);
             _pageController.jumpToPage(index);
           },
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           items: <BottomNavyBarCustomItem>[
             BottomNavyBarCustomItem(
               title: Text('Explore'),
               icon: Icon(Icons.search),
-              activeColor: Constants.lightPurple,
+              activeColor: Theme.of(context).primaryColor,
             ),
             BottomNavyBarCustomItem(
               title: Text('Liked'),
               icon: Icon(
                 Icons.favorite_border,
               ),
-              activeColor: Constants.lightPurple,
+              activeColor: Theme.of(context).primaryColor,
             ),
             BottomNavyBarCustomItem(
               title: Text('My Feed'),
               icon: Icon(Icons.apps),
-              activeColor: Constants.lightPurple,
+              activeColor: Theme.of(context).primaryColor,
             ),
             BottomNavyBarCustomItem(
               title: Text(
@@ -107,14 +107,14 @@ class _HomeState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 14, letterSpacing: 0.5),
               ),
               icon: Icon(Icons.access_time),
-              activeColor: Constants.lightPurple,
+              activeColor: Theme.of(context).primaryColor,
             ),
             BottomNavyBarCustomItem(
               title: Text('Profile'),
               icon: Icon(
                 Icons.account_circle,
               ),
-              activeColor: Constants.lightPurple,
+              activeColor: Theme.of(context).primaryColor,
             ),
           ],
         ),

@@ -14,7 +14,7 @@ import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/screens/help_screen/help_screen.dart';
 import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
 import 'package:instasmart/services/login_functions.dart';

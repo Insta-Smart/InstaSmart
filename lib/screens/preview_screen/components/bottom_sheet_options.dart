@@ -11,7 +11,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:social_share_plugin/social_share_plugin.dart';
 
 // Project imports:
-import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/screens/reminder_screen/reminder_create_form.dart';
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/utils/save_images.dart';
@@ -37,7 +37,7 @@ class BottomSheetOptions extends StatelessWidget {
     return Container(
       height: SizeConfig.safeBlockVertical * 70,
       decoration: new BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: new BorderRadius.only(
           topLeft: const Radius.circular(25.0),
           topRight: const Radius.circular(25.0),
@@ -50,14 +50,7 @@ class BottomSheetOptions extends StatelessWidget {
             height: SizeConfig.screenWidth / 2,
             child: Hero(
               tag: imageUrl,
-              child: PhotoView(
-                backgroundDecoration: BoxDecoration(color: Colors.white),
-                imageProvider: CachedNetworkImageProvider(
-                  imageUrl,
-                ),
-                maxScale: 0.18,
-                minScale: 0.18,
-              ),
+              child: CachedNetworkImage(imageUrl: imageUrl)
             ),
           ),
           screen == PreviewScreen

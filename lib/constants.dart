@@ -9,8 +9,8 @@ class Constants {
   static Color paleBlue = Color(0xff95c5ee); //A3C5DE
   static Color palePink = Color(0xffDD8080);
   static const lightPurple = Color(0xffb37df0);
-  //static Color lightPurple = Color(0xffAF97CA);
-  // static const lightPurple = Color(0xff9575CD);
+//  static Color lightPurple = Color(0xffAF97CA);
+//   static const lightPurple = Color(0xff9575CD);
   static const double buttonHeight = 45;
   static const double buttonRadius = 20.0;
   static Image sampleUserPhoto = Image.network(

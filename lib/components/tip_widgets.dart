@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/utils/size_config.dart';
 import '../constants.dart';
 
@@ -21,10 +21,11 @@ class TipDialogWidget extends StatelessWidget {
       width: SizeConfig.blockSizeHorizontal * 300,
       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 85),
       child: RaisedButton(
+        color: Colors.white,
           elevation: 10,
           child: Icon(
             Icons.help,
-            color: Constants.paleBlue,
+            color: Theme.of(context).accentColor,
             size: SizeConfig.blockSizeHorizontal * 8,
           ),
           shape: RoundedRectangleBorder(
@@ -32,7 +33,6 @@ class TipDialogWidget extends StatelessWidget {
                   topLeft: Radius.circular(50),
                   bottomLeft: Radius.circular(50)),
               side: BorderSide(color: Colors.white)),
-          color: Colors.white,
           onPressed: () {
             showDialog(
                 context: context,
@@ -61,14 +61,15 @@ class TipTextWidget extends StatelessWidget {
             '#InstaSmartTip!',
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Constants.paleBlue,
+              color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 22),
           ),
           Text(
             tipBody,
+
             textAlign: TextAlign.center,
-            style: TextStyle(color: Constants.paleBlue, fontSize: 18),
+            style: TextStyle(color: Theme.of(context).accentColor, fontSize: 18),
           ),
         ],
       ),

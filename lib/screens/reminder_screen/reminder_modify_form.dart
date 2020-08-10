@@ -33,13 +33,11 @@ class ReminderFormState extends State<ReminderForm> {
   final GlobalKey<FormFieldState> _specifyTextFieldKey =
       GlobalKey<FormFieldState>();
 
-  ValueChanged _onChanged = (val) => {};
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: PageTopBar(
         appBar: AppBar(),
         title: 'Edit Reminder',
@@ -89,14 +87,13 @@ class ReminderFormState extends State<ReminderForm> {
                       ),
                     ),
                     initialValue: widget.reminder.caption,
-                    onChanged: _onChanged,
                     keyboardType: TextInputType.text,
                   ),
                   SizedBox(height: SizeConfig.blockSizeVertical * 3),
                   FormBuilderDateTimePicker(
                     attribute: "postTime",
                     initialEntryMode: DatePickerEntryMode.calendar,
-                    onChanged: _onChanged,
+                    timePickerInitialEntryMode: TimePickerEntryMode.input,
                     format: DateFormat("dd-MM-yyyy HH:mm"),
                     inputType: InputType.both,
                     decoration: InputDecoration(
@@ -108,10 +105,9 @@ class ReminderFormState extends State<ReminderForm> {
                         ),
                       ),
                     ),
-                    validator: (val) => null,
-                    initialTime: TimeOfDay.now(),
+                    validators: [FormBuilderValidators.required()],
                     initialValue: widget.reminder.postTime,
-                    // readonly: true,
+
                   ),
                 ],
               ),

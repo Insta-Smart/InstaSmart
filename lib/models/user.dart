@@ -11,7 +11,6 @@ class User {
   bool active = false;
   Timestamp lastOnlineTimestamp = Timestamp.now();
   String uid;
-  bool darkMode = false;
   String appIdentifier = 'Flutter ${Platform.operatingSystem}';
 
   User({
@@ -19,7 +18,6 @@ class User {
     this.firstName,
     this.lastName,
     this.active,
-    this.darkMode,
     this.lastOnlineTimestamp,
     this.uid,
   });
@@ -34,7 +32,6 @@ class User {
       firstName: parsedJson['firstName'] ?? '',
       lastName: parsedJson['lastName'] ?? '',
       active: parsedJson['active'] ?? false,
-      darkMode: parsedJson['darkMode'] ?? false,
       lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
       uid: parsedJson['id'] ?? parsedJson['userID'] ?? '',
     );
@@ -48,7 +45,6 @@ class User {
       // "settings": this.settings.toJson(),
       "id": this.uid,
       'active': this.active,
-      'darkMode': this.darkMode,
       'lastOnlineTimestamp': this.lastOnlineTimestamp,
       'appIdentifier': this.appIdentifier
     };
@@ -60,9 +56,6 @@ class User {
 
   void changeLastName(String newLastName) {
     lastName = newLastName;
-  }
-  void toggleDark(){
-    darkMode=!darkMode;
   }
 }
 

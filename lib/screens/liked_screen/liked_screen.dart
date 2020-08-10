@@ -78,7 +78,6 @@ class _LikedScreenState extends State<LikedScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
 //      appBar: PageTopBar(
 //        title: 'Liked',
 //        appBar: AppBar(),

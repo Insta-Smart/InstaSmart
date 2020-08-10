@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:instasmart/components/shimmer_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 // Project imports:
 import 'package:instasmart/categories.dart';
@@ -66,7 +65,6 @@ class _FramesScreenState extends State<FramesScreen> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
             Column(
@@ -101,14 +99,6 @@ class _FramesScreenState extends State<FramesScreen> {
                       ),
                     ),
                   ),
-//                  FlatButton(
-//                    child: Text('log out'),
-//                    onPressed: () async {
-//                      await FirebaseAuth.instance.signOut();
-//                      MyAppState.currentUser = null;
-//                      pushAndRemoveUntil(context, AuthScreen(), false);
-//                    },
-//                  ),
                   FutureBuilder(
                       future: futList,
                       builder: (BuildContext context,

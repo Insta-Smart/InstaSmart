@@ -22,15 +22,15 @@ class ReminderList extends StatelessWidget {
           .map((reminder) => Container(
                 decoration: BoxDecoration(
                   boxShadow: [
-//          if (showElevation)
-                    const BoxShadow(
-                      color: Colors.black26,
+                    BoxShadow(
+                      color: Theme.of(context).highlightColor,
                       offset: Offset(0.0, 0.75),
                       blurRadius: 3,
                     ),
                   ],
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(20.0),
+
                 ),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
