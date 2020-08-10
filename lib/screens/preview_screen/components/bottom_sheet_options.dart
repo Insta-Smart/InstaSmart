@@ -1,11 +1,14 @@
 // Dart imports:
 import 'dart:io';
+import 'dart:typed_data';
 
 // Flutter imports:
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:social_share_plugin/social_share_plugin.dart';
@@ -71,8 +74,18 @@ class BottomSheetOptions extends StatelessWidget {
             leading: Icon(Icons.image),
             title: Text('Share to Instagram'),
             onTap: () async {
-              File file = await urlToFile(imageUrl);
-              await SocialSharePlugin.shareToFeedInstagram(path: file.path);
+              Uint8List bytes =
+                  (await NetworkAssetBundle(Uri.parse(imageUrl)).load(imageUrl))
+                      .buffer
+                      .asUint8List();
+              await Share.file(
+                'instasmart image',
+                'instasmart-image.png',
+                bytes,
+                'image/png',
+              );
+//              File file = await urlToFile(imageUrl);
+//              await SocialSharePlugin.shareToFeedInstagram(path: file.path);
             },
           ),
           ListTile(

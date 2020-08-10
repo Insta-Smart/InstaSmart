@@ -1,13 +1,9 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-// Project imports:
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
@@ -31,7 +27,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
       email: user.email,
       firstName: firstName,
       lastName: lastName,
-
     );
   }
 
@@ -83,7 +78,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         .updateData(data);
     return null;
   }
-
 
   Future<void> sendPasswordResetEmail(String email) async {
     await auth.sendPasswordResetEmail(email: email);
@@ -170,8 +164,6 @@ class FirebaseLoginFunctions extends ChangeNotifier {
         print('error in setting google sign in data' + e.toString());
       }
       return 'signInWithGoogle succeeded: $user';
-
-
     } catch (e) {
       print("Google sign in error: $e");
     }

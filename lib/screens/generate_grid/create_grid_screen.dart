@@ -2,23 +2,13 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:network_image_to_byte/network_image_to_byte.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:reorderables/reorderables.dart';
-
-// Project imports:
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/components/tip_widgets.dart';
-import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/generate_grid/post_order_screen.dart';
@@ -28,8 +18,12 @@ import 'package:instasmart/utils/overlayImages.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:network_image_to_byte/network_image_to_byte.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:reorderables/reorderables.dart';
+
 import 'components/grid_frame.dart';
-import 'package:instasmart/components/custom_dialog_widget.dart';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
@@ -242,10 +236,11 @@ class _CreateScreenState extends State<CreateScreen> {
                                       backgroundColor: Colors.white,
                                       messageTextStyle:
                                           TextStyle(color: Colors.black),
-                                      progressWidget: SpinKitFadingGrid(
-                                        size: 30,
+                                      progressWidget: Container(),
+//                                      SpinKitFadingGrid(
+//                                        size: 30,
 //                                        color: Constants.lightPurple,
-                                      ),
+                                      // ),
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -313,15 +308,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Adding to My Feed',
+                                      message: 'Adding to My Feed...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       messageTextStyle:
                                           TextStyle(color: Colors.black),
-                                      progressWidget: SpinKitFadingGrid(
-                                        size: 30,
-                                        color: Constants.lightPurple,
-                                      ),
+                                      progressWidget: Container(),
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -409,10 +401,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                       //messageTextStyle:
                                       //    TextStyle(color: Colors.black),
                                       backgroundColor: Colors.white,
-                                      progressWidget: SpinKitFadingGrid(
-                                        size: 30,
+                                      progressWidget: Container(),
+//                                      SpinKitFadingGrid(
+//                                        size: 30,
 //                                        color: Constants.lightPurple,
-                                      ),
+//                                      ),
+
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -422,7 +416,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                         pr.update(
                                             progress: 50.0,
                                             message:
-                                                'Loading InstaSmart guide.');
+                                                'Loading InstaSmart guide...');
                                       }
                                     });
                                     List<Uint8List> srcBytesList = List();
@@ -445,19 +439,21 @@ class _CreateScreenState extends State<CreateScreen> {
                                         i++) {
                                       genImages.add(overlayImages(
                                           srcBytesList[i], split[i]));
-                                    }
-                                    saveImages(genImages).then((value) {
-                                      print(value);
-                                      functionDone = true;
+                                    } //genImages is list of Uint8List --> display this
+                                    print(
+                                        'genImages is $genImages'); //--> Okay till here
+                                    {
+                                      //result of saveImages is null. Instead, just pass list of
+//
                                       pr.hide();
-
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   PostOrderScreen(
-                                                      value, widget.user)));
-                                    });
+                                                      genImages, widget.user)));
+                                    }
+                                    ;
                                   },
                                 ),
                               ],
@@ -474,4 +470,3 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 }
-

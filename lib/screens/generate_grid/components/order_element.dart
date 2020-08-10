@@ -1,24 +1,20 @@
 // Dart imports:
-import 'dart:io';
+import 'dart:typed_data';
 
-// Flutter imports:
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:social_share_plugin/social_share_plugin.dart';
-
-// Project imports:
 import 'package:instasmart/utils/size_config.dart';
+
 import '../../../constants.dart';
 
 class OrderElement extends StatefulWidget {
   OrderElement({
     Key key,
-    @required this.filePaths,
+    @required this.imgBytes,
     @required this.index,
   }) : super(key: key);
 
-  final List<String> filePaths;
+  final List<Uint8List> imgBytes;
   final int index;
 
   @override
@@ -26,41 +22,47 @@ class OrderElement extends StatefulWidget {
 }
 
 class _OrderElementState extends State<OrderElement> {
-  List<String> filePaths;
+  List<Uint8List> imgBytes;
   int index;
   bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
-    filePaths = widget.filePaths;
+    imgBytes = widget.imgBytes;
     index = widget.index;
     return GestureDetector(
       onTap: () async {
-        await SocialSharePlugin.shareToFeedInstagram(
-          path: filePaths[filePaths.length - index - 1],
-          onSuccess: (string) {
-            //print('index ${index + 1} success');
-            setState(() {
-              pressed = true;
-            });
-          },
-          onCancel: () {
-            print('cancel');
-            setState(() {
-              pressed = true;
-            });
-          },
-        );
+        setState(() {
+          pressed = true;
+        });
+        await Share.file(
+          'instasmart image',
+          'instasmart-image.png',
+          imgBytes[imgBytes.length - index - 1],
+          'image/png',
+        ); //
+//        await SocialSharePlugin.shareToFeedInstagram(
+//          path: filePaths[filePaths.length - index - 1],
+//          onSuccess: (string) {
+//            //print('index ${index + 1} success');
+//            setState(() {
+//              pressed = true;
+//            });
+//          },
+//          onCancel: () {
+//            print('cancel');
+//            setState(() {
+//              pressed = true;
+//            });
+//          },
+//        );
       },
       child: Stack(children: <Widget>[
         Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 0.5, color: Colors.black),
-          ),
-          child: Image.file(
-            File(filePaths[filePaths.length - index - 1]),
-          ),
-        ),
+            decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.black),
+            ),
+            child: Image.memory(imgBytes[imgBytes.length - index - 1])),
         Padding(
           padding: const EdgeInsets.all(45),
           child: Container(
@@ -82,20 +84,11 @@ class _OrderElementState extends State<OrderElement> {
             child: Center(
               child: FlatButton(
                 onPressed: () async {
-                  await SocialSharePlugin.shareToFeedInstagram(
-                    path: filePaths[filePaths.length - index - 1],
-                    onSuccess: (String) {
-                      //   print('index ${index + 1} success');
-                      setState(() {
-                        pressed = true;
-                      });
-                    },
-                    onCancel: () {
-                      print('cancel');
-                      setState(() {
-                        pressed = true;
-                      });
-                    },
+                  await Share.file(
+                    'instasmart image',
+                    'instasmart-image.png',
+                    imgBytes[imgBytes.length - index - 1],
+                    'image/png',
                   );
                 },
                 child: Text(

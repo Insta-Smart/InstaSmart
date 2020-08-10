@@ -66,6 +66,7 @@
 <string>This app does not require access to the microphone.</string>
 <key>NSCameraUsageDescription</key>
 <string>This app requires access to the camera.</string>
-
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>This is called Privacy - Photo Library Additions Usage Description in the visual editor</string>
 </dict>
 </plist>

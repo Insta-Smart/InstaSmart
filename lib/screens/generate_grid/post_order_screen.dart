@@ -1,27 +1,24 @@
 // Flutter imports:
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-
-// Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/utils/size_config.dart';
-import '../../constants.dart';
+
 import './components/order_element.dart';
 
 class PostOrderScreen extends StatelessWidget {
-  PostOrderScreen(this.filePaths, this.user);
-  final List<String> filePaths;
+  PostOrderScreen(this.imgBytes, this.user);
+  final List<Uint8List> imgBytes;
   final User user;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: PageTopBar(
           title: '',
           appBar: AppBar(),
@@ -34,14 +31,16 @@ class PostOrderScreen extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   Icons.touch_app,
-//                  color: Constants.lightPurple,
+                  color: Theme.of(context).primaryColor,
                   size: 46,
                 ),
-                Center(
+                Container(
+                  width: SizeConfig.screenWidth * 0.8,
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
                   child: Text(
                     'Tap & Upload Each Photo In Order',
-                    style:
-                        TextStyle(fontSize: 22),
+                    style: TextStyle(fontSize: 22),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -52,9 +51,11 @@ class PostOrderScreen extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   Icons.looks_one,
-//                  color: Constants.lightPurple,
+                  color: Theme.of(context).primaryColor,
                 ),
-                Icon(Icons.arrow_forward, ),
+                Icon(
+                  Icons.arrow_forward,
+                ),
                 Icon(Icons.looks),
               ],
             ),
@@ -65,9 +66,9 @@ class PostOrderScreen extends StatelessWidget {
               child: GridView.count(
                 crossAxisCount: 3,
                 children: List.generate(
-                  filePaths.length,
+                  imgBytes.length,
                   (index) => OrderElement(
-                    filePaths: filePaths,
+                    imgBytes: imgBytes,
                     index: index,
                   ),
                 ),
@@ -77,7 +78,7 @@ class PostOrderScreen extends StatelessWidget {
               width: SizeConfig.blockSizeHorizontal * 25,
               child: TemplateButton(
                 title: 'Done',
-                color: Constants.lightPurple,
+                color: Theme.of(context).primaryColor,
                 ontap: () {
                   //  Navigator.pop(context);
                   Navigator.pop(context);
