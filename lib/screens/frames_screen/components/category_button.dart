@@ -52,7 +52,7 @@ class _CategoryButtonState extends State<CategoryButton> {
                         fontSize: 16,
                       )
                     : TextStyle(
-                        color: Colors.black.withOpacity(0.6),
+                        color: Colors.black.withOpacity(0.4),
                         fontSize: 16,
                       )),
           ),

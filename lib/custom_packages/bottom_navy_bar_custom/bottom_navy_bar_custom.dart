@@ -145,7 +145,7 @@ class _ItemWidget extends StatelessWidget {
                   size: isSelected ? 25 : iconSize,
                   color: isSelected
                       ? item.activeColor
-                      : item.inactiveColor ?? Colors.black.withOpacity(0.4),
+                      : item.inactiveColor ?? Colors.black.withOpacity(0.2),
                 ),
                 child: item.icon,
               ),

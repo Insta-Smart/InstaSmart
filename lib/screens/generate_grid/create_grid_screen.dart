@@ -13,6 +13,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reorderables/reorderables.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 // Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
@@ -241,10 +242,11 @@ class _CreateScreenState extends State<CreateScreen> {
                                       backgroundColor: Colors.white,
                                       messageTextStyle:
                                           TextStyle(color: Colors.black),
-                                      progressWidget: SpinKitFadingGrid(
-                                        size: 30,
-                                        color: Constants.lightPurple,
-                                      ),
+                                      progressWidget: Container(),
+//                                      SpinKitFadingGrid(
+//                                        size: 30,
+//                                        color: Constants.lightPurple,
+                                      // ),
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -312,15 +314,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Adding to My Feed',
+                                      message: 'Adding to My Feed...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
                                       messageTextStyle:
                                           TextStyle(color: Colors.black),
-                                      progressWidget: SpinKitFadingGrid(
-                                        size: 30,
-                                        color: Constants.lightPurple,
-                                      ),
+                                      progressWidget: Container(),
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -408,10 +407,11 @@ class _CreateScreenState extends State<CreateScreen> {
                                       //messageTextStyle:
                                       //    TextStyle(color: Colors.black),
                                       backgroundColor: Colors.white,
-                                      progressWidget: SpinKitFadingGrid(
-                                        size: 30,
-                                        color: Constants.lightPurple,
-                                      ),
+                                      progressWidget: Container(),
+//                                      SpinKitFadingGrid(
+//                                        size: 30,
+//                                        color: Constants.lightPurple,
+//                                      ),
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -421,7 +421,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                         pr.update(
                                             progress: 50.0,
                                             message:
-                                                'Loading InstaSmart guide.');
+                                                'Loading InstaSmart guide...');
                                       }
                                     });
                                     List<Uint8List> srcBytesList = List();
@@ -444,21 +444,91 @@ class _CreateScreenState extends State<CreateScreen> {
                                         i++) {
                                       genImages.add(overlayImages(
                                           srcBytesList[i], split[i]));
-                                    }
-                                    saveImages(genImages).then((value) {
-                                      print(value);
-                                      functionDone = true;
+                                    } //genImages is list of Uint8List --> display this
+                                    print(
+                                        'genImages is $genImages'); //--> Okay till here
+                                    {
+                                      //result of saveImages is null. Instead, just pass list of
+//
                                       pr.hide();
-
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   PostOrderScreen(
-                                                      value, widget.user)));
-                                    });
+                                                      genImages, widget.user)));
+                                    }
+                                    ;
                                   },
                                 ),
+                                TemplateButton(
+                                    iconType: FontAwesomeIcons.instagram,
+                                    title:
+                                        'Trial SHARING button. shares from uint8byte',
+                                    color: Constants.lightPurple,
+                                    ontap: () async {
+                                      bool functionDone = false;
+                                      pr.style(
+                                        message: 'Saving your grid...',
+                                        borderRadius: 10.0,
+                                        //messageTextStyle:
+                                        //    TextStyle(color: Colors.black),
+                                        backgroundColor: Colors.white,
+                                        progressWidget: Container(),
+//                                      SpinKitFadingGrid(
+//                                        size: 30,
+//                                        color: Constants.lightPurple,
+//                                      ),
+                                        elevation: 10.0,
+                                      );
+                                      pr.show();
+                                      Future.delayed(
+                                          const Duration(milliseconds: 6000),
+                                          () {
+                                        if (!functionDone) {
+                                          pr.update(
+                                              progress: 50.0,
+                                              message:
+                                                  'Loading InstaSmart guide...');
+                                        }
+                                      });
+                                      List<Uint8List> srcBytesList = List();
+                                      List<Uint8List> genImages = List();
+
+                                      for (var img in images) {
+                                        img.getByteData().then((value) =>
+                                            srcBytesList.add(
+                                                value.buffer.asUint8List()));
+                                      }
+
+                                      var dstBytes = await networkImageToByte(
+                                          widget.frameUrl);
+                                      var split = splitImage(
+                                          imgBytes: dstBytes,
+                                          verticalPieceCount: 3,
+                                          horizontalPieceCount: 3);
+                                      for (int i = 0;
+                                          i < srcBytesList.length;
+                                          i++) {
+                                        genImages.add(overlayImages(
+                                            srcBytesList[i], split[i]));
+                                      }
+                                      print(
+                                          'genImages is $genImages'); //--> Okay till here
+                                      pr.hide();
+                                      await Share.file(
+                                          'esys image',
+                                          'esys.png',
+                                          genImages[0].buffer.asUint8List(),
+                                          'image/png',
+                                          text: 'My optional text.');
+//                                      Navigator.push(
+//                                          context,
+//                                          MaterialPageRoute(
+//                                              builder: (context) =>
+//                                                  PostOrderScreen(
+//                                                      value, widget.user)));
+                                    })
                               ],
                             ),
                           ],

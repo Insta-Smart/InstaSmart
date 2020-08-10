@@ -19,7 +19,6 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import '../HomeScreen.dart';
 import '../signup_screen/signup_screen.dart';
 
-
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -36,63 +35,66 @@ class _SettingsPageState extends State<SettingsPage> {
     bool darkMode = user.darkMode;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Profile'),
-        ),
-        body: SettingsList(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: SettingsList(
         sections: [
-          
           SettingsSection(
             title: 'Account',
             tiles: [
-              SettingsTile(title: user.firstName, leading: Icon(Icons.perm_identity)),
+              SettingsTile(
+                  title: user.firstName, leading: Icon(Icons.perm_identity)),
               SettingsTile(title: user.email, leading: Icon(Icons.email)),
-              SettingsTile(title: 'Log out', leading: Icon(Icons.exit_to_app),
-              onTap: () async {
+              SettingsTile(
+                title: 'Log out',
+                leading: Icon(Icons.exit_to_app),
+                onTap: () async {
                   user.active = false;
                   user.lastOnlineTimestamp = Timestamp.now();
                   await firebase.updateUserData(user.toJson());
                   await firebase.signOut();
                   MyAppState.currentUser = null;
                   pushAndRemoveUntil(context, AuthScreen(), false);
-                  },),
+                },
+              ),
             ],
           ),
           SettingsSection(
             title: 'Misc',
             tiles: [
-              SettingsTile.switchTile(
-                title: 'Dark Mode',
-                leading: Icon(Icons.highlight),
-                switchValue: darkMode,
-                onToggle: (bool value) {
-                  setState(() {
-                    darkMode = value;
-                  });
-                  AdaptiveTheme.of(context).toggleThemeMode();
-                  user.toggleDark();
-
-
-
+//              SettingsTile.switchTile(
+//                title: 'Dark Mode',
+//                leading: Icon(Icons.highlight),
+//                switchValue: darkMode,
+//                onToggle: (bool value) {
+//                  setState(() {
+//                    darkMode = value;
+//                  });
+//                  AdaptiveTheme.of(context).toggleThemeMode();
+//                  user.toggleDark();
+//
+//
+//
+//                },
+//              ),
+              SettingsTile(
+                title: 'User Guide',
+                leading: Icon(Icons.help),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HelpScreen(),
+                      ));
                 },
               ),
               SettingsTile(
-                  title: 'User Guide', leading: Icon(Icons.help),
-              onTap: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HelpScreen(),
-                    ));
-              },),
-              SettingsTile(
-                  title: 'Get in Touch',
-                  leading: Icon(Icons.alternate_email)),
+                  title: 'Get in Touch', leading: Icon(Icons.alternate_email)),
             ],
           )
         ],
       ),
-      );
-
+    );
   }
 }

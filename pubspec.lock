@@ -56,7 +56,7 @@ packages:
       name: basic_utils
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.6.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -175,7 +175,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0"
+    version: "0.13.11"
   crypto:
     dependency: transitive
     description:
@@ -211,6 +211,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  esys_flutter_share:
+    dependency: "direct main"
+    description:
+      name: esys_flutter_share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
@@ -341,7 +348,7 @@ packages:
       name: flutter_chips_input
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   flutter_colorpicker:
     dependency: transitive
     description:
@@ -360,7 +367,7 @@ packages:
       name: flutter_form_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.13.0"
+    version: "3.13.1"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -522,7 +529,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.14"
+    version: "2.1.12"
   image_gallery_saver:
     dependency: "direct main"
     description:
@@ -739,7 +746,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4"
+    version: "2.4.0"
   phone_number:
     dependency: transitive
     description:
@@ -1164,7 +1171,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "3.6.1"
   yaml:
     dependency: transitive
     description:
