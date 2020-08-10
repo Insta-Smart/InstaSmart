@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +15,8 @@ import '../../constants.dart';
 import './components/order_element.dart';
 
 class PostOrderScreen extends StatelessWidget {
-  PostOrderScreen(this.filePaths, this.user);
-  final List<String> filePaths;
+  PostOrderScreen(this.imgBytes, this.user);
+  final List<Uint8List> imgBytes;
   final User user;
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,10 @@ class PostOrderScreen extends StatelessWidget {
 //                  color: Constants.lightPurple,
                   size: 46,
                 ),
-                Center(
+                Container(
+                  width: SizeConfig.screenWidth * 0.8,
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
                   child: Text(
                     'Tap & Upload Each Photo In Order',
                     style:
@@ -65,9 +70,9 @@ class PostOrderScreen extends StatelessWidget {
               child: GridView.count(
                 crossAxisCount: 3,
                 children: List.generate(
-                  filePaths.length,
+                  imgBytes.length,
                   (index) => OrderElement(
-                    filePaths: filePaths,
+                    imgBytes: imgBytes,
                     index: index,
                   ),
                 ),

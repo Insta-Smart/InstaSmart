@@ -58,7 +58,7 @@ class _TemplateButtonState extends State<TemplateButton> {
                 ? Container()
                 : Text(
                     widget.title,
-                    style: TextStyle(color: buttonColor, fontSize: 16),
+                    style: TextStyle(color: buttonColor, fontSize: 13),
                     textAlign: TextAlign.center,
                   ),
           ],
