@@ -77,14 +77,15 @@ void main() {
     final email = 'test123@gmail.com';
     final password = '1234567Q';
 
-
     test('sign in with email and password should return a user', () async {
       final login = MockFirebaseLoginFunctions();
       var user = await login.signInWithEmailAndPassword(email, password);
       expect(user, isA<User>());
     });
 
-    test('current user function returns a User object with current user details', () async {
+    test(
+        'current user function returns a User object with current user details',
+        () async {
       final login = MockFirebaseLoginFunctions();
       await login.signInWithEmailAndPassword(email, password);
       var user = await login.currentUser();
@@ -101,6 +102,5 @@ void main() {
       final login = MockFirebaseLoginFunctions();
       await login.sendPasswordResetEmail(email);
     });
-
   });
 }

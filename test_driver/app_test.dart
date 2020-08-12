@@ -43,7 +43,7 @@ void main() {
       await driver.tap(passwordField);
       await driver.enterText(Keys.password);
       await driver.tap(secondLoginButton);
-      await driver.tap(find.byValueKey(Categories.landscape));
+      await driver.tap(find.byValueKey(Categories.minimalist));
       String origNumLikes = await driver.getText(counterTextFinder);
 
       Future<bool> isLiked() async {

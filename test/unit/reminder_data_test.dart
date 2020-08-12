@@ -50,7 +50,6 @@ void main() {
     });
 
     test('update reminder details', () async {
-
       var reminders = await reminderData.getReminders(postTime);
       expect(reminders.first.caption, caption);
 
@@ -64,13 +63,11 @@ void main() {
     });
 
     test('delete reminder', () async {
-
       var reminder = await reminderData.getReminders(postTime);
       String status = await reminderData.deleteReminder(reminder.first);
       var updatedReminders = await reminderData.getReminders(postTime);
       expect(updatedReminders.length, 0);
       expect(status, 'Deleted Reminder');
     });
-
   });
 }

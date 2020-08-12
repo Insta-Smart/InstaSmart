@@ -9,7 +9,6 @@ import 'package:progress_dialog/progress_dialog.dart';
 // Project imports:
 import 'package:instasmart/constants.dart';
 
-
 String validateMobile(String value) {
   String patttern = r'(^[0-9]*$)';
   RegExp regExp = new RegExp(patttern);
@@ -22,13 +21,13 @@ String validateMobile(String value) {
 }
 
 String validatePassword(String value) {
-    Pattern pattern =
-        r'^(?=.{8,})(?=.*[A-Z])(?=.*[0-9])'; //Minimum 8 characters with atleast 1 Uppercase and 1 Numeric character
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Password must have at least:\n • 8 Characters\n • 1 Uppercase letter\n • 1 Number';
-    else
-      return null;
+  Pattern pattern =
+      r'^(?=.{8,})(?=.*[A-Z])(?=.*[0-9])'; //Minimum 8 characters with atleast 1 Uppercase and 1 Numeric character
+  RegExp regex = new RegExp(pattern);
+  if (!regex.hasMatch(value))
+    return 'Password must have at least:\n • 8 Characters\n • 1 Uppercase letter\n • 1 Number';
+  else
+    return null;
 }
 
 String validateEmail(String value) {
@@ -41,20 +40,18 @@ String validateEmail(String value) {
     return null;
 }
 
-String validateFirstName(String value){
-  if(value==null || value==''){
+String validateFirstName(String value) {
+  if (value == null || value == '') {
     return 'First name cannot be empty';
-  }
-  else{
+  } else {
     return null;
   }
 }
 
-String validateLastName(String value){
-  if(value==null || value==''){
+String validateLastName(String value) {
+  if (value == null || value == '') {
     return 'Last name cannot be empty';
-  }
-  else{
+  } else {
     return null;
   }
 }

@@ -396,8 +396,9 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                             hintText: 'Enter your Email',
                             contentPadding:
                                 EdgeInsets.only(left: 10.0, top: 10),
-                            hintStyle:
-                                TextStyle(color: Theme.of(context).focusColor, fontSize: 14.0)),
+                            hintStyle: TextStyle(
+                                color: Theme.of(context).focusColor,
+                                fontSize: 14.0)),
                         style: TextStyle(color: Theme.of(context).focusColor),
                       ),
                     )
@@ -408,7 +409,8 @@ class CustomAlertDialogState extends State<CustomAlertDialog> {
                     decoration: new BoxDecoration(
                         border: new Border(
                             bottom: new BorderSide(
-                                width: 0.5, color: Theme.of(context).focusColor))),
+                                width: 0.5,
+                                color: Theme.of(context).focusColor))),
                   )
                 ]),
               ],

@@ -21,7 +21,7 @@ class TipDialogWidget extends StatelessWidget {
       width: SizeConfig.blockSizeHorizontal * 300,
       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 85),
       child: RaisedButton(
-        color: Colors.white,
+          color: Colors.white,
           elevation: 10,
           child: Icon(
             Icons.help,
@@ -61,15 +61,15 @@ class TipTextWidget extends StatelessWidget {
             '#InstaSmartTip!',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Theme.of(context).accentColor,
+                color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 22),
           ),
           Text(
             tipBody,
-
             textAlign: TextAlign.center,
-            style: TextStyle(color: Theme.of(context).accentColor, fontSize: 18),
+            style:
+                TextStyle(color: Theme.of(context).accentColor, fontSize: 18),
           ),
         ],
       ),

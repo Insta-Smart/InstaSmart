@@ -73,7 +73,8 @@ class FirebaseImageStorage {
           ByteData byteData = await asset.getByteData();
           List<int> imageData = byteData.buffer.asUint8List();
 
-          StorageReference ref = reference.child("Preview_Images/${user.uid}/${DateTime.now()}");
+          StorageReference ref =
+              reference.child("Preview_Images/${user.uid}/${DateTime.now()}");
           StorageUploadTask uploadTask = ref.putData(imageData);
           StorageTaskSnapshot storageTaskSnapshot;
 

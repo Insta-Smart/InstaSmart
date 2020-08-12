@@ -69,18 +69,16 @@ void main() {
       });
     });
 
-    group('get liked status of a frame for a user', ()
-    {
+    group('get liked status of a frame for a user', () {
       test('return false if frame is not liked', () async {
-        bool isLiked =  await likingFunctions.futInitLikedStat('test1');
+        bool isLiked = await likingFunctions.futInitLikedStat('test1');
         expect(isLiked, false);
       });
 
       test('return true if frame is liked', () async {
-        bool isLiked =  await likingFunctions.futInitLikedStat('test2');
+        bool isLiked = await likingFunctions.futInitLikedStat('test2');
         expect(isLiked, true);
       });
     });
-
   });
 }

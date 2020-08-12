@@ -27,11 +27,11 @@ class FrameWidget extends StatefulWidget {
 class _FrameWidgetState extends State<FrameWidget> {
   int _numLikes;
   bool liked =
-  true; //TODO: change to checking whether imgurl exists in user's collection
+      true; //TODO: change to checking whether imgurl exists in user's collection
   final userRef = Firestore.instance.collection(Constants.USERS);
   final db = Firestore.instance;
   final collectionRef =
-  Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
+      Firestore.instance.collection(Constants.ALL_FRAMES_COLLECTION);
 
   //RETURNS NUMBER OF LIKES THE IMAGE HAS AS A DOUBLE
   Future<double> getNumLikes() async {
@@ -142,7 +142,6 @@ class _FrameWidgetState extends State<FrameWidget> {
           Expanded(
             child: Container(
               child: Row(
-
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -152,16 +151,16 @@ class _FrameWidgetState extends State<FrameWidget> {
                     padding: EdgeInsets.zero,
                     icon: liked
                         ? Icon(
-                      Icons.favorite,
-                      size: 25,
-                      color: Constants.palePink,
-                      key: Key('iconWidget ' + widget.frame.lowResUrl),
-                    )
+                            Icons.favorite,
+                            size: 25,
+                            color: Constants.palePink,
+                            key: Key('iconWidget ' + widget.frame.lowResUrl),
+                          )
                         : Icon(
-                      Icons.favorite_border,
-                      size: 25,
-                      color: Colors.grey.withOpacity(0.8),
-                    ),
+                            Icons.favorite_border,
+                            size: 25,
+                            color: Colors.grey.withOpacity(0.8),
+                          ),
                     onPressed: () {
                       setState(() {
                         liked = !liked;
@@ -176,17 +175,17 @@ class _FrameWidgetState extends State<FrameWidget> {
                       // if liked is false --> REMOVE image from collection
                       liked
                           ? LikingFunctions().addImgToLiked(widget.frame.imgID,
-                          widget.frame.lowResUrl, widget.frame.highResUrl)
+                              widget.frame.lowResUrl, widget.frame.highResUrl)
                           : LikingFunctions()
-                          .delImgFromLiked(widget.frame.imgID);
+                              .delImgFromLiked(widget.frame.imgID);
                     },
                   ),
                   _numLikes == null
                       ? Container()
                       : Text('$_numLikes',
-                      key: Key('counter ${widget.frame.lowResUrl}'),
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, fontSize: 14)),
+                          key: Key('counter ${widget.frame.lowResUrl}'),
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 14)),
                 ],
               ),
             ),

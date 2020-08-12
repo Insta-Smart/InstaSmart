@@ -70,7 +70,7 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "First Name",
           validator: validateFirstName,
-          prefixIcon: Icon(Icons.person,color:Theme.of(context).focusColor),
+          prefixIcon: Icon(Icons.person, color: Theme.of(context).focusColor),
           onSave: (val) {
             firstName = val.trim();
           },
@@ -80,7 +80,7 @@ class _SignUpState extends State<SignUpScreen> {
           context: context,
           title: "Last Name",
           validator: validateLastName,
-          prefixIcon: Icon(Icons.person,color:Theme.of(context).focusColor),
+          prefixIcon: Icon(Icons.person, color: Theme.of(context).focusColor),
           onSave: (val) {
             lastName = val.trim();
           },
@@ -89,7 +89,10 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Email Address",
-          prefixIcon: Icon(Icons.email, color: Theme.of(context).focusColor,),
+          prefixIcon: Icon(
+            Icons.email,
+            color: Theme.of(context).focusColor,
+          ),
           onSave: (String val) {
             email = val.trim().replaceAll(' ', '');
           },
@@ -99,7 +102,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Password",
-          prefixIcon: Icon(Icons.lock, color:Theme.of(context).focusColor),
+          prefixIcon: Icon(Icons.lock, color: Theme.of(context).focusColor),
           onSave: (val) {
             password = val.trim();
           },
@@ -110,7 +113,7 @@ class _SignUpState extends State<SignUpScreen> {
         SignUpTextWidget(
           context: context,
           title: "Confirm Password",
-          prefixIcon: Icon(Icons.lock, color:Theme.of(context).focusColor),
+          prefixIcon: Icon(Icons.lock, color: Theme.of(context).focusColor),
           onSave: (val) {
             confirmPassword = val.trim();
           },

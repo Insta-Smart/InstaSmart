@@ -158,7 +158,6 @@ class _CalendarScreenState extends State<CalendarScreen>
     );
   }
 
-
   Widget _buildEventList() {
     print('building events');
     return ReminderList(selectedEvents: _selectedEvents);

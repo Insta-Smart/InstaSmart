@@ -86,7 +86,6 @@ class ReminderData {
           reminders.add(rem);
         });
       });
-
     } catch (e) {
       print(e);
     }
@@ -108,7 +107,6 @@ class ReminderData {
         'date': reminder.date,
         'postTime': reminder.postTime,
       });
-
     } catch (e) {
       print(e);
     }

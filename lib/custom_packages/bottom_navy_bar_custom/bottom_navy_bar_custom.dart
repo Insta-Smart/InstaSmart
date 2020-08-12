@@ -125,7 +125,9 @@ class _ItemWidget extends StatelessWidget {
       duration: animationDuration,
       curve: curve,
       decoration: BoxDecoration(
-        color: isSelected ? Theme.of(context).scaffoldBackgroundColor.withOpacity(1) : backgroundColor,
+        color: isSelected
+            ? Theme.of(context).scaffoldBackgroundColor.withOpacity(1)
+            : backgroundColor,
         borderRadius: BorderRadius.circular(itemCornerRadius),
       ),
       child: SingleChildScrollView(

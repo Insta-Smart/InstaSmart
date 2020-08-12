@@ -52,8 +52,7 @@ class _EditSettingsState extends State<EditSettings> {
                       child: Text(
                         'Edit Settings',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0),
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
                       )),
                   SignUpTextWidget(
                     context: context,

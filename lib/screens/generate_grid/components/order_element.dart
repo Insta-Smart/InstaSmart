@@ -32,15 +32,15 @@ class _OrderElementState extends State<OrderElement> {
     index = widget.index;
     return GestureDetector(
       onTap: () async {
-        setState(() {
-          pressed = true;
-        });
         await Share.file(
           'instasmart image',
           'instasmart-image.png',
           imgBytes[imgBytes.length - index - 1],
           'image/png',
-        ); //
+        );
+        setState(() {
+          pressed = true;
+        }); //
 //        await SocialSharePlugin.shareToFeedInstagram(
 //          path: filePaths[filePaths.length - index - 1],
 //          onSuccess: (string) {
@@ -84,15 +84,15 @@ class _OrderElementState extends State<OrderElement> {
             child: Center(
               child: FlatButton(
                 onPressed: () async {
-                  setState(() {
-                    pressed = true;
-                  });
                   await Share.file(
                     'instasmart image',
                     'instasmart-image.png',
                     imgBytes[imgBytes.length - index - 1],
                     'image/png',
                   );
+                  setState(() {
+                    pressed = true;
+                  });
                 },
                 child: Text(
                   (index + 1).toString(),
