@@ -11,5 +11,4 @@ class MockReminderData extends ReminderData {
 
   @override
   final MockFirebaseLoginFunctions firebase = MockFirebaseLoginFunctions();
-
 }

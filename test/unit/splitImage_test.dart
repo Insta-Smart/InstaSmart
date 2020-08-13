@@ -12,7 +12,7 @@ void main() {
   group(
       'Split Image into parts based on given number of horizontal and vertical pieces:',
       () {
-        var imgBytes;
+    var imgBytes;
     test('split into 3 parts (1x3) ', () async {
       imgBytes = await networkImageToByte(
           'https://drive.google.com/uc?export=view&id=19sjeFM_bR70UE37Lpa9FUgClOA71dLv4');

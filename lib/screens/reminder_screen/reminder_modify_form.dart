@@ -33,7 +33,6 @@ class ReminderFormState extends State<ReminderForm> {
   final GlobalKey<FormFieldState> _specifyTextFieldKey =
       GlobalKey<FormFieldState>();
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -107,7 +106,6 @@ class ReminderFormState extends State<ReminderForm> {
                     ),
                     validators: [FormBuilderValidators.required()],
                     initialValue: widget.reminder.postTime,
-
                   ),
                 ],
               ),

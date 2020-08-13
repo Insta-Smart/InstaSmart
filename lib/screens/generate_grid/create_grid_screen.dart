@@ -66,12 +66,15 @@ class _CreateScreenState extends State<CreateScreen> {
         return Container(
           height: SizeConfig.screenWidth / 3,
           width: SizeConfig.screenWidth / 3,
-          child: Padding(
-            padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 3),
-            child: AssetThumb(
-              asset: asset,
-              width: 200,
-              height: 200,
+          child: FittedBox(
+            fit: BoxFit.fill,
+            child: Padding(
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 15),
+              child: AssetThumb(
+                asset: asset,
+                width: 300,
+                height: 300,
+              ),
             ),
           ),
         );
@@ -270,13 +273,14 @@ class _CreateScreenState extends State<CreateScreen> {
                                     List<Uint8List> genImages = List();
 
                                     for (var img in images) {
-                                      img.getByteData().then((value) =>
-                                          srcBytesList
-                                              .add(value.buffer.asUint8List()));
+                                      var byteData = await img.getByteData();
+                                      srcBytesList
+                                          .add(byteData.buffer.asUint8List());
                                     }
 
                                     var dstBytes = await networkImageToByte(
                                         widget.frameUrl);
+
                                     var split = splitImage(
                                         imgBytes: dstBytes,
                                         verticalPieceCount: 3,

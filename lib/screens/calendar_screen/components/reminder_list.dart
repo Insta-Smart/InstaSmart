@@ -30,7 +30,6 @@ class ReminderList extends StatelessWidget {
                   ],
                   color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(20.0),
-
                 ),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -48,7 +47,6 @@ class ReminderList extends StatelessWidget {
                               builder: (context) => ReminderForm(reminder),
                             ),
                           ),
-
                         },
                     leading: Hero(tag: reminder.id, child: reminder.picture)),
               ))

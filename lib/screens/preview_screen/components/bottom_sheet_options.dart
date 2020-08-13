@@ -52,9 +52,7 @@ class BottomSheetOptions extends StatelessWidget {
             width: SizeConfig.screenWidth / 2,
             height: SizeConfig.screenWidth / 2,
             child: Hero(
-              tag: imageUrl,
-              child: CachedNetworkImage(imageUrl: imageUrl)
-            ),
+                tag: imageUrl, child: CachedNetworkImage(imageUrl: imageUrl)),
           ),
           screen == PreviewScreen
               ? ListTile(

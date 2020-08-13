@@ -1,5 +1,3 @@
-
-
 class Frame {
   String lowResUrl;
   String highResUrl;

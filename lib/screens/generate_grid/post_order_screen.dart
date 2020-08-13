@@ -20,7 +20,7 @@ class PostOrderScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: PageTopBar(
-          title: '',
+          title: 'Post to Instagram',
           appBar: AppBar(),
           widgets: <Widget>[],
         ),

@@ -19,7 +19,7 @@ class AuthScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*15),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
               child: Center(
                 child: Image.asset(
                   'assets/images/instasmartLogo.png',
@@ -28,7 +28,7 @@ class AuthScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*1),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
               child: Text(
                 'InstaSmart',
                 textAlign: TextAlign.center,
@@ -38,9 +38,8 @@ class AuthScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-
             Padding(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*5),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
               child: Text(
                 'Beautify your Feed. Effortlessly.',
                 textAlign: TextAlign.center,

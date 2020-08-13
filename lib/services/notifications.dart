@@ -49,7 +49,7 @@ class LocalNotifications {
     await flutterLocalNotificationsPlugin.cancel(id);
   }
 
-  Future onSelectNotification(String payLoad) async{
+  Future onSelectNotification(String payLoad) async {
     if (payLoad != null) {
       print(payLoad);
     }
