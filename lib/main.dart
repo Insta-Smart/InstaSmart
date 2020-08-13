@@ -1,17 +1,11 @@
 // Dart imports:
 import 'dart:async';
 
-// Flutter imports:
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-// Package imports:
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-// Project imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:instasmart/components/loading_screen.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/models/user.dart';
@@ -24,8 +18,10 @@ import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart'
 import 'package:instasmart/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:instasmart/screens/preview_screen/preview_screen.dart';
 import 'package:instasmart/utils/helper.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'services/login_functions.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
