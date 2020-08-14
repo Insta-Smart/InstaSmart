@@ -23,6 +23,7 @@ Uint8List overlayImages(Uint8List imgBottom, Uint8List imgTop) {
         src, 0, src.height ~/ 20, src.width.floor(), src.width.floor());
     src = imglib.copyResize(src, width: dstWidth - 300);
   }
+  
   int srcWidth = src.width.floor().toInt();
   dstWidth = dst.width.floor().toInt();
   int dstPostion = ((dst.width - src.width) ~/ 2);
