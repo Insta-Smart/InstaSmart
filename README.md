@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://popcorn-data.herokuapp.com/">
-    <img src="assets/images/instasmartLogo.png" alt="Logo" width="150" height="150">
+    <img src="assets/images/instasmart_logo_final.png" alt="Logo" width="150" height="150">
   </a>
 
   <h1 align="center">InstaSmart<br />
