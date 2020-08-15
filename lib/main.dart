@@ -47,6 +47,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return AdaptiveTheme(
         light: ThemeData(
             colorScheme: ColorScheme.light(
+              background: Colors.white,
               primary: Constants.lightPurple, //constant Color(0xFF16A5A6)
             ),
             primaryColor: Constants.lightPurple,
