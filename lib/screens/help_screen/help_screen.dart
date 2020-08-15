@@ -24,10 +24,10 @@ class HelpScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _courseList() {
+  List<Widget> _courseList(BuildContext context) {
     return List.generate(CourseList.list.length, (index) {
       return Column(children: <Widget>[
-        _courseInfo(CourseList.list[index],
+        _courseInfo(CourseList.list[index], context,
             _decorationContainerA(Colors.redAccent, -110, -85),
             background: Constants.paleBlue),
         Divider(
@@ -39,7 +39,8 @@ class HelpScreen extends StatelessWidget {
     });
   }
 
-  Widget _courseInfo(CourseModel model, Widget decoration, {Color background}) {
+  Widget _courseInfo(CourseModel model, BuildContext context, Widget decoration,
+      {Color background}) {
     return Container(
         padding: EdgeInsets.only(
             left: SizeConfig.blockSizeHorizontal * 6,
@@ -77,7 +78,7 @@ class HelpScreen extends StatelessWidget {
                   Text(model.description,
                       style: TextStyle(
                           fontSize: 16,
-                          color: Constants.darkPurple,
+                          color: Theme.of(context).textSelectionColor,
                           height: 1.5)),
                   SizedBox(height: 15),
                   Row(
@@ -175,7 +176,7 @@ class HelpScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                children: _courseList(),
+                children: _courseList(context),
               ),
             ),
           ])),

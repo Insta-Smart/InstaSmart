@@ -60,7 +60,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 primaryVariant: Constants.lightPurple),
             brightness: Brightness.dark,
             primaryColor: Constants.lightPurple,
-            accentColor: Colors.teal,
+            accentColor: Color(0xffa3fff6),
             focusColor: Colors.white,
             highlightColor: Colors.white24,
             textSelectionColor: Colors.white),
