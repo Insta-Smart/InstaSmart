@@ -16,7 +16,14 @@ Uint8List overlayImages(Uint8List imgBottom, Uint8List imgTop) {
 
   //Resize imgBottom into a square image with side 300 less than imgTop
 //  src = imglib.copyResize(src, width: dstWidth - 300, height: dstWidth - 300);
-  src = imglib.copyResizeCropSquare(src, dstWidth - 300);
+  if (src.width >= src.height) {
+    src = imglib.copyResizeCropSquare(src, dstWidth - 300);
+  } else {
+    src = imglib.copyCrop(
+        src, 0, src.height ~/ 20, src.width.floor(), src.width.floor());
+    src = imglib.copyResize(src, width: dstWidth - 300);
+  }
+  
   int srcWidth = src.width.floor().toInt();
   dstWidth = dst.width.floor().toInt();
   int dstPostion = ((dst.width - src.width) ~/ 2);

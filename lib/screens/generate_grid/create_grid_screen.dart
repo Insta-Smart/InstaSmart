@@ -18,6 +18,7 @@ import 'package:instasmart/utils/overlayImages.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
+import 'package:isolate_handler/isolate_handler.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -27,6 +28,10 @@ import 'components/grid_frame.dart';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
+
+final isolates = IsolateHandler();
+int counter = 0;
+
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
   CreateScreen(this.frameUrl, this.index, this.user);
@@ -218,7 +223,7 @@ class _CreateScreenState extends State<CreateScreen> {
                           ? TipTextWidget(
                               tipBody: !addedImgs
                                   ? 'To create a 1x3 or 2x3 grid, add just 3 or 6 photos.'
-                                  : 'Press & hold on each photo to rearrange them.',
+                                  : 'Press & hold photos to rearrange them.',
                             )
                           : Container(),
                     ],
@@ -233,6 +238,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                   title: 'Save to Gallery',
                                   ontap: () async {
                                     bool functionDone = false;
+
                                     pr.style(
                                       message: 'Saving your grid...',
                                       borderRadius: 10.0,
@@ -249,11 +255,12 @@ class _CreateScreenState extends State<CreateScreen> {
                                     pr.show();
 
                                     Future.delayed(
-                                        const Duration(milliseconds: 6000), () {
+                                        const Duration(milliseconds: 3000), () {
                                       if (!functionDone) {
                                         pr.update(
                                             progress: 50.0,
                                             message: 'Please wait...');
+
 //                                        pr.hide();
 //                                        pr.style(
 //                                          message:
@@ -269,6 +276,7 @@ class _CreateScreenState extends State<CreateScreen> {
 //                                        pr.show();
                                       }
                                     });
+
                                     List<Uint8List> srcBytesList = List();
                                     List<Uint8List> genImages = List();
 
@@ -291,6 +299,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                       genImages.add(overlayImages(
                                           srcBytesList[i], split[i]));
                                     }
+
                                     saveImages(genImages).then((value) {
                                       print(value);
                                       pr.hide();
@@ -473,4 +482,13 @@ class _CreateScreenState extends State<CreateScreen> {
       ),
     );
   }
+}
+
+Future imgGen(var images) async {
+  List<Uint8List> srcBytesList = List();
+  for (var img in images) {
+    var byteData = await img.getByteData();
+    srcBytesList.add(byteData.buffer.asUint8List());
+  }
+  return srcBytesList;
 }
