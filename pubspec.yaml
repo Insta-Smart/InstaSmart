@@ -64,9 +64,10 @@ dev_dependencies:
   flutter_native_splash: ^0.1.9
 
 flutter_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
-  image_path: "assets/images/instasmart_logo_final.png"
+  image_path_ios: "assets/images/instasmart_logo_final.png"
+  image_path_android: "assets/images/instasmart_logo_final.png"
 
 flutter_native_splash:
   image: assets/images/instasmart_logo_final.png
