@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: 'Account',
                   tiles: [
                     SettingsTile(
-                        title: user.fullName(),
+                        title: user.fullName() ?? " ",
                         leading: Icon(Icons.perm_identity)),
                     SettingsTile(title: user.email, leading: Icon(Icons.email)),
                     SettingsTile(

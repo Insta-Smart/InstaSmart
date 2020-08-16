@@ -33,7 +33,7 @@ class TemplateButton extends StatefulWidget {
 class _TemplateButtonState extends State<TemplateButton> {
   @override
   Widget build(BuildContext context) {
-    final Color buttonColor = widget.color ?? Constants.paleBlue;
+    final Color buttonColor = widget.color ?? Theme.of(context).accentColor;
     return Container(
       margin: EdgeInsets.symmetric(
           horizontal: SizeConfig.blockSizeHorizontal * 0.5,
@@ -63,10 +63,11 @@ class _TemplateButtonState extends State<TemplateButton> {
                   ),
           ],
         ),
-        color: widget.color == null ? Colors.white : Colors.white,
+        color: Theme.of(context).backgroundColor,
         shape: new RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(12),
-            side: BorderSide(color: Colors.white, width: 1)),
+            side:
+                BorderSide(color: Theme.of(context).backgroundColor, width: 1)),
         onPressed: widget.ontap,
         focusColor: Colors.white,
         hoverColor: Colors.white70,
