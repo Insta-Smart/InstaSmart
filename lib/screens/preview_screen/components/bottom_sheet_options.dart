@@ -1,25 +1,16 @@
 // Dart imports:
-import 'dart:io';
 import 'dart:typed_data';
 
-// Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
-import 'package:network_image_to_byte/network_image_to_byte.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:social_share_plugin/social_share_plugin.dart';
-
-// Project imports:
 import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/screens/reminder_screen/reminder_create_form.dart';
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
-import 'url_to_file.dart';
+import 'package:network_image_to_byte/network_image_to_byte.dart';
 
 class BottomSheetOptions extends StatelessWidget {
   const BottomSheetOptions({
@@ -88,7 +79,7 @@ class BottomSheetOptions extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.save_alt),
-            title: Text('Save To Phone'),
+            title: Text('Save to Phone'),
             onTap: () async {
               var imgBytes = await networkImageToByte(imageUrl);
               saveImages([imgBytes]);

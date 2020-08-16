@@ -1,10 +1,9 @@
+import 'dart:async';
+
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instasmart/components/page_top_bar.dart';
-import 'package:settings_ui/settings_ui.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-// Project imports:
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/help_screen/help_screen.dart';
@@ -12,10 +11,8 @@ import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart'
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
-import '../HomeScreen.dart';
-import '../signup_screen/signup_screen.dart';
-import 'dart:async';
+import 'package:settings_ui/settings_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -24,6 +21,17 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   @override
+  void _createEmail() async {
+    const emailaddress =
+        'mailto:orbital2k20@gmail.com?subject=InstaSmart Feedback&body=Give us your feedback here!';
+
+    if (await canLaunch(emailaddress)) {
+      await launch(emailaddress);
+    } else {
+      throw 'Could not Email';
+    }
+  }
+
   Widget build(BuildContext context) {
     User user = MyAppState.currentUser;
     SizeConfig().init(context);
@@ -97,8 +105,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: 'Contact',
                   tiles: [
                     SettingsTile(
-                        title: 'Get in Touch',
-                        leading: Icon(Icons.alternate_email)),
+                        title: 'Reach us at orbital2k20@gmail.com',
+                        leading: Icon(Icons.alternate_email),
+                        onTap: _createEmail),
                   ],
                 ),
               ],

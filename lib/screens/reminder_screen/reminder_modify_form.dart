@@ -1,19 +1,16 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:intl/intl.dart';
-
-// Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
+import 'package:instasmart/main.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/preview_screen/components/bottom_sheet_options.dart';
 import 'package:instasmart/services/notifications.dart';
 import 'package:instasmart/services/reminder_data.dart';
 import 'package:instasmart/utils/size_config.dart';
+import 'package:intl/intl.dart';
 
 class ReminderForm extends StatefulWidget {
   static const routeName = '/reminder_form';
@@ -147,8 +144,9 @@ class ReminderFormState extends State<ReminderForm> {
                         widget.reminder.caption = formValues['caption'];
                         widget.reminder.postTime = formValues['postTime'];
                         ReminderData().updateReminder(widget.reminder);
-                        notifications
-                            .scheduleNotification(widget.reminder.postTime);
+                        notifications.scheduleNotification(
+                            widget.reminder.postTime,
+                            MyAppState.currentUser.firstName);
                         Navigator.pop(context);
                       } else {
                         print(_fbKey.currentState.value);

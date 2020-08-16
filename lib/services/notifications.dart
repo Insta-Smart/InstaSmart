@@ -1,10 +1,7 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:instasmart/screens/HomeScreen.dart';
 
 class LocalNotifications {
   LocalNotifications(this.context);
@@ -25,7 +22,7 @@ class LocalNotifications {
         onSelectNotification: onSelectNotification);
   }
 
-  Future<void> scheduleNotification(DateTime postTime) async {
+  Future<void> scheduleNotification(DateTime postTime, String name) async {
     int id = int.parse(
         "${postTime.month}${postTime.day}${postTime.hour}${postTime.minute}");
     AndroidNotificationDetails androidNotificationDetails =
@@ -39,8 +36,12 @@ class LocalNotifications {
 
     NotificationDetails notificationDetails =
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
-    await flutterLocalNotificationsPlugin.schedule(id, 'Post Reminder',
-        'Its time to post your photo!', postTime, notificationDetails);
+    await flutterLocalNotificationsPlugin.schedule(
+        id,
+        'Post Reminder',
+        'Hey $name, it\'s time to post your photo!',
+        postTime,
+        notificationDetails);
   }
 
   Future<void> cancelNotification(DateTime postTime) async {
