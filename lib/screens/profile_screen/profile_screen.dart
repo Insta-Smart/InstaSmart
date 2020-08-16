@@ -1,25 +1,21 @@
 // Dart imports:
 import 'dart:ui';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// Project imports:
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
-import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/screens/help_screen/help_screen.dart';
 import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
+
 import '../HomeScreen.dart';
 import '../signup_screen/signup_screen.dart';
 

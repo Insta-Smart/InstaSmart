@@ -18,7 +18,6 @@ import 'package:instasmart/utils/overlayImages.dart';
 import 'package:instasmart/utils/save_images.dart';
 import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
-import 'package:isolate_handler/isolate_handler.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -28,9 +27,6 @@ import 'components/grid_frame.dart';
 
 //TODO: app crashes after adding to preview
 //TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
-
-final isolates = IsolateHandler();
-int counter = 0;
 
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
@@ -245,7 +241,8 @@ class _CreateScreenState extends State<CreateScreen> {
                                       backgroundColor: Colors.white,
                                       messageTextStyle:
                                           TextStyle(color: Colors.black),
-                                      progressWidget: Container(),
+                                      progressWidget:
+                                          CircularProgressIndicator(),
 //                                      SpinKitFadingGrid(
 //                                        size: 30,
 //                                        color: Constants.lightPurple,
@@ -285,7 +282,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                       srcBytesList
                                           .add(byteData.buffer.asUint8List());
                                     }
-
+//
                                     var dstBytes = await networkImageToByte(
                                         widget.frameUrl);
 
@@ -299,10 +296,10 @@ class _CreateScreenState extends State<CreateScreen> {
                                       genImages.add(overlayImages(
                                           srcBytesList[i], split[i]));
                                     }
+                                    pr.hide();
 
                                     saveImages(genImages).then((value) {
                                       print(value);
-                                      pr.hide();
                                       functionDone = true;
                                       showDialog(
                                           context: context,
@@ -482,13 +479,4 @@ class _CreateScreenState extends State<CreateScreen> {
       ),
     );
   }
-}
-
-Future imgGen(var images) async {
-  List<Uint8List> srcBytesList = List();
-  for (var img in images) {
-    var byteData = await img.getByteData();
-    srcBytesList.add(byteData.buffer.asUint8List());
-  }
-  return srcBytesList;
 }

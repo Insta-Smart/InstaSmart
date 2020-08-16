@@ -51,7 +51,7 @@ dependencies:
   settings_ui: ^0.3.0
   adaptive_theme: ^1.0.0
   esys_flutter_share: ^1.0.2
-  isolate_handler: ^0.3.1
+  url_launcher: ^5.5.0
 
 dev_dependencies:
   flutter_test:
