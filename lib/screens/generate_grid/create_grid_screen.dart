@@ -25,9 +25,6 @@ import 'package:reorderables/reorderables.dart';
 
 import 'components/grid_frame.dart';
 
-//TODO: app crashes after adding to preview
-//TODO: automatically go to preview after adding pics otherwise the user might re-add to prevoew
-
 class CreateScreen extends StatefulWidget {
   static const routeName = '/create_grid';
   CreateScreen(this.frameUrl, this.index, this.user);

@@ -41,11 +41,17 @@ class FirebaseLoginFunctions extends ChangeNotifier {
 
   Future<User> createUserWithEmailAndPassword(String email, String password,
       String firstName, String lastName, BuildContext context) async {
+    UserUpdateInfo info = new UserUpdateInfo();
+
     final AuthResult authResult = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
+    info.displayName = firstName;
+    var user = await auth.currentUser();
+    user.updateProfile(info);
+    await user.reload();
 
     try {
-      authResult.user.sendEmailVerification();
+      auth.currentUser().then((user) => user.sendEmailVerification());
     } catch (e) {
       print("An error occured while trying to send email verification:");
       print(e);

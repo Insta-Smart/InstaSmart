@@ -1,21 +1,17 @@
 // Dart imports:
 import 'dart:async';
 
-// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:provider/provider.dart';
-
-// Project imports:
 import 'package:instasmart/components/page_top_bar.dart';
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/size_config.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:provider/provider.dart';
+
 import './components/reorderable_grid.dart';
 
 class PreviewScreen extends StatefulWidget {
@@ -104,7 +100,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 child: FloatingActionButton(
                   child: Icon(
                     Icons.add_a_photo,
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                   ),
                   backgroundColor: Theme.of(context).accentColor,
                   onPressed: loadAssets,

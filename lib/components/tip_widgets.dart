@@ -1,11 +1,8 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Project imports:
 import 'package:instasmart/components/custom_dialog_widget.dart';
 import 'package:instasmart/utils/size_config.dart';
-import '../constants.dart';
 
 class TipDialogWidget extends StatelessWidget {
   final Alignment alignment;
@@ -66,7 +63,7 @@ class TipTextWidget extends StatelessWidget {
             '#InstaSmartTip!',
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 22),
           ),
