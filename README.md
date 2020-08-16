@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="">
-    <img src="assets/images/instasmartLogoHD.png" alt="Logo" width="150" height="150">
+    <img src="assets/images/instasmartLogo.png" alt="Logo" width="150" height="150">
   </a>
 
   <h1 align="center">InstaSmart<br />
