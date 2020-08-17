@@ -21,12 +21,17 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   @override
-  void _createEmail() async {
-    const emailaddress =
-        'mailto:orbital2k20@gmail.com?subject=InstaSmart Feedback&body=Give us your feedback here!';
+  Future<void> _createEmail() async {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'orbital2k20@example.com',
+        queryParameters: {
+          'subject': 'Instasmart Feedback',
+          'body': 'Give us your feedback below!'
+        });
 
-    if (await canLaunch(emailaddress)) {
-      await launch(emailaddress);
+    if (await canLaunch(_emailLaunchUri.toString())) {
+      await launch(_emailLaunchUri.toString());
     } else {
       throw 'Could not Email';
     }

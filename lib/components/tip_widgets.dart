@@ -18,9 +18,7 @@ class TipDialogWidget extends StatelessWidget {
       width: SizeConfig.blockSizeHorizontal * 300,
       margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 85),
       child: RaisedButton(
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.white
-              : Colors.grey,
+          color: Theme.of(context).backgroundColor,
           elevation: 10,
           child: Icon(
             Icons.help,
@@ -31,10 +29,7 @@ class TipDialogWidget extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
                   bottomLeft: Radius.circular(50)),
-              side: BorderSide(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.white
-                      : Colors.grey)),
+              side: BorderSide(color: Theme.of(context).backgroundColor)),
           onPressed: () {
             showDialog(
                 context: context,
