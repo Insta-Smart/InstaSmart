@@ -236,10 +236,11 @@ class _CreateScreenState extends State<CreateScreen> {
                                       message: 'Saving your grid...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
-                                      messageTextStyle:
-                                          TextStyle(color: Colors.black),
-                                      progressWidget:
-                                          CircularProgressIndicator(),
+                                      messageTextStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
+                                      progressWidget: Container(),
 //                                      SpinKitFadingGrid(
 //                                        size: 30,
 //                                        color: Constants.lightPurple,
@@ -315,12 +316,13 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Adding to My Feed...',
+                                      message: 'Adding to Feed...',
                                       borderRadius: 10.0,
                                       backgroundColor: Colors.white,
-                                      messageTextStyle:
-                                          TextStyle(color: Colors.black),
-                                      progressWidget: Container(),
+                                      messageTextStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15),
                                       elevation: 10.0,
                                     );
                                     pr.show();
@@ -338,9 +340,9 @@ class _CreateScreenState extends State<CreateScreen> {
                                     List<Uint8List> genImages = List();
                                     try {
                                       for (var img in images) {
-                                        img.getByteData().then((value) =>
-                                            srcBytesList.add(
-                                                value.buffer.asUint8List()));
+                                        var byteData = await img.getByteData();
+                                        srcBytesList
+                                            .add(byteData.buffer.asUint8List());
                                       }
                                       var dstBytes = await networkImageToByte(
                                           widget.frameUrl);
@@ -403,12 +405,14 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Saving your grid...',
+                                      message: 'Preparing Images...',
                                       borderRadius: 10.0,
-                                      //messageTextStyle:
-                                      //    TextStyle(color: Colors.black),
+                                      messageTextStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                      ),
                                       backgroundColor: Colors.white,
-                                      progressWidget: Container(),
 //                                      SpinKitFadingGrid(
 //                                        size: 30,
 //                                        color: Constants.lightPurple,
@@ -430,9 +434,9 @@ class _CreateScreenState extends State<CreateScreen> {
                                     List<Uint8List> genImages = List();
 
                                     for (var img in images) {
-                                      img.getByteData().then((value) =>
-                                          srcBytesList
-                                              .add(value.buffer.asUint8List()));
+                                      var byteData = await img.getByteData();
+                                      srcBytesList
+                                          .add(byteData.buffer.asUint8List());
                                     }
 
                                     var dstBytes = await networkImageToByte(

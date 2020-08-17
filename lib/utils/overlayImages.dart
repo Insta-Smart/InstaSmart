@@ -19,11 +19,16 @@ Uint8List overlayImages(Uint8List imgBottom, Uint8List imgTop) {
   if (src.width >= src.height) {
     src = imglib.copyResizeCropSquare(src, dstWidth - 300);
   } else {
-    src = imglib.copyCrop(
-        src, 0, src.height ~/ 20, src.width.floor(), src.width.floor());
-    src = imglib.copyResize(src, width: dstWidth - 300);
+    try {
+      src = imglib.copyCrop(
+          src, 0, src.height ~/ 20, src.width.floor(), src.width.floor());
+      src = imglib.copyResize(src, width: dstWidth - 300);
+    } catch (e) {
+      src = imglib.copyCrop(src, 0, 0, src.width.floor(), src.width.floor());
+      src = imglib.copyResize(src, width: dstWidth - 300);
+    }
   }
-  
+
   int srcWidth = src.width.floor().toInt();
   dstWidth = dst.width.floor().toInt();
   int dstPostion = ((dst.width - src.width) ~/ 2);
