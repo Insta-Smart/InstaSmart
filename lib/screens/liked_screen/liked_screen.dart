@@ -201,37 +201,37 @@ class _LikedScreenState extends State<LikedScreen> {
   }
 }
 
-class ExploreNowWidget extends StatelessWidget {
-  const ExploreNowWidget({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
-
-  final User user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          TipTextWidget(
-            tipBody: 'Heart your favourite frames & easily view them here.',
-          ),
-          Container(
-            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 6),
-            width: SizeConfig.blockSizeHorizontal * 40,
-            child: TemplateButton(
-                title: 'Explore Now!',
-                iconType: Icons.navigate_next,
-                color: Constants.palePink,
-                ontap: () {
-                  pushAndRemoveUntil(context, HomeScreen(user: user), false);
-                }),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//class ExploreNowWidget extends StatelessWidget {
+//  const ExploreNowWidget({
+//    Key key,
+//    @required this.user,
+//  }) : super(key: key);
+//
+//  final User user;
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container(
+//      alignment: Alignment.center,
+//      child: Column(
+//        mainAxisAlignment: MainAxisAlignment.center,
+//        children: <Widget>[
+//          TipTextWidget(
+//            tipBody: 'Heart your favourite frames & easily view them here.',
+//          ),
+//          Container(
+//            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 6),
+//            width: SizeConfig.blockSizeHorizontal * 40,
+//            child: TemplateButton(
+//                title: 'Explore Now!',
+//                iconType: Icons.navigate_next,
+//                color: Constants.paleBlue,
+//                ontap: () {
+//                  pushAndRemoveUntil(context, HomeScreen(user: user), false);
+//                }),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
+//}

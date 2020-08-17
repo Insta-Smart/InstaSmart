@@ -68,5 +68,10 @@
 <string>This app requires access to the camera.</string>
 <key>NSPhotoLibraryAddUsageDescription</key>
 <string>This is called Privacy - Photo Library Additions Usage Description in the visual editor</string>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>youtube</string>
+</array>
+
 </dict>
 </plist>
