@@ -30,9 +30,6 @@ class _SettingsPageState extends State<SettingsPage> {
           'body': 'Give us your feedback below!'
         });
 
-//    const emailaddress =
-//        'mailto:orbital2k20@gmail.com?subject=InstaSmart Feedback&body=Give us your feedback here!';
-
     if (await canLaunch(_emailLaunchUri.toString())) {
       await launch(_emailLaunchUri.toString());
     } else {
