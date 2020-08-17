@@ -1,14 +1,10 @@
 // Flutter imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instasmart/components/shimmer_widget.dart';
-
-// Project imports:
 import 'package:instasmart/components/frame_widget.dart';
 import 'package:instasmart/components/popup_widget.dart';
+import 'package:instasmart/components/shimmer_widget.dart';
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
@@ -17,7 +13,6 @@ import 'package:instasmart/models/user.dart';
 import 'package:instasmart/screens/HomeScreen.dart';
 import 'package:instasmart/screens/generate_grid/create_grid_screen.dart';
 import 'package:instasmart/services/login_functions.dart';
-import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
 
 //https://www.youtube.com/watch?v=BUmewWXGvCA  --> reference link
@@ -200,38 +195,3 @@ class _LikedScreenState extends State<LikedScreen> {
     }
   }
 }
-
-//class ExploreNowWidget extends StatelessWidget {
-//  const ExploreNowWidget({
-//    Key key,
-//    @required this.user,
-//  }) : super(key: key);
-//
-//  final User user;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//      alignment: Alignment.center,
-//      child: Column(
-//        mainAxisAlignment: MainAxisAlignment.center,
-//        children: <Widget>[
-//          TipTextWidget(
-//            tipBody: 'Heart your favourite frames & easily view them here.',
-//          ),
-//          Container(
-//            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 6),
-//            width: SizeConfig.blockSizeHorizontal * 40,
-//            child: TemplateButton(
-//                title: 'Explore Now!',
-//                iconType: Icons.navigate_next,
-//                color: Constants.paleBlue,
-//                ontap: () {
-//                  pushAndRemoveUntil(context, HomeScreen(user: user), false);
-//                }),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//}

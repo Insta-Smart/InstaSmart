@@ -185,7 +185,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               ? Column(
                                   children: <Widget>[
                                     TemplateButton(
-                                        title: '1. Add Your Photos',
+                                        title: ' 1. Add Your Photos',
                                         iconType: Icons.camera,
                                         ontap: () {
                                           loadAssets();
@@ -195,7 +195,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               : Container(),
                           addedImgs && !finished
                               ? TemplateButton(
-                                  title: '2. Finish',
+                                  title: ' 2. Finish',
                                   iconType: Icons.check_circle_outline,
                                   color: Colors.lightGreen,
                                   ontap: () async {

@@ -66,11 +66,11 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path_ios: "assets/images/instasmart_logo_final.png"
-  image_path_android: "assets/images/instasmart_logo_final.png"
+  image_path_ios: "assets/images/InstaSmart_Logo.png"
+  image_path_android: "assets/images/InstaSmart_Logo.png"
 
 flutter_native_splash:
-  image: assets/images/instasmart_logo_final.png
+  image: assets/images/InstaSmart_Logo.png
   color: "ffffff"
 
 flutter:
