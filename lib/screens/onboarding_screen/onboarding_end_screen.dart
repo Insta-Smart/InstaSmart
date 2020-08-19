@@ -1,8 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-
-// Project imports:
-import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/login_screen/login_screen.dart';
 import 'package:instasmart/screens/signup_screen/signup_screen.dart';
 import 'package:instasmart/test_driver/Keys.dart';
@@ -14,7 +11,7 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,7 +20,7 @@ class AuthScreen extends StatelessWidget {
               padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
               child: Center(
                 child: Image.asset(
-                  'assets/images/instasmart_logo_final.png',
+                  'assets/images/InstaSmart_Logo.png',
                   height: SizeConfig.blockSizeVertical * 20,
                 ),
               ),
