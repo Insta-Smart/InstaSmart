@@ -1,4 +1,4 @@
-package com.example.instasmart
+package com.orbital.instasmart
 
 import io.flutter.embedding.android.FlutterActivity
 

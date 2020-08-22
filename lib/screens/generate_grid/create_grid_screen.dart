@@ -20,6 +20,7 @@ import 'package:instasmart/utils/size_config.dart';
 import 'package:instasmart/utils/splitImage.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:network_image_to_byte/network_image_to_byte.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:reorderables/reorderables.dart';
 
@@ -52,6 +53,15 @@ class _CreateScreenState extends State<CreateScreen> {
     setState(() {
       images.insert(newIndex, images.removeAt(oldIndex));
     });
+  }
+
+  _requestPermission() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+    ].request();
+
+    final info = statuses[Permission.storage].toString();
+    print(info);
   }
 
   Widget buildGridView() {
@@ -230,6 +240,7 @@ class _CreateScreenState extends State<CreateScreen> {
                                   iconType: Icons.file_download,
                                   title: 'Save to Gallery',
                                   ontap: () async {
+                                    await _requestPermission();
                                     bool functionDone = false;
 
                                     pr.style(

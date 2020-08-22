@@ -11,6 +11,12 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+else {
+    keystoreProperties.setProperty('storePassword', System.getenv('KEY_STORE_PASSWORD'));
+    keystoreProperties.setProperty('keyPassword', System.getenv('KEY_PASSWORD'));
+    keystoreProperties.setProperty('keyAlias', System.getenv('ALIAS'));
+    keystoreProperties.setProperty('storeFile', System.getenv('KEY_PATH'));
+}
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
@@ -19,12 +25,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = '1.0.0'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0.1'
+    flutterVersionName = '1.0.0'
 }
 
 apply plugin: 'com.android.application'
@@ -33,7 +39,7 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -48,8 +54,8 @@ android {
         applicationId "com.orbital.instasmart"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 2
+        versionName "1.0.1"
         multiDexEnabled true
     }
     signingConfigs {
