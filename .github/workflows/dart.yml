@@ -61,7 +61,7 @@ jobs:
 
   build:
 
-    if: github.event_name != 'pull_request'
+#    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     name: Build APK
     needs: [Unit_Tests]
