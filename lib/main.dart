@@ -67,7 +67,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             focusColor: Colors.white,
             highlightColor: Colors.white24,
             textSelectionColor: Colors.white),
-        initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
+        initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
         builder: (theme, darkTheme) =>
             ChangeNotifierProvider<FirebaseLoginFunctions>(
               create: (context) => FirebaseLoginFunctions(),

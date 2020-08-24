@@ -1,13 +1,7 @@
 // Flutter imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:reorderables/reorderables.dart';
-import 'package:shimmer/shimmer.dart';
-
-// Project imports:
 import 'package:instasmart/components/template_button.dart';
 import 'package:instasmart/components/tip_widgets.dart';
 import 'package:instasmart/constants.dart';
@@ -18,6 +12,9 @@ import 'package:instasmart/services/firebase_image_storage.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:instasmart/utils/size_config.dart';
+import 'package:reorderables/reorderables.dart';
+import 'package:shimmer/shimmer.dart';
+
 import '../../HomeScreen.dart';
 
 class ReorderableGrid extends StatelessWidget {
@@ -131,7 +128,7 @@ class ReorderableGrid extends StatelessWidget {
                                       child: PreviewPhoto(snapshot.data[index]),
                                     ),
                                   ),
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                               );
                             }),

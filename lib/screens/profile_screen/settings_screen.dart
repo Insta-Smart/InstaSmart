@@ -53,8 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: FutureBuilder<AdaptiveThemeMode>(
           future: themeMode,
           builder: (context, snapshot) {
-            bool darkMode =
-                snapshot.data == AdaptiveThemeMode.light ? false : true;
+            bool darkMode = snapshot.data.isDark;
             return SettingsList(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               sections: [

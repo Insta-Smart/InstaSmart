@@ -61,7 +61,7 @@ jobs:
 
   build:
 
-    if: github.event_name != 'pull_request'
+#    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     name: Build APK
     needs: [Unit_Tests]
@@ -70,13 +70,21 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      - run: echo $SIGNING_KEY | base64 -d > android/app/key.jks
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
       - uses: subosito/flutter-action@v1.3.2
         with:
           flutter-version: '1.20.1'
-      - run: flutter build apk --debug --split-per-abi
+      - run: flutter build apk --split-per-abi
+        env:
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          ALIAS: ${{ secrets.ALIAS }}
+          KEY_PATH: key.jks
 #       - name: Create a Release APK
 #         uses: ncipollo/release-action@v1
 #         with:
-#           artifacts: "build/app/outputs/apk/debug/*.apk"
+#           artifacts: "build/app/outputs/apk/release/*.apk"
 #           token: ${{ secrets.TOKEN }}
 #           tag: v1.0.1
