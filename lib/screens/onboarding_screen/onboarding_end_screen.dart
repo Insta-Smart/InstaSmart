@@ -20,7 +20,7 @@ class AuthScreen extends StatelessWidget {
               padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
               child: Center(
                 child: Image.asset(
-                  'assets/images/InstaSmart_Logo.png',
+                  'assets/images/instasmart_logo_alpha.png',
                   height: SizeConfig.blockSizeVertical * 20,
                 ),
               ),

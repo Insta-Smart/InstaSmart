@@ -8,50 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:575653619962:android:f0f247cc36d18c81b5c143",
-        "android_client_info": {
-          "package_name": "com.example.instasmart"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "575653619962-h4u7nirulmatu02ordlt7e8q6fg9ikg7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.instasmart",
-            "certificate_hash": "f629912136372ff0391f7c1a86a44cd69ee71b08"
-          }
-        },
-        {
-          "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDRt1EoSo77KHc6TTs6ZBkcl5fX4xM_8-U"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "575653619962-hqcaicbbdo1i2eeravqi1c3c3pm0sgch.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.instasmart"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:575653619962:android:57d291b880cc3c39b5c143",
         "android_client_info": {
           "package_name": "com.example.instsmrt_backend_app"
@@ -88,12 +44,72 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:575653619962:android:190baf65b698c175b5c143",
+        "mobilesdk_app_id": "1:575653619962:android:a49fa51a4b5bcbafb5c143",
         "android_client_info": {
           "package_name": "com.orbital.instasmart"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "575653619962-6ukod37enp7m82f54q4152792mhbtavq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.orbital.instasmart",
+            "certificate_hash": "f629912136372ff0391f7c1a86a44cd69ee71b08"
+          }
+        },
+        {
+          "client_id": "575653619962-ddn62a14mg0skr98clbcamhvb8kk81t5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.orbital.instasmart",
+            "certificate_hash": "c830a5c4535b50d5dd2783d543d39777535bf7b1"
+          }
+        },
+        {
+          "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRt1EoSo77KHc6TTs6ZBkcl5fX4xM_8-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "575653619962-hqcaicbbdo1i2eeravqi1c3c3pm0sgch.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.instasmart"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575653619962:android:449ec44cea4745e1b5c143",
+        "android_client_info": {
+          "package_name": "com.orbital.intsasmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575653619962-8g45t3efo7houkilp4lr0qmhdc1b2m3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.orbital.intsasmart",
+            "certificate_hash": "c830a5c4535b50d5dd2783d543d39777535bf7b1"
+          }
+        },
         {
           "client_id": "575653619962-snbej92fllqssmag14i8gpgt80o5tv4g.apps.googleusercontent.com",
           "client_type": 3
