@@ -51,11 +51,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "575653619962-34lkgusjela28n4mnfeuif19ltgkcgu3.apps.googleusercontent.com",
+          "client_id": "575653619962-6ukod37enp7m82f54q4152792mhbtavq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.orbital.instasmart",
-            "certificate_hash": "6e868c6020b7dd79881936d0c0b9764d10c1e5c5"
+            "certificate_hash": "f629912136372ff0391f7c1a86a44cd69ee71b08"
+          }
+        },
+        {
+          "client_id": "575653619962-ddn62a14mg0skr98clbcamhvb8kk81t5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.orbital.instasmart",
+            "certificate_hash": "c830a5c4535b50d5dd2783d543d39777535bf7b1"
           }
         },
         {
@@ -95,11 +103,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "575653619962-blesjgvdkg89sn618crv4v5omb3of48i.apps.googleusercontent.com",
+          "client_id": "575653619962-8g45t3efo7houkilp4lr0qmhdc1b2m3b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.orbital.intsasmart",
-            "certificate_hash": "6e868c6020b7dd79881936d0c0b9764d10c1e5c5"
+            "certificate_hash": "c830a5c4535b50d5dd2783d543d39777535bf7b1"
           }
         },
         {
