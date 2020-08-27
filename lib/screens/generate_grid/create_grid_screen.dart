@@ -65,28 +65,31 @@ class _CreateScreenState extends State<CreateScreen> {
   }
 
   Widget buildGridView() {
-    return ReorderableWrap(
-      minMainAxisCount: 3,
-      onReorder: _onReorder,
-      padding: EdgeInsets.all(0),
-      children: List.generate(images.length, (index) {
-        Asset asset = images[index];
-        return Container(
-          height: SizeConfig.screenWidth / 3,
-          width: SizeConfig.screenWidth / 3,
-          child: FittedBox(
-            fit: BoxFit.fill,
-            child: Padding(
-              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 15),
-              child: AssetThumb(
-                asset: asset,
-                width: 300,
-                height: 300,
+    return Container(
+      child: ReorderableWrap(
+        minMainAxisCount: 3,
+        onReorder: _onReorder,
+        padding: EdgeInsets.all(0),
+        children: List.generate(images.length, (index) {
+          Asset asset = images[index];
+          return Container(
+            height: SizeConfig.screenWidth / 3,
+            width: SizeConfig.screenWidth / 3,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 19),
+                child: AssetThumb(
+                  asset: asset,
+                  width: 300,
+                  height: 300,
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
