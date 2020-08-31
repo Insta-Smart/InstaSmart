@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -147,7 +148,7 @@ class ReminderFormState extends State<ReminderForm> {
                         notifications.scheduleNotification(
                             widget.reminder.postTime,
                             MyAppState.currentUser.firstName);
-                        Navigator.pop(context);
+                        Navigator.pop(context, 'reminder_updated');
                       } else {
                         print(_fbKey.currentState.value);
                         print("validation failed");
@@ -193,6 +194,11 @@ class ReminderFormState extends State<ReminderForm> {
                                       index: 3,
                                     )),
                             (Route<dynamic> route) => false);
+                        Flushbar(
+                            message: "Reminder has been deleted",
+                            backgroundColor: Colors.red,
+                            duration: Duration(seconds: 2))
+                          ..show(context);
                       } else {
                         print(_fbKey.currentState.value);
                         print("validation failed");

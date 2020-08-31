@@ -1,4 +1,5 @@
 // Flutter imports:
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,106 +40,108 @@ class ReminderFormState extends State<ReminderForm> {
         title: "Schedule Post",
         appBar: AppBar(),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            FormBuilder(
-              // context,
-              key: _fbKey,
-              autovalidate: true,
-              readOnly: false,
-              child: Column(
+      body: Builder(
+        builder: (context) => Padding(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: <Widget>[
+              FormBuilder(
+                // context,
+                key: _fbKey,
+                autovalidate: true,
+                readOnly: false,
+                child: Column(
+                  children: <Widget>[
+                    Center(
+                        child: Container(
+                      width: SizeConfig.screenWidth / 1.5,
+                      height: SizeConfig.screenWidth / 1.5,
+                      child: Hero(
+                        tag: widget.imageUrl,
+                        child: CachedNetworkImage(
+                          imageUrl: widget.imageUrl,
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                      ),
+                    )),
+                    SizedBox(height: SizeConfig.blockSizeVertical * 7),
+                    FormBuilderTextField(
+                      attribute: "caption",
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.chat_bubble_outline),
+                        labelText: "Caption",
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(25.0),
+                          ),
+                        ),
+                      ),
+                      onChanged: _onChanged,
+                      keyboardType: TextInputType.text,
+                    ),
+                    SizedBox(height: SizeConfig.blockSizeVertical * 3),
+                    FormBuilderDateTimePicker(
+                      attribute: "postTime",
+                      onChanged: _onChanged,
+                      format: DateFormat("dd-MM-yyyy HH:mm"),
+                      initialEntryMode: DatePickerEntryMode.calendar,
+                      timePickerInitialEntryMode: TimePickerEntryMode.input,
+                      inputType: InputType.both,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.timer),
+                        labelText: "Time to post",
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(25.0),
+                          ),
+                        ),
+                      ),
+                      validators: [FormBuilderValidators.required()],
+                      initialTime: TimeOfDay.now(),
+                      initialValue:
+                          DateTime.now().add(Duration(minutes: 1)).toLocal(),
+                      // readonly: true,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockSizeVertical * 3),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Center(
-                      child: Container(
-                    width: SizeConfig.screenWidth / 1.5,
-                    height: SizeConfig.screenWidth / 1.5,
-                    child: Hero(
-                      tag: widget.imageUrl,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.imageUrl,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
-                    ),
-                  )),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 7),
-                  FormBuilderTextField(
-                    attribute: "caption",
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.chat_bubble_outline),
-                      labelText: "Caption",
-                      border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(25.0),
-                        ),
-                      ),
-                    ),
-                    onChanged: _onChanged,
-                    keyboardType: TextInputType.text,
-                  ),
-                  SizedBox(height: SizeConfig.blockSizeVertical * 3),
-                  FormBuilderDateTimePicker(
-                    attribute: "postTime",
-                    onChanged: _onChanged,
-                    format: DateFormat("dd-MM-yyyy HH:mm"),
-                    initialEntryMode: DatePickerEntryMode.calendar,
-                    timePickerInitialEntryMode: TimePickerEntryMode.input,
-                    inputType: InputType.both,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.timer),
-                      labelText: "Time to post",
-                      border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(25.0),
-                        ),
-                      ),
-                    ),
-                    validators: [FormBuilderValidators.required()],
-                    initialTime: TimeOfDay.now(),
-                    initialValue:
-                        DateTime.now().add(Duration(minutes: 1)).toLocal(),
-                    // readonly: true,
+                  TemplateButton(
+                    iconType: Icons.date_range,
+                    title: 'Create Reminder',
+                    ontap: () async {
+                      if (_fbKey.currentState.saveAndValidate()) {
+                        var formValues = _fbKey.currentState.value;
+                        var caption = formValues['caption'];
+                        var postTime = formValues['postTime'];
+                        ReminderData().createReminder(
+                            caption: caption,
+                            pictureUrl: widget.imageUrl,
+                            postTime: postTime);
+                        var notifications = LocalNotifications(context);
+                        notifications.initializing();
+                        print(DateTime.now().toLocal());
+                        notifications.scheduleNotification(
+                            postTime, MyAppState.currentUser.firstName);
+                        Navigator.pop(context, 'reminder_created');
+                      } else {
+                        print(_fbKey.currentState.value);
+                        print("validation failed");
+                      }
+                    },
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: SizeConfig.blockSizeVertical * 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TemplateButton(
-                  iconType: Icons.date_range,
-                  title: 'Create Reminder',
-                  ontap: () async {
-                    if (_fbKey.currentState.saveAndValidate()) {
-                      var formValues = _fbKey.currentState.value;
-                      var caption = formValues['caption'];
-                      var postTime = formValues['postTime'];
-                      ReminderData().createReminder(
-                          caption: caption,
-                          pictureUrl: widget.imageUrl,
-                          postTime: postTime);
-                      var notifications = LocalNotifications(context);
-                      notifications.initializing();
-                      print(DateTime.now().toLocal());
-                      notifications.scheduleNotification(
-                          postTime, MyAppState.currentUser.firstName);
-
-                      Navigator.pop(context);
-                    } else {
-                      print(_fbKey.currentState.value);
-                      print("validation failed");
-                    }
-                  },
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

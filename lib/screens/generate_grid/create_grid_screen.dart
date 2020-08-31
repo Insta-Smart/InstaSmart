@@ -330,15 +330,15 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Adding to Feed...',
-                                      borderRadius: 10.0,
-                                      backgroundColor: Colors.white,
-                                      messageTextStyle: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                      elevation: 10.0,
-                                    );
+                                        message: 'Adding to Feed...',
+                                        borderRadius: 10.0,
+                                        backgroundColor: Colors.white,
+                                        messageTextStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                        elevation: 10.0,
+                                        progressWidget: Container());
                                     pr.show();
                                     Future.delayed(
                                         const Duration(milliseconds: 6000), () {
@@ -419,21 +419,21 @@ class _CreateScreenState extends State<CreateScreen> {
                                   ontap: () async {
                                     bool functionDone = false;
                                     pr.style(
-                                      message: 'Preparing Images...',
-                                      borderRadius: 10.0,
-                                      messageTextStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                      ),
-                                      backgroundColor: Colors.white,
+                                        message: 'Preparing Images...',
+                                        borderRadius: 10.0,
+                                        messageTextStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                        ),
+                                        backgroundColor: Colors.white,
 //                                      SpinKitFadingGrid(
 //                                        size: 30,
 //                                        color: Constants.lightPurple,
 //                                      ),
 
-                                      elevation: 10.0,
-                                    );
+                                        elevation: 10.0,
+                                        progressWidget: Container());
                                     pr.show();
                                     Future.delayed(
                                         const Duration(milliseconds: 6000), () {
