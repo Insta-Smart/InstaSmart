@@ -1,8 +1,8 @@
 // Flutter imports:
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Project imports:
+import 'package:instasmart/constants.dart';
 import 'package:instasmart/screens/calendar_screen/components/reminder_checkbox.dart';
 import 'package:instasmart/screens/reminder_screen/reminder_modify_form.dart';
 
@@ -40,14 +40,21 @@ class ReminderList extends StatelessWidget {
                         ReminderCheckbox(reminder),
                       ],
                     ),
-                    onTap: () => {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => ReminderForm(reminder),
-                            ),
-                          ),
-                        },
+                    onTap: () async {
+                      var navigationResult = await Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => ReminderForm(reminder),
+                        ),
+                      );
+                      if (navigationResult == 'reminder_updated') {
+                        Flushbar(
+                            message: "Reminder has been updated",
+                            backgroundColor: Constants.lightPurple,
+                            duration: Duration(seconds: 2))
+                          ..show(context);
+                      }
+                    },
                     leading: Hero(tag: reminder.id, child: reminder.picture)),
               ))
           .toList(),
