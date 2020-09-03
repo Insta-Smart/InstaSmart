@@ -2,12 +2,21 @@
   <a href="https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
     <img src="assets/images/Feature Graphic.png" alt="Logo" height="300">
   </a>
+  <br />
+  <b><a href="https://github.com/noelmathewisaac">Noel Mathew Isaac</a></b>
+  ·
+  <b><a href="https://github.com/vanshiqa">Vanshiqa Agrawal</a></b>
+  <br/>
+  <br />
+  <a href="https://github.com/Insta-Smart/InstaSmart/actions">
+    <img src="https://github.com/Insta-Smart/InstaSmart/workflows/Build/badge.svg">
+  </a>
 
  <p align="center">
-    <br />
    <a href='https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/ height="100"></a>
+  <br />
 
-
+---
 
 
 ## About
