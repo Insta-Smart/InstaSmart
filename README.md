@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-    <img src="assets/images/Feature Graphic.png" alt="Logo" height="300">
+    <img src="assets/images/Feature Graphic.png" alt="Logo" height="400">
   </a>
   <br />
   <b><a href="https://github.com/noelmathewisaac">Noel Mathew Isaac</a></b>
