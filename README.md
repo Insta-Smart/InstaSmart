@@ -1,17 +1,12 @@
-<br />
 <p align="center">
-  <a href="">
-    <img src="assets/images/instasmartLogo.png" alt="Logo" width="150" height="150">
+  <a href="https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+    <img src="assets/images/Feature Graphic.png" alt="Logo" height="300">
   </a>
 
-  <h1 align="center">InstaSmart<br />
-  </h1>
+ <p align="center">
+    <br />
+   <a href='https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/ height="100"></a>
 
-  <p align="center">
-  <br />
-    Beautify your feed. Effortlessly.
-    <br />
-    <br />
 
 
 
