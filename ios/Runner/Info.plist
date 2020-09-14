@@ -15,17 +15,54 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.575653619962-hqcaicbbdo1i2eeravqi1c3c3pm0sgch</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>youtube</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>This app does not require access to the apple music.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app requires access to the calendar to send notifications for reminders.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This requires access to the camera to take photos for grid and preview.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires access to contacts to share grids via messaging.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app does not require access to the location services.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app does not require access to the location services.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>This app does not require access to the motion usage services.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app requires access. This is called Privacy - Photo Library Additions Usage Description in the visual editor.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library to allow users to choose photos to add to grids and preview.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This app does not require access to the speech recognition services.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -41,37 +78,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIStatusBarHidden</key>
-	<true/>
-<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
-<!-- Google Sign-in Section -->
-<key>CFBundleURLTypes</key>
-<array>
-	<dict>
-		<key>CFBundleTypeRole</key>
-		<string>Editor</string>
-		<key>CFBundleURLSchemes</key>
-		<array>
-			<!-- TODO Replace this value: -->
-			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-			<string>com.googleusercontent.apps.575653619962-hqcaicbbdo1i2eeravqi1c3c3pm0sgch</string>
-		</array>
-	</dict>
-</array>
-<!-- End of the Google Sign-in Section -->
-
-<key>NSPhotoLibraryUsageDescription</key>
-<string>This app requires access to the photo library.</string>
-<key>NSMicrophoneUsageDescription</key>
-<string>This app does not require access to the microphone.</string>
-<key>NSCameraUsageDescription</key>
-<string>This app requires access to the camera.</string>
-<key>NSPhotoLibraryAddUsageDescription</key>
-<string>This is called Privacy - Photo Library Additions Usage Description in the visual editor</string>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-  <string>youtube</string>
-</array>
-
 </dict>
 </plist>
