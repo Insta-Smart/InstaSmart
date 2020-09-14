@@ -1,18 +1,29 @@
-<br />
 <p align="center">
-  <a href="">
-    <img src="assets/images/instasmartLogo.png" alt="Logo" width="150" height="150">
+  <a href="https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+    <img src="assets/images/Feature Graphic.png" alt="Logo" height="400">
   </a>
-
-  <h1 align="center">InstaSmart<br />
-  </h1>
-
-  <p align="center">
   <br />
-    Beautify your feed. Effortlessly.
-    <br />
-    <br />
+  <b><a href="https://github.com/noelmathewisaac">Noel Mathew Isaac</a></b>
+  ·
+  <b><a href="https://github.com/vanshiqa">Vanshiqa Agrawal</a></b>
+  <br/>
+  <br />
+  <a href="https://github.com/Insta-Smart/InstaSmart/actions">
+    <img src="https://github.com/Insta-Smart/InstaSmart/workflows/Build/badge.svg">
+  </a>
+  <a href="https://github.com/Insta-Smart/InstaSmart/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
+  </a>
+  <a href="https://github.com/Insta-Smart/InstaSmart/releases">
+    <img src="https://img.shields.io/github/v/release/Insta-Smart/InstaSmart">
+  </a>
+  
 
+ <p align="center">
+   <a href='https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/ height="100"></a>
+  <br />
+
+---
 
 
 ## About
@@ -23,9 +34,14 @@ InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. More
 * [Flutter](https://flutter.dev/)
 * [Firebase](https://firebase.google.com/)
 
+## License
+Distributed under the MIT License. See ```LICENSE``` for more information.
+
 
 ## Team
 * [Noel Mathew Isaac](https://github.com/noelmathewisaac)
 * [Vanshiqa Agrawal](https://github.com/vanshiqa)
+
+
 
 

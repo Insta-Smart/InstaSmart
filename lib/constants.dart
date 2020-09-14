@@ -25,7 +25,7 @@ class Constants {
   static const COLOR_PRIMARY = 0xFFa011f2;
   static const FACEBOOK_BUTTON_COLOR = 0xFF415893;
   static const USERS = 'Users';
-  static const ALL_FRAMES_COLLECTION = 'testFramesUrls';
+  static const ALL_FRAMES_COLLECTION = 'newFramesUrls';
   static const LowResCollection = 'testFramesLowRes';
   //'FramesScreen';
   static const HighResCollection = 'testFrames';

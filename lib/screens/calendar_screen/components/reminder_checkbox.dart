@@ -1,7 +1,6 @@
 // Flutter imports:
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-
-// Project imports:
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/services/reminder_data.dart';
 
@@ -22,12 +21,11 @@ class _ReminderCheckboxState extends State<ReminderCheckbox> {
         widget.reminder.togglePosted();
         ReminderData().updateReminder(widget.reminder);
         String status = value ? 'posted' : 'unposted';
-        Widget snackBar = SnackBar(
-          content: Text('Marked as $status'),
-          backgroundColor: Constants.lightPurple,
-          duration: Duration(seconds: 1),
-        );
-        Scaffold.of(context).showSnackBar(snackBar);
+        Flushbar(
+            message: "Marked as $status",
+            backgroundColor: Constants.lightPurple,
+            duration: Duration(seconds: 1))
+          ..show(context);
 //
       },
     );
