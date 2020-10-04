@@ -54,12 +54,14 @@ Reorder: The images can be reordered in the grid by dragging and dropping and fi
     * Post the photo directly to Instagram.
     * Save photo to local gallery.
     * Delete the photo from the feed.
-    * Double tap a photo to view an enlarged zoomable version of it.
+    
 * **Reminders**
   - **Scheduled:** A list of reminders for scheduled posts will be shown. Users can check their reminders for each day by selecting the corresponding date on the Calendar.
   - **Update:** Option to update the reminder caption and time.
   - **Delete:** Delete reminders.
   - **Notifications:** The app will notify the user to post the photo based on the reminder time set.
+  
+* **Dark Mode:** Use the app with an elegant dark theme.
 
 
 
