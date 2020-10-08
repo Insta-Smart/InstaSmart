@@ -100,16 +100,16 @@ Reorder: The images can be reordered in the grid by dragging and dropping and fi
 
 ## Screenshots
 <p align="center">
-  <img src="assets/screenshots/1.png" height="400">
-  <img src="assets/screenshots/2.png" height="400">
-  <img src="assets/screenshots/3.png" height="400">
-  <img src="assets/screenshots/4.png" height="400">
+  <img src="assets/screenshots/1.png" width="180">
+  <img src="assets/screenshots/2.png" width="180">
+  <img src="assets/screenshots/3.png" width="180">
+  <img src="assets/screenshots/4.png" width="180">
 </p>
 <p align="center">
-  <img src="assets/screenshots/5.jpg" height="400">
-  <img src="assets/screenshots/6.png" height="400"> 
-  <img src="assets/screenshots/7.png" height="400">  
-  <img src="assets/screenshots/8.png" height="400">  
+  <img src="assets/screenshots/5.jpg" width="180">
+  <img src="assets/screenshots/6.png" width="180">
+  <img src="assets/screenshots/7.png" width="180">
+  <img src="assets/screenshots/8.png" width="180">
 </p>
 
 
