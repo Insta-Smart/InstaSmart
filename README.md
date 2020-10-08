@@ -26,7 +26,7 @@
 
 
 ## About
-InstaSmart is a Flutter app to easily plan and beautify your Instgram feed. 
+InstaSmart is a Flutter app to easily plan and beautify your Instagram feed. 
 <br>
 <br>
 A project built for [Orbital](https://orbital.comp.nus.edu.sg/) 2020 (CP2106: Independent Software Development Project Module), InstaSmart attained the highest level of achievement - [Artemis](https://nusskylab-dev.comp.nus.edu.sg/public_views/public_projects) - in the module. The project report with all the project specifications and testing details can be found [here](https://docs.google.com/document/d/1zLvbWGw6q75HyQKes5T7n6x1hmygoy8gyzssS_MPyGE/edit?usp=sharing).
@@ -54,12 +54,14 @@ Reorder: The images can be reordered in the grid by dragging and dropping and fi
     * Post the photo directly to Instagram.
     * Save photo to local gallery.
     * Delete the photo from the feed.
-    * Double tap a photo to view an enlarged zoomable version of it.
+    
 * **Reminders**
   - **Scheduled:** A list of reminders for scheduled posts will be shown. Users can check their reminders for each day by selecting the corresponding date on the Calendar.
   - **Update:** Option to update the reminder caption and time.
   - **Delete:** Delete reminders.
   - **Notifications:** The app will notify the user to post the photo based on the reminder time set.
+  
+* **Dark Mode:** Use the app with an elegant dark theme.
 
 
 
