@@ -69,7 +69,7 @@ Reorder: The images can be reordered in the grid by dragging and dropping and fi
 
 * **Feed Preview**
   - **Plan Instagram Feed:** Users can plan their feed by previewing how their Insta feed will look like after uploading their photos.
-  - **Add Images:** User’s can add multiple photos from their gallery.
+  - **Add Images:** Users can add multiple photos from their gallery.
   - **Reorder:** The images can be reordered in the grid by dragging and dropping and finalising the grid.
   - **Others:** Double tapping a photo opens an enlarged zoomable popup of it. Clicking on a photo results in a Popup allowing the users to do the following:
     * Schedule a post by creating a reminder to post a photo.  
