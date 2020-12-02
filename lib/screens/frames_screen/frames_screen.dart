@@ -83,6 +83,7 @@ class _FramesScreenState extends State<FramesScreen> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: Categories.catNamesList.length,
+                      // itemExtent: SizeConfig.blockSizeVertical * 18,
                       itemBuilder: (BuildContext context, int index) =>
                           CategoryButton(
                         key: Key(Categories.catNamesList[index]),
@@ -92,9 +93,6 @@ class _FramesScreenState extends State<FramesScreen> {
                           selectedCat = Categories.catNamesList[index];
                           filteredFrameList = FramesFirebaseFunctions()
                               .filterFrames(selectedCat, frameList);
-                          // updateFramesList();
-//                              print("selectedcat is: ${selectedCat}");
-//                              print('new framelist is: ${filteredFrameList}');
                         }),
                       ),
                     ),
@@ -156,6 +154,7 @@ class _FramesScreenState extends State<FramesScreen> {
 
   Widget buildFrameToDisplay(int index) {
     try {
+      print('building new frame ' + index.toString());
       FrameWidget frameWidget =
           new FrameWidget(frame: filteredFrameList[index], isLiked: false);
       //isLiked should be true if image exists in user's likedframes collection.

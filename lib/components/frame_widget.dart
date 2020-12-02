@@ -43,7 +43,10 @@ class _FrameWidgetState extends State<FrameWidget> {
           .get()
           .then((DocumentSnapshot document) {
         num = document.data['popularity'];
-        // print(widget.frame.imgID);
+        // // print('in getNumLIkes function: ' +
+        //      widget.frame.imgID +
+        //      ' and ' +
+        //      num.toString());
         //print(widget.frame.lowResUrl);
       });
       //  print(num);
@@ -69,7 +72,6 @@ class _FrameWidgetState extends State<FrameWidget> {
   @override
   void initState() {
     liked = false;
-    super.initState();
     if (!widget.isLiked) {
       LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
         //print('value of initlikedstate is: ${value}');
@@ -79,7 +81,6 @@ class _FrameWidgetState extends State<FrameWidget> {
           });
         }
       });
-      // print('final liked is ${liked}');
     } else {
       setState(() {
         liked = true;
@@ -87,15 +88,31 @@ class _FrameWidgetState extends State<FrameWidget> {
     }
     setNumLikes();
     //print('outcome of setinitlikedstate:');
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('frame_widget being built');
+    LikingFunctions().futInitLikedStat(widget.frame.imgID).then((value) {
+      if (liked != value) {
+        setState(() {
+          liked = value;
+        });
+      }
+    });
+    getNumLikes().then((value) {
+      if (_numLikes != value.round()) {
+        setState(() {
+          _numLikes = value.round();
+        });
+      }
+    });
+    //  updateLikes();
     return Container(
       child: Column(
         children: <Widget>[
           Container(
-            // margin: EdgeInsets.fromLTRB(10, 10, 10, 5),
             height: SizeConfig.blockSizeVertical * 18,
             width: SizeConfig.blockSizeVertical * 19,
             decoration: BoxDecoration(
