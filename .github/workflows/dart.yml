@@ -73,7 +73,7 @@ jobs:
       - run: echo $SIGNING_KEY | base64 -d > android/app/key.jks
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-      - uses: subosito/flutter-action@v1.3.2
+      - uses: subosito/flutter-action@v1.4.0
         with:
           flutter-version: '1.20.1'
       - run: flutter build apk --split-per-abi
