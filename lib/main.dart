@@ -17,6 +17,7 @@ import 'package:instasmart/screens/login_screen/login_screen.dart';
 import 'package:instasmart/screens/onboarding_screen/onboarding_end_screen.dart';
 import 'package:instasmart/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:instasmart/screens/preview_screen/preview_screen.dart';
+import 'package:instasmart/services/AppleFunctions.dart';
 import 'package:instasmart/utils/helper.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,8 +26,11 @@ import 'services/login_functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final appleSignInAvailable = await AppleSignInAvailable.check();
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
-  runApp(MyApp(savedThemeMode: savedThemeMode));
+  runApp(Provider<AppleSignInAvailable>.value(
+      value: appleSignInAvailable,
+      child: MyApp(savedThemeMode: savedThemeMode)));
 }
 
 class MyApp extends StatefulWidget {

@@ -2,6 +2,8 @@
 import 'dart:async';
 
 // Flutter imports:
+import 'package:apple_sign_in/apple_sign_in_button.dart' as apple;
+import 'package:apple_sign_in/scope.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -10,9 +12,11 @@ import 'package:flutter/services.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:instasmart/services/AppleFunctions.dart';
 import 'package:instasmart/services/login_functions.dart';
 import 'package:instasmart/test_driver/Keys.dart';
 import 'package:instasmart/utils/helper.dart';
+import 'package:provider/provider.dart';
 import '../HomeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -32,6 +36,8 @@ class _LoginScreen extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appleSignInAvailable =
+        Provider.of<AppleSignInAvailable>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -214,6 +220,29 @@ class _LoginScreen extends State<LoginScreen> {
                   ),
                 ),
               ),
+              if (appleSignInAvailable.isAvailable)
+                Padding(
+                  padding: const EdgeInsets.only(
+                      right: 40.0, left: 40.0, bottom: 20),
+                  child: apple.AppleSignInButton(
+                    style: apple.ButtonStyle.black, // style as needed
+                    type: apple.ButtonType.signIn, // style as needed
+                    onPressed: () async {
+                      print('apple sign in pressed');
+                      FirebaseLoginFunctions().signInWithApple(scopes: [
+                        Scope.email,
+                        Scope.fullName
+                      ]).whenComplete(() async {
+                        print("Apple sign in complete"); //reaches here
+                        User user =
+                            await FirebaseLoginFunctions().currentUser();
+                        print("user found"); //doesnt print this
+                        pushAndRemoveUntil(
+                            context, HomeScreen(user: user), false);
+                      });
+                    },
+                  ),
+                ),
             ],
           ),
         ),
