@@ -10,24 +10,24 @@ on:
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
 
-  Unit_Tests:
-    #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
-    runs-on: ubuntu-latest
-    #sequence of tasks called
-    steps:
-      # The branch or tag ref that triggered the workflow will be checked out.
-      # https://github.com/actions/checkout
-      - uses: actions/checkout@v1
-      # Setup a flutter environment.
-      # https://github.com/marketplace/actions/flutter-action
-      - uses: subosito/flutter-action@v1.4.0
-        with:
-          flutter-version: '1.20.1'
-      - run: flutter pub get
-      # run static analysis code
-      #       - run: flutter  analyze
-      # run  flutter widgets tests  and unit tests
-      - run: flutter test
+#   Unit_Tests:
+#     #The type of machine to run the job on. [windows,macos, ubuntu , self-hosted]
+#     runs-on: ubuntu-latest
+#     #sequence of tasks called
+#     steps:
+#       # The branch or tag ref that triggered the workflow will be checked out.
+#       # https://github.com/actions/checkout
+#       - uses: actions/checkout@v1
+#       # Setup a flutter environment.
+#       # https://github.com/marketplace/actions/flutter-action
+#       - uses: subosito/flutter-action@v1.4.0
+#         with:
+#           flutter-version: '1.22.5'
+#       - run: flutter pub get
+#       # run static analysis code
+#       #       - run: flutter  analyze
+#       # run  flutter widgets tests  and unit tests
+#       - run: flutter test
 
 
 
@@ -64,7 +64,7 @@ jobs:
 #    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     name: Build APK
-    needs: [Unit_Tests]
+#     needs: [Unit_Tests]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
@@ -75,7 +75,7 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
       - uses: subosito/flutter-action@v1.4.0
         with:
-          flutter-version: '1.20.1'
+          flutter-version: '1.22.5'
       - run: flutter build apk --split-per-abi
         env:
           KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}

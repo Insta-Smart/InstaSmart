@@ -145,11 +145,8 @@ class FramesFirebaseFunctions {
       for (Frame el in origList) {
         if (el.category == category) {
           filteredFrameList.add(el);
-          // print('filtered list img is: ' +
-          //     el.lowResUrl +
-          //     '\nwith imgId: ' +
-          //     el.imgID +
-          //     ' and numLikes: ');
+//          print('filterframe printing');
+//          print(el.category);
         }
       }
     }

@@ -52,7 +52,7 @@ class _CalendarScreenState extends State<CalendarScreen>
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
+  void _onDaySelected(DateTime day, List events, List holidays) {
     setState(() {
       _selectedEvents = events;
     });

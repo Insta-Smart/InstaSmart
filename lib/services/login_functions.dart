@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instasmart/constants.dart';
 import 'package:instasmart/main.dart';
 import 'package:instasmart/models/user.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
 
 class FirebaseLoginFunctions extends ChangeNotifier {
   final auth = FirebaseAuth.instance;
@@ -179,5 +180,86 @@ class FirebaseLoginFunctions extends ChangeNotifier {
     await googleSignIn.signOut();
 
     print("User Sign Out");
+  }
+
+  Future<String> signInWithApple({List<Scope> scopes = const []}) async {
+    // 1. perform the sign-in request
+    print("signInWithAppleCalled"); //this prints
+    final result = await AppleSignIn.performRequests([
+      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    ]);
+    // 2. check the result
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final appleIdCredential = result.credential;
+        final oAuthProvider = OAuthProvider(providerId: "apple.com");
+        final credential = oAuthProvider.getCredential(
+          idToken: String.fromCharCodes(appleIdCredential.identityToken),
+          accessToken:
+              String.fromCharCodes(appleIdCredential.authorizationCode),
+        );
+        print("Apple: authorized credentials");
+        final authResult = await auth.signInWithCredential(credential);
+        final user = authResult.user;
+        print(user.uid);
+        assert(!user.isAnonymous);
+        assert(await user.getIdToken() != null);
+
+        final FirebaseUser currUser = await auth.currentUser();
+        assert(user.uid == currUser.uid);
+        print('currUser is: ');
+        print(currUser);
+
+        try {
+          print("Apple: Trying to create user");
+          User user = User(
+            email: currUser.email,
+            firstName: currUser.displayName,
+            uid: currUser.uid,
+            active: true,
+            lastName: ' ',
+          );
+          print('user login data is:');
+          print(user.toJson());
+          Map<String, String> userImMap = {'user_images': ''};
+          Map finalMap = user.toJson();
+          finalMap.addAll(userImMap);
+          bool userExists;
+          await db
+              .collection(Constants.USERS)
+              .document(currUser.uid)
+              .get()
+              .then((value) {
+            userExists = value.exists;
+          });
+          if (!userExists) {
+            await db
+                .collection(Constants.USERS)
+                .document(currUser.uid)
+                .setData(finalMap);
+            MyAppState.currentUser = user;
+          } else {
+            currentUser().then((value) {
+              MyAppState.currentUser = value;
+            });
+          }
+        } catch (e) {
+          print('error in setting apple sign in data' + e.toString());
+        }
+        return 'signInWithApple succeeded: $user';
+      case AuthorizationStatus.error:
+        throw PlatformException(
+          code: 'ERROR_AUTHORIZATION_DENIED',
+          message: result.error.toString(),
+        );
+
+      case AuthorizationStatus.cancelled:
+        throw PlatformException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+      default:
+        throw UnimplementedError();
+    }
   }
 }

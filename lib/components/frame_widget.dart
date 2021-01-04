@@ -212,5 +212,3 @@ class _FrameWidgetState extends State<FrameWidget> {
     );
   }
 }
-
-//TODO: add categories - minimalist, floral, food, landscape, youthful

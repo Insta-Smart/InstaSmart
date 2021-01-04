@@ -48,7 +48,7 @@ class ReminderFormState extends State<ReminderForm> {
               FormBuilder(
                 // context,
                 key: _fbKey,
-                autovalidate: true,
+                autovalidateMode: AutovalidateMode.always,
                 readOnly: false,
                 child: Column(
                   children: <Widget>[

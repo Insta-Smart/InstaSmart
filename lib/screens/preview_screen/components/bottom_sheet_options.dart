@@ -33,7 +33,7 @@ class BottomSheetOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.safeBlockVertical * 75,
+      height: SizeConfig.safeBlockVertical * 70,
       decoration: new BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: new BorderRadius.only(
