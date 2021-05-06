@@ -1,7 +1,5 @@
+https://user-images.githubusercontent.com/42365024/117280559-4d967c00-ae95-11eb-831f-967c20c85ae5.mp4
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=com.orbital.instasmart&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-    <img src="assets/images/Feature Graphic.png" alt="Logo" height="400">
-  </a>
   <br />
   <b><a href="https://github.com/noelmathewisaac">Noel Mathew Isaac</a></b>
   ·
@@ -33,6 +31,10 @@ InstaSmart is a Flutter app to help you plan, preview and beautify your Instagra
 <br>
 
 A project built for [Orbital](https://orbital.comp.nus.edu.sg/) 2020 (CP2106: Independent Software Development Project Module), InstaSmart attained the highest level of achievement - [Artemis](https://nusskylab-dev.comp.nus.edu.sg/public_views/public_projects) - in the module. The project report with all the project specifications and testing details can be found [here](https://docs.google.com/document/d/1zLvbWGw6q75HyQKes5T7n6x1hmygoy8gyzssS_MPyGE/edit?usp=sharing).
+
+ 
+
+
 
 ## Features
 
